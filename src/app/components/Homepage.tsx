@@ -17,7 +17,7 @@ const Homepage = () => {
                 <p className='text-white  text-2xl pb-3'>Lorem ipsum dolor sit amet consectetur. Eget pellentesque congue eget amet vel <br></br> quam molestie bibendum.</p>
                 <div className="intro flex justify-center pb-3">
                   <div className="seure flex">
-                    <img className='' src="check.png" alt="" />
+                    <img className='' src="/public/image/check.png" alt="" />
                     <p className='text-white font-bold ml-2 mb-1 font1rem'>Secure payment</p>
                   </div>
                   <div className="seure flex mx-3">
