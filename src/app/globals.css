@@ -37,7 +37,7 @@ color: none;
     padding: 10px 20px;
 }
 .background-img {
-background-image: url('/home1.png');
+background-image: url('/image/home1.png');
   /* Điều chỉnh kích thước của hình ảnh */
   background-size: cover; /* hoặc contain để hình ảnh không bị cắt */
   /* Vị trí của hình ảnh */

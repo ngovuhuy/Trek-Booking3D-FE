@@ -30,20 +30,20 @@ const Homepage = () => {
                 </div>
                 <div className="   justify-center input-search">
                   <div className="input-map flex justify-center mb-2">
-                  <img className='imgmap mg-16' src="map.png" alt="" />
+                  <img className='imgmap mg-16' src="/image/map.png" alt="" />
                   <input className='input-first' type="text" placeholder='City, destination or hotel...' />
                   </div>
                   <div className="input-map1 flex justify-center mb-2">
-                  <img className='imgmap' src="calendar.png" alt="" />
+                  <img className='imgmap' src="/image/calendar.png" alt="" />
                   <input className='input-first-checkin' type="text" placeholder='Check-in-out Dates' />
                   </div>
                   <div className="input-map1 flex justify-center mb-2">
-                  <img className='imgmap' src="userplus.png" alt="" />
+                  <img className='imgmap' src="/image/userplus.png" alt="" />
 <input className='input-first-checkin' type="text" placeholder='Guests and Rooms' />
                   
                   </div>
                   <div className="img-search cursor-pointer flex justify-center">
-                     <img src="search1.png" alt="" />
+                     <img src="/image/search1.png" alt="" />
                   </div>
                 </div>
               </div>
