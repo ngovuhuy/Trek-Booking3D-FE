@@ -1,6 +1,6 @@
 'use client'
 import { useState, ChangeEvent } from "react";
-import { analytics } from "../firebase/firebase-config";
+import { analytics } from "../../../../public/firebase/firebase-config";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default function UpLoadImage() {
