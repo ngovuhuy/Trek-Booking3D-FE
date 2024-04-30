@@ -1,6 +1,10 @@
+'use client'
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Carousel } from 'react-bootstrap';
+
+
 const Homepage = () => {
   return (
     <>
@@ -10,24 +14,24 @@ const Homepage = () => {
             <li className="li-menu hover-bold">
               <a
                 href=""
-                className="font-bold link-style"
+                className="font-bold text-decoration-none link-style "
                 style={{ color: "#305A61" }}
               >
                 Home
               </a>
             </li>
             <li className="li-menu hover-bold">
-              <a href="" className="font-bold" style={{ color: "#1F1C17" }}>
+              <a href="" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>
                 Hotel
               </a>
             </li>
             <li className="li-menu hover-bold">
-              <a href="" className="font-bold" style={{ color: "#1F1C17" }}>
+              <a href="" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>
                 Attractions
               </a>
             </li>
             <li className="li-menu hover-bold none-t">
-              <a href="" className="font-bold" style={{ color: "#1F1C17" }}>
+              <a href="" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>
                 Gift Voucher
               </a>
             </li>
@@ -44,16 +48,16 @@ const Homepage = () => {
             </p>
             <div className="intro flex justify-center pb-3">
               <div className="seure flex">
-                <img className="" src="/public/image/check.png" alt="" />
+                <img className="" src="/image/check.png" alt="" />
                 <p className="text-white font-bold ml-2 mb-1 font1rem">
                   Secure payment
                 </p>
               </div>
               <div className="seure flex mx-3">
-                <img className="" src="line.png" alt="" />
+                <img className="" src="/image/line.png" alt="" />
               </div>
               <div className="seure flex">
-                <img className="" src="clock.png" alt="" />
+                <img className="" src="/image/clock.png" alt="" />
                 <p className="text-white font-bold ml-2 mb-1  font1rem">
                   Quick support
                 </p>
@@ -61,7 +65,7 @@ const Homepage = () => {
             </div>
             <div className="   justify-center input-search">
               <div className="input-map flex justify-center mb-2">
-                <img className="imgmap mg-16" src="map.png" alt="" />
+                <img className="imgmap mg-16" src="/image/map.png" alt="" />
                 <input
                   className="input-first"
                   type="text"
@@ -69,7 +73,7 @@ const Homepage = () => {
                 />
               </div>
               <div className="input-map1 flex justify-center mb-2">
-                <img className="imgmap" src="calendar.png" alt="" />
+                <img className="imgmap" src="/image/calendar.png" alt="" />
                 <input
                   className="input-first-checkin"
                   type="text"
@@ -77,7 +81,7 @@ const Homepage = () => {
                 />
               </div>
               <div className="input-map1 flex justify-center mb-2">
-                <img className="imgmap" src="userplus.png" alt="" />
+                <img className="imgmap" src="/image/userplus.png" alt="" />
                 <input
                   className="input-first-checkin"
                   type="text"
@@ -85,13 +89,150 @@ const Homepage = () => {
                 />
               </div>
               <div className="img-search cursor-pointer flex justify-center">
-                <img src="search1.png" alt="" />
+                <img src="/image/search1.png" alt="" />
               </div>
             </div>
           </div>
         </div>
+        <div className="slider p-12 backgr-home">
+          <h1 className="pb-4 pl-6 font-bold">Plenty of hotel selections</h1>
+        <Carousel>
+      <Carousel.Item>
+        <div className="flex slider-home">
+          <img
+            className="col-3"
+            src="/image/slider1.png"
+            alt="First slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider2.png"
+            alt="Second slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider3.png"
+            alt="Third slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider4.png"
+            alt="Fourth slide"
+          />
+        </div>
+      </Carousel.Item>
+      <Carousel.Item>
+        <div className="flex slider-home">
+          <img
+            className="col-3"
+            src="/image/slider4.png"
+            alt="First slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider3.png"
+            alt="Second slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider2.png"
+            alt="Third slide"
+          />
+          <img
+            className="col-3"
+            src="/image/slider1.png"
+            alt="Fourth slide"
+          />
+        </div>
+      </Carousel.Item>
+      {/* Define more Carousel.Items for additional slides */}
+    </Carousel>
+        </div>
+        <div className="villas p-12 backgr-home">
+          <h1 className="pb-4 pl-6 font-bold text-small">Explore various villas and apartments at Trek Booking</h1>
+          <div className=" row">
+            <div className="col col-6">
+            <img className="w-100" src="/image/Villa.png" alt="" />
+            </div>
+            <div className="col col-6">
+            <img  className="w-100" src="/image/apartments.png" alt="" />
+</div>
+            
+          
+
+          </div>
+        </div>
+        <div className="content-page p-12 backgr-home relative">
+          
+          <h1 className="pb-4 pl-6 font-bold text-center">Lorem ipsum dolor sit</h1>
+          <div className="line">
+            <img src="/image/linecontent.png" alt="" />
+          </div>
+          <div className="cham">
+            <img src="/image/cham.png" alt="" />
+          </div>
+          <div className="cham1">
+            <img src="/image/cham.png" alt="" />
+          </div>
+          <div className="cham2">
+            <img src="/image/cham.png" alt="" />
+          </div>
+          <div className="cham3">
+            <img src="/image/cham.png" alt="" />
+          </div>
+         <div className="row reponsive-content pb-12">
+          <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024">
+          <img src="/image/content1.png" alt="" />
+          </div>
+
+          <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
+            <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-right  magin-r-0">Lorem ipsum dolor sit amet consectetur</p>
+            <p className="text-center-1024 width-70 float-right  magin-r-0">Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate suspendisse sapien suscipit interdum purus malesuada tellus mauris. Turpis libero congue viverra faucibus pulvinar odio purus consectetur. Potenti mollis non odio suspendisse turpis egestas sit. Sit nisi dictum orci nulla risus platea suscipit.</p>
+          </div>
+         </div>
+
+         <div className="row reponsive-content pb-12">
+
+         <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
+            <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-left  magin-r-0">Lorem ipsum dolor sit amet consectetur</p>
+            <p className="text-center-1024 width-70 float-left  magin-r-0">Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate suspendisse sapien suscipit interdum purus malesuada tellus mauris. Turpis libero congue viverra faucibus pulvinar odio purus consectetur. Potenti mollis non odio suspendisse turpis egestas sit. Sit nisi dictum orci nulla risus platea suscipit.</p>
+          </div>
+          <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024 image-repons">
+          <img src="/image/content2.png" alt="" />
+          </div>
+
+         
+         </div>
+
+         <div className="row reponsive-content pb-12">
+          <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024">
+          <img src="/image/content3.png" alt="" />
+          </div>
+
+          <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
+            <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-right  magin-r-0">Lorem ipsum dolor sit amet consectetur</p>
+            <p className="text-center-1024 width-70 float-right  magin-r-0">Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate suspendisse sapien suscipit interdum purus malesuada tellus mauris. Turpis libero congue viverra faucibus pulvinar odio purus consectetur. Potenti mollis non odio suspendisse turpis egestas sit. Sit nisi dictum orci nulla risus platea suscipit.</p>
+          </div>
+         </div>
+
+
+         <div className="row reponsive-content pb-12">
+
+<div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
+   <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-left  magin-r-0">Lorem ipsum dolor sit amet consectetur</p>
+   <p className="text-center-1024 width-70 float-left  magin-r-0">Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate suspendisse sapien suscipit interdum purus malesuada tellus mauris. Turpis libero congue viverra faucibus pulvinar odio purus consectetur. Potenti mollis non odio suspendisse turpis egestas sit. Sit nisi dictum orci nulla risus platea suscipit.</p>
+ </div>
+ <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024 image-repons">
+ <img src="/image/content4.png" alt="" />
+ </div>
+
+
+</div>
+        </div>
       </div>
       
+
+
             {/* ------------------------------------------------------------------------------------------ */}
 
             <div

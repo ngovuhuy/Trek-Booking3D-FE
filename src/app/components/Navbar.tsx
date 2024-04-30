@@ -46,13 +46,13 @@ const Navbar = () => {
        <ul className='lg:hidden'>
         <li  className='flex pb-4 hover-bold'>
         <img src="/image/cart.png" alt="" className='pr-2'/>
-          <a href="" className='font-bold'>Cart</a></li>
+          <a href="" className='font-bold text-decoration-none text-accent' >Cart</a></li>
         <li className='flex pb-4 hover-bold'>
         <img src="/image/bell.png" alt="" className='pr-2'/>
-          <a href="" className='font-bold'>Notification</a></li>
+          <a href="" className='font-bold text-decoration-none text-accent' >Notification</a></li>
         <li className='flex pb-4 hover-bold'>
         <img src="/image/users.png" alt="" className='pr-2'/>
-          <a href="" className='font-bold'>Log In/ Sign up</a></li>
+          <a href="" className='font-bold text-decoration-none text-accent' >Log In/ Sign up</a></li>
       
        </ul>
         </div>
