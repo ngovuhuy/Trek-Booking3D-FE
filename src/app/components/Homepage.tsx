@@ -155,7 +155,7 @@ const Homepage = () => {
             <img className="w-100" src="/image/Villa.png" alt="" />
             </div>
             <div className="col col-6">
-            <img  className="w-100" src="/image/apartments.png" alt="" />
+            <img  className="w-100" src="/image/Apartments.png" alt="" />
 </div>
             
           
