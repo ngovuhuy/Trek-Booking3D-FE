@@ -168,6 +168,10 @@
         left: 49.1%;
         top: 82%;
     }
+    .country{
+        position: absolute;
+    top: 91.5%;
+    }
        @media all and (max-width: 1100px) {
         .cham{
             left: 48.6%;

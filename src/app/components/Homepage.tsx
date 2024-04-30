@@ -229,6 +229,8 @@ const Homepage = () => {
 
 </div>
         </div>
+     
+        
       </div>
       
 
@@ -236,7 +238,7 @@ const Homepage = () => {
             {/* ------------------------------------------------------------------------------------------ */}
 
             <div
-        className=" w-full bg-auto bg-no-repeat bg-center flex justify-center"
+        className=" w-full bg-auto bg-no-repeat bg-center flex justify-center backgr-home"
         style={{
           background: "url(/image/bg_city_hall.png)",
           backgroundSize: "cover",
@@ -261,8 +263,9 @@ const Homepage = () => {
       </div>
 
       {/* ------------------------------------------------------------------------------------------ */}
-      <div className="container mt-20">
-        <div className="text-center">
+    <div className=" backgr-home">
+    <div className="container ">
+        <div className="text-center pt-12">
           <p className="font-bold text-4xl text-black">
             Enhance your trip the way you like it
           </p>
@@ -277,8 +280,8 @@ const Homepage = () => {
           </p>
         </div>
 
-        <div className="row pt-5">
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+        <div className="row pt-5 ">
+          <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/boat1.png"}
               className="card1"
@@ -290,7 +293,7 @@ const Homepage = () => {
               <p className="text-lg font-bold">Tours and Attraction</p>
             </div>
           </div>
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/floatingHomeStay.png"}
               className="card1"
@@ -302,7 +305,7 @@ const Homepage = () => {
               <p className="text-lg font-bold">Fun Activities</p>
             </div>
           </div>
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/tuktuk.png"}
               className="card1"
@@ -317,8 +320,9 @@ const Homepage = () => {
         </div>
       </div>
 
+    </div>
       {/* ------------------------------------------------------------------------------------------ */}
-      <div className="container my-24">
+      <div className="container my-24 ">
         <div className="mb-5">
           <p className="font-bold text-4xl">Why book with Trek Booking ?</p>
         </div>
@@ -326,10 +330,10 @@ const Homepage = () => {
         <div className="w-full row">
           <div className="col-md-4 h-full ">
             <div className="h-full rounded-20">
-              <p className="title-whatbook pl-3 mt-3 text-lg">
+              <p className="title-whatbook pl-4 mt-3 text-lg">
                 Lorem ipsum dolor sit
               </p>
-              <div className="pl-3 text-base pb-4">
+              <div className="w-3/4  pl-4 text-base pb-4">
                 Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
                 suspendisse
               </div>
@@ -337,10 +341,10 @@ const Homepage = () => {
           </div>
           <div className="col-md-4  h-full ">
             <div className="h-full rounded-20">
-              <p className="title-whatbook pl-3 mt-3 text-lg">
+              <p className="title-whatbook pl-4 mt-3 text-lg">
                 Lorem ipsum dolor sit
               </p>
-              <div className="pl-3 text-base pb-4">
+              <div className="w-3/4  pl-4 text-base pb-4">
                 Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
                 suspendisse
               </div>
@@ -348,10 +352,10 @@ const Homepage = () => {
           </div>
           <div className="col-md-4  h-full ">
             <div className="h-full rounded-20">
-              <p className="title-whatbook pl-3 mt-3 text-lg">
+              <p className="title-whatbook pl-4 mt-3 text-lg">
                 Lorem ipsum dolor sit
               </p>
-              <div className="pl-3 text-base pb-4">
+              <div className="w-3/4  pl-4 text-base pb-4">
                 Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
                 suspendisse
               </div>
@@ -360,7 +364,28 @@ const Homepage = () => {
         </div>
       </div>
       {/* ------------------------------------------------------------------------------------------ */}
+      <div className=" p-12 backgr-home">
+          <h1 className="pb-4 pl-6 font-bold text-small">Rediscover yourself in Asia and beyond</h1>
+          <div className=" row">
+            <div className="col-lg-3 col-md-3 col-3 relative">
+             <img src="/image/jappan.png" alt="" />
+        
+            </div>
+          <div className="col-lg-3 col-md-3 col-3">
+          <img src="/image/indonesia.png" alt="" />
+          <img className="pt-8" src="/image/taiwan.png" alt="" />
+            </div>
+            <div className="col-lg-3 col-md-3 col-3">
+            <img src="/image/vietnam.png" alt="" />
+          <img className="pt-8" src="/image/china.png" alt="" />
+              </div>
+              <div className="col-lg-3 col-md-3 col-3">
+              <img src="/image/korea.png" alt="" />
+              </div>
+          
 
+          </div>
+        </div>
       <form action="">
         <div
           className=" w-full bg-auto bg-no-repeat bg-center"
