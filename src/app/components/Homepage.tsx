@@ -137,7 +137,7 @@ const Homepage = () => {
         </div>
 
         <div className="row pt-5">
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/boat1.png"}
               className="card1"
@@ -149,7 +149,7 @@ const Homepage = () => {
               <p className="text-lg font-bold">Tours and Attraction</p>
             </div>
           </div>
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/floatingHomeStay.png"}
               className="card1"
@@ -161,7 +161,7 @@ const Homepage = () => {
               <p className="text-lg font-bold">Fun Activities</p>
             </div>
           </div>
-          <div className="col-md-4 h-550 grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4  grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/tuktuk.png"}
               className="card1"
@@ -233,29 +233,26 @@ const Homepage = () => {
             </div>
             <div className="mt-4">
               <input
-                className="h-10 rounded-xl placeholder-gray-500 border"
-                style={{ width: "410px" }}
+                className="h-10 pr-52 pl-3 rounded-xl placeholder-gray-500 border"
                 placeholder="Name"
                 type="text"
               />
             </div>
             <div className="mt-4">
               <input
-                className="h-10 rounded-xl placeholder-gray-500 border"
-                style={{ width: "410px" }}
+                className="h-10 pr-52 pl-3 rounded-xl placeholder-gray-500 border"
                 placeholder="Email"
                 type="text"
               />
             </div>
             <div className="mt-4">
               <input
-                className="h-10 rounded-xl placeholder-gray-500 border"
-                style={{ width: "410px" }}
+                className="h-10 pr-52 pl-3 rounded-xl placeholder-gray-500 border"
                 placeholder="Message"
                 type="text"
               />
             </div>
-            <div className="mt-3">
+            <div className="mt-3 ml-24">
               <button
                 type="submit"
                 className="w-28 h-10 rounded-xl text-white text-base cursor-pointer bg-sky-500 hover:bg-sky-700"

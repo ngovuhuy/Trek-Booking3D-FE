@@ -1,25 +1,45 @@
-.rounded-20{
-    border: 1px solid rgba(217, 217, 217, 1);
-    border-radius: 20px;
-    box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.25);
-    background-color: white;
-  }
-  .w-410{
-    width: 410px;
-  }
-  .title-whatbook{
-    color: rgba(48, 90, 97, 1);
-    font-weight: 700;
-  }
-  .bg-lightYellow{
-    background-color: rgba(253, 253, 246, 1);
-  }
-  .h-550{
-    height: 550px;
-  }
-  .card1{
-    transition: transform 0.3s ease;
-  }
-  .card1:hover {
-    transform: translateY(-20px);
-  }
+.rounded-20 {
+  border: 1px solid rgba(217, 217, 217, 1);
+  border-radius: 20px;
+  box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: white;
+}
+.w-410 {
+  width: 410px;
+}
+.title-whatbook {
+  color: rgba(48, 90, 97, 1);
+  font-weight: 700;
+}
+.bg-lightYellow {
+  background-color: rgba(253, 253, 246, 1);
+}
+.h-550 {
+  height: 550px;
+}
+.card1 {
+  transition: transform 0.3s ease;
+}
+.card1:hover {
+  transform: translateY(-20px);
+}
+
+.listA:hover {
+  color: white;
+  background: rgba(48, 90, 97, 1);
+}
+.listA {
+  color: black;
+}
+.h-285 {
+  height: 285px;
+}
+.gray {
+  color: #8e8d8a;
+}
+.bookBtn {
+  border: 1px;
+  border-radius: 10px;
+  background-color: #305a61;
+  color: white;
+}
