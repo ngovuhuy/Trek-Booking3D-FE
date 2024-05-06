@@ -43,3 +43,8 @@
   background-color: #305a61;
   color: white;
 }
+.text-hv:hover{
+  color: #305A61;
+  border-bottom: 1px solid #305A61;
+}
+  
