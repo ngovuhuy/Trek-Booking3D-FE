@@ -161,7 +161,7 @@ const Homepage = () => {
               <p className="text-lg font-bold">Fun Activities</p>
             </div>
           </div>
-          <div className="col-md-4  grid items-center justify-items-center justify-center card1">
+          <div className="col-md-4 grid items-center justify-items-center justify-center card1">
             <Image
               src={"/image/tuktuk.png"}
               className="card1"

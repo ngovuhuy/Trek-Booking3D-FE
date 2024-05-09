@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 
 const listHotels = () => {
@@ -8,56 +9,65 @@ const listHotels = () => {
         <div className="text-center">
           <p className="font-bold text-4xl">Hotels near home</p>
         </div>
-        <div className="flex justify-center items-center">
-          <div className="mr-5">
+        <div className="row">
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
             <a
-              className="no-underline px-4 py-1 border text-base font-medium listA"
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
               href="#"
               style={{ borderRadius: "10px" }}
             >
               Ho Chi Minh
             </a>
           </div>
-          <div className="mr-5">
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
             <a
-              className="no-underline px-4 py-1 border text-base font-medium listA"
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
               href="#"
               style={{ borderRadius: "10px" }}
             >
               Ha Noi
             </a>
           </div>
-          <div className="mr-5">
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
             <a
-              className="no-underline px-4 py-1 border text-base font-medium listA"
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
               href="#"
               style={{ borderRadius: "10px" }}
             >
               Ha Long
             </a>
           </div>
-          <div className="mr-5">
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
             <a
-              className="no-underline px-4 py-1 border text-base font-medium listA"
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
               href="#"
               style={{ borderRadius: "10px" }}
             >
               Da Lat
             </a>
           </div>
-          <div className="mr-5">
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
             <a
-              className="no-underline px-4 py-1 border text-base font-medium listA"
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
               href="#"
               style={{ borderRadius: "10px" }}
             >
               Phu Quoc
             </a>
           </div>
+          <div className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
+            <a
+              className="no-underline px-4 py-1 border text-sm font-medium listA"
+              href="#"
+              style={{ borderRadius: "10px" }}
+            >
+              Da Nang
+            </a>
+          </div>
         </div>
         <div className="mt-16">
           <div className="row">
-            <div className="col-md-3  ">
+            <div className="col-md-4 col-lg-3">
               <div
                 className=" border grid justify-items-center pb-8 card1"
                 style={{
@@ -79,7 +89,7 @@ const listHotels = () => {
                 <button className="w-24 bookBtn">Book now</button>
               </div>
             </div>
-            <div className="col-md-3  ">
+            <div className="col-md-4 col-lg-3">
               <div
                 className=" border grid justify-items-center pb-8 card1"
                 style={{
@@ -101,7 +111,7 @@ const listHotels = () => {
                 <button className="w-24 bookBtn">Book now</button>
               </div>
             </div>
-            <div className="col-md-3  ">
+            <div className="col-md-4 col-lg-3">
               <div
                 className=" border grid justify-items-center pb-8 card1"
                 style={{
@@ -123,7 +133,7 @@ const listHotels = () => {
                 <button className="w-24 bookBtn">Book now</button>
               </div>
             </div>
-            <div className="col-md-3  ">
+            <div className="col-md-4 col-lg-3">
               <div
                 className=" border grid justify-items-center pb-8 card1"
                 style={{
