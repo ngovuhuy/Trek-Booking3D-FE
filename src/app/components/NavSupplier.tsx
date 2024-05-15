@@ -3,10 +3,7 @@ import React from 'react'
 import Link from '../../../node_modules/next/link'
 import { usePathname } from 'next/navigation';
 const NavSupplier = () => {
-  
   const pathname = usePathname();
-
-  console.log('currentPath:', pathname);
   return (
     <div>
       <header className='nav-supllier'>
@@ -106,8 +103,6 @@ const NavSupplier = () => {
            <p className='color-white mb-0 ml-1 font-semibold text-xl'>Log out</p>
         </Link>
         </div>
-      
-  
       </header>
     </div>
   )

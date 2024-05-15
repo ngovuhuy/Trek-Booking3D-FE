@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Link from '../../../node_modules/next/link';
 import "../../../public/css/authen.css";
 
-const page = () => {
+const Page = () => {
     const [isPassword, setIsPassword] = useState(true);
     const togglePasswordVisibility = () => {
         setIsPassword(prevState => !prevState);
@@ -57,4 +57,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
