@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-const cartTour = () => {
+const booking_cart = () => {
     return (
       <div className="container py-8">
         <div>
@@ -209,5 +209,5 @@ const cartTour = () => {
       </div>
     );
   };
-  export default cartTour;
+  export default booking_cart;
   

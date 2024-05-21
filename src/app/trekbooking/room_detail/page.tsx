@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-const detailRoom = () => {
+const room_detail = () => {
     return (
       <>
         <div className="container">
@@ -89,5 +89,5 @@ const detailRoom = () => {
       </>
     );
   };
-  export default detailRoom;
+  export default room_detail;
   

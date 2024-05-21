@@ -1,4 +1,4 @@
-const detailHotel = () => {
+const detail_hotel = () => {
   return (
     <>
       <div className="container">
@@ -115,4 +115,4 @@ const detailHotel = () => {
     </>
   );
 };
-export default detailHotel;
+export default detail_hotel;

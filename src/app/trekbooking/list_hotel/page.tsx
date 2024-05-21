@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 
-const listHotels = () => {
+const list_hotel = () => {
   return (
     <>
       {/*---------------------------------- */}
@@ -244,4 +244,4 @@ const listHotels = () => {
     </>
   );
 };
-export default listHotels;
+export default list_hotel;

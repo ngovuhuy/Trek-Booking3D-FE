@@ -1,4 +1,4 @@
-const bookingInfor = () => {
+const booking_infor = () => {
   return (
     <>
       <div className="container py-8">
@@ -144,4 +144,4 @@ const bookingInfor = () => {
     </>
   );
 };
-export default bookingInfor;
+export default booking_infor;
