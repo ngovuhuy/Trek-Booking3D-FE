@@ -1,6 +1,6 @@
-interface IUser{
-    userId: number;
-    userName: string;
+interface ISupplier{
+    supplierId: number;
+    supplierName: string;
     email: string;
     phone: string;
     address: string;
@@ -8,7 +8,7 @@ interface IUser{
     status: boolean;
     isVerify: boolean;
     roleId: number;
-    role:{a
+    role:{
         roleId: number;
         roleName: string;
         roleDescription: string

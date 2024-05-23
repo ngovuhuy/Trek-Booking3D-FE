@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import authenticateService from "../services/authenticateService"; // Adjust the path as needed
 import "../../../public/css/authen.css"; // Adjust the path as needed
 
-export default function LoginClient() {
+export default function LoginSupplier() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,12 +22,12 @@ export default function LoginClient() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const result = await authenticateService.loginClient(email, password);
+    const result = await authenticateService.loginSupplier(email, password);
 
     if (result.success) {
       toast.success("Login Successful!..");
       setTimeout(() => {
-        router.push("/trekbooking");
+        router.push("/supplier");
       }, 2000);
     } else {
       setErrorMessage(result.errorMessage || "An unknown error occurred.");
@@ -40,12 +40,12 @@ export default function LoginClient() {
         <div className="image-bk">
           <div className="login">
             <div className="text-login">
-              <h3 className="text-center font-bold color-black">Log In</h3>
+              <h3 className="text-center font-bold color-black">Log In As a Supplier</h3>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="text-input relative">
                 <p className="color-black m-0 pt-2 pb-1">
-                  Enter your email or phone number
+                  Enter your email
                 </p>
                 <input
                   className="input-text"
@@ -85,7 +85,7 @@ export default function LoginClient() {
                   <Link
                     className="pt-2 text-right text-base cursor-pointer text-decoration"
                     style={{ color: "#CED1D2" }}
-                    href="signup"
+                    href="signup_supplier"
                   >
                     You dont have a account?
                   </Link>
