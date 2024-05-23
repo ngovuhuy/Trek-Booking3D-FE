@@ -27,39 +27,63 @@ const MyNewPage = () => {
     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
       <div className="overflow-x-auto">
         <table
-          className="min-w-full text-start text-sm font-light text-surface dark:text-white">
+          className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
           <thead
-            className="border-b border-neutral-200 font-medium dark:border-white/10">
+            className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
             <tr>
               <th scope="col" className="px-6 py-4">HotelId</th>
-              <th scope="col" className="px-6 py-4">Name</th>
-              <th scope="col" className="px-6 py-4">Phone</th>
-              <th scope="col" className="px-6 py-4">Email</th>
+              <th scope="col" className="px-6 py-4 text-center">Name</th>
               <th scope="col" className="px-6 py-4">Avatar</th>
-              <th scope="col" className="px-6 py-4">Destination</th>
-              <th scope="col" className="px-6 py-4">District</th>
-              <th scope="col" className="px-6 py-4">City</th>
-              <th scope="col" className="px-6 py-4">Information</th>
               <th scope="col" className="px-6 py-4">Isverify</th>
+              <th scope="col" className="px-6 py-4">Manage Voucher</th>
+              <th scope="col" className="px-6 py-4">Manage Room</th>
+              <th scope="col" className="px-6 py-4">View Detail</th>
+              <th scope="col" className="px-6 py-4">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr className="border-b border-neutral-200 dark:border-white/10">
               <td className="whitespace-nowrap px-6 py-4 font-medium">1234589</td>
               <td className="whitespace-nowrap px-6 py-4">Cereja Hotel & Resort Dalat</td>
-              <td className="whitespace-nowrap px-6 py-4">012382xxxxxx</td>
-              <td className="whitespace-nowrap px-6 py-4">hotel@gmail.com</td>
-              <td className="whitespace-nowrap px-6 py-4">Hotel avatar</td>
-              <td className="whitespace-nowrap px-6 py-4">Lorem ipsum dolor sit amet consectetur.</td>
-              <td className="whitespace-nowrap px-6 py-4">Lorem ipsum dolor sit amet consectetur.</td>
-              <td className="whitespace-nowrap px-6 py-4">Da Lat</td>
-              <td className="whitespace-nowrap px-6 py-4">Lorem ipsum dolor sit amet consectetur.</td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <img src="/image/avatar.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4 color-active">Active</td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/managevoucher.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/managevoucher.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/viewdetail.png" alt="" />
+              </td>
               <td className="whitespace-nowrap px-6 py-4 flex">
               <img className='w-5 h-5 cursor-pointer' src="/image/pen.png" alt="" />
-            <img className='w-5 h-5 cursor-pointer ml-3' src="/image/trash.png" alt="" />
+            <img className='w-5 h-5 cursor-pointer ml-3' src="/image/lock.png" alt="" />
               </td>
             </tr>
-        
+            <tr className="border-b border-neutral-200 dark:border-white/10">
+              <td className="whitespace-nowrap px-6 py-4 font-medium">1234589</td>
+              <td className="whitespace-nowrap px-6 py-4">Cereja Hotel & Resort Dalat</td>
+              <td className="whitespace-nowrap px-6 py-4">
+                <img src="/image/avatar.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4  color-stop">Stopped</td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/managevoucher.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/managevoucher.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4">
+              <img src="/image/viewdetail.png" alt="" />
+              </td>
+              <td className="whitespace-nowrap px-6 py-4 flex">
+              <img className='w-5 h-5 cursor-pointer' src="/image/pen.png" alt="" />
+            <img className='w-5 h-5 cursor-pointer ml-3' src="/image/unlock.png" alt="" />
+              </td>
+            </tr>
           
 </tbody>
         </table>

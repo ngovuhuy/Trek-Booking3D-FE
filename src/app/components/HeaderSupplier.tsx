@@ -77,18 +77,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                     <span className='text-white ml-2 text-xl font-semibold'>Hotel</span>
                   </Link>
                 </li>
-                <li className='flex items-center pb-6'>
-                  <Link className='flex no-underline nav-i-hover py-2 pl-3 pr-40' href='/supplier/room'>
-                    <img className='w-7 h-7' src='/image/home.png' alt='Hotel' />
-                    <span className='text-white ml-2 text-xl font-semibold'>Room</span>
-                  </Link>
-                </li>
-                <li className='flex items-center pb-6'>
-                  <Link className='flex no-underline nav-i-hover py-2 pl-3 pr-40' href='/supplier/roomservice'>
-                    <img className='w-7 h-7' src='/image/home.png' alt='Hotel' />
-                    <span className='text-white ml-2 text-xl font-semibold'>Room Service</span>
-                  </Link>
-                </li>
+                
                 <li className='flex items-center pb-6'>
                   <Link className='flex no-underline nav-i-hover py-2 pl-3 pr-40' href='/supplier/tour'>
                     <img className='w-7 h-7' src='/image/suitcase.png' alt='Tour' />
@@ -101,12 +90,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                     <span className='text-white ml-2 text-xl font-semibold'>Staff</span>
                   </Link>
                 </li>
-                <li className='flex items-center pb-6'>
-                  <Link className='flex no-underline nav-i-hover py-2 pl-3 pr-40' href='/supplier/voucher'>
-                    <img className='w-7 h-7' src='/image/gift.png' alt='Voucher' />
-                    <span className='text-white ml-2 text-xl font-semibold'>Voucher</span>
-                  </Link>
-                </li>
+              
                 <li className='flex items-center pb-6'>
                   <Link className='flex no-underline nav-i-hover py-2 pl-3 pr-40' href='/supplier/roombooking'>
                     <img className='w-7 h-7' src='/image/chart.png' alt='Room booking' />

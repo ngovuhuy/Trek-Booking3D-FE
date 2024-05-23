@@ -37,30 +37,6 @@ const NavSupplier = () => {
                   </span>
                 </Link>
               </li>
-              <li className="flex items-center pb-6 none-hotel">
-                <Link
-                  className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
-                    pathname === "/supplier/room" ? "active-link" : ""
-                  } `}
-                  href="/supplier/room"
-                >
-                  <span className="text-white mleft-40 text-xl font-semibold ">
-                    Room
-                  </span>
-                </Link>
-              </li>
-              <li className="flex items-center pb-6 none-hotel">
-                <Link
-                  className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
-                    pathname === "/supplier/roomservice" ? "active-link" : ""
-                  } `}
-                  href="/supplier/roomservice"
-                >
-                  <span className="text-white mleft-40 text-xl font-semibold ">
-                    Room Service
-                  </span>
-                </Link>
-              </li>
             </div>
             <li className="flex items-center pb-6 ">
               <Link
@@ -89,19 +65,7 @@ const NavSupplier = () => {
               </Link>
             </li>
 
-            <li className="flex items-center pb-6 ">
-              <Link
-                className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
-                  pathname === "/supplier/voucher" ? "active-link" : ""
-                } `}
-                href="/supplier/voucher"
-              >
-                <img className="w-7 h-7 " src="/image/gift.png" alt="" />
-                <span className="text-white ml-2 text-xl font-semibold">
-                  Voucher
-                </span>
-              </Link>
-            </li>
+            
             <li className="flex items-center pb-6 ">
               <Link
                 className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
