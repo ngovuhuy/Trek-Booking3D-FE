@@ -3,11 +3,11 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import "../../../public/css/authen.css";
-import Link from "../../../node_modules/next/link";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
-const signUpClient = () => {
+const signUpSupplier = () => {
   const [isPassword, setIsPassword] = useState(true);
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -21,10 +21,10 @@ const signUpClient = () => {
     e.preventDefault();
 
     try {
-        await authenticateService.signUpClient({ email, password, roleId });
+        await authenticateService.signUpSupplier({ email, password, roleId });
         toast.success("Sign up successfully!");
         setTimeout(() => {
-            router.push("/login");
+            router.push("/login_supplier");
           }, 2000);
       } catch (error) {
         toast.error("Sign up unsuccessful!");
@@ -35,12 +35,12 @@ const signUpClient = () => {
           <div className="image-bk">
             <div className="login">
               <div className="text-login">
-                <h3 className="text-center font-bold color-black">Sign up</h3>
+                <h3 className="text-center font-bold color-black">Sign up For a New Supplier</h3>
               </div>
               <form onSubmit={handleSubmit}>
               <div className="text-input relative">
                 <p className="color-black m-0 pt-2 pb-1">
-                  Enter your email or phone number
+                  Enter your email
                 </p>
                 <input
                   className='input-text'
@@ -95,7 +95,7 @@ const signUpClient = () => {
                   <Link
                     className="pt-2 text-right text-base cursor-pointer text-decoration"
                     style={{ color: "#CED1D2" }}
-                    href="login"
+                    href="login_supplier"
                   >
                     You have a account?
                   </Link>
@@ -136,4 +136,4 @@ const signUpClient = () => {
         </div>
       );
   };
-export default signUpClient;
+export default signUpSupplier;
