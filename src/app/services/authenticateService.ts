@@ -6,6 +6,20 @@ interface ILoginRequest {
 interface ILoginResponse {
   toKen: string;
   roleId: string;
+  supplier: {
+    supplierId: number;
+    supplierName: string;
+    email: string;
+    phone: string;
+    status: boolean;
+    isVerify: boolean;
+    roleId: number;
+    role:{
+        roleId: number;
+        roleName: string;
+        roleDescription: string
+    }
+  }
 }
 
 interface ILoginResult {
@@ -13,6 +27,20 @@ interface ILoginResult {
   token?: string;
   role?: string;
   errorMessage?: string;
+  supplier?: {
+    supplierId: number;
+    supplierName: string;
+    email: string;
+    phone: string;
+    status: boolean;
+    isVerify: boolean;
+    roleId: number;
+    role:{
+        roleId: number;
+        roleName: string;
+        roleDescription: string
+    }
+  }
 }
 interface IAuthenticateService {
   loginClient(email: string, password: string): Promise<ILoginResult>;
@@ -45,7 +73,6 @@ const authenticateService: IAuthenticateService = {
         const data: ILoginResponse = await response.json();
         const token = data.toKen;
         const role = data.roleId;
-
         // Save token to local storage or cookies for future requests
         localStorage.setItem("token", token);
         localStorage.setItem("roleId", role);
@@ -97,12 +124,16 @@ const authenticateService: IAuthenticateService = {
         const data: ILoginResponse = await response.json();
         const token = data.toKen;
         const role = data.roleId;
+        const supplier = data.supplier;
+        const supplierId = data.supplier.supplierId;
 
         // Save token to local storage or cookies for future requests
         localStorage.setItem("token", token);
         localStorage.setItem("roleId", role);
-
-        return { success: true, token, role };
+        localStorage.setItem("supplier", JSON.stringify(supplier));
+        localStorage.setItem("supplierId", supplierId.toString());
+        
+        return { success: true, token, role, supplier };
       } else {
         const errorData = await response.json();
         return { success: false, errorMessage: errorData.errorMessage };
