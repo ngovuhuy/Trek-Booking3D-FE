@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useState } from "react";
-import Table from "../../../../node_modules/react-bootstrap/esm/Table";
-import useSWR from "swr";
 import hotelService from "@/app/services/hotelService";
 import Link from "next/link";
 
