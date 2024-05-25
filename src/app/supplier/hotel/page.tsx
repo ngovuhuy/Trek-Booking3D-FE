@@ -56,7 +56,13 @@ const HotelListOfSupplier = () => {
       alert("Failed to delete hotel");
     }
   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  if (error) {
+    return <div>Error loading hotels</div>;
+  }
   console.log(hotelList);
   return (
     <div className="relative">
@@ -106,63 +112,52 @@ const HotelListOfSupplier = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {hotelList.length > 0 &&
-                      hotelList.map((item: IHotel, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            className="border-b border-neutral-200 dark:border-white/10"
-                          >
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
-                              {item.hotelId}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                            {item.hotelName}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
-                                <img src="/image/avatar.png" alt="" />
-                              </Link>
-                            </td>
-                            
-                            <td className={`whitespace-nowrap px-6 py-4 ${item.isVerify? "color-active": "color-stop"} `}>
-                              {item.isVerify? "Active":"Stopped"}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
-                                <img src="/image/managevoucher.png" alt="" />
-                              </Link>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href={`/supplier/hotel/room/${item.hotelId}`}>
-                                <img src="/image/managevoucher.png" alt="" />
-                              </Link>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
-                                <img src="/image/viewdetail.png" alt="" />
-                              </Link>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4 flex">
-                              <Link href="#">
-                                <img
-                                  className="w-5 h-5 cursor-pointer"
-                                  src="/image/pen.png"
-                                  alt=""
-                                />
-                              </Link>
-                              <Link href="#">
-                                <img
-                                  className="w-5 h-5 cursor-pointer ml-3"
-                                  src="/image/unlock.png"
-                                  alt="Delete"
-                                  onClick={() => handleDeleteHotel(item.hotelId)}
-                                />
-                              </Link>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    {hotelList.length > 0 ? (
+                      hotelList.map((item: IHotel, index) => (
+                        <tr key={index} className="border-b border-neutral-200 dark:border-white/10">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium">{item.hotelId}</td>
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold">{item.hotelName}</td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/avatar.png" alt="Avatar" />
+                            </Link>
+                          </td>
+                          <td className={`whitespace-nowrap px-6 py-4 ${item.isVerify ? "color-active" : "color-stop"}`}>
+                            {item.isVerify ? "Active" : "Stopped"}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/managevoucher.png" alt="Manage Voucher" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href={`/supplier/hotel/room/${item.hotelId}`}>
+                              <img src="/image/managevoucher.png" alt="Manage Room" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/viewdetail.png" alt="View Detail" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 flex">
+                            <Link href="#">
+                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" />
+                            </Link>
+                            <img
+                              className="w-5 h-5 cursor-pointer ml-3"
+                              src="/image/unlock.png"
+                              alt="Delete"
+                              onClick={() => handleDeleteHotel(item.hotelId)}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={8} className="text-center py-4 text-red-600 font-bold">No hotels found</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

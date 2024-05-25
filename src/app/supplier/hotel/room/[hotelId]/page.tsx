@@ -26,7 +26,13 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
     }
   }, [params.hotelId]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
+  if (error) {
+    return <div>Error loading rooms</div>;
+  }
   return (
     <div className="relative">
       <div className="search-add ">
@@ -55,43 +61,52 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listRoom.length > 0 && listRoom.map((item: IRoom, index) => (
-                      <tr key={index} className="border-b border-neutral-200 dark:border-white/10">
-                        <td className="whitespace-nowrap px-6 py-4 font-medium">{item.roomId}</td>
-                        <td className="whitespace-nowrap px-6 py-4">{item.roomName}</td>
-                        <td className={`whitespace-nowrap px-6 py-4 ${item.roomStatus ? "color-active" : "color-stop"}`}>
-                          {item.roomStatus ? "Active" : "Stopped"}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <Link href="#">
-                            <img src="/image/viewdetail.png" alt="" />
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <Link href="#">
-                            <img src="/image/managevoucher.png" alt="" />
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <Link href="#">
-                            <img src="/image/managevoucher.png" alt="" />
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <Link href="#">
-                            <img src="/image/managevoucher.png" alt="" />
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 flex">
-                          <Link href="#">
-                            <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="" />
-                          </Link>
-                          <Link href="#">
-                            <img className="w-5 h-5 cursor-pointer ml-3" src="/image/unlock.png" alt="Delete" />
-                          </Link>
-                        </td>
+                    {listRoom.length > 0 ? (
+                      listRoom.map((item: IRoom, index) => (
+                        <tr key={index} className="border-b border-neutral-200 dark:border-white/10">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium">{item.roomId}</td>
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold">{item.roomName}</td>
+                          <td className={`whitespace-nowrap px-6 py-4 ${item.roomStatus ? "color-active" : "color-stop"}`}>
+                            {item.roomStatus ? "Active" : "Stopped"}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/viewdetail.png" alt="View Detail" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/managevoucher.png" alt="Manage Service" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/managevoucher.png" alt="Manage Room 3D" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href="#">
+                              <img src="/image/managevoucher.png" alt="Manage Room Image" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 flex">
+                            <Link href="#">
+                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" />
+                            </Link>
+                            <img
+                              className="w-5 h-5 cursor-pointer ml-3"
+                              src="/image/unlock.png"
+                              alt="Delete"
+                              onClick={() => console.log(`Delete room ${item.roomId}`)}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={8} className="text-center py-4 text-red-600 font-bold">No rooms found</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
