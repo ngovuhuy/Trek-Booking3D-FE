@@ -30,6 +30,33 @@ const HotelListOfSupplier = () => {
     }
   }, []);
 
+  const handleDeleteHotel = async (hotelId: number) => {
+    try {
+      await hotelService.deleteHotel(hotelId);
+      // Load lại dữ liệu từ API
+      const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      hotelService
+        .getHotelsBySuppierId(Number(supplierId))
+        .then((data: any) => {
+          setHotelList(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching hotel list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+      alert("Hotel deleted successfully");
+    } catch (error) {
+      console.error("Error deleting hotel:", error);
+      alert("Failed to delete hotel");
+    }
+  };
+
   console.log(hotelList);
   return (
     <div className="relative">
@@ -128,7 +155,8 @@ const HotelListOfSupplier = () => {
                                 <img
                                   className="w-5 h-5 cursor-pointer ml-3"
                                   src="/image/unlock.png"
-                                  alt=""
+                                  alt="Delete"
+                                  onClick={() => handleDeleteHotel(item.hotelId)}
                                 />
                               </Link>
                             </td>
