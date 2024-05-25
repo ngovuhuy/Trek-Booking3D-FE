@@ -134,7 +134,7 @@ const HotelListOfSupplier = () => {
                               </Link>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-                              <Link href={`/hduqwhduqw/${item.hotelId}`}>
+                              <Link href={`/supplier/hotel/room/${item.hotelId}`}>
                                 <img src="/image/managevoucher.png" alt="" />
                               </Link>
                             </td>
