@@ -44,76 +44,6 @@ const HotelListOfSupplier = () => {
         </div>
         <button className="ml-8 button-add ml-4rem">+ Add hotel</button>
       </div>
-<<<<<<< Updated upstream
-   <div className="table-hotel pt-8">
- 
-
-<div className="flex flex-col overflow-x-auto">
-  <div className="sm:-mx-6 lg:-mx-8">
-    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div className="overflow-x-auto">
-        <table
-          className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
-          <thead
-            className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
-            <tr>
-              <th scope="col" className="px-6 py-4">HotelId</th>
-              <th scope="col" className="px-6 py-4 text-center">Name</th>
-              <th scope="col" className="px-6 py-4">Avatar</th>
-              <th scope="col" className="px-6 py-4">Isverify</th>
-              <th scope="col" className="px-6 py-4">Manage Voucher</th>
-              <th scope="col" className="px-6 py-4">Manage Room</th>
-              <th scope="col" className="px-6 py-4">View Detail</th>
-              <th scope="col" className="px-6 py-4">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-neutral-200 dark:border-white/10">
-              <td className="whitespace-nowrap px-6 py-4 font-medium">1234589</td>
-              <td className="whitespace-nowrap px-6 py-4">Cereja Hotel & Resort Dalat</td>
-              <td className="whitespace-nowrap px-6 py-4">
-                <img src="/image/avatar.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 color-active">Active</td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/managevoucher.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/managevoucher.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/viewdetail.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 flex">
-              <img className='w-5 h-5 cursor-pointer' src="/image/pen.png" alt="" />
-            <img className='w-5 h-5 cursor-pointer ml-3' src="/image/lock.png" alt="" />
-              </td>
-            </tr>
-            <tr className="border-b border-neutral-200 dark:border-white/10">
-              <td className="whitespace-nowrap px-6 py-4 font-medium">1234589</td>
-              <td className="whitespace-nowrap px-6 py-4">Cereja Hotel & Resort Dalat</td>
-              <td className="whitespace-nowrap px-6 py-4">
-                <img src="/image/avatar.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4  color-stop">Stopped</td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/managevoucher.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/managevoucher.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4">
-              <img src="/image/viewdetail.png" alt="" />
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 flex">
-              <img className='w-5 h-5 cursor-pointer' src="/image/pen.png" alt="" />
-            <img className='w-5 h-5 cursor-pointer ml-3' src="/image/unlock.png" alt="" />
-              </td>
-            </tr>
-          
-</tbody>
-        </table>
-=======
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
           <div className="sm:-mx-6 lg:-mx-8">
@@ -211,7 +141,6 @@ const HotelListOfSupplier = () => {
             </div>
           </div>
         </div>
->>>>>>> Stashed changes
       </div>
     </div>
   );
