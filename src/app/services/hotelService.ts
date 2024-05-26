@@ -4,7 +4,17 @@ interface IHotelService {
   updateHotel(hotelId: number, hotel: Partial<IHotel>): Promise<IHotel>;
   deleteHotel(hotelId: number): Promise<void>;
 }
-
+export interface IHotel {
+  hotelName: string;
+  hotelPhone: string;
+  hotelEmail: string;
+  hotelFullDescription: string;
+  hotelDistrict: string;
+  hotelCity: string;
+  hotelInformation: string;
+  Isverify: boolean;
+  SupplierId: number;
+}
 const hotelService: IHotelService = {
   async getHotelsBySuppierId(supplierId) {
     console.log(supplierId);
@@ -34,26 +44,21 @@ const hotelService: IHotelService = {
     }
   },
 
-  async createHotel(hotel) {
+  async createHotel(hotel: IHotel): Promise<IHotel> {
     try {
-      const response = await fetch(
-        `https://localhost:7132/createHotel`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
-          },
-          body: JSON.stringify(hotel),
-        }
-      );
+      const response = await fetch(`https://localhost:7132/createHotel`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(hotel),
+      });
       if (!response.ok) {
         throw new Error("Failed to create hotel");
       }
-      const data = await response.json();
-      console.log(data); // Trigger refetch after fetching
-      return data;
+      return await response.json();
     } catch (error) {
       console.error("Error creating hotel:", error);
       throw error;

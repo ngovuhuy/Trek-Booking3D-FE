@@ -3,11 +3,16 @@
 import React, { useEffect, useState } from "react";
 import hotelService from "@/app/services/hotelService";
 import Link from "next/link";
+import CreateHotel from "@/app/components/Hotel/CreateHotel";
+import { Button } from "react-bootstrap";
 
 const HotelListOfSupplier = () => {
   const [hotelList, setHotelList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showHotelCreate, setShowHotelCreate] = useState<boolean>(false);
+  const [showHotelUpdate, setShowHotelUpdate] = useState<boolean>(false);
+  const [showNoti, setShowNoti] = useState<boolean>(false);
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -73,7 +78,8 @@ const HotelListOfSupplier = () => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem">+ Add hotel</button>
+        <button className="ml-8 button-add ml-4rem" onClick={() => setShowHotelCreate(true)}>+ Add hotel</button>
+        
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -163,7 +169,12 @@ const HotelListOfSupplier = () => {
           </div>
         </div>
       </div>
+      <CreateHotel 
+   showHotelCreate={showHotelCreate}
+   setShowHotelCreate={setShowHotelCreate}
+   />
     </div>
+    
   );
 };
 
