@@ -6,15 +6,16 @@ import hotelService from "@/app/services/hotelService";
 import { Button, Form, Modal } from "react-bootstrap";
 
 interface Iprops {
-  showHotelCreate: boolean;
-  setShowHotelCreate: (value: boolean) => void;
-  onCreate: () => void;
+  showHotelUpdate: boolean;
+  setShowHotelUpdate: (value: boolean) => void;
+  onUpdate: () => void;
+  ThishotelId: Number;
 }
 
-function CreateHotel(props: Iprops) {
-  const { showHotelCreate, setShowHotelCreate, onCreate } = props;
+function UpdateHotel(props: Iprops) {
+  const { showHotelUpdate, setShowHotelUpdate, onUpdate, ThishotelId } = props;
 
-  // const [HotelId, setHotelId] = useState<number>();
+  //const [HotelId, setHotelId] = useState<Number>();
   const [hotelName, setHotelName] = useState<string>("");
   const [hotelPhone, setHotelPhone] = useState<string>("");
   const [hotelEmail, setHotelEmail] = useState<string>("");
@@ -25,6 +26,7 @@ function CreateHotel(props: Iprops) {
   const [hotelInformation, setHotelInformation] = useState<string>("");
 
   const handleSubmit = async () => {
+    const hotelId = ThishotelId;
     const supplierId = localStorage.getItem("supplierId");
     if (!hotelName || !hotelPhone || !hotelEmail || !hotelFulDescription || !hotelDistrict || !hotelCity || !hotelInformation) {
       toast.error("Please fill in all fields!!!");
@@ -33,7 +35,7 @@ function CreateHotel(props: Iprops) {
 
     try {
       const hotel: IHotel= {
-        hotelId: 0,
+        hotelId: Number(hotelId),
         hotelName,
         hotelPhone,
         hotelEmail,
@@ -45,13 +47,13 @@ function CreateHotel(props: Iprops) {
         isVerify: true, // Default value is true
         supplierId: Number(supplierId)
       };
-      const response = await hotelService.createHotel(hotel);
-      toast.success("Create Hotel Success");
+      const response = await hotelService.updateHotel(hotel);
+      toast.success("Update Hotel Success");
       handleCloseModal();
-      onCreate();
+      onUpdate();
     } catch (error) {
-      toast.error("Failed to create hotel");
-      console.error("Error creating hotel:", error);
+      toast.error("Failed to update hotel");
+      console.error("Error updating hotel:", error);
     }
   };
 
@@ -63,14 +65,14 @@ function CreateHotel(props: Iprops) {
     setHotelDistrict("");
     setHotelCity("");
     setHotelInformation("");
-    setShowHotelCreate(false);
+    setShowHotelUpdate(false);
   };
 
   return (
     <>
-      <Modal className='pt-36' show={showHotelCreate} onHide={() => handleCloseModal()} size='lg'>
+      <Modal className='pt-36' show={showHotelUpdate} onHide={() => handleCloseModal()} size='lg'>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Hotel</Modal.Title>
+          <Modal.Title>Update Hotel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -144,7 +146,7 @@ function CreateHotel(props: Iprops) {
             Close
           </Button>
           <Button variant="primary" onClick={() => handleSubmit()}>
-            Create
+            Update
           </Button>
         </Modal.Footer>
       </Modal>
@@ -152,4 +154,4 @@ function CreateHotel(props: Iprops) {
   );
 }
 
-export default CreateHotel;
+export default UpdateHotel;

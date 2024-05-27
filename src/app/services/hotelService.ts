@@ -1,20 +1,10 @@
 interface IHotelService {
   getHotelsBySuppierId(supplierId: number): Promise<IHotel[]>;
   createHotel(hotel: IHotel): Promise<IHotel>;
-  updateHotel(hotelId: number, hotel: Partial<IHotel>): Promise<IHotel>;
+  updateHotel(hotel: Partial<IHotel>): Promise<IHotel>;
   deleteHotel(hotelId: number): Promise<void>;
 }
-export interface IHotel {
-  hotelName: string;
-  hotelPhone: string;
-  hotelEmail: string;
-  hotelFullDescription: string;
-  hotelDistrict: string;
-  hotelCity: string;
-  hotelInformation: string;
-  Isverify: boolean;
-  SupplierId: number;
-}
+
 const hotelService: IHotelService = {
   async getHotelsBySuppierId(supplierId) {
     console.log(supplierId);
@@ -44,7 +34,7 @@ const hotelService: IHotelService = {
     }
   },
 
-  async createHotel(hotel: IHotel): Promise<IHotel> {
+  async createHotel(hotel) {
     try {
       const response = await fetch(`https://localhost:7132/createHotel`, {
         method: "POST",
@@ -65,10 +55,10 @@ const hotelService: IHotelService = {
     }
   },
 
-  async updateHotel(hotelId, hotel) {
+  async updateHotel(hotel) {
     try {
       const response = await fetch(
-        `https://localhost:7132/updateHotel/${hotelId}`,
+        `https://localhost:7132/updateHotel`,
         {
           method: "PUT",
           headers: {

@@ -5,6 +5,7 @@ import hotelService from "@/app/services/hotelService";
 import Link from "next/link";
 import CreateHotel from "@/app/components/Hotel/CreateHotel";
 import { Button } from "react-bootstrap";
+import UpdateHotel from "@/app/components/Hotel/UpdateHotel";
 
 const HotelListOfSupplier = () => {
   const [hotelList, setHotelList] = useState([]);
@@ -13,6 +14,7 @@ const HotelListOfSupplier = () => {
   const [showHotelCreate, setShowHotelCreate] = useState<boolean>(false);
   const [showHotelUpdate, setShowHotelUpdate] = useState<boolean>(false);
   const [showNoti, setShowNoti] = useState<boolean>(false);
+  const [HotelId, setHotelId] = useState(0);
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -33,6 +35,20 @@ const HotelListOfSupplier = () => {
     }
   }, []);
 
+  //reload sau khi add
+  const handleCreateHotel = async () => {
+    setShowHotelCreate(false);
+    window.location.reload(); // Tự động reload trang sau khi tạo khách sạn
+  };
+  const handleUpdateHotel = async () => {
+    setShowHotelUpdate(false);
+    window.location.reload(); // Tự động reload trang sau khi tạo khách sạn
+  };
+
+  //Update
+
+
+  //Delete
   const handleDeleteHotel = async (hotelId: number) => {
     try {
       await hotelService.deleteHotel(hotelId);
@@ -146,7 +162,7 @@ const HotelListOfSupplier = () => {
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
                             <Link href="#">
-                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" />
+                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" onClick={() => {setHotelId(item.hotelId); setShowHotelUpdate(true); console.log("HotelID: "+ item.hotelId, item)}} />
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
@@ -169,9 +185,16 @@ const HotelListOfSupplier = () => {
           </div>
         </div>
       </div>
-      <CreateHotel 
+      <CreateHotel
    showHotelCreate={showHotelCreate}
    setShowHotelCreate={setShowHotelCreate}
+   onCreate={handleCreateHotel} // Thêm callback để xử lý sau khi tạo
+   />
+   <UpdateHotel
+   showHotelUpdate={showHotelUpdate}
+   setShowHotelUpdate={setShowHotelUpdate}
+   onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
+   ThishotelId={Number(setHotelId)}
    />
     </div>
     

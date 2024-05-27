@@ -8,7 +8,7 @@ interface IUser{
     status: boolean;
     isVerify: boolean;
     roleId: number;
-    role:{a
+    role:{
         roleId: number;
         roleName: string;
         roleDescription: string

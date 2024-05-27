@@ -26,7 +26,7 @@ export default function UpLoadImage() {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange}></input>
+      <input type="file" accept="image/jpeg,image/png,image/jpg" onChange={handleFileChange}></input>
       <button onClick={upload}>Upload</button>
       {imageUrl && ( // Kiểm tra xem imageUrl có tồn tại không trước khi hiển thị
         <div>

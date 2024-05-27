@@ -10,8 +10,4 @@ interface IHotel{
     hotelInformation: string;
     supplierId: number;
     isVerify: boolean;
-    supplier: {
-        supplierId: number;
-        supplierName: string;
-    }
 }
