@@ -4,11 +4,18 @@
 import React, { useEffect, useState } from "react";
 import roomService from "@/app/services/roomService";
 import Link from "next/link";
+import CreateModal from "./create";
+import { useRouter } from "next/router";
+import { ToastContainer } from "react-bootstrap";
+import ViewDetailRoom from "./detail";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [listRoom, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
+  const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
 
   useEffect(() => {
     if (params.hotelId) {
@@ -44,7 +51,12 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem">+ Add room</button>
+        <button
+          className="ml-8 button-add ml-4rem"
+          onClick={() => setShowRoomCreate(true)}
+        >
+          + Add room
+        </button>
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -105,6 +117,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                               <img
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
+                                onClick={() => setShowRoomDetail(true)}
                               />
                             </Link>
                           </td>
@@ -142,10 +155,10 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
-                              src="/image/unlock.png"
+                              src="/image/lock.png"
                               alt="Delete"
                               onClick={() =>
-                                console.log(`Delete room ${item.roomId}`)
+                                console.log(`Lock room ${item.roomId}`)
                               }
                             />
                           </td>
@@ -163,6 +176,11 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
+                <CreateModal
+                  showRoomCreate={showRoomCreate}
+                  setShowRoomCreate={setShowRoomCreate}
+                  hotelId={params.hotelId}
+                />
               </div>
             </div>
           </div>
