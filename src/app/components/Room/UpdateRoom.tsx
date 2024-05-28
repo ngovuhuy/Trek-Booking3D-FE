@@ -2,20 +2,23 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import roomService from "@/app/services/roomService";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
 
 interface IProps {
-  showRoomCreate: boolean;
-  setShowRoomCreate: (value: boolean) => void;
+  showRoomUpdate: boolean;
+  setShowRoomUpdate: (value: boolean) => void;
   hotelId: string;
+  room: IRoom | null;
+  setRoom: (value: IRoom | null) => void;
 }
 
 function UpdateRoom(props: IProps) {
-  const { showRoomCreate, setShowRoomCreate, hotelId } = props;
+  const { showRoomUpdate, setShowRoomUpdate, hotelId, room, setRoom } = props;
+  const [roomId, setRoomId] = useState<number>(0);
   const [roomName, setRoomName] = useState<string>("");
   const [roomNote, setNote] = useState<string>("");
   const [discountPercent, setDiscount] = useState<string>("");
@@ -30,14 +33,16 @@ function UpdateRoom(props: IProps) {
     const newErrors: { [key: string]: string } = {};
 
     if (!roomName) newErrors.roomName = "Room Name is required";
-    if (!roomAvailable) newErrors.roomAvailable = "Available is required";
+    if (!roomAvailable || isNaN(parseInt(roomAvailable)))
+      newErrors.roomAvailable = "Available must be a number";
     if (!roomNote) newErrors.roomNote = "Note is required";
-    if (!roomPrice) newErrors.roomPrice = "Price is required";
-    if (!discountPercent)
-      newErrors.discountPercent = "Discount Percent is required";
-    if (!roomCapacity) newErrors.roomCapacity = "Capacity is required";
+    if (!roomPrice || isNaN(parseFloat(roomPrice)))
+      newErrors.roomPrice = "Price must be a number";
+    if (!discountPercent || isNaN(parseFloat(discountPercent)))
+      newErrors.discountPercent = "Discount Percent must be a number";
+    if (!roomCapacity || isNaN(parseInt(roomCapacity)))
+      newErrors.roomCapacity = "Capacity must be a number";
     if (!roomDescription) newErrors.roomDescription = "Description is required";
-
     return newErrors;
   };
 
@@ -50,8 +55,22 @@ function UpdateRoom(props: IProps) {
     setPrice("");
     setCapacity("");
     setErrors({});
-    setShowRoomCreate(false);
+    setRoom(null);
+    setShowRoomUpdate(false);
   };
+
+  useEffect(() => {
+    if (room && room.roomId) {
+      setRoomId(room.roomId);
+      setRoomName(room.roomName);
+      setNote(room.roomNote);
+      setAvailable(room.roomAvailable.toString());
+      setPrice(room.roomPrice.toString());
+      setCapacity(room.roomCapacity.toString());
+      setDiscount(room.discountPercent.toString());
+      setDescription(room.roomDescription);
+    }
+  }, [room]);
 
   const handleSubmit = async () => {
     const validationErrors = validate();
@@ -61,7 +80,7 @@ function UpdateRoom(props: IProps) {
     }
     try {
       const room: IRoom = {
-        roomId: 0,
+        roomId: Number(roomId),
         roomName,
         roomNote,
         roomStatus: true,
@@ -73,17 +92,17 @@ function UpdateRoom(props: IProps) {
         hotelId: Number(hotelId),
       };
 
-      const createdRoom = await roomService.createRoom(room);
+      const updateRoom = await roomService.updateRoom(room);
 
-      if (typeof createdRoom === "string") {
-        toast.success(createdRoom);
+      if (typeof updateRoom === "string") {
+        toast.success(updateRoom);
       } else {
-        toast.success("Create Tour Success");
+        toast.success("Update Room Success");
       }
       handleCloseModal();
       mutate("listRoom");
     } catch (error) {
-      toast.error("Failed to create tour");
+      toast.error("Failed to update room");
       console.error(error);
     }
   };
@@ -91,14 +110,14 @@ function UpdateRoom(props: IProps) {
   return (
     <Modal
       className="modal-xl"
-      show={showRoomCreate}
+      show={showRoomUpdate}
       onHide={() => handleCloseModal()}
       backdrop="static"
       keyboard={false}
       size="xl"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Add New Room</Modal.Title>
+        <Modal.Title>Update Room</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -211,13 +230,21 @@ function UpdateRoom(props: IProps) {
             <Col xs={1} className="d-flex align-items-end">
               <div className="d-flex flex-column gap-2">
                 <Button
-                  style={{ background: "#305A61", color: "white" }}
+                  style={{
+                    background: "#305A61",
+                    color: "white",
+                    border: "1px solid #ccc",
+                  }}
                   onClick={() => handleSubmit()}
                 >
                   Save
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  style={{
+                    border: "1px solid #ccc",
+                    color: "black",
+                    background: "white",
+                  }}
                   onClick={() => handleCloseModal()}
                 >
                   Exit

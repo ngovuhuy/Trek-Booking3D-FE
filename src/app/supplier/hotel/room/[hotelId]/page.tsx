@@ -5,12 +5,20 @@ import React, { useEffect, useState } from "react";
 import roomService from "@/app/services/roomService";
 import Link from "next/link";
 import useSWR from "swr";
-import CreateModal from "@/app/components/Room/create";
-import CreateRoom from "@/app/components/Room/create";
+import CreateModal from "@/app/components/Room/CreateRoom";
+import CreateRoom from "@/app/components/Room/CreateRoom";
+import UpdateRoom from "@/app/components/Room/UpdateRoom";
+import { Room } from "@mui/icons-material";
+import DetailRoom from "@/app/components/Room/DetailRoom";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
-  const [room, setRoom] = useState<IRoom | null>(null);
+  const [showRoomUpdate, setShowRoomUpdate] = useState<boolean>(false);
+  const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
+
+  const [RoomId, setRoomId] = useState(0);
+
+  const [Room, setRoom] = useState<IRoom | null>(null);
   const { data: listRoom, error } = useSWR("listRoom", () =>
     roomService.getRoomsByHotelId(Number(params.hotelId))
   );
@@ -81,7 +89,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10"
                         >
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.roomId}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
@@ -99,6 +107,12 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                               <img
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
+                                onClick={() => {
+                                  setRoomId(item.roomId);
+                                  setRoom(item);
+                                  setShowRoomDetail(true);
+                                  console.log("RoomId: " + item.roomId, item);
+                                }}
                               />
                             </Link>
                           </td>
@@ -132,6 +146,12 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                                 className="w-5 h-5 cursor-pointer"
                                 src="/image/pen.png"
                                 alt="Edit"
+                                onClick={() => {
+                                  setRoomId(item.roomId);
+                                  setRoom(item);
+                                  setShowRoomUpdate(true);
+                                  console.log("RoomId: " + item.roomId, item);
+                                }}
                               />
                             </Link>
                             <img
@@ -161,6 +181,20 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                   showRoomCreate={showRoomCreate}
                   setShowRoomCreate={setShowRoomCreate}
                   hotelId={params.hotelId}
+                />
+                <UpdateRoom
+                  showRoomUpdate={showRoomUpdate}
+                  setShowRoomUpdate={setShowRoomUpdate}
+                  hotelId={params.hotelId}
+                  room={Room}
+                  setRoom={setRoom}
+                />
+                <DetailRoom
+                  showRoomDetail={showRoomDetail}
+                  setShowRoomDetail={setShowRoomDetail}
+                  hotelId={params.hotelId}
+                  room={Room}
+                  setRoom={setRoom}
                 />
               </div>
             </div>

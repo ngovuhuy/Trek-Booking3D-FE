@@ -17,7 +17,7 @@ const HotelListOfSupplier = () => {
   const [showHotelDetail, setShowHotelDetail] = useState<boolean>(false);
   const [showNoti, setShowNoti] = useState<boolean>(false);
   const [HotelId, setHotelId] = useState(0);
-  const [Hotel,setHotel] = useState<IHotel | null>(null);
+  const [Hotel, setHotel] = useState<IHotel | null>(null);
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -174,10 +174,10 @@ const HotelListOfSupplier = () => {
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10"
                         >
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.hotelId}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                             {item.hotelName}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
@@ -212,15 +212,28 @@ const HotelListOfSupplier = () => {
                             <Link href="#">
                               <img
                                 src="/image/viewdetail.png"
-                                alt="View Detail" 
-                                onClick={() => {setHotel(item); setShowHotelDetail(true); console.log("HotelID: "+ item.hotelId, item)}}
-                                
+                                alt="View Detail"
+                                onClick={() => {
+                                  setHotel(item);
+                                  setShowHotelDetail(true);
+                                  console.log("HotelID: " + item.hotelId, item);
+                                }}
                               />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
                             <Link href="#">
-                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" onClick={() => {setHotelId(item.hotelId); setHotel(item); setShowHotelUpdate(true); console.log("HotelID: "+ item.hotelId, item)}} />
+                              <img
+                                className="w-5 h-5 cursor-pointer"
+                                src="/image/pen.png"
+                                alt="Edit"
+                                onClick={() => {
+                                  setHotelId(item.hotelId);
+                                  setHotel(item);
+                                  setShowHotelUpdate(true);
+                                  console.log("HotelID: " + item.hotelId, item);
+                                }}
+                              />
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
@@ -249,24 +262,24 @@ const HotelListOfSupplier = () => {
         </div>
       </div>
       <CreateHotel
-   showHotelCreate={showHotelCreate}
-   setShowHotelCreate={setShowHotelCreate}
-   onCreate={handleCreateHotel} // Thêm callback để xử lý sau khi tạo
-   />
-   <UpdateHotel
-   showHotelUpdate={showHotelUpdate}
-   setShowHotelUpdate={setShowHotelUpdate}
-   onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
-   ThishotelId={HotelId}
-   hotel={Hotel}
-   setHotel = {setHotel}
-   />
-   <DetailHotel
-   showHotelDetail={showHotelDetail}
-   setShowHotelDetail={setShowHotelDetail}
-   hotel={Hotel}
-   setHotel = {setHotel}
-   />
+        showHotelCreate={showHotelCreate}
+        setShowHotelCreate={setShowHotelCreate}
+        onCreate={handleCreateHotel} // Thêm callback để xử lý sau khi tạo
+      />
+      <UpdateHotel
+        showHotelUpdate={showHotelUpdate}
+        setShowHotelUpdate={setShowHotelUpdate}
+        onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
+        ThishotelId={HotelId}
+        hotel={Hotel}
+        setHotel={setHotel}
+      />
+      <DetailHotel
+        showHotelDetail={showHotelDetail}
+        setShowHotelDetail={setShowHotelDetail}
+        hotel={Hotel}
+        setHotel={setHotel}
+      />
     </div>
   );
 };

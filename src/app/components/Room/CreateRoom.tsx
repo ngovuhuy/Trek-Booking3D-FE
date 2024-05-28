@@ -30,12 +30,15 @@ function CreateRoom(props: IProps) {
     const newErrors: { [key: string]: string } = {};
 
     if (!roomName) newErrors.roomName = "Room Name is required";
-    if (!roomAvailable) newErrors.roomAvailable = "Available is required";
+    if (!roomAvailable || isNaN(parseInt(roomAvailable)))
+      newErrors.roomAvailable = "Available must be a number";
     if (!roomNote) newErrors.roomNote = "Note is required";
-    if (!roomPrice) newErrors.roomPrice = "Price is required";
-    if (!discountPercent)
-      newErrors.discountPercent = "Discount Percent is required";
-    if (!roomCapacity) newErrors.roomCapacity = "Capacity is required";
+    if (!roomPrice || isNaN(parseFloat(roomPrice)))
+      newErrors.roomPrice = "Price must be a number";
+    // if (isNaN(parseFloat(discountPercent)))
+    //   newErrors.discountPercent = "Discount Percent must be a number";
+    if (!roomCapacity || isNaN(parseInt(roomCapacity)))
+      newErrors.roomCapacity = "Capacity must be a number";
     if (!roomDescription) newErrors.roomDescription = "Description is required";
 
     return newErrors;
@@ -78,12 +81,12 @@ function CreateRoom(props: IProps) {
       if (typeof createdRoom === "string") {
         toast.success(createdRoom);
       } else {
-        toast.success("Create Tour Success");
+        toast.success("Create room Success");
       }
       handleCloseModal();
       mutate("listRoom");
     } catch (error) {
-      toast.error("Failed to create tour");
+      toast.error("Failed to create room");
       console.error(error);
     }
   };
@@ -211,13 +214,21 @@ function CreateRoom(props: IProps) {
             <Col xs={1} className="d-flex align-items-end">
               <div className="d-flex flex-column gap-2">
                 <Button
-                  style={{ background: "#305A61", color: "white" }}
+                  style={{
+                    background: "#305A61",
+                    color: "white",
+                    border: "1px solid #ccc",
+                  }}
                   onClick={() => handleSubmit()}
                 >
                   Save
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  style={{
+                    border: "1px solid #ccc",
+                    color: "black",
+                    background: "white",
+                  }}
                   onClick={() => handleCloseModal()}
                 >
                   Exit

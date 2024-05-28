@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -12,11 +12,18 @@ interface Iprops {
   onUpdate: () => void;
   ThishotelId: Number;
   hotel: IHotel | null;
-    setHotel: (value: IHotel | null) => void;
+  setHotel: (value: IHotel | null) => void;
 }
 
 function UpdateHotel(props: Iprops) {
-  const { showHotelUpdate, setShowHotelUpdate, onUpdate, ThishotelId, hotel, setHotel } = props;
+  const {
+    showHotelUpdate,
+    setShowHotelUpdate,
+    onUpdate,
+    ThishotelId,
+    hotel,
+    setHotel,
+  } = props;
 
   //const [HotelId, setHotelId] = useState<Number>();
   const [hotelName, setHotelName] = useState<string>("");
@@ -28,30 +35,35 @@ function UpdateHotel(props: Iprops) {
   const [hotelCity, setHotelCity] = useState<string>("");
   const [hotelInformation, setHotelInformation] = useState<string>("");
 
-
- 
-
   const handleSubmit = async () => {
     const hotelId = ThishotelId;
     const supplierId = localStorage.getItem("supplierId");
-    if (!hotelName || !hotelPhone || !hotelEmail || !hotelFulDescription || !hotelDistrict || !hotelCity || !hotelInformation) {
+    if (
+      !hotelName ||
+      !hotelPhone ||
+      !hotelEmail ||
+      !hotelFulDescription ||
+      !hotelDistrict ||
+      !hotelCity ||
+      !hotelInformation
+    ) {
       toast.error("Please fill in all fields!!!");
       return;
     }
 
     try {
-      const hotel: IHotel= {
+      const hotel: IHotel = {
         hotelId: Number(hotelId),
         hotelName,
         hotelPhone,
         hotelEmail,
-        hotelAvatar:"1",
+        hotelAvatar: "1",
         hotelFulDescription,
         hotelDistrict,
         hotelCity,
         hotelInformation,
         isVerify: true, // Default value is true
-        supplierId: Number(supplierId)
+        supplierId: Number(supplierId),
       };
       const response = await hotelService.updateHotel(hotel);
       toast.success("Update Hotel Success");
@@ -63,8 +75,7 @@ function UpdateHotel(props: Iprops) {
     }
   };
   useEffect(() => {
-    if(hotel && hotel.hotelId){
-        
+    if (hotel && hotel.hotelId) {
       setHotelName(hotel.hotelName);
       setHotelPhone(hotel.hotelPhone);
       setHotelEmail(hotel.hotelEmail);
@@ -74,9 +85,8 @@ function UpdateHotel(props: Iprops) {
       setHotelInformation(hotel.hotelInformation);
       setShowHotelUpdate(false);
     }
-},[hotel])
-console.log("List Hotel" + hotel)
-
+  }, [hotel]);
+  console.log("List Hotel" + hotel);
 
   const handleCloseModal = () => {
     setHotelName("");
@@ -91,7 +101,12 @@ console.log("List Hotel" + hotel)
 
   return (
     <>
-      <Modal className='pt-36' show={showHotelUpdate} onHide={() => handleCloseModal()} size='lg'>
+      <Modal
+        className="pt-36"
+        show={showHotelUpdate}
+        onHide={() => handleCloseModal()}
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Update Hotel</Modal.Title>
         </Modal.Header>
@@ -99,7 +114,7 @@ console.log("List Hotel" + hotel)
           <Form>
             <Form.Group className="mb-3" controlId="formHotelName">
               <Form.Label>Hotel Name</Form.Label>
-            
+
               <Form.Control
                 type="text"
                 value={hotelName}
