@@ -118,11 +118,7 @@ const handleSubmit = async () => {
             <Form.Label className="font-bold text-xl">Tour Description</Form.Label>
            <p>{formattedDescription}</p>
           </Form.Group>
-        
-        
-          
-       
-         
+
           <Form.Group hidden className="mb-3 col-6" controlId="supplierId">
           <Form.Label>Supplier Id</Form.Label>
           <Form.Control

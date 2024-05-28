@@ -203,7 +203,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                           colSpan={9}
                           className="text-center py-4 text-red-600 font-bold"
                         >
-                          No tours found
+                         
                         </td>
                       </tr>
                     )}

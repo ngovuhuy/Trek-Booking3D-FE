@@ -6,6 +6,7 @@ import Link from "next/link";
 import CreateHotel from "@/app/components/Hotel/CreateHotel";
 import { Button } from "react-bootstrap";
 import UpdateHotel from "@/app/components/Hotel/UpdateHotel";
+import DetailHotel from "@/app/components/Hotel/DetailHotel";
 
 const HotelListOfSupplier = () => {
   const [hotelList, setHotelList] = useState([]);
@@ -13,8 +14,10 @@ const HotelListOfSupplier = () => {
   const [error, setError] = useState(null);
   const [showHotelCreate, setShowHotelCreate] = useState<boolean>(false);
   const [showHotelUpdate, setShowHotelUpdate] = useState<boolean>(false);
+  const [showHotelDetail, setShowHotelDetail] = useState<boolean>(false);
   const [showNoti, setShowNoti] = useState<boolean>(false);
   const [HotelId, setHotelId] = useState(0);
+  const [Hotel,setHotel] = useState<IHotel | null>(null);
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -38,11 +41,41 @@ const HotelListOfSupplier = () => {
   //reload sau khi add
   const handleCreateHotel = async () => {
     setShowHotelCreate(false);
-    window.location.reload(); // Tự động reload trang sau khi tạo khách sạn
+    const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      hotelService
+        .getHotelsBySuppierId(Number(supplierId))
+        .then((data: any) => {
+          setHotelList(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching hotel list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
   const handleUpdateHotel = async () => {
     setShowHotelUpdate(false);
-    window.location.reload(); // Tự động reload trang sau khi tạo khách sạn
+    const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      hotelService
+        .getHotelsBySuppierId(Number(supplierId))
+        .then((data: any) => {
+          setHotelList(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching hotel list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
 
   //Update
@@ -176,13 +209,15 @@ const HotelListOfSupplier = () => {
                             <Link href="#">
                               <img
                                 src="/image/viewdetail.png"
-                                alt="View Detail"
+                                alt="View Detail" 
+                                onClick={() => {setHotel(item); setShowHotelDetail(true); console.log("HotelID: "+ item.hotelId, item)}}
+                                
                               />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
                             <Link href="#">
-                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" onClick={() => {setHotelId(item.hotelId); setShowHotelUpdate(true); console.log("HotelID: "+ item.hotelId, item)}} />
+                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" onClick={() => {setHotelId(item.hotelId); setHotel(item); setShowHotelUpdate(true); console.log("HotelID: "+ item.hotelId, item)}} />
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
@@ -220,6 +255,14 @@ const HotelListOfSupplier = () => {
    setShowHotelUpdate={setShowHotelUpdate}
    onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
    ThishotelId={HotelId}
+   hotel={Hotel}
+   setHotel = {setHotel}
+   />
+   <DetailHotel
+   showHotelDetail={showHotelDetail}
+   setShowHotelDetail={setShowHotelDetail}
+   hotel={Hotel}
+   setHotel = {setHotel}
    />
     </div>
     

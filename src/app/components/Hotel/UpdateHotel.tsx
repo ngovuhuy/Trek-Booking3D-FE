@@ -1,19 +1,22 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import hotelService from "@/app/services/hotelService";
 import { Button, Form, Modal } from "react-bootstrap";
+import { Hotel } from "@mui/icons-material";
 
 interface Iprops {
   showHotelUpdate: boolean;
   setShowHotelUpdate: (value: boolean) => void;
   onUpdate: () => void;
   ThishotelId: Number;
+  hotel: IHotel | null;
+    setHotel: (value: IHotel | null) => void;
 }
 
 function UpdateHotel(props: Iprops) {
-  const { showHotelUpdate, setShowHotelUpdate, onUpdate, ThishotelId } = props;
+  const { showHotelUpdate, setShowHotelUpdate, onUpdate, ThishotelId, hotel, setHotel } = props;
 
   //const [HotelId, setHotelId] = useState<Number>();
   const [hotelName, setHotelName] = useState<string>("");
@@ -24,6 +27,9 @@ function UpdateHotel(props: Iprops) {
   const [hotelDistrict, setHotelDistrict] = useState<string>("");
   const [hotelCity, setHotelCity] = useState<string>("");
   const [hotelInformation, setHotelInformation] = useState<string>("");
+
+
+ 
 
   const handleSubmit = async () => {
     const hotelId = ThishotelId;
@@ -56,6 +62,21 @@ function UpdateHotel(props: Iprops) {
       console.error("Error updating hotel:", error);
     }
   };
+  useEffect(() => {
+    if(hotel && hotel.hotelId){
+        
+      setHotelName(hotel.hotelName);
+      setHotelPhone(hotel.hotelPhone);
+      setHotelEmail(hotel.hotelEmail);
+      setHotelFullDescription(hotel.hotelFulDescription);
+      setHotelDistrict(hotelDistrict);
+      setHotelCity(hotelCity);
+      setHotelInformation(hotelInformation);
+      setShowHotelUpdate(false);
+    }
+},[hotel])
+console.log("List Hotel" + hotel)
+
 
   const handleCloseModal = () => {
     setHotelName("");
@@ -78,9 +99,9 @@ function UpdateHotel(props: Iprops) {
           <Form>
             <Form.Group className="mb-3" controlId="formHotelName">
               <Form.Label>Hotel Name</Form.Label>
+            
               <Form.Control
                 type="text"
-                placeholder="Please enter hotel name"
                 value={hotelName}
                 onChange={(e) => setHotelName(e.target.value)}
               />
