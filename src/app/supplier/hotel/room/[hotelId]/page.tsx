@@ -4,36 +4,18 @@
 import React, { useEffect, useState } from "react";
 import roomService from "@/app/services/roomService";
 import Link from "next/link";
-import CreateModal from "../../../../components/Room/create";
-import { useRouter } from "next/router";
-import { ToastContainer } from "react-bootstrap";
-import ViewDetailRoom from "../../../../components/Room/detail";
+import useSWR from "swr";
+import CreateModal from "@/app/components/Room/create";
+import CreateRoom from "@/app/components/Room/create";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
-  const [listRoom, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
-  const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
+  const [room, setRoom] = useState<IRoom | null>(null);
+  const { data: listRoom, error } = useSWR("listRoom", () =>
+    roomService.getRoomsByHotelId(Number(params.hotelId))
+  );
 
-  useEffect(() => {
-    if (params.hotelId) {
-      roomService
-        .getRoomsByHotelId(Number(params.hotelId))
-        .then((data: any) => {
-          setRooms(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching room list:", error);
-          setError(error);
-          setLoading(false);
-        });
-    }
-  }, [params.hotelId]);
-
-  if (loading) {
+  if (!listRoom) {
     return <div>Loading...</div>;
   }
 
@@ -102,7 +84,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                           <td className="whitespace-nowrap px-6 py-4 font-medium">
                             {item.roomId}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                             {item.roomName}
                           </td>
                           <td
@@ -117,7 +99,6 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                               <img
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
-                                onClick={() => setShowRoomDetail(true)}
                               />
                             </Link>
                           </td>
@@ -158,7 +139,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                               src="/image/lock.png"
                               alt="Delete"
                               onClick={() =>
-                                console.log(`Lock room ${item.roomId}`)
+                                console.log(`Delete room ${item.roomId}`)
                               }
                             />
                           </td>
@@ -176,7 +157,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
-                <CreateModal
+                <CreateRoom
                   showRoomCreate={showRoomCreate}
                   setShowRoomCreate={setShowRoomCreate}
                   hotelId={params.hotelId}

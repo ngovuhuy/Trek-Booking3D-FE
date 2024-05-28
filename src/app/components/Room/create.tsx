@@ -14,9 +14,8 @@ interface IProps {
   hotelId: string;
 }
 
-function CreateModal(props: IProps) {
+function CreateRoom(props: IProps) {
   const { showRoomCreate, setShowRoomCreate, hotelId } = props;
-
   const [roomName, setRoomName] = useState<string>("");
   const [roomNote, setNote] = useState<string>("");
   const [discountPercent, setDiscount] = useState<string>("");
@@ -60,7 +59,6 @@ function CreateModal(props: IProps) {
       setErrors(validationErrors);
       return;
     }
-
     try {
       const room: IRoom = {
         roomId: 0,
@@ -76,17 +74,17 @@ function CreateModal(props: IProps) {
       };
 
       const createdRoom = await roomService.createRoom(room);
-      if (createdRoom != null) {
-        console.log("Room created:", createdRoom);
-        toast.success("Create success");
-        handleCloseModal();
+
+      if (typeof createdRoom === "string") {
+        toast.success(createdRoom);
       } else {
-        console.log("Failed to create room");
-        toast.error("Failed to create room");
+        toast.success("Create Tour Success");
       }
+      handleCloseModal();
+      mutate("listRoom");
     } catch (error) {
-      console.error("Error creating room:", error);
-      toast.error("Error creating room");
+      toast.error("Failed to create tour");
+      console.error(error);
     }
   };
 
@@ -233,4 +231,4 @@ function CreateModal(props: IProps) {
   );
 }
 
-export default CreateModal;
+export default CreateRoom;

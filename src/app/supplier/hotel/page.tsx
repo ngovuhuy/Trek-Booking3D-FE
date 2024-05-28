@@ -80,7 +80,6 @@ const HotelListOfSupplier = () => {
 
   //Update
 
-
   //Delete
   const handleDeleteHotel = async (hotelId: number) => {
     try {
@@ -127,8 +126,12 @@ const HotelListOfSupplier = () => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem" onClick={() => setShowHotelCreate(true)}>+ Add hotel</button>
-        
+        <button
+          className="ml-8 button-add ml-4rem"
+          onClick={() => setShowHotelCreate(true)}
+        >
+          + Add hotel
+        </button>
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -265,7 +268,6 @@ const HotelListOfSupplier = () => {
    setHotel = {setHotel}
    />
     </div>
-    
   );
 };
 

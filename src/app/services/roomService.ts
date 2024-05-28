@@ -2,6 +2,7 @@ interface IRoomService {
     getRoomsByHotelId(hotelId: number): Promise<IRoom[]>;
     createRoom(room: IRoom): Promise<IRoom>;
     getRoomById(roomId: number): Promise<IRoom[]>;
+    updateRoom(room: IRoom):Promise<IRoom>;
 }
 
 const roomService: IRoomService = {
@@ -70,21 +71,65 @@ const roomService: IRoomService = {
               headers: {
                 Accept: "application/json, text/plain, */*",
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+                Authorization: `Bearer ${localStorage.getItem("token")}`, 
               },
               body: JSON.stringify(room),
             }
           );
+      
           if (!response.ok) {
             throw new Error("Failed to create Room");
           }
-          const data = await response.json();
-          console.log(data); // Trigger refetch after fetching
+      
+          const contentType = response.headers.get("Content-Type");
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+          } else {
+            data = await response.text();
+          }
+      
+          console.log(data);
           return data;
         } catch (error) {
           console.error("Error creating room:", error);
           throw error;
         }
       },
+      async updateRoom(room) {
+        try {
+          const response = await fetch(
+            `https://localhost:7132/updateRoom`,
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`, 
+              },
+              body: JSON.stringify(room),
+            }
+          );
+      
+          if (!response.ok) {
+            throw new Error("Failed to update Room");
+          }
+      
+          const contentType = response.headers.get("Content-Type");
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+          } else {
+            data = await response.text();
+          }
+      
+          console.log(data);
+          return data;
+        } catch (error) {
+          console.error("Error update room:", error);
+          throw error;
+        }
+      },
+      
 }
 export default roomService;
