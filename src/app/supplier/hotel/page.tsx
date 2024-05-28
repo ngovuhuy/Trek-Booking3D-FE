@@ -47,7 +47,6 @@ const HotelListOfSupplier = () => {
 
   //Update
 
-
   //Delete
   const handleDeleteHotel = async (hotelId: number) => {
     try {
@@ -94,8 +93,12 @@ const HotelListOfSupplier = () => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem" onClick={() => setShowHotelCreate(true)}>+ Add hotel</button>
-        
+        <button
+          className="ml-8 button-add ml-4rem"
+          onClick={() => setShowHotelCreate(true)}
+        >
+          + Add hotel
+        </button>
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -182,7 +185,16 @@ const HotelListOfSupplier = () => {
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
                             <Link href="#">
-                              <img className="w-5 h-5 cursor-pointer" src="/image/pen.png" alt="Edit" onClick={() => {setHotelId(item.hotelId); setShowHotelUpdate(true); console.log("HotelID: "+ item.hotelId, item)}} />
+                              <img
+                                className="w-5 h-5 cursor-pointer"
+                                src="/image/pen.png"
+                                alt="Edit"
+                                onClick={() => {
+                                  setHotelId(item.hotelId);
+                                  setShowHotelUpdate(true);
+                                  console.log("HotelID: " + item.hotelId, item);
+                                }}
+                              />
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
@@ -211,18 +223,17 @@ const HotelListOfSupplier = () => {
         </div>
       </div>
       <CreateHotel
-   showHotelCreate={showHotelCreate}
-   setShowHotelCreate={setShowHotelCreate}
-   onCreate={handleCreateHotel} // Thêm callback để xử lý sau khi tạo
-   />
-   <UpdateHotel
-   showHotelUpdate={showHotelUpdate}
-   setShowHotelUpdate={setShowHotelUpdate}
-   onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
-   ThishotelId={HotelId}
-   />
+        showHotelCreate={showHotelCreate}
+        setShowHotelCreate={setShowHotelCreate}
+        onCreate={handleCreateHotel} // Thêm callback để xử lý sau khi tạo
+      />
+      <UpdateHotel
+        showHotelUpdate={showHotelUpdate}
+        setShowHotelUpdate={setShowHotelUpdate}
+        onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
+        ThishotelId={HotelId}
+      />
     </div>
-    
   );
 };
 
