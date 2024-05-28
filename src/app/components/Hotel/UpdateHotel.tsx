@@ -69,9 +69,9 @@ function UpdateHotel(props: Iprops) {
       setHotelPhone(hotel.hotelPhone);
       setHotelEmail(hotel.hotelEmail);
       setHotelFullDescription(hotel.hotelFulDescription);
-      setHotelDistrict(hotelDistrict);
-      setHotelCity(hotelCity);
-      setHotelInformation(hotelInformation);
+      setHotelDistrict(hotel.hotelDistrict);
+      setHotelCity(hotel.hotelCity);
+      setHotelInformation(hotel.hotelInformation);
       setShowHotelUpdate(false);
     }
 },[hotel])

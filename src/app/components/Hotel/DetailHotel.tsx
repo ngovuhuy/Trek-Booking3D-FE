@@ -47,7 +47,7 @@ useEffect(() => {
       setShowHotelDetail(false);
     }
 },[hotel])
-
+console.log("List Hotel" + hotel)
 
 
  const handleClosedDetail = () => {
