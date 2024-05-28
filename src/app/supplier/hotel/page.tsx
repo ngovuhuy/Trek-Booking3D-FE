@@ -54,21 +54,21 @@ const HotelListOfSupplier = () => {
       await hotelService.deleteHotel(hotelId);
       // Load lại dữ liệu từ API
       const supplierId = localStorage.getItem("supplierId");
-    if (supplierId) {
-      hotelService
-        .getHotelsBySuppierId(Number(supplierId))
-        .then((data: any) => {
-          setHotelList(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching hotel list:", error);
-          setError(error);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
+      if (supplierId) {
+        hotelService
+          .getHotelsBySuppierId(Number(supplierId))
+          .then((data: any) => {
+            setHotelList(data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching hotel list:", error);
+            setError(error);
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+      }
       alert("Hotel deleted successfully");
     } catch (error) {
       console.error("Error deleting hotel:", error);
@@ -134,30 +134,50 @@ const HotelListOfSupplier = () => {
                   <tbody>
                     {hotelList.length > 0 ? (
                       hotelList.map((item: IHotel, index) => (
-                        <tr key={index} className="border-b border-neutral-200 dark:border-white/10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">{item.hotelId}</td>
-                          <td className="whitespace-nowrap px-6 py-4 font-semibold">{item.hotelName}</td>
+                        <tr
+                          key={index}
+                          className="border-b border-neutral-200 dark:border-white/10"
+                        >
+                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                            {item.hotelId}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            {item.hotelName}
+                          </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link href="#">
                               <img src="/image/avatar.png" alt="Avatar" />
                             </Link>
                           </td>
-                          <td className={`whitespace-nowrap px-6 py-4 ${item.isVerify ? "color-active" : "color-stop"}`}>
+                          <td
+                            className={`whitespace-nowrap px-6 py-4 ${
+                              item.isVerify ? "color-active" : "color-stop"
+                            }`}
+                          >
                             {item.isVerify ? "Active" : "Stopped"}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link href="#">
-                              <img src="/image/managevoucher.png" alt="Manage Voucher" />
+                              <img
+                                src="/image/managevoucher.png"
+                                alt="Manage Voucher"
+                              />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link href={`/supplier/hotel/room/${item.hotelId}`}>
-                              <img src="/image/managevoucher.png" alt="Manage Room" />
+                              <img
+                                src="/image/managevoucher.png"
+                                alt="Manage Room"
+                              />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link href="#">
-                              <img src="/image/viewdetail.png" alt="View Detail" />
+                              <img
+                                src="/image/viewdetail.png"
+                                alt="View Detail"
+                              />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
@@ -175,7 +195,12 @@ const HotelListOfSupplier = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={8} className="text-center py-4 text-red-600 font-bold">No hotels found</td>
+                        <td
+                          colSpan={8}
+                          className="text-center py-4 text-red-600 font-bold"
+                        >
+                          No hotels found
+                        </td>
                       </tr>
                     )}
                   </tbody>
