@@ -4,10 +4,10 @@
 import React, { useEffect, useState } from "react";
 import roomService from "@/app/services/roomService";
 import Link from "next/link";
-import CreateModal from "./create";
+import CreateModal from "../../../../components/Room/create";
 import { useRouter } from "next/router";
 import { ToastContainer } from "react-bootstrap";
-import ViewDetailRoom from "./detail";
+import ViewDetailRoom from "../../../../components/Room/detail";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [listRoom, setRooms] = useState([]);
