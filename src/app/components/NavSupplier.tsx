@@ -95,7 +95,7 @@ const NavSupplier = () => {
             </li>
           </ul>
         </div>
-        <div className="border-solid border-t-2 border-white pt-3">
+        <div className="border-solid border-t-2 border-white">
           <Link
             href="/"
             className="bottom-logout flex justify-center items-center  no-underline text-white"

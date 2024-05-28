@@ -19,23 +19,25 @@ align-items: center;
     padding: 24px;
 }
 .inout-hide{
-    top: 135px;
+    top: 143px;
     position: absolute;
     left: 326px;
 }
 .input-hide{
-    top: 226px;
+    top: 239px;
     position: absolute;
     left: 326px;
 }
-.input-text{
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 6px 87px;
-    padding-left: 18px;
-    padding-right: 154px;
-    outline: none;
-}
+    .input-text {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 9px 6px;
+        padding-left: 12px;
+        width: 100%;
+      
+        outline: none;
+    }
+
 .continue{
     background: #ffffff;
     border: 1px solid #CCCCCC;

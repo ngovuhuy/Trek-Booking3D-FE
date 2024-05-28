@@ -34,6 +34,25 @@ margin-left: -8px;
 .mg-t-6{
     margin-top: 6px;
 }
+.button-kichhoat{
+    display: flex;
+    justify-content: end;
+  }
+.button-exit{
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 2px 26px;
+    border-radius: 9px;
+    color: #1F1C17;
+}  
+.button-yes{
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 2px 26px;
+    border-radius: 9px;
+    color: #FFFFFF;
+    background: #B8101A;
+}  
 @media all and (max-width: 768px) {
 .fix-768-tour{
     padding-top: 12px;

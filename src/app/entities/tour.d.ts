@@ -1,4 +1,4 @@
-interface ITour{
+export interface ITour{
     tourId: number;
     tourName: string;
     tourDescription: string;
