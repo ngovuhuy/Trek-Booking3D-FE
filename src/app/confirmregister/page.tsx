@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from '../../../node_modules/next/link'
 import '../../../public/css/authen.css'
 const page = () => {
   return (
@@ -30,11 +31,13 @@ const page = () => {
                             <img className='w-3 h-3' src="/image/check1.png" alt="" />
                             <p className='mb-0 ml-2 line-height-16'>Signing up is free and only takes 15 minutes</p>
                             </div>
-                            <div className="let-start pt-4">
+                         
                                
-                                <button className='btn-start-register'>Let's start</button>
+                              <Link className="let-start pt-4" href="signup_supplier">
+                              <button className='btn-start-register'>Let's start</button>
                                 <img className='right-but' src="/image/right.png" alt="" />
-                            </div>
+                              </Link>
+                            
                         </div>
                         </div>
                 </div>

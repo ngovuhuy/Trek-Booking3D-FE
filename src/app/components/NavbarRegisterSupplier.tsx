@@ -5,7 +5,7 @@ import Button from "../../../node_modules/react-bootstrap/esm/Button";
 import Image from "next/image";
 import { CiMenuBurger } from "react-icons/ci";
 import Link from "../../../node_modules/next/link";
-const Navbar = () => {
+const NavbarRegisterSupplier = () => {
   const [showSubMenu, setShowSubMenu] = useState(false);
   const handleClick = () => {
     // Đảo ngược trạng thái của submenu
@@ -71,18 +71,11 @@ const Navbar = () => {
                 />
                 <Link
                   className="no-underline text-accent font-bold"
-                  href="login_client"
+                  href="login_supplier"
                 >
-                  Log In /
-                </Link>
-                <Link
-                  className="no-underline text-accent font-bold"
-                  href="signup_client"
-                >
-                 Register 
+                     Log In
                 </Link>
               </li>
-              
             </ul>
           </div>
           <div
@@ -114,12 +107,12 @@ const Navbar = () => {
                 </li>
                 <li className="flex pb-4 hover-bold">
                   <img src="/image/users.png" alt="" className="pr-2" />
-                  <a
-                    href=""
+                  <Link
+                    href="login_supplier"
                     className="font-bold text-decoration-none text-accent"
                   >
-                    Log In/ Sign up
-                  </a>
+                    Log In
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -130,4 +123,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarRegisterSupplier;

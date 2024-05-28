@@ -1,7 +1,8 @@
 'use client'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-import Navbar from '../components/Navbar';
+
+import NavbarRegisterSupplier from '../components/NavbarRegisterSupplier';
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -10,7 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar/>
+        <NavbarRegisterSupplier />
                 {children}
         <ToastContainer/>
         </body>

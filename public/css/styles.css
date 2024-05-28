@@ -290,7 +290,13 @@ a {
   .listA {
     color: black;
   }
-  
+  .padding-tour-detail{
+    padding: 32px 42px;
+  }
+  .big-dot{
+    font-size: 3em;
+    line-height: 0px;
+  }
 @media all and (max-width: 1100px) {
   .cham {
     left: 48.6%;
