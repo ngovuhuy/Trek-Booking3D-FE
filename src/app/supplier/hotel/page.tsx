@@ -194,7 +194,7 @@ const HotelListOfSupplier = () => {
    showHotelUpdate={showHotelUpdate}
    setShowHotelUpdate={setShowHotelUpdate}
    onUpdate={handleUpdateHotel} // Thêm callback để xử lý sau khi tạo
-   ThishotelId={Number(setHotelId)}
+   ThishotelId={HotelId}
    />
     </div>
     
