@@ -59,7 +59,6 @@ const cart_tour = () => {
                     <img className='w-1/2' src="/image/tourdetail3.png" alt="" />
                     <img className='w-1/2' src="/image/tourdetail4.png" alt="" />
                     </div>
-                  
                   </div>
                 </div>
               </div>
