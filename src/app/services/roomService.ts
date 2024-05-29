@@ -1,5 +1,5 @@
 interface IRoomService {
-    getRoomsByHotelId(hotelId: number): Promise<IRoom[]>;
+    getRoomsByHotelId(hotelId: number): Promise<ITourImage[]>;
 }
 
 const roomService: IRoomService = {

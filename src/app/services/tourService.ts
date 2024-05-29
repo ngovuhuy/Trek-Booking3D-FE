@@ -3,11 +3,41 @@ import useSWR, { mutate } from 'swr';
 import { ITour } from '../entities/tour';
 interface ITourService {
     getToursBySuppierId(supplierId: number): Promise<ITour[]>;
+    getTourImageByTourId(tourId: number): Promise<ITourImage[]>;
+
   }
 
 
 
 export const tourService: ITourService = {
+  async getTourImageByTourId(tourId) {
+    console.log(tourId);
+    try {
+      const response = await fetch(
+        `https://localhost:7132/getTourImageByTourId/${tourId}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            // Include the token in the headers
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch room list");
+      }
+      const data = await response.json();
+      console.log(data); // Trigger refetch after fetching
+      return data;
+    } 
+    catch (error) {
+      console.error("Error fetching room list:", error);
+      throw error;
+    }
+  },
+
   async getToursBySuppierId(supplierId: number) {
     try {
       const response = await fetch(

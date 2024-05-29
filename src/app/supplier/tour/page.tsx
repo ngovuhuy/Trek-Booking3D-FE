@@ -85,12 +85,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                       <th scope="col" className="px-6 py-4">
                         Tour Time
                       </th>
-                      <th scope="col" className="px-6 py-4">
-                        Transportation
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Capacity
-                      </th>
+                
                       <th scope="col" className="px-6 py-4">
                         View Detail
                       </th>
@@ -130,14 +125,9 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
                               {formattedTourTime}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.tourTransportation}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.tourCapacity}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
+                           
+                            <td className="whitespace-nowrap px-6 py-4 flex justify-center">
+                              <Link href="#" className=''>
                                 <img
                                  onClick={() => {setTour(item); setShowTourDetail(true);}}
                                   src="/image/viewdetail.png"
@@ -146,7 +136,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                               </Link>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
+                            <Link className='flex justify-center' href={`/supplier/tour/tourImage/${item.tourId}`}>
                                 <img
                                   src="/image/managevoucher.png"
                                   alt="Manage Image"
