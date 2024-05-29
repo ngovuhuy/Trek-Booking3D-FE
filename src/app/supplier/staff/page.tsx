@@ -4,11 +4,20 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import supplierStaffService from "@/app/services/supplierStaffService";
+import CreateSupplierStaff from "@/app/components/Staff/CreateStaff";
+import UpdateSupplierStaff from "@/app/components/Staff/UpdateStaff";
+import { RollerShades } from "@mui/icons-material";
+import UpdateStaff from "@/app/components/Staff/UpdateStaff";
 
 const SupplierStaffList = () => {
   const [supplierStaffList, setSupplierStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showStaffCreate, setShowStaffCreate] = useState<boolean>(false);
+  const [showStaffUpdate, setShowStaffUpdate] = useState<boolean>(false);
+  const [StaffId, setStaffId] = useState(0);
+  const [RoleId, setRoleId] = useState(0);
+  const [SupplierStaff, setSupplierStaff] = useState<ISupplierStaff | null>(null);
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -29,6 +38,47 @@ const SupplierStaffList = () => {
     }
   }, []);
 
+  //reload sau khi add
+  const handleCreateStaff = async () => {
+    setShowStaffCreate(false);
+    const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      supplierStaffService
+        .getStaffsBySuppierId(Number(supplierId))
+        .then((data: any) => {
+          setSupplierStaffList(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching supplier staff list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateStaff = async () => {
+    setShowStaffUpdate(false);
+    const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      supplierStaffService
+        .getStaffsBySuppierId(Number(supplierId))
+        .then((data: any) => {
+          setSupplierStaffList(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching supplier staff list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -48,7 +98,12 @@ const SupplierStaffList = () => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem">+ Add staff</button>
+        <button
+          className="ml-8 button-add ml-4rem"
+          onClick={() => setShowStaffCreate(true)}
+        >
+          + Add staff
+        </button>
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -84,8 +139,6 @@ const SupplierStaffList = () => {
                   <tbody>
                     {supplierStaffList.length > 0 ? (
                       supplierStaffList.map((item: ISupplierStaff, index) => {
-                        
-
                         return (
                           <tr
                             key={index}
@@ -119,6 +172,11 @@ const SupplierStaffList = () => {
                                   className="w-5 h-5 cursor-pointer"
                                   src="/image/pen.png"
                                   alt="Edit"
+                                  onClick={() => {
+                                    setStaffId(item.staffId);
+                                    setSupplierStaff(item);
+                                    setShowStaffUpdate(true);                                    
+                                  }}
                                 />
                               </Link>
                               <img
@@ -143,6 +201,19 @@ const SupplierStaffList = () => {
                     )}
                   </tbody>
                 </table>
+                <CreateSupplierStaff
+                  showStaffCreate={showStaffCreate}
+                  setShowStaffCreate={setShowStaffCreate}
+                  onCreate={handleCreateStaff}
+                />
+                <UpdateStaff
+                  showSupplierStaffUpdate={showStaffUpdate}
+                  setShowStaffUpdate={setShowStaffUpdate}
+                  onUpdate={handleUpdateStaff} // Thêm callback để xử lý sau khi tạo
+                  ThisstaffId={StaffId}                  
+                  supplierStaff={SupplierStaff}
+                  setSupplierStaff={setSupplierStaff}
+                />
               </div>
             </div>
           </div>
