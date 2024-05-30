@@ -92,12 +92,7 @@ const TourList = () => {
                       <th scope="col" className="px-6 py-4">
                         Tour Time
                       </th>
-                      <th scope="col" className="px-6 py-4">
-                        Transportation
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Capacity
-                      </th>
+                
                       <th scope="col" className="px-6 py-4">
                         View Detail
                       </th>
@@ -137,14 +132,9 @@ const TourList = () => {
                             <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {formattedTourTime}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
-                              {item.tourTransportation}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
-                              {item.tourCapacity}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
+                           
+                            <td className="whitespace-nowrap px-6 py-4 flex justify-center">
+                              <Link href="#" className=''>
                                 <img
                                   onClick={() => {
                                     setTour(item);
@@ -156,7 +146,7 @@ const TourList = () => {
                               </Link>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-                              <Link href="#">
+                            <Link className='flex justify-center' href={`/supplier/tour/tourImage/${item.tourId}`}>
                                 <img
                                   src="/image/managevoucher.png"
                                   alt="Manage Image"

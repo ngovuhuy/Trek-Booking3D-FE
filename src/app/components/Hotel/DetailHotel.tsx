@@ -44,13 +44,13 @@ useEffect(() => {
       setHotelDistrict(hotelDistrict);
       setHotelCity(hotelCity);
       setHotelInformation(hotelInformation);
-      setShowHotelDetail(false);
     }
 },[hotel])
 console.log("List Hotel" + hotel)
 
 
  const handleClosedDetail = () => {
+  setHotel(null);
   setShowHotelDetail(false)
  }
  return (

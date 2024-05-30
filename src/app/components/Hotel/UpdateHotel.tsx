@@ -83,7 +83,7 @@ function UpdateHotel(props: Iprops) {
       setHotelDistrict(hotel.hotelDistrict);
       setHotelCity(hotel.hotelCity);
       setHotelInformation(hotel.hotelInformation);
-      setShowHotelUpdate(false);
+      
     }
   }, [hotel]);
   console.log("List Hotel" + hotel);
@@ -96,6 +96,7 @@ function UpdateHotel(props: Iprops) {
     setHotelDistrict("");
     setHotelCity("");
     setHotelInformation("");
+    setHotel(null);
     setShowHotelUpdate(false);
   };
 

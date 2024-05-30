@@ -297,6 +297,20 @@ a {
     font-size: 3em;
     line-height: 0px;
   }
+  .btn-exit-tour{
+    color: #1F1C17;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    padding: 0px 28px;
+    border-radius: 8px;
+  }
+  .btn-save-tour{
+    color: #FFFFFF;
+    background: #305A61;
+    border: 1px solid #305A61;
+    padding: 0px 24px;
+    border-radius: 8px;
+  }
 @media all and (max-width: 1100px) {
   .cham {
     left: 48.6%;
