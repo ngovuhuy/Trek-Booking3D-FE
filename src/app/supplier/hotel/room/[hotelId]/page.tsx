@@ -8,20 +8,37 @@ import useSWR from "swr";
 import CreateModal from "@/app/components/Room/CreateRoom";
 import CreateRoom from "@/app/components/Room/CreateRoom";
 import UpdateRoom from "@/app/components/Room/UpdateRoom";
-import { Room } from "@mui/icons-material";
+import { Hotel, Room } from "@mui/icons-material";
 import DetailRoom from "@/app/components/Room/DetailRoom";
+import hotelService from "@/app/services/hotelService";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
   const [showRoomUpdate, setShowRoomUpdate] = useState<boolean>(false);
   const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
-
   const [RoomId, setRoomId] = useState(0);
 
   const [Room, setRoom] = useState<IRoom | null>(null);
+  const [hotel, setHotel] = useState<IHotel | null>(null);
+
   const { data: listRoom, error } = useSWR("listRoom", () =>
     roomService.getRoomsByHotelId(Number(params.hotelId))
   );
+
+  useEffect(() => {
+    const fetchHotel = async () => {
+      try {
+        const hotelData = await hotelService.getHotelById(
+          Number(params.hotelId)
+        );
+        setHotel(hotelData);
+      } catch (error) {
+        console.error("Error fetching hotel details:", error);
+      }
+    };
+
+    fetchHotel();
+  }, [params.hotelId]);
 
   if (!listRoom) {
     return <div>Loading...</div>;
@@ -32,7 +49,32 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   }
   return (
     <div className="relative">
-      <div className="search-add ">
+      <div className="search-add">
+        {hotel && (
+          <div className="breadcrumb">
+            <a
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </a>
+
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+
+            <span style={{ color: "blue", fontSize: "18px" }}>
+              {hotel.hotelName}
+            </span>
+          </div>
+        )}
         <div className="search-hotel flex">
           <input
             type="text"
@@ -48,6 +90,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
           + Add room
         </button>
       </div>
+
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
           <div className="sm:-mx-6 lg:-mx-8">

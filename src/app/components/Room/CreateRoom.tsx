@@ -32,15 +32,10 @@ function CreateRoom(props: IProps) {
     if (!roomName) newErrors.roomName = "Room Name is required";
     if (!roomAvailable || isNaN(parseInt(roomAvailable)))
       newErrors.roomAvailable = "Available must be a number";
-    if (!roomNote) newErrors.roomNote = "Note is required";
     if (!roomPrice || isNaN(parseFloat(roomPrice)))
       newErrors.roomPrice = "Price must be a number";
-    // if (isNaN(parseFloat(discountPercent)))
-    //   newErrors.discountPercent = "Discount Percent must be a number";
     if (!roomCapacity || isNaN(parseInt(roomCapacity)))
       newErrors.roomCapacity = "Capacity must be a number";
-    if (!roomDescription) newErrors.roomDescription = "Description is required";
-
     return newErrors;
   };
 
@@ -62,17 +57,20 @@ function CreateRoom(props: IProps) {
       setErrors(validationErrors);
       return;
     }
+    const discount = discountPercent ? parseFloat(discountPercent) : 0;
+    const note = roomNote ? roomNote : "";
+    const description = roomDescription ? roomDescription : "";
     try {
       const room: IRoom = {
         roomId: 0,
         roomName,
-        roomNote,
+        roomNote: note,
         roomStatus: true,
         roomAvailable: parseInt(roomAvailable),
         roomPrice: parseFloat(roomPrice),
         roomCapacity: parseInt(roomCapacity),
-        discountPercent: parseFloat(discountPercent),
-        roomDescription,
+        discountPercent: discount,
+        roomDescription: description,
         hotelId: Number(hotelId),
       };
 

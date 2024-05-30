@@ -55,6 +55,15 @@
   justify-content: flex-end;
   align-items: center;
 }
+.breadcrumb{
+  left: 396px;
+  top: 145px;
+  width: 60%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .input-hotel {
   outline: none;
   border: 1px solid #ccc;
