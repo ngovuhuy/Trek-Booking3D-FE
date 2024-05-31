@@ -94,7 +94,7 @@ const handleSubmit = async () => {
             <Form.Control type="text" placeholder="Please enter tour name !!!" value={tourName} onChange={(e) => setTourName(e.target.value)} />
           </Form.Group>
           <Form.Group className="mb-3 col-6" controlId="tourTime">
-                            <Form.Label>Tour Time</Form.Label>
+                            <Form.Label>Time</Form.Label>
                             <Form.Control type="date" placeholder="Please enter tour time" value={tourTime} onChange={(e) => setTourTime(e.target.value)} />
                         </Form.Group>
                         <Form.Group className="mb-3 col-6" controlId="tourTransportation">
@@ -103,24 +103,24 @@ const handleSubmit = async () => {
           </Form.Group>
           
           <Form.Group className="mb-3 col-3" controlId="tourPrice">
-            <Form.Label>Tour Price</Form.Label>
+            <Form.Label>Price</Form.Label>
             <Form.Control type="number" placeholder="Please enter tour price !!!" value={tourPrice} onChange={(e) => setTourPrice(parseFloat(e.target.value))} />
           </Form.Group>
           <Form.Group className="mb-3 col-3" controlId="tourPrice">
-            <Form.Label>Tour Discount</Form.Label>
+            <Form.Label>Discount</Form.Label>
             <Form.Control type="number" placeholder="Please enter tour discount !!!" value={tourDiscount} onChange={(e) => setTourDiscount(parseFloat(e.target.value))} />
           </Form.Group>
           <Form.Group className="mb-3 col-6" controlId="tourAddress">
-            <Form.Label>Tour Address</Form.Label>
+            <Form.Label>Address</Form.Label>
             <Form.Control type="text" placeholder="Please enter tour address !!!" value={tourAddress} onChange={(e) => setTourAddress(e.target.value)} />
           </Form.Group>
           
           <Form.Group className="mb-3 col-6" controlId="tourCapacity">
-            <Form.Label>Tour Capacity</Form.Label>
+            <Form.Label>Capacity</Form.Label>
             <Form.Control type="number" placeholder="Please enter tour capacity !!!" value={tourCapacity} onChange={(e) => setTourCapacity(parseInt(e.target.value))} />
           </Form.Group>
           <Form.Group className="mb-3 col-9" controlId="tourDescription">
-  <Form.Label>Tour Description</Form.Label>
+  <Form.Label>Description</Form.Label>
   <Form.Control
     as="textarea"
     rows={3}

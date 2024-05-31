@@ -90,7 +90,7 @@ useEffect(() => {
       <p>{tourPrice}$</p>
     </Form.Group>
     <Form.Group className="mb-3 col-3" controlId="tourDiscount">
-      <Form.Label className="font-bold text-xl">Tour Discount</Form.Label>
+      <Form.Label className="font-bold text-xl">Discount</Form.Label>
       <p>{tourDiscount}$</p>
     </Form.Group>
     <Form.Group className="mb-3 col-6" controlId="tourAddress">
