@@ -35,14 +35,10 @@ function UpdateRoom(props: IProps) {
     if (!roomName) newErrors.roomName = "Room Name is required";
     if (!roomAvailable || isNaN(parseInt(roomAvailable)))
       newErrors.roomAvailable = "Available must be a number";
-    if (!roomNote) newErrors.roomNote = "Note is required";
     if (!roomPrice || isNaN(parseFloat(roomPrice)))
       newErrors.roomPrice = "Price must be a number";
-    if (!discountPercent || isNaN(parseFloat(discountPercent)))
-      newErrors.discountPercent = "Discount Percent must be a number";
     if (!roomCapacity || isNaN(parseInt(roomCapacity)))
       newErrors.roomCapacity = "Capacity must be a number";
-    if (!roomDescription) newErrors.roomDescription = "Description is required";
     return newErrors;
   };
 
@@ -72,6 +68,10 @@ function UpdateRoom(props: IProps) {
     }
   }, [room]);
 
+  const discount = discountPercent ? parseFloat(discountPercent) : 0;
+  const note = roomNote ? roomNote : "";
+  const description = roomDescription ? roomDescription : "";
+
   const handleSubmit = async () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -82,13 +82,13 @@ function UpdateRoom(props: IProps) {
       const room: IRoom = {
         roomId: Number(roomId),
         roomName,
-        roomNote,
+        roomNote: note,
         roomStatus: true,
         roomAvailable: parseInt(roomAvailable),
         roomPrice: parseFloat(roomPrice),
         roomCapacity: parseInt(roomCapacity),
-        discountPercent: parseFloat(discountPercent),
-        roomDescription,
+        discountPercent: discount,
+        roomDescription: description,
         hotelId: Number(hotelId),
       };
 
@@ -159,7 +159,6 @@ function UpdateRoom(props: IProps) {
                   type="text"
                   value={roomNote}
                   onChange={(e) => setNote(e.target.value)}
-                  // isInvalid={!!errors.roomNote}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.roomNote}
@@ -189,7 +188,6 @@ function UpdateRoom(props: IProps) {
                   type="text"
                   value={discountPercent}
                   onChange={(e) => setDiscount(e.target.value)}
-                  //isInvalid={!!errors.discountPercent}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.discountPercent}
@@ -220,7 +218,6 @@ function UpdateRoom(props: IProps) {
                   rows={3}
                   value={roomDescription}
                   onChange={(e) => setDescription(e.target.value)}
-                  //isInvalid={!!errors.roomDescription}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.roomDescription}

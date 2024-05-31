@@ -1,5 +1,6 @@
 interface IHotelService {
   getHotelsBySuppierId(supplierId: number): Promise<IHotel[]>;
+  getHotelById(hotelId: number): Promise<IHotel>;
   createHotel(hotel: IHotel): Promise<IHotel>;
   updateHotel(hotel: Partial<IHotel>): Promise<IHotel>;
   deleteHotel(hotelId: number): Promise<void>;
@@ -30,6 +31,33 @@ const hotelService: IHotelService = {
     } 
     catch (error) {
       console.error("Error fetching hotel list:", error);
+      throw error;
+    }
+  },
+
+  async getHotelById(hotelId) {
+    console.log(hotelId);
+    try {
+      const response = await fetch(
+        `https://localhost:7132/getHotelById/${hotelId}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch hotel details");
+      }
+      const data: IHotel = await response.json(); // Ensure the returned data is a single hotel object
+      console.log(data); // Trigger refetch after fetching
+      return data;
+    } 
+    catch (error) {
+      console.error("Error fetching hotel details:", error);
       throw error;
     }
   },

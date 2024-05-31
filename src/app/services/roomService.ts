@@ -41,7 +41,7 @@ const roomService: IRoomService = {
           const response = await fetch(
             `https://localhost:7132/deleteRoom/${roomId}`,
             {
-              method: "GET",
+              method: "PUT",
               headers: {
                 Accept: "application/json, text/plain, */*",
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const roomService: IRoomService = {
           const response = await fetch(
             `https://localhost:7132/recoverRoomDeleted/${roomId}`,
             {
-              method: "GET",
+              method: "PUT",
               headers: {
                 Accept: "application/json, text/plain, */*",
                 "Content-Type": "application/json",

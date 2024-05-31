@@ -84,26 +84,24 @@ const SupplierStaffList = () => {
                   <tbody>
                     {supplierStaffList.length > 0 ? (
                       supplierStaffList.map((item: ISupplierStaff, index) => {
-                        
-
                         return (
                           <tr
                             key={index}
                             className="border-b border-neutral-200 dark:border-white/10"
                           >
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                               {item.staffId}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {item.staffName}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {item.staffPhoneNumber}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {item.staffEmail}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {item.staffAddress}
                             </td>
                             <td
