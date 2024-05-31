@@ -44,7 +44,6 @@ useEffect(() => {
       setHotelDistrict(hotelDistrict);
       setHotelCity(hotelCity);
       setHotelInformation(hotelInformation);
-      setShowHotelDetail(false);
     }
 },[hotel])
 console.log("List Hotel" + hotel)
