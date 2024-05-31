@@ -38,6 +38,9 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
   else if (pathname === '/supplier/room') {
     currentTitle = 'Room';
   }
+ else if (pathname.match(/^\/supplier\/tour\/tourImage\/\d+$/)) {
+  currentTitle = 'Tour Image';
+}
   const handleCloseMenuClick = () => {
     setDivVisible(false);
   };

@@ -50,6 +50,7 @@ console.log("List Hotel" + hotel)
 
 
  const handleClosedDetail = () => {
+  setHotel(null);
   setShowHotelDetail(false)
  }
  return (
