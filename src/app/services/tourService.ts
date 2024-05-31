@@ -65,22 +65,20 @@ export const tourService: ITourService = {
 
 export const revalidateTours = () => mutate(tourService.getToursBySuppierId);
   
-  export const createTour = async (tourName: string, tourDescription: string,tourPrice:number,tourAddress:string,tourTime:string,tourTransportation:string,tourCapacity:number,status:boolean,supplierId:number) => {
+  export const createTour = async (tourName: string, tourDescription: string,tourPrice:number,tourAddress:string,tourTime:string,tourTransportation:string,tourCapacity:number,tourDiscount:number,status:boolean,supplierId:number) => {
     const response = await fetch('https://localhost:7132/createTour', {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ tourName, tourDescription, tourPrice,tourAddress,tourTime,tourTransportation,tourCapacity,status,supplierId})
+      body: JSON.stringify({ tourName, tourDescription, tourPrice,tourAddress,tourTime,tourTransportation,tourCapacity,status,supplierId,tourDiscount})
     });
   
     if (!response.ok) {
       throw new Error('Failed to create tour');
     }
-    // Nếu tạo tour thành công, gọi revalidateTours với supplierId
-    // window.location.reload()
-    // mutate("tourList")
+
     const contentType = response.headers.get('Content-Type');
     if (contentType && contentType.includes('application/json')) {
       return response.json();
@@ -88,21 +86,21 @@ export const revalidateTours = () => mutate(tourService.getToursBySuppierId);
       return response.text(); // Handle non-JSON response
     }
   };
-  export const updateTour = async (tourId:number,tourName: string, tourDescription: string,tourPrice:number,tourAddress:string,tourTime:string,tourTransportation:string,tourCapacity:number,status:boolean,supplierId:number) => {
+  export const updateTour = async (tourId:number,tourName: string, tourDescription: string,tourPrice:number,tourAddress:string,tourTime:string,tourTransportation:string,tourCapacity:number,tourDiscount:number,status:boolean,supplierId:number) => {
     const response = await fetch('https://localhost:7132/updateTour', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({tourId, tourName, tourDescription, tourPrice,tourAddress,tourTime,tourTransportation,tourCapacity,status,supplierId})
+      body: JSON.stringify({tourId, tourName, tourDescription, tourPrice,tourAddress,tourTime,tourTransportation,tourCapacity,tourDiscount,status,supplierId})
     });
   
     if (!response.ok) {
       throw new Error('Failed to update tour');
     }
-    // Nếu tạo tour thành công, gọi revalidateTours với supplierId
-    // window.location.reload()
+
+
     // mutate("tourList")
     const contentType = response.headers.get('Content-Type');
     if (contentType && contentType.includes('application/json')) {

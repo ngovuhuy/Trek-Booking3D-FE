@@ -75,7 +75,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
               <div className="overflow-x-auto">
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
-                    <tr>
+                    <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
                         TourId
                       </th>
@@ -86,10 +86,10 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                         Tour Time
                       </th>
                 
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         View Detail
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Manage Image
                       </th>
                       <th scope="col" className="px-6 py-4">
@@ -114,7 +114,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                         return (
                           <tr
                             key={index}
-                            className="border-b border-neutral-200 dark:border-white/10"
+                            className="border-b border-neutral-200 dark:border-white/10 text-center"
                           >
                             <td className="whitespace-nowrap px-6 py-4 font-medium">
                               {item.tourId}
@@ -150,7 +150,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                             >
                               {item.status ? "Active" : "Stopped"}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 flex">
+                            <td className="whitespace-nowrap px-6 py-4 flex justify-center">
                             
                                 <img
                                   className="w-7 h-5 cursor-pointer"
