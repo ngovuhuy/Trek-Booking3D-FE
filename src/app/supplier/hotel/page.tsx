@@ -193,7 +193,9 @@ const HotelListOfSupplier = () => {
                             {item.isVerify ? "Active" : "Stopped"}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link href="#">
+                            <Link
+                              href={`/supplier/hotel/voucher/${item.hotelId}`}
+                            >
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Voucher"
@@ -237,7 +239,7 @@ const HotelListOfSupplier = () => {
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
-                              src="/image/unlock.png"
+                              src="/image/lock.png"
                               alt="Delete"
                               onClick={() => handleDeleteHotel(item.hotelId)}
                             />
