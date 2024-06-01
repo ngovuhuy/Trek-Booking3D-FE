@@ -60,6 +60,7 @@ function CreateRoom(props: IProps) {
     const discount = discountPercent ? parseFloat(discountPercent) : 0;
     const note = roomNote ? roomNote : "";
     const description = roomDescription ? roomDescription : "";
+
     try {
       const room: IRoom = {
         roomId: 0,

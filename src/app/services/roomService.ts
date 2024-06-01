@@ -1,8 +1,8 @@
 interface IRoomService {
     getRoomsByHotelId(hotelId: number): Promise<IRoom[]>;
     createRoom(room: IRoom): Promise<IRoom>;
-    deleteRoom(roomId: number): Promise<IRoom[]>;
-    recoverRoomDeleted(roomId: number): Promise<IRoom[]>;
+    deleteRoom(roomId: number):Promise<IRoom>;
+    recoverRoomDeleted(roomId: number): Promise<IRoom>;
     updateRoom(room: IRoom):Promise<IRoom>;
 }
 

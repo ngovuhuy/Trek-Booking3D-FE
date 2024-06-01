@@ -3,7 +3,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import hotelService from "@/app/services/hotelService";
 import voucherService from "@/app/services/voucherService";
 import CreateVoucher from "@/app/components/Voucher/CreateVoucher";
@@ -35,6 +35,28 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
 
     fetchHotel();
   }, [params.hotelId]);
+
+  const checkAndUpdateVoucherStatus = async () => {
+    const currentDate = new Date();
+
+    if (listVoucher) {
+      for (let voucher of listVoucher) {
+        const expireDateObj = new Date(voucher.expireDate);
+
+        if (expireDateObj < currentDate && voucher.voucherStatus) {
+          voucher.voucherStatus = false;
+          await voucherService.updateVoucher(voucher);
+          mutate("listVoucher");
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (listVoucher && listVoucher.length > 0) {
+      checkAndUpdateVoucherStatus();
+    }
+  }, [listVoucher]);
 
   if (!listVoucher) {
     return <div>Loading...</div>;
@@ -183,10 +205,6 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                                     setVoucherId(item.voucherId);
                                     setVoucher(item);
                                     setShowVoucherUpdate(true);
-                                    console.log(
-                                      "VoucherId: " + item.voucherId,
-                                      item
-                                    );
                                   }}
                                 />
                               </Link>
