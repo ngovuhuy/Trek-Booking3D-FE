@@ -11,10 +11,11 @@ interface Iprops {
   setShowTourImageCreate: (value: boolean) => void;
   onCreate: () => void;
   tourId: number;
+  listTourImage: number;
 }
 
 function CreateTourImage(props: Iprops) {
-  const { showTourImageCreate, setShowTourImageCreate, onCreate, tourId } = props;
+  const { showTourImageCreate, setShowTourImageCreate, onCreate, tourId, listTourImage } = props;
   const [fileUploads, setFileUploads] = useState<File[]>([]);
   const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
   const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
@@ -63,6 +64,11 @@ function CreateTourImage(props: Iprops) {
       toast.error("Please choose at least one image!!!");
       return;
     }
+    if (fileUploads.length + listTourImage > 6) {
+      toast.error("You can only add up to 6 images for this tour.");
+      return;
+    }
+
 
     try {
       const imageURLs = await uploadImages();

@@ -1,19 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
-// pages/room/[hotelId].tsx
 "use client";
 import React, { useEffect, useState } from "react";
-
-import Link from "next/link";
 import tourService from "@/app/services/tourService";
 import CreateTourImage from "@/app/components/TourImages/CreateTourImage";
-import { ITour } from "@/app/entities/tour";
 import tourImageService from "@/app/services/tourImageService";
 import { ref, deleteObject } from "firebase/storage";
 import { analytics } from "../../../../../../public/firebase/firebase-config";
 
 const ListTourImage = ({ params }: { params: { tourId: string } }) => {
-  const [showTourImageCreate, setShowTourImageCreate] =
-    useState<boolean>(false);
+  const [showTourImageCreate, setShowTourImageCreate] = useState<boolean>(false);
   const [listTourImage, setTourImage] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +23,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching room list:", error);
+          console.error("Error fetching tour images:", error);
           setError(error);
           setLoading(false);
         });
@@ -45,7 +39,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching room list:", error);
+          console.error("Error fetching tour images:", error);
           setError(error);
           setLoading(false);
         });
@@ -57,7 +51,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
       handleDeleteTourImage(tourImageId, imageUrl);
     }
   };
-  //delete in firebase
+
   const deleteImageFromStorage = async (imageUrl: string) => {
     try {
       const storageRef = ref(analytics, imageUrl);
@@ -65,11 +59,9 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
       console.log("Image deleted successfully from Firebase Storage");
     } catch (error) {
       console.error("Error deleting image from Firebase Storage:", error);
-      // Không throw error để đoạn mã tiếp theo vẫn được thực hiện
     }
   };
-  
-//delete in database
+
   const handleDeleteTourImage = async (tourImageId: number, imageUrl: string) => {
     try {
       console.log("Deleting tour image with ID:", tourImageId);
@@ -77,7 +69,6 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
       await tourImageService.deleteTourImage(tourImageId);
       console.log("Tour image deleted successfully");
 
-      // Load lại dữ liệu từ API
       if (params.tourId) {
         tourService
           .getTourImageByTourId(Number(params.tourId))
@@ -94,9 +85,18 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
 
       alert("Tour image deleted successfully");
     } catch (error) {
-      // console.error("Error deleting tour image:", error);
-      // alert("Failed to delete tour image");
+      console.error("Error deleting tour image:", error);
+      alert("Failed to delete tour image");
     }
+  };
+
+  const handleAddImage = () => {
+    if (listTourImage.length >= 6) {
+      alert("You can only add up to 6 images for this tour.");
+      return;
+    }
+    setTourId(Number(params.tourId));
+    setShowTourImageCreate(true);
   };
 
   if (loading) {
@@ -104,11 +104,12 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
   }
 
   if (error) {
-    return <div>Error loading rooms</div>;
+    return <div>Error loading tour images</div>;
   }
+
   return (
     <div className="relative">
-      <div className="search-add ">
+      <div className="search-add">
         <div className="search-hotel flex">
           <input
             type="text"
@@ -117,13 +118,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button
-          className="ml-8 button-add ml-4rem"
-          onClick={() => {
-            setTourId(Number(params.tourId));
-            setShowTourImageCreate(true);
-          }}
-        >
+        <button className="ml-8 button-add ml-4rem" onClick={handleAddImage}>
           + Add Image Tour
         </button>
       </div>
@@ -167,12 +162,11 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
                               alt=""
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.onerror = null; // Ngăn chặn vòng lặp vô hạn nếu hình ảnh mặc định cũng bị lỗi
-                                target.src = "/image/imagedefault.png"; // Đường dẫn đến hình ảnh mặc định
+                                target.onerror = null;
+                                target.src = "/image/imagedefault.png";
                               }}
                             />
                           </td>
-                          {/* <td className="whitespace-nowrap px-6 py-4 font-semibold">{item.tour.tourName}</td> */}
                           <td className="whitespace-nowrap px-6 py-4 ">
                             <div className="flex justify-center">
                               <img
@@ -209,6 +203,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
         setShowTourImageCreate={setShowTourImageCreate}
         onCreate={handleCreateTourImage}
         tourId={tourId}
+        listTourImage={listTourImage.length}
       />
     </div>
   );
