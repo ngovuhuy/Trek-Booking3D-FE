@@ -83,7 +83,6 @@ function UpdateHotel(props: Iprops) {
       setHotelDistrict(hotel.hotelDistrict);
       setHotelCity(hotel.hotelCity);
       setHotelInformation(hotel.hotelInformation);
-      
     }
   }, [hotel]);
   console.log("List Hotel" + hotel);
@@ -107,6 +106,8 @@ function UpdateHotel(props: Iprops) {
         show={showHotelUpdate}
         onHide={() => handleCloseModal()}
         size="lg"
+        backdrop="static"
+        keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title>Update Hotel</Modal.Title>
