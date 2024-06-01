@@ -61,7 +61,7 @@ interface ITourImageService {
     async deleteTourImage(tourImageId) {
       try {
         const response = await fetch(
-          `https://localhost:7132/deleteRoomImage/${tourImageId}`,
+          `https://localhost:7132/deleteTourImage/${tourImageId}`,
           {
             method: "DELETE",
             headers: {

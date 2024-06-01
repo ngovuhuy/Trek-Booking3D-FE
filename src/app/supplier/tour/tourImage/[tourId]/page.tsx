@@ -7,6 +7,9 @@ import Link from "next/link";
 import tourService from "@/app/services/tourService";
 import CreateTourImage from "@/app/components/TourImages/CreateTourImage";
 import { ITour } from "@/app/entities/tour";
+import tourImageService from "@/app/services/tourImageService";
+import { ref, deleteObject } from "firebase/storage";
+import { analytics } from "../../../../../../public/firebase/firebase-config";
 
 const ListTourImage = ({ params }: { params: { tourId: string } }) => {
   const [showTourImageCreate, setShowTourImageCreate] =
@@ -15,6 +18,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tourId, setTourId] = useState(0);
+
   const handleCreateTourImage = async () => {
     setShowTourImageCreate(false);
     if (params.tourId) {
@@ -48,6 +52,52 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
     }
   }, [params.tourId]);
 
+  const deleteImageButtonHandler = (tourImageId: number, imageUrl: string) => {
+    if (confirm("Are you sure you want to delete this image?")) {
+      handleDeleteTourImage(tourImageId, imageUrl);
+    }
+  };
+  //delete in firebase
+  const deleteImageFromStorage = async (imageUrl: string) => {
+    try {
+      const storageRef = ref(analytics, imageUrl);
+      await deleteObject(storageRef);
+      console.log("Image deleted successfully from Firebase Storage");
+    } catch (error) {
+      console.error("Error deleting image from Firebase Storage:", error);
+      throw error;
+    }
+  };
+//delete in database
+  const handleDeleteTourImage = async (tourImageId: number, imageUrl: string) => {
+    try {
+      console.log("Deleting tour image with ID:", tourImageId);
+      await deleteImageFromStorage(imageUrl);
+      await tourImageService.deleteTourImage(tourImageId);
+      console.log("Tour image deleted successfully");
+
+      // Load lại dữ liệu từ API
+      if (params.tourId) {
+        tourService
+          .getTourImageByTourId(Number(params.tourId))
+          .then((data: any) => {
+            setTourImage(data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching tour images:", error);
+            setError(error);
+            setLoading(false);
+          });
+      }
+
+      alert("Tour image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting tour image:", error);
+      alert("Failed to delete tour image");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -70,7 +120,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
           className="ml-8 button-add ml-4rem"
           onClick={() => {
             setTourId(Number(params.tourId));
-            setShowTourImageCreate(true)
+            setShowTourImageCreate(true);
           }}
         >
           + Add Image Tour
@@ -135,9 +185,7 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
                                 src="/image/unlock.png"
                                 alt="Delete"
                                 onClick={() =>
-                                  console.log(
-                                    `Delete tour image ${item.tourImageId}`
-                                  )
+                                  deleteImageButtonHandler(item.tourImageId, item.tourImageURL)
                                 }
                               />
                             </div>
