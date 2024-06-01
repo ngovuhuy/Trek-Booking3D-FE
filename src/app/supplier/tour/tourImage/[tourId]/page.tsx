@@ -65,9 +65,10 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
       console.log("Image deleted successfully from Firebase Storage");
     } catch (error) {
       console.error("Error deleting image from Firebase Storage:", error);
-      throw error;
+      // Không throw error để đoạn mã tiếp theo vẫn được thực hiện
     }
   };
+  
 //delete in database
   const handleDeleteTourImage = async (tourImageId: number, imageUrl: string) => {
     try {
@@ -93,8 +94,8 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
 
       alert("Tour image deleted successfully");
     } catch (error) {
-      console.error("Error deleting tour image:", error);
-      alert("Failed to delete tour image");
+      // console.error("Error deleting tour image:", error);
+      // alert("Failed to delete tour image");
     }
   };
 
@@ -174,12 +175,6 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
                           {/* <td className="whitespace-nowrap px-6 py-4 font-semibold">{item.tour.tourName}</td> */}
                           <td className="whitespace-nowrap px-6 py-4 ">
                             <div className="flex justify-center">
-                              <img
-                                className="w-5 h-5 cursor-pointer"
-                                src="/image/pen.png"
-                                alt="Edit"
-                              />
-
                               <img
                                 className="w-5 h-5 cursor-pointer ml-3"
                                 src="/image/unlock.png"
