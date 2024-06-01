@@ -95,7 +95,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel name"
                 value={hotelName}
-                onChange={(e) => setHotelName(e.target.value)}
+                onChange={(e: any) => setHotelName(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelPhone">
@@ -104,7 +104,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel phone"
                 value={hotelPhone}
-                onChange={(e) => setHotelPhone(e.target.value)}
+                onChange={(e: any) => setHotelPhone(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelEmail">
@@ -113,7 +113,7 @@ function CreateHotel(props: Iprops) {
                 type="email"
                 placeholder="Please enter hotel email"
                 value={hotelEmail}
-                onChange={(e) => setHotelEmail(e.target.value)}
+                onChange={(e: any) => setHotelEmail(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelFullDescription">
@@ -122,7 +122,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel full description"
                 value={hotelFulDescription}
-                onChange={(e) => setHotelFullDescription(e.target.value)}
+                onChange={(e: any) => setHotelFullDescription(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelDistrict">
@@ -131,7 +131,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel district"
                 value={hotelDistrict}
-                onChange={(e) => setHotelDistrict(e.target.value)}
+                onChange={(e: any) => setHotelDistrict(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelCity">
@@ -140,7 +140,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel city"
                 value={hotelCity}
-                onChange={(e) => setHotelCity(e.target.value)}
+                onChange={(e: any) => setHotelCity(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formHotelInformation">
@@ -149,7 +149,7 @@ function CreateHotel(props: Iprops) {
                 type="text"
                 placeholder="Please enter hotel information"
                 value={hotelInformation}
-                onChange={(e) => setHotelInformation(e.target.value)}
+                onChange={(e: any) => setHotelInformation(e.target.value)}
               />
             </Form.Group>
           </Form>
