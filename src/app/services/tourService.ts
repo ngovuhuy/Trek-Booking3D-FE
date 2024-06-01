@@ -4,7 +4,7 @@ import { ITour } from '../entities/tour';
 interface ITourService {
     getToursBySuppierId(supplierId: number): Promise<ITour[]>;
     getTourImageByTourId(tourId: number): Promise<ITourImage[]>;
-
+    
   }
 
 
