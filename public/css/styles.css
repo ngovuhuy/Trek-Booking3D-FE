@@ -510,6 +510,9 @@ a {
   .text-small {
     font-size: 19px;
   }
+  .pright-repon{
+    padding-right: 5rem;
+  }
 }
 @media all and (max-width: 440px) {
   .input-search {
