@@ -4,18 +4,24 @@
 import React, { useEffect, useState } from "react";
 import roomService from "@/app/services/roomService";
 import Link from "next/link";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import CreateModal from "@/app/components/Room/CreateRoom";
 import CreateRoom from "@/app/components/Room/CreateRoom";
 import UpdateRoom from "@/app/components/Room/UpdateRoom";
 import { Hotel, Room } from "@mui/icons-material";
 import DetailRoom from "@/app/components/Room/DetailRoom";
 import hotelService from "@/app/services/hotelService";
+import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
   const [showRoomUpdate, setShowRoomUpdate] = useState<boolean>(false);
   const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [selectedRoom, setSelectedRoom] = useState<IRoom | null>(null);
+
+  const [loading, setLoading] = useState(false);
   const [RoomId, setRoomId] = useState(0);
 
   const [Room, setRoom] = useState<IRoom | null>(null);
@@ -25,6 +31,14 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
     roomService.getRoomsByHotelId(Number(params.hotelId))
   );
 
+  const handleImageClick = (room: IRoom) => {
+    setSelectedRoom(room);
+    setShowPopup(true);
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setSelectedRoom(null);
+  };
   useEffect(() => {
     const fetchHotel = async () => {
       try {
@@ -39,6 +53,39 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
 
     fetchHotel();
   }, [params.hotelId]);
+
+  const handleLockUnlockRoom = async (roomId: number, roomStatus: boolean) => {
+    setLoading(true);
+    try {
+      let response;
+      if (roomStatus) {
+        response = await roomService.deleteRoom(roomId);
+      } else {
+        response = await roomService.recoverRoomDeleted(roomId);
+      }
+      if (response) {
+        setShowPopup(false);
+        await mutate(
+          "listRoom",
+          roomService.getRoomsByHotelId(Number(params.hotelId)),
+          true
+        );
+        toast.success(
+          `Room ${roomStatus ? "locked" : "unlocked"} successfully`
+        );
+      } else {
+        throw new Error(`Failed to ${roomStatus ? "lock" : "unlock"} room`);
+      }
+    } catch (error) {
+      console.error(
+        `Error ${roomStatus ? "locking" : "unlocking"} room:`,
+        error
+      );
+      toast.error(`Failed to ${roomStatus ? "lock" : "unlock"} room`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!listRoom) {
     return <div>Loading...</div>;
@@ -199,12 +246,49 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                             <img
                               className="w-5 h-5 cursor-pointer ml-3"
-                              src="/image/lock.png"
-                              alt="Delete"
-                              onClick={() =>
-                                console.log(`Delete room ${item.roomId}`)
+                              onClick={() => handleImageClick(item)}
+                              src={
+                                item.roomStatus
+                                  ? "/image/lock.png"
+                                  : "/image/unlock.png"
                               }
+                              alt={item.roomStatus ? "Ban" : "Unban"}
                             />
+                            {showPopup &&
+                              selectedRoom?.roomId === item.roomId && (
+                                <div className="fixed inset-0 z-10 flex items-center justify-center">
+                                  <div
+                                    className="fixed inset-0 bg-black opacity-50"
+                                    onClick={handleClosePopup}
+                                  ></div>
+                                  <div className="relative bg-white p-8 rounded-lg">
+                                    <p className="color-black font-bold text-2xl">
+                                      Do you want to{" "}
+                                      {item.roomStatus ? "lock" : "unlock"} this{" "}
+                                      {item.roomName}?
+                                    </p>
+                                    <div className="button-kichhoat pt-4">
+                                      <Button
+                                        className="button-exit mr-2"
+                                        onClick={handleClosePopup}
+                                      >
+                                        Exit
+                                      </Button>
+                                      <Button
+                                        className="button-yes"
+                                        onClick={() =>
+                                          handleLockUnlockRoom(
+                                            item.roomId,
+                                            item.roomStatus
+                                          )
+                                        }
+                                      >
+                                        Yes
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                           </td>
                         </tr>
                       ))
