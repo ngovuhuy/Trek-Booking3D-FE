@@ -8,8 +8,13 @@ import CreateSupplierStaff from "@/app/components/Staff/CreateStaff";
 import UpdateSupplierStaff from "@/app/components/Staff/UpdateStaff";
 import { RollerShades } from "@mui/icons-material";
 import UpdateStaff from "@/app/components/Staff/UpdateStaff";
+import { toast } from "react-toastify";
+import console from "console";
+import { mutate } from "swr";
 
 const SupplierStaffList = () => {
+  const [showPopup, setShowPopup] = useState(false); 
+  const [selectStaff, setSelectedSupplierStaff] = useState<ISupplierStaff | null>(null);
   const [supplierStaffList, setSupplierStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,6 +23,15 @@ const SupplierStaffList = () => {
   const [StaffId, setStaffId] = useState(0);
   const [RoleId, setRoleId] = useState(0);
   const [SupplierStaff, setSupplierStaff] = useState<ISupplierStaff | null>(null);
+
+  const handleImageClick = (supplierStaff: ISupplierStaff) => {
+    setSelectedSupplierStaff(supplierStaff);
+    setShowPopup(true);
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setSelectedSupplierStaff(null);
+  };
 
   useEffect(() => {
     const supplierId = localStorage.getItem("supplierId");
@@ -85,8 +99,21 @@ const SupplierStaffList = () => {
 
   if (error) {
     return <div>Error loading supplier staff</div>;
-  }
-  console.log(supplierStaffList);
+  } 
+  // const toggleSupplierStaff = async (staffId:number) => {
+  //   setLoading(true);
+  //   try {
+  //     await toggleTourStatus(userId);
+  //     setShowPopup(false);
+  //     mutate(revalidateTours)
+  //     toast.success("Success");
+  //   } catch (error:any) {
+  //     console.error(error.message);
+  //     toast.error("Failed to toggle tour status");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   return (
     <div className="relative">
       <div className="search-add ">
@@ -183,8 +210,27 @@ const SupplierStaffList = () => {
                                 className="w-5 h-5 cursor-pointer ml-3"
                                 src="/image/unlock.png"
                                 alt="Delete"
-                                // onClick={() => handleDeleteHotel(item.hotelId)}
+                                onClick={() => handleImageClick(item)}
+                                // src={item.status ? "/image/unlock.png" : "/image/lock.png"}
+                                // alt={item.status ? "Ban" : "Unban"}
                               />
+                              {/* {showPopup && selectedTour?.tourId === item.tourId && (
+                                <div className="fixed inset-0 z-10 flex items-center justify-center ">
+                                  {/* Nền mờ */}
+                                  {/* <div className="fixed inset-0 bg-black opacity-5" onClick={handleClosePopup}></div> */}
+
+                                  {/* Nội dung của popup */}
+                                  {/* <div className="relative bg-white p-8 rounded-lg">
+                                    <p className='color-black font-bold text-2xl'>
+                                      Do you want to {item.status ? 'lock' : 'unlock'} this {item.tourName}?
+                                    </p>
+                                    <div className="button-kichhoat pt-4">
+                                      <button className='button-exit mr-2' onClick={handleClosePopup}>Exit</button>
+                                      <button className='button-yes' onClick={() => toggleTour(item.staffId)}>Yes</button>
+                                    </div>
+                                  </div> */}
+                                {/* </div>
+                              )} */}
                             </td>
                           </tr>
                         );

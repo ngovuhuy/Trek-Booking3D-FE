@@ -28,6 +28,21 @@ function UpdateStaff(props: Iprops) {
   const [status, SetStatus] = useState<boolean>(true);
   const [roleId, setRoleId] = useState<number>(0);
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!staffName) newErrors.staffName = "Staff Name is required";
+    if (!staffPhoneNumber) {
+      newErrors.staffPhoneNumber = "Staff Phone Number is required";
+    } else if (!/0[0-9]{9}/.test(staffPhoneNumber)) {
+      newErrors.staffPhoneNumber = "Staff Phone Number must be 10 digits";
+    }
+    if (!staffAddress) newErrors.staffAddress = "Staff Address is required";    
+
+    return newErrors;
+  };
 
   useEffect(() => {
     if (supplierStaff && supplierStaff.staffId) {
@@ -45,10 +60,15 @@ function UpdateStaff(props: Iprops) {
   const handleSubmit = async () => {
     const staffId = ThisstaffId;    
     const supplierId = localStorage.getItem("supplierId");
-    if (!staffName || !staffPhoneNumber || !staffEmail || !staffAddress || !staffPassword ) {
-      toast.error("Please fill in all fields!!!");
+    // if (!staffName || !staffPhoneNumber || !staffEmail || !staffAddress || !staffPassword ) {
+    //   toast.error("Please fill in all fields!!!");
+    //   return;
+    // } 
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
-    }  
+    } 
     try {
       const supplierStaff: ISupplierStaff = {
         staffId: Number(ThisstaffId),
@@ -79,6 +99,7 @@ function UpdateStaff(props: Iprops) {
     setStaffPassword("");  
     setSupplierStaff(null);  
     setShowStaffUpdate(false);
+    setErrors({});
   };
 
   return (
@@ -104,16 +125,24 @@ function UpdateStaff(props: Iprops) {
                 placeholder="Please enter staff name"
                 value={staffName}
                 onChange={(e) => setStaffName(e.target.value)}
+                isInvalid={!!errors.staffName}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.staffName}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formStaffPhone">
               <Form.Label>Staff Phone</Form.Label>
               <Form.Control
-                type="text"
+                type="text"                
                 placeholder="Please enter staff phone number"
                 value={staffPhoneNumber}
                 onChange={(e) => setStaffPhoneNumber(e.target.value)}
+                isInvalid={!!errors.staffPhoneNumber}
               />
+               <Form.Control.Feedback type="invalid">
+                {errors.staffPhoneNumber}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formStaffEmail">
               <Form.Label>Staff Email</Form.Label>
@@ -123,8 +152,8 @@ function UpdateStaff(props: Iprops) {
                 value={staffEmail}
                 onChange={(e) => setStaffEmail(e.target.value)}
                 readOnly
-                style={{background: "#CED1D2", fontWeight: "bold"}}
-              />
+                style={{background: "#CED1D2", fontWeight: "bold"}}                
+              />              
             </Form.Group>
             <Form.Group className="mb-3" controlId="formStaffAddress">
               <Form.Label>Staff Address</Form.Label>
@@ -133,7 +162,11 @@ function UpdateStaff(props: Iprops) {
                 placeholder="Please enter staff address"
                 value={staffAddress}
                 onChange={(e) => setStaffAddress(e.target.value)}
+                isInvalid={!!errors.staffAddress}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.staffAddress}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formStaffPassword">
               <Form.Label>Staff Password</Form.Label>
