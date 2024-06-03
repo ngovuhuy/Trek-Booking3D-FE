@@ -2,7 +2,7 @@ interface IRoomImageService {
     getRoomImageByRoomId(roomId: number): Promise<IRoom[]>;
     createRoomImage(roomImage: IRoomImage): Promise<IRoomImage>;
     //updateHotel(roomImage: Partial<IRoomImage>): Promise<IRoomImage>;
-    deleteHotel(roomImageId: number): Promise<void>;
+    deleteRoomImage(roomImageId: number): Promise<void>;
   }
   
   const roomImageService: IRoomImageService = {
@@ -79,10 +79,10 @@ interface IRoomImageService {
     //     throw error;
     //   }
     // },
-    async deleteHotel(hotelId) {
+    async deleteRoomImage(roomImageId) {
       try {
         const response = await fetch(
-          `https://localhost:7132/deleteRoomImage/${hotelId}`,
+          `https://localhost:7132/deleteRoomImage/${roomImageId}`,
           {
             method: "DELETE",
             headers: {
