@@ -271,6 +271,11 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                                       <Button
                                         className="button-exit mr-2"
                                         onClick={handleClosePopup}
+                                        style={{
+                                          background: "white",
+                                          color: "black",
+                                          border: "1px solid #ccc",
+                                        }}
                                       >
                                         Exit
                                       </Button>
@@ -282,6 +287,10 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                                             item.roomStatus
                                           )
                                         }
+                                        style={{
+                                          background: "#305A61",
+                                          border: "1px solid #ccc",
+                                        }}
                                       >
                                         Yes
                                       </Button>

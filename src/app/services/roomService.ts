@@ -45,24 +45,30 @@ const roomService: IRoomService = {
               headers: {
                 Accept: "application/json, text/plain, */*",
                 "Content-Type": "application/json",
-                // Include the token in the headers
-                Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );
           if (!response.ok) {
             throw new Error("Failed to fetch room");
           }
-          const data = await response.json();
-          console.log(data); // Trigger refetch after fetching
+      
+          const contentType = response.headers.get("content-type");
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+          } else {
+            data = await response.text(); // Handle plain text response
+          }
+      
+          console.log(data);
           return data;
-        } 
-        catch (error) {
+        } catch (error) {
           console.error("Error fetching room:", error);
           throw error;
         }
       },
-
+      
       async recoverRoomDeleted(roomId) {
         console.log(roomId);
         try {
@@ -73,23 +79,30 @@ const roomService: IRoomService = {
               headers: {
                 Accept: "application/json, text/plain, */*",
                 "Content-Type": "application/json",
-                // Include the token in the headers
-                Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           );
           if (!response.ok) {
             throw new Error("Failed to fetch room");
           }
-          const data = await response.json();
-          console.log(data); // Trigger refetch after fetching
+      
+          const contentType = response.headers.get("content-type");
+          let data;
+          if (contentType && contentType.includes("application/json")) {
+            data = await response.json();
+          } else {
+            data = await response.text(); // Handle plain text response
+          }
+      
+          console.log(data);
           return data;
-        } 
-        catch (error) {
+        } catch (error) {
           console.error("Error fetching room:", error);
           throw error;
         }
       },
+      
 
       async createRoom(room) {
         try {
