@@ -104,6 +104,7 @@ function CreateTourImage(props: Iprops) {
       <Modal show={showTourImageCreate} onHide={handleCloseModal} size="lg" centered>
         <Modal.Body className="p-4">
           <h2 className="font-bold pb-4">Add Image Pictures</h2>
+          <h4 className="font-bold pb-4">Tour Image: {listTourImage}/6 </h4>
           <div className="flex justify-center flex-wrap">
             {previewImageURLs.length > 0 ? (
               previewImageURLs.map((url, index) => (
@@ -114,6 +115,7 @@ function CreateTourImage(props: Iprops) {
                   alt="Preview"
                   onClick={() => document.getElementById("fileInput")?.click()}
                 />
+                
               ))
             ) : (
               <img
