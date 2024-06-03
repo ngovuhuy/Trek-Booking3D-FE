@@ -311,6 +311,37 @@ a {
     padding: 0px 24px;
     border-radius: 8px;
   }
+  .btn-save-modal{
+    border: 1px solid #305A61;
+    border-radius: 8px;
+    color: #fff;
+    background: #305A61;
+    padding: 4px 0;
+    width: 20%;
+    position: absolute;
+    top: -127px;
+    right: 15px;
+  }
+  .btn-save-modal:hover{
+    opacity: 0.8;
+    
+  }
+  .btn-exit-modal{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #1F1C17;
+    background: #ffffff;
+    padding: 4px 0;
+    width: 20%;
+    position: absolute;
+    top: -76px;
+    right: 15px;
+  }
+  .btn-exit-modal:hover{
+    opacity: 0.8;
+    background: #ccc;
+  }
+
 @media all and (max-width: 1100px) {
   .cham {
     left: 48.6%;
@@ -478,6 +509,9 @@ a {
 @media all and (max-width: 600px) {
   .text-small {
     font-size: 19px;
+  }
+  .pright-repon{
+    padding-right: 5rem;
   }
 }
 @media all and (max-width: 440px) {
