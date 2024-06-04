@@ -9,7 +9,8 @@ import roomService from "@/app/services/roomService";
 import CreateRoomImage from "@/app/components/RoomImages/CreateRoomImage";
 
 const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
-  const [showRoomImageCreate, setShowRoomImageCreate] = useState<boolean>(false);
+  const [showRoomImageCreate, setShowRoomImageCreate] =
+    useState<boolean>(false);
   const [listRoomImage, setRoomImage] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,18 +35,18 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (params.roomId) {
-        roomImageService
-          .getRoomImageByRoomId(Number(params.roomId))
-          .then((data: any) => {
-            setRoomImage(data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error fetching room images:", error);
-            setError(error);
-            setLoading(false);
-          });
-      }
+      roomImageService
+        .getRoomImageByRoomId(Number(params.roomId))
+        .then((data: any) => {
+          setRoomImage(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching room images:", error);
+          setError(error);
+          setLoading(false);
+        });
+    }
   }, [params.roomId]);
 
   const deleteImageButtonHandler = (roomImageId: number, imageUrl: string) => {
@@ -64,7 +65,10 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
     }
   };
 
-  const handleDeleteRoomImage = async (roomImageId: number, imageUrl: string) => {
+  const handleDeleteRoomImage = async (
+    roomImageId: number,
+    imageUrl: string
+  ) => {
     try {
       console.log("Deleting room image with ID:", roomImageId);
       await deleteImageFromStorage(imageUrl);
@@ -150,7 +154,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10 text-center"
                         >
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.roomImageId}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 font-semibold flex justify-center">
@@ -176,7 +180,10 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                                 src="/image/unlock.png"
                                 alt="Delete"
                                 onClick={() =>
-                                  deleteImageButtonHandler(item.roomImageId, item.roomImageURL)
+                                  deleteImageButtonHandler(
+                                    item.roomImageId,
+                                    item.roomImageURL
+                                  )
                                 }
                               />
                             </div>

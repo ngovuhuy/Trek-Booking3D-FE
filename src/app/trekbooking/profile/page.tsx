@@ -39,7 +39,23 @@ const profile = () => {
             <div className="w-4/5 m-auto">
               <span className="text-xl font-semibold">Account information</span>
               <div style={{ borderBottom: "2px solid #D2D2D2" }}></div>
-              <div className="row pt-5"></div>
+              <div className="row pt-5">
+                <div className="flex justify-center flex-wrap">
+                  <img
+                    className="max-w-[180px] max-h-[180px] cursor-pointer m-2"
+                    src="/image/addpicture.png"
+                    alt="Click to add image"
+                  />
+
+                  <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: "none" }}
+                  />
+                </div>
+              </div>
               <div className="pt-5">
                 <p className="font-semibold">Username</p>
                 <input
