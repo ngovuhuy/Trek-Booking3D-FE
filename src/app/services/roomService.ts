@@ -4,9 +4,31 @@ interface IRoomService {
     deleteRoom(roomId: number):Promise<IRoom>;
     recoverRoomDeleted(roomId: number): Promise<IRoom>;
     updateRoom(room: IRoom):Promise<IRoom>;
+    getRooms(): Promise<any[]>;
 }
 
 const roomService: IRoomService = {
+
+  async getRooms() {
+    try {
+      const response = await fetch("https://localhost:7132/getRooms", {
+        headers: {
+          "Content-Type": "application/json",
+          // Include the token in the headers
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+        },
+      });
+      if (!response.ok) { 
+        throw new Error("Failed to fetch room list");
+      }
+      const data = await response.json();
+      // console.log(data); // Trigger refetch after fetching
+      return data;
+    } catch (error) {
+      console.error("Error fetching booking list:", error);
+      throw error;
+    }
+  },
     async getRoomsByHotelId(hotelId) {
         console.log(hotelId);
         try {
