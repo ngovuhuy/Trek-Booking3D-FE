@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import tourService from "@/app/services/tourService";
-//import CreateRoomImage from "@/app/components/RoomImages/CreateRoomImage";
 import roomImageService from "@/app/services/roomImageService";
 import { ref, deleteObject } from "firebase/storage";
 import { analytics } from "../../../../../../../../public/firebase/firebase-config";
 import roomService from "@/app/services/roomService";
-import CreateRoomImage from "@/app/components/RoomImages/CreateRoomImage";
+import CreateRoom3DImage from "@/app/components/Room3DImages/Create3DRoomImage";
+import room3DImageService from "@/app/services/room3DImageService";
 
 const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
   const [showRoomImageCreate, setShowRoomImageCreate] = useState<boolean>(false);
@@ -18,14 +18,14 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
   const handleCreateRoomImage = async () => {
     setShowRoomImageCreate(false);
     if (params.roomId) {
-      roomImageService
-        .getRoomImageByRoomId(Number(params.roomId))
+      room3DImageService
+        .getRoom3DImageByRoomId(Number(params.roomId))
         .then((data: any) => {
           setRoomImage(data);
           setLoading(false);
         })
         .catch((error) => {
-          console.error("Error fetching room images:", error);
+          console.error("Error fetching room 3D images:", error);
           setError(error);
           setLoading(false);
         });
@@ -34,8 +34,8 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (params.roomId) {
-        roomImageService
-          .getRoomImageByRoomId(Number(params.roomId))
+        room3DImageService
+          .getRoom3DImageByRoomId(Number(params.roomId))
           .then((data: any) => {
             setRoomImage(data);
             setLoading(false);
@@ -68,27 +68,27 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
     try {
       console.log("Deleting room image with ID:", roomImageId);
       await deleteImageFromStorage(imageUrl);
-      await roomImageService.deleteRoomImage(roomImageId);
-      console.log("Room image deleted successfully");
+      await room3DImageService.deleteRoom3DImage(roomImageId);
+      console.log("Room 3D image deleted successfully");
 
       if (params.roomId) {
-        roomImageService
-          .getRoomImageByRoomId(Number(params.roomId))
+        room3DImageService
+          .getRoom3DImageByRoomId(Number(params.roomId))
           .then((data: any) => {
             setRoomImage(data);
             setLoading(false);
           })
           .catch((error) => {
-            console.error("Error fetching room images:", error);
+            console.error("Error fetching room 3D images:", error);
             setError(error);
             setLoading(false);
           });
       }
 
-      alert("Room image deleted successfully");
+      alert("Room 3D image deleted successfully");
     } catch (error) {
-      console.error("Error deleting room image:", error);
-      alert("Failed to delete room image");
+      console.error("Error deleting room 3D image:", error);
+      alert("Failed to delete room 3D image");
     }
   };
 
@@ -101,13 +101,13 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
     setShowRoomImageCreate(true);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
 
-  if (error) {
-    return <div>Error loading room images</div>;
-  }
+//   if (error) {
+//     return <div>Error loading room 3D images</div>;
+//   }
 
   return (
     <div className="relative">
@@ -121,7 +121,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
           <img src="/image/search.png" alt="" />
         </div>
         <button className="ml-8 button-add ml-4rem" onClick={handleAddImage}>
-          + Add Room Image
+          + Add Room 3D Image
         </button>
       </div>
       <div className="table-hotel pt-8">
@@ -133,10 +133,10 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
                     <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
-                        RoomImageId
+                        Room3DImageId
                       </th>
                       <th scope="col" className="px-6 py-4 text-center">
-                        RoomImageURL
+                        Room3DImageURL
                       </th>
                       <th scope="col" className="px-6 py-4">
                         Action
@@ -145,20 +145,20 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                   </thead>
                   <tbody>
                     {listRoomImage.length > 0 ? (
-                      listRoomImage.map((item: IRoomImage, index) => (
+                      listRoomImage.map((item: any, index) => (
                         <tr
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10 text-center"
                         >
                           <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            {item.roomImageId}
+                            {item.roomImage3DId}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 font-semibold flex justify-center">
                             <img
                               className="max-w-[180px] max-h-[180px]"
                               src={
-                                item.roomImageURL
-                                  ? item.roomImageURL
+                                item.roomImage3DURL
+                                  ? item.roomImage3DURL
                                   : "/image/imagedefault.png"
                               }
                               alt=""
@@ -176,7 +176,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                                 src="/image/unlock.png"
                                 alt="Delete"
                                 onClick={() =>
-                                  deleteImageButtonHandler(item.roomImageId, item.roomImageURL)
+                                  deleteImageButtonHandler(item.roomImage3DId, item.roomImage3DURL)
                                 }
                               />
                             </div>
@@ -189,7 +189,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                           colSpan={8}
                           className="text-center py-4 text-red-600 font-bold"
                         >
-                          No RoomImage found
+                          No Room3DImage found
                         </td>
                       </tr>
                     )}
@@ -200,7 +200,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
           </div>
         </div>
       </div>
-      <CreateRoomImage
+      <CreateRoom3DImage
         showRoomImageCreate={showRoomImageCreate}
         setShowRoomImageCreate={setShowRoomImageCreate}
         onCreate={handleCreateRoomImage}
