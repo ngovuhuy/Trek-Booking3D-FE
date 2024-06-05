@@ -108,7 +108,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                 </li>
               </ul>
             </div>
-            <div className='border-solid border-t-2 border-white pt-3'>
+            <div className='border-t-2 border-white pt-3'>
               <Link href='/' className='bottom-logout flex justify-center items-center no-underline text-white'>
                 <img className='w-7 h-7' src='/image/out.png' alt='Log out' />
                 <p className='color-white mb-0 ml-1 font-semibold text-xl'>Log out</p>

@@ -15,26 +15,31 @@ import { toast } from "react-toastify";
 import "../../../../public/css/tour.css";
 import DetailTour from "@/app/components/Tours/DetailTour";
 
-const TourList = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedTour, setSelectedTour] = useState<ITour | null>(null);
-  const [tour, setTour] = useState<ITour | null>(null);
-  const [showTourCreate, setShowTourCreate] = useState<boolean>(false);
-  const [showTourUpdate, setShowTourUpdate] = useState<boolean>(false);
-  const [showTourDetail, setShowTourDetail] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false);
-  const supplierId = localStorage.getItem("supplierId");
-  const { data: tourList, error } = useSWR("tourList", () =>
-    tourService.getToursBySuppierId(Number(supplierId))
-  );
-  const handleImageClick = (tour: ITour) => {
-    setSelectedTour(tour);
-    setShowPopup(true);
-  };
-  const handleClosePopup = () => {
-    setShowPopup(false);
-    setSelectedTour(null);
-  };
+  const TourList = () => {
+    const [showPopup, setShowPopup] = useState(false); 
+    const [selectedTour, setSelectedTour] = useState<ITour | null>(null);
+    const [tour,setTour] = useState<ITour | null>(null);
+    const [showTourCreate, setShowTourCreate] = useState<boolean>(false);
+    const [showTourUpdate, setShowTourUpdate] = useState<boolean>(false);
+    const [showTourDetail, setShowTourDetail] = useState<boolean>(false);
+    
+    const [loading, setLoading] = useState(false);
+    const supplierId = localStorage.getItem('supplierId');
+    const { data: tourList, error } = useSWR(
+      "tourList",
+      () => tourService.getToursBySuppierId(Number(supplierId))
+    );
+    const handleImageClick = (tour: ITour) => {
+      setSelectedTour(tour);
+      setShowPopup(true);
+    };
+    const handleClosePopup = () => {
+      setShowPopup(false);
+      setSelectedTour(null);
+    };
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [toursPerPage] = useState(5);
   if (!tourList) {
     return <div>Loading...</div>;
   }
@@ -42,7 +47,14 @@ const TourList = () => {
   if (error) {
     return <div>Error loading tours</div>;
   }
-  const toggleTour = async (userId: number) => {
+
+  const indexOfLastTour = currentPage * toursPerPage;
+  const indexOfFirstTour = indexOfLastTour - toursPerPage;
+  const currentTours = tourList.slice(indexOfFirstTour, indexOfLastTour);
+
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(tourList.length / toursPerPage);
+  const toggleTour = async (userId:number) => {
     setLoading(true);
     try {
       await toggleTourStatus(userId);
@@ -56,7 +68,17 @@ const TourList = () => {
       setLoading(false);
     }
   };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   return (
     <div className="relative">
       <div className="search-add ">
@@ -82,7 +104,7 @@ const TourList = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
-                    <tr>
+                    <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
                         TourId
                       </th>
@@ -93,10 +115,10 @@ const TourList = () => {
                         Tour Time
                       </th>
                 
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         View Detail
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Manage Image
                       </th>
                       <th scope="col" className="px-6 py-4">
@@ -108,8 +130,8 @@ const TourList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tourList.length > 0 ? (
-                      tourList.map((item, index) => {
+                  {currentTours.length > 0 ? (
+                      currentTours.map((item, index) => {
                         const tourTimeDate = new Date(item.tourTime);
                         const formattedTourTime =
                           tourTimeDate.toLocaleDateString("en-US", {
@@ -121,7 +143,7 @@ const TourList = () => {
                         return (
                           <tr
                             key={index}
-                            className="border-b border-neutral-200 dark:border-white/10"
+                            className="border-b border-neutral-200 dark:border-white/10 text-center"
                           >
                             <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                               {item.tourId}
@@ -160,17 +182,15 @@ const TourList = () => {
                             >
                               {item.status ? "Active" : "Stopped"}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 flex">
-                              <img
-                                className="w-7 h-5 cursor-pointer"
-                                src="/image/pen.png"
-                                alt="Edit"
-                                onClick={() => {
-                                  setTour(item);
-                                  setShowTourUpdate(true);
-                                }}
-                              />
-
+                            <td className="whitespace-nowrap px-6 py-4 flex justify-center">
+                            
+                                <img
+                                  className="w-7 h-5 cursor-pointer"
+                                  src="/image/pen.png"
+                                  alt="Edit"
+                                  onClick={() => {setTour(item); setShowTourUpdate(true);}}
+                                   />
+                           
                               <img
                                 className="w-5 h-5 cursor-pointer ml-3"
                                 onClick={() => handleImageClick(item)}
@@ -231,6 +251,25 @@ const TourList = () => {
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
