@@ -4,12 +4,34 @@ import { ITour } from '../entities/tour';
 interface ITourService {
     getToursBySuppierId(supplierId: number): Promise<ITour[]>;
     getTourImageByTourId(tourId: number): Promise<ITourImage[]>;
-
+    getTours(): Promise<any[]>;
   }
 
 
 
 export const tourService: ITourService = {
+
+    async getTours() {
+      try {
+        const response = await fetch("https://localhost:7132/getTours", {
+          headers: {
+            "Content-Type": "application/json",
+            // Include the token in the headers
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+          },
+        });
+        if (!response.ok) { 
+          throw new Error("Failed to fetch tour list");
+        }
+        const data = await response.json();
+        // console.log(data); // Trigger refetch after fetching
+        return data;
+      } catch (error) {
+        console.error("Error fetching user list:", error);
+        throw error;
+      }
+    },
+
   async getTourImageByTourId(tourId) {
     console.log(tourId);
     try {

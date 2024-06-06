@@ -1,9 +1,23 @@
 "use client";
 import React from "react";
 import Link from "../../../node_modules/next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import authenticateService from "../services/authenticateService";
+import { toast } from "react-toastify";
 const NavSupplier = () => {
+  const router = useRouter();
   const pathname = usePathname();
+  const handleLogout = async () => {
+    try {
+      await authenticateService.logOut();
+      toast.success("Logout Successful!..");
+      setTimeout(() => {
+        router.push("/login_supplier");
+      }, 1000);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   return (
     <div>
       <header className="nav-supllier">
@@ -93,16 +107,16 @@ const NavSupplier = () => {
             </li>
           </ul>
         </div>
-        <div className="border-t-2">
-          <Link
-            href="/"
-            className="bottom-logout flex justify-center items-center  no-underline text-white pt-3"
+        <div className=" border-t-2 border-white pt-3 flex justify-center items-center">
+          <button
+            onClick={handleLogout}
+            className="bottom-logout flex justify-center items-center no-underline text-white bg-transparent border-none cursor-pointer"
           >
-            <img className="w-7 h-7 " src="/image/out.png" alt="" />
+            <img className="w-7 h-7" src="/image/out.png" alt="" />
             <p className="color-white mb-0 ml-1 font-semibold text-xl">
               Log out
             </p>
-          </Link>
+          </button>
         </div>
       </header>
     </div>

@@ -2,14 +2,17 @@
 // my-new-page.js
 "use client";
 import React, { useEffect, useState } from "react";
-import tourService, { revalidateTours, toggleTourStatus } from "@/app/services/tourService";
+import tourService, {
+  revalidateTours,
+  toggleTourStatus,
+} from "@/app/services/tourService";
 import Link from "next/link";
 import CreateTour from "@/app/components/Tours/CreateTour";
 import useSWR, { mutate } from "../../../../node_modules/swr/dist/core/index";
 import UpdateTour from "@/app/components/Tours/UpdateTour";
 import { ITour } from "@/app/entities/tour";
-import { toast } from 'react-toastify';
-import '../../../../public/css/tour.css';
+import { toast } from "react-toastify";
+import "../../../../public/css/tour.css";
 import DetailTour from "@/app/components/Tours/DetailTour";
 
   const TourList = () => {
@@ -56,9 +59,9 @@ import DetailTour from "@/app/components/Tours/DetailTour";
     try {
       await toggleTourStatus(userId);
       setShowPopup(false);
-      mutate(revalidateTours)
+      mutate(revalidateTours);
       toast.success("Success");
-    } catch (error:any) {
+    } catch (error: any) {
       console.error(error.message);
       toast.error("Failed to toggle tour status");
     } finally {
@@ -87,7 +90,12 @@ import DetailTour from "@/app/components/Tours/DetailTour";
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem" onClick={() => setShowTourCreate(true)}>+ Add tour</button>
+        <button
+          className="ml-8 button-add ml-4rem cursor-pointer"
+          onClick={() => setShowTourCreate(true)}
+        >
+          + Add tour
+        </button>
       </div>
       <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
@@ -137,27 +145,30 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                             key={index}
                             className="border-b border-neutral-200 dark:border-white/10 text-center"
                           >
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                               {item.tourId}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {item.tourName}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-semibold">
+                            <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                               {formattedTourTime}
                             </td>
                            
                             <td className="whitespace-nowrap px-6 py-4 flex justify-center">
-                              <Link href="#" className=''>
+                              <Link href="#" className='cursor-pointer'>
                                 <img
-                                 onClick={() => {setTour(item); setShowTourDetail(true);}}
+                                  onClick={() => {
+                                    setTour(item);
+                                    setShowTourDetail(true);
+                                  }}
                                   src="/image/viewdetail.png"
                                   alt="View Detail"
                                 />
                               </Link>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href={`/supplier/tour/tourImage/${item.tourId}`}>
+                            <Link className='flex justify-center cursor-pointer' href={`/supplier/tour/tourImage/${item.tourId}`}>
                                 <img
                                   src="/image/managevoucher.png"
                                   alt="Manage Image"
@@ -181,29 +192,51 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                    />
                            
                               <img
-                                className="w-5 h-5 cursor-pointer ml-3"
+                                className="w-5 h-5 cursor-pointer ml-3 "
                                 onClick={() => handleImageClick(item)}
-                                src={item.status ? "/image/unlock.png" : "/image/lock.png"}
+                                src={
+                                  item.status
+                                    ? "/image/unlock.png"
+                                    : "/image/lock.png"
+                                }
                                 alt={item.status ? "Ban" : "Unban"}
                                 // onClick={() => handleDeleteTour(item.tourId)}
                               />
-                           {showPopup && selectedTour?.tourId === item.tourId && (
-                                <div className="fixed inset-0 z-10 flex items-center justify-center ">
-                                  {/* Nền mờ */}
-                                  <div className="fixed inset-0 bg-black opacity-5" onClick={handleClosePopup}></div>
+                              {showPopup &&
+                                selectedTour?.tourId === item.tourId && (
+                                  <div className="fixed inset-0 z-10 flex items-center justify-center ">
+                                    {/* Nền mờ */}
+                                    <div
+                                      className="fixed inset-0 bg-black opacity-5"
+                                      onClick={handleClosePopup}
+                                    ></div>
 
-                                  {/* Nội dung của popup */}
-                                  <div className="relative bg-white p-8 rounded-lg">
-                                    <p className='color-black font-bold text-2xl'>
-                                      Do you want to {item.status ? 'lock' : 'unlock'} this {item.tourName}?
-                                    </p>
-                                    <div className="button-kichhoat pt-4">
-                                      <button className='button-exit mr-2' onClick={handleClosePopup}>Exit</button>
-                                      <button className='button-yes' onClick={() => toggleTour(item.tourId)}>Yes</button>
+                                    {/* Nội dung của popup */}
+                                    <div className="relative bg-white p-8 rounded-lg">
+                                      <p className="color-black font-bold text-2xl">
+                                        Do you want to{" "}
+                                        {item.status ? "lock" : "unlock"} this{" "}
+                                        {item.tourName}?
+                                      </p>
+                                      <div className="button-kichhoat pt-4">
+                                        <button
+                                          className="button-exit mr-2"
+                                          onClick={handleClosePopup}
+                                        >
+                                          Exit
+                                        </button>
+                                        <button
+                                          className="button-yes"
+                                          onClick={() =>
+                                            toggleTour(item.tourId)
+                                          }
+                                        >
+                                          Yes
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
                             </td>
                           </tr>
                         );
@@ -213,9 +246,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                         <td
                           colSpan={9}
                           className="text-center py-4 text-red-600 font-bold"
-                        >
-                          No tours found
-                        </td>
+                        ></td>
                       </tr>
                     )}
                   </tbody>
@@ -244,22 +275,22 @@ import DetailTour from "@/app/components/Tours/DetailTour";
           </div>
         </div>
       </div>
-      <CreateTour 
-   showTourCreate={showTourCreate}
-   setShowTourCreate={setShowTourCreate}
-   />
-         <UpdateTour
-   showTourUpdate={showTourUpdate}
-   setShowTourUpdate={setShowTourUpdate}
-   tour={tour}
-   setTour = {setTour}
-   />
-            <DetailTour
-   showTourDetail={showTourDetail}
-   setShowTourDetail={setShowTourDetail}
-   tour={tour}
-   setTour = {setTour}
-   />
+      <CreateTour
+        showTourCreate={showTourCreate}
+        setShowTourCreate={setShowTourCreate}
+      />
+      <UpdateTour
+        showTourUpdate={showTourUpdate}
+        setShowTourUpdate={setShowTourUpdate}
+        tour={tour}
+        setTour={setTour}
+      />
+      <DetailTour
+        showTourDetail={showTourDetail}
+        setShowTourDetail={setShowTourDetail}
+        tour={tour}
+        setTour={setTour}
+      />
     </div>
   );
 };
