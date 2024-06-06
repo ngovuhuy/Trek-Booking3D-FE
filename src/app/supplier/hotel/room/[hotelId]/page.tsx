@@ -13,7 +13,7 @@ import DetailRoom from "@/app/components/Room/DetailRoom";
 import hotelService from "@/app/services/hotelService";
 import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
-
+import "../../../../../../public/css/room.css";
 const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [showRoomCreate, setShowRoomCreate] = useState<boolean>(false);
   const [showRoomUpdate, setShowRoomUpdate] = useState<boolean>(false);
@@ -23,10 +23,12 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
 
   const [loading, setLoading] = useState(false);
   const [RoomId, setRoomId] = useState(0);
+ 
 
   const [Room, setRoom] = useState<IRoom | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomsPerPage] = useState(5);
   const { data: listRoom, error } = useSWR("listRoom", () =>
     roomService.getRoomsByHotelId(Number(params.hotelId))
   );
@@ -94,10 +96,28 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   if (error) {
     return <div>Error loading rooms</div>;
   }
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = listRoom.slice(indexOfFirstRoom, indexOfLastRoom);
+
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(listRoom.length / roomsPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   return (
     <div className="relative">
       <div className="search-add">
-        {hotel && (
+      {hotel && (
           <div className="breadcrumb">
             <Link
               href="/supplier/hotel"
@@ -143,7 +163,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
               <div className="overflow-x-auto">
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
-                    <tr>
+                    <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
                         RoomId
                       </th>
@@ -171,11 +191,11 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listRoom.length > 0 ? (
-                      listRoom.map((item: IRoom, index) => (
+                    {currentRooms.length > 0 ? (
+                      currentRooms.map((item: IRoom, index) => (
                         <tr
                           key={index}
-                          className="border-b border-neutral-200 dark:border-white/10"
+                          className="border-b border-neutral-200 dark:border-white/10 text-center"
                         >
                           <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.roomId}
@@ -191,7 +211,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             {item.roomStatus ? "Active" : "Stopped"}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link href="#">
+                            <Link className='flex justify-center' href="#">
                               <img
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
@@ -205,7 +225,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link href="#">
+                            <Link className='flex justify-center' href="#">
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Service"
@@ -213,9 +233,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link
-                              href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}
-                            >
+                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}>
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room 3D"
@@ -223,17 +241,15 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link
-                              href={`/supplier/hotel/room/${params.hotelId}/roomImage/${item.roomId}`}
-                            >
+                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/roomImage/${item.roomId}`}>
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room Image"
                               />
                             </Link>
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 flex">
-                            <Link href="#">
+                          <td className="whitespace-nowrap px-6 py-4 flex justify-center">
+                            <Link className='flex justify-center' href="#">
                               <img
                                 className="w-5 h-5 cursor-pointer"
                                 src="/image/pen.png"
@@ -315,6 +331,24 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
                 <CreateRoom
                   showRoomCreate={showRoomCreate}
                   setShowRoomCreate={setShowRoomCreate}

@@ -15,13 +15,7 @@ interface Iprops {
 }
 
 function CreateRoomImage(props: Iprops) {
-  const {
-    showRoomImageCreate,
-    setShowRoomImageCreate,
-    onCreate,
-    roomId,
-    listRoomImage,
-  } = props;
+  const { showRoomImageCreate, setShowRoomImageCreate, onCreate, roomId, listRoomImage } = props;
   const [fileUploads, setFileUploads] = useState<File[]>([]);
   const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
   const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
@@ -29,19 +23,19 @@ function CreateRoomImage(props: Iprops) {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files ? Array.from(event.target.files) : [];
     setFileUploads(files);
-    const previewURLs = files.map((file) => URL.createObjectURL(file));
+    const previewURLs = files.map(file => URL.createObjectURL(file));
     setPreviewImageURLs(previewURLs);
   };
 
   const uploadImages = async () => {
-    const uploadPromises = fileUploads.map((file) => {
+    const uploadPromises = fileUploads.map(file => {
       const storageRef = ref(analytics, "Room_Image/" + file.name);
       return uploadBytes(storageRef, file)
-        .then(async (snapshot) => {
+        .then(async snapshot => {
           const downloadURL = await getDownloadURL(snapshot.ref);
           return downloadURL;
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("Failed to upload image:", error);
           throw error;
         });
@@ -71,17 +65,17 @@ function CreateRoomImage(props: Iprops) {
       return;
     }
     if (fileUploads.length + listRoomImage > 6) {
-      toast.error("You can only add up to 6 images for this room.");
+      toast.error("You can only add up to 6 images for this tour.");
       return;
     }
 
     try {
       const imageURLs = await uploadImages();
-      const roomImagePromises = imageURLs.map((url) => {
+      const roomImagePromises = imageURLs.map(url => {
         const roomImage = {
           roomImageId: 0,
           roomImageURL: url,
-          roomId: roomId,
+          roomId: roomId
         };
         return roomImageService.createRoomImage(roomImage);
       });
@@ -106,12 +100,7 @@ function CreateRoomImage(props: Iprops) {
 
   return (
     <>
-      <Modal
-        show={showRoomImageCreate}
-        onHide={handleCloseModal}
-        size="lg"
-        centered
-      >
+      <Modal show={showRoomImageCreate} onHide={handleCloseModal} size="lg" centered>
         <Modal.Body className="p-4">
           <h2 className="font-bold pb-4">Add Image Pictures</h2>
           <h4 className="font-bold pb-4">Room Image: {listRoomImage}/6 </h4>
@@ -144,11 +133,7 @@ function CreateRoomImage(props: Iprops) {
             />
           </div>
           <div className="flex justify-end mt-4">
-            <Button
-              variant="secondary"
-              className="mr-2"
-              onClick={handleCloseModal}
-            >
+            <Button variant="secondary" className="mr-2" onClick={handleCloseModal}>
               Exit
             </Button>
             <Button variant="primary" onClick={handleSubmit}>
