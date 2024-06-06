@@ -11,9 +11,10 @@ import hotelService from "@/app/services/hotelService";
 import '../../../../../../../../public/css/room.css'
 import { toast } from "react-toastify";
 import "../../../../../../../../public/css/tour.css";
+import Link from "next/link";
 
 
-const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
+const ListRoomImage = ({ params }: { params: {hotelId:string, roomId: string } }) => {
   const [showRoomImageCreate, setShowRoomImageCreate] = useState<boolean>(false);
   const [listRoomImage, setRoomImage] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,9 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
   const [selectedImageRoom, setSelectedImageRoom] = useState<IRoomImage | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [roomImagePerPage] = useState(3);
+
+  const [hotel, setHotel] = useState<IHotel | null>(null);
+
   
   const handleImageClick = (imageRoom: IRoomImage) => {
     setSelectedImageRoom(imageRoom);
@@ -51,6 +55,24 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
         });
     }
   };
+
+  useEffect(() => {
+    const fetchHotelandRoom = async () => {
+      try {
+        const hotelData = await hotelService.getHotelById(
+          Number(params.hotelId)
+        );
+        setHotel(hotelData);
+
+        const roomData = await roomService.getRoomById(Number(params.roomId));
+        setRoom(roomData);
+      } catch (error) {
+        console.error("Error fetching hotel and room details:", error);
+      }
+    };
+
+    fetchHotelandRoom();
+  }, [params.hotelId, params.roomId]);
 
   useEffect(() => {
     if (params.roomId) {
@@ -154,13 +176,47 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
+      {hotel && room && (
+          <div className="breadcrumb">
+            <Link
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <Link
+              href={`/supplier/hotel/room/${params.hotelId}`}
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              {hotel.hotelName}
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <span style={{ color: "blue", fontSize: "18px" }}>
+              {room.roomName}
+            </span>
+          </div>
+        )}
         <div className="search-hotel flex">
-        {room && (
-      
-      <span  className="fix-name">
-           Room {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}></span>
-    </span>
-     )}
+        
           <input
             type="text"
             placeholder="Search........."

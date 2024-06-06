@@ -23,6 +23,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
 
   const [loading, setLoading] = useState(false);
   const [RoomId, setRoomId] = useState(0);
+ 
 
   const [Room, setRoom] = useState<IRoom | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
@@ -116,14 +117,30 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
-    
-        <div className="search-hotel flex">
-        {hotel && (
-      
-         <span  className="fix-name">
-              Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
-       </span>
+      {hotel && (
+          <div className="breadcrumb">
+            <Link
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <span style={{ color: "blue", fontSize: "18px" }}>
+              {hotel.hotelName}
+            </span>
+          </div>
         )}
+        <div className="search-hotel flex">
           <input
             type="text"
             placeholder="Search........."
@@ -216,7 +233,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href="#">
+                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}>
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room 3D"
