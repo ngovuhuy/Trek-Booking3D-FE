@@ -1,5 +1,5 @@
 interface IRoomImageService {
-    getRoomImageByRoomId(roomId: number): Promise<IRoom[]>;
+    getRoomImageByRoomId(roomId: number): Promise<IRoomImage[]>;
     createRoomImage(roomImage: IRoomImage): Promise<IRoomImage>;
     //updateHotel(roomImage: Partial<IRoomImage>): Promise<IRoomImage>;
     deleteRoomImage(roomImageId: number): Promise<void>;

@@ -7,13 +7,41 @@ import { analytics } from "../../../../../../../../public/firebase/firebase-conf
 import roomService from "@/app/services/roomService";
 import CreateRoom3DImage from "@/app/components/Room3DImages/Create3DRoomImage";
 import room3DImageService from "@/app/services/room3DImageService";
+import hotelService from "@/app/services/hotelService";
+import Link from "next/link";
 
-const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
-  const [showRoomImageCreate, setShowRoomImageCreate] = useState<boolean>(false);
+const ListRoomImage = ({
+  params,
+}: {
+  params: { hotelId: string; roomId: string };
+}) => {
+  const [showRoomImageCreate, setShowRoomImageCreate] =
+    useState<boolean>(false);
   const [listRoomImage, setRoomImage] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [roomId, setRoomId] = useState(0);
+
+  const [hotel, setHotel] = useState<IHotel | null>(null);
+  const [room, setRoom] = useState<IRoom | null>(null);
+
+  useEffect(() => {
+    const fetchHotelandRoom = async () => {
+      try {
+        const hotelData = await hotelService.getHotelById(
+          Number(params.hotelId)
+        );
+        setHotel(hotelData);
+
+        const roomData = await roomService.getRoomById(Number(params.roomId));
+        setRoom(roomData);
+      } catch (error) {
+        console.error("Error fetching hotel and room details:", error);
+      }
+    };
+
+    fetchHotelandRoom();
+  }, [params.hotelId, params.roomId]);
 
   const handleCreateRoomImage = async () => {
     setShowRoomImageCreate(false);
@@ -34,18 +62,18 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
 
   useEffect(() => {
     if (params.roomId) {
-        room3DImageService
-          .getRoom3DImageByRoomId(Number(params.roomId))
-          .then((data: any) => {
-            setRoomImage(data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.error("Error fetching room images:", error);
-            setError(error);
-            setLoading(false);
-          });
-      }
+      room3DImageService
+        .getRoom3DImageByRoomId(Number(params.roomId))
+        .then((data: any) => {
+          setRoomImage(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching room images:", error);
+          setError(error);
+          setLoading(false);
+        });
+    }
   }, [params.roomId]);
 
   const deleteImageButtonHandler = (roomImageId: number, imageUrl: string) => {
@@ -64,7 +92,10 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
     }
   };
 
-  const handleDeleteRoomImage = async (roomImageId: number, imageUrl: string) => {
+  const handleDeleteRoomImage = async (
+    roomImageId: number,
+    imageUrl: string
+  ) => {
     try {
       console.log("Deleting room image with ID:", roomImageId);
       await deleteImageFromStorage(imageUrl);
@@ -101,17 +132,56 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
     setShowRoomImageCreate(true);
   };
 
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
+  //   if (loading) {
+  //     return <div>Loading...</div>;
+  //   }
 
-//   if (error) {
-//     return <div>Error loading room 3D images</div>;
-//   }
+  //   if (error) {
+  //     return <div>Error loading room 3D images</div>;
+  //   }
 
   return (
     <div className="relative">
       <div className="search-add">
+        {hotel && room && (
+          <div className="breadcrumb">
+            <Link
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <Link
+              href={`/supplier/hotel/room/${params.hotelId}`}
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              {hotel.hotelName}
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <span style={{ color: "blue", fontSize: "18px" }}>
+              {room.roomName}
+            </span>
+          </div>
+        )}
         <div className="search-hotel flex">
           <input
             type="text"
@@ -150,7 +220,7 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10 text-center"
                         >
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.roomImage3DId}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 font-semibold flex justify-center">
@@ -176,7 +246,10 @@ const ListRoomImage = ({ params }: { params: { roomId: string } }) => {
                                 src="/image/unlock.png"
                                 alt="Delete"
                                 onClick={() =>
-                                  deleteImageButtonHandler(item.roomImage3DId, item.roomImage3DURL)
+                                  deleteImageButtonHandler(
+                                    item.roomImage3DId,
+                                    item.roomImage3DURL
+                                  )
                                 }
                               />
                             </div>
