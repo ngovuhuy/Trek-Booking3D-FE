@@ -119,27 +119,13 @@ const SupplierStaffList = () => {
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
                     <tr>
-                      <th scope="col" className="px-6 py-4">
-                        StaffId
-                      </th>
-                      <th scope="col" className="px-6 py-4 text-center">
-                        Staff Name
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Phone
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Email
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Address
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Status
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        Action
-                      </th>
+                      <th scope="col" className="px-6 py-4">StaffId</th>
+                      <th scope="col" className="px-6 py-4 text-center">Staff Name</th>
+                      <th scope="col" className="px-6 py-4">Phone</th>
+                      <th scope="col" className="px-6 py-4">Email</th>
+                      <th scope="col" className="px-6 py-4">Address</th>
+                      <th scope="col" className="px-6 py-4">Status</th>
+                      <th scope="col" className="px-6 py-4">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -229,10 +215,7 @@ const SupplierStaffList = () => {
                       ))
                     ) : (
                       <tr>
-                        <td
-                          colSpan={9}
-                          className="text-center py-4 text-red-600 font-bold"
-                        >
+                        <td colSpan={9} className="text-center py-4 text-red-600 font-bold">
                           No staffs found
                         </td>
                       </tr>
