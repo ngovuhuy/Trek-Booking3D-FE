@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/supplier/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/supplier/page.tsx", "src/app/trekbooking/image360/page.js", "src/app/trekbooking/virtual_tour/page.js"],
   "exclude": ["node_modules"]
 }
