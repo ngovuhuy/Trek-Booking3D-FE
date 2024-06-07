@@ -38,7 +38,7 @@ const page = () => {
           <img className='img-line' src="/image/line40.png" alt="" />
           <h5 className='px-3 color-primary font-semibold fz-16'>Virtual tour</h5>
           <img className='img-line' src="/image/line40.png" alt="" />
-         </div>
+         </div>s
   
          <p className='color-primary text-center pb-3 fz-12'>Lorem ipsum dolor sit amet consectetur. Vel sit dignissim feugiat semper at pharetra laoreet</p>
        </div>

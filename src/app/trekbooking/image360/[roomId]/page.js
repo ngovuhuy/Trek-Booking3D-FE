@@ -123,7 +123,7 @@ const List3DRoom = ({ params }) => {
       console.log("Scripts not loaded or no images found");
     }
   }, [scriptsLoaded, listImageUrl, currentImageIndex]);
-
+//di chuyen hinh anh trong list
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % listImageUrl.length);
   };
