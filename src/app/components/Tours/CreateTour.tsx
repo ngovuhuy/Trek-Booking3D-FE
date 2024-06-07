@@ -47,14 +47,6 @@ function CreateTour(props: Iprops) {
         } else {
           toast.success("Create Tour Success");
         }
-        setTourName("");
-        SetTourDescription("");
-        SetTourPrice(0);
-        SetTourAddress("");
-        SetTourTime("");
-        SetTourTransportation("");
-        SetTourCapacity(0);
-        setTourDiscount(0);
         handleCloseModal();
         mutate(revalidateTours)
       } catch (error) {

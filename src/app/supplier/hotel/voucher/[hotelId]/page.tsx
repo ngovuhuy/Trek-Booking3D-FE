@@ -10,7 +10,7 @@ import CreateVoucher from "@/app/components/Voucher/CreateVoucher";
 import UpdateVoucher from "@/app/components/Voucher/UpdateVoucher";
 import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
-
+import "../../../../../../public/css/room.css"
 const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   const [showVoucherCreate, setShowVoucherCreate] = useState<boolean>(false);
   const [showVoucherUpdate, setShowVoucherUpdate] = useState<boolean>(false);
@@ -22,6 +22,9 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
 
   const [Voucher, setVoucher] = useState<IVoucher | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [voucherPerPage] = useState(5);
 
   const { data: listVoucher, error } = useSWR("listVoucher", () =>
     voucherService.getVouchersByHotelId(Number(params.hotelId))
@@ -110,11 +113,46 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
     return <div>Error loading vouchers</div>;
   }
 
+  // Sort vouchers: first by voucherStatus (true first), then by voucherId (newest first)
+  const sortedVouchers = listVoucher.sort((a, b) => {
+    if (a.voucherStatus === b.voucherStatus) {
+      return b.voucherId - a.voucherId;
+    }
+    return a.voucherStatus ? -1 : 1;
+  });
+
+
+  const indexOfLastVC = currentPage * voucherPerPage;
+  const indexOfFirstVC = indexOfLastVC - voucherPerPage;
+  const currentVoucher = sortedVouchers.slice(indexOfFirstVC, indexOfLastVC);
+
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(listVoucher.length / voucherPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="relative">
       <div className="search-add">
-     
+    
+
         <div className="search-hotel flex">
+
+        {hotel && (
+      
+      <span  className="fix-name">
+           Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
+    </span>
+     )}
           <input
             type="text"
             placeholder="Search........."
@@ -165,8 +203,8 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listVoucher.length > 0 ? (
-                      listVoucher.map((item: IVoucher, index) => {
+                    {currentVoucher.length > 0 ? (
+                      currentVoucher.map((item: IVoucher, index) => {
                         const availableDate = new Date(item.availableDate);
                         const formattedAvailableDate =
                           availableDate.toLocaleDateString("en-US", {
@@ -216,24 +254,28 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                               {item.voucherStatus ? "Active" : "Stopped"}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 flex">
-                              <Link href="#">
-                                <img
-                                  className="w-5 h-5 cursor-pointer"
-                                  src="/image/pen.png"
-                                  alt="Edit"
-                                  onClick={() => {
-                                    setVoucherId(item.voucherId);
-                                    setVoucher(item);
-                                    setShowVoucherUpdate(true);
-                                  }}
-                                />
-                              </Link>
-                              <img
-                                className="w-5 h-5 cursor-pointer ml-3"
-                                src="/image/lock.png"
-                                alt="Delete"
-                                onClick={() => handleImageClick(item)}
-                              />
+                              {item.voucherStatus && (
+                                <>
+                                  <Link href="#">
+                                    <img
+                                      className="w-5 h-5 cursor-pointer"
+                                      src="/image/pen.png"
+                                      alt="Edit"
+                                      onClick={() => {
+                                        setVoucherId(item.voucherId);
+                                        setVoucher(item);
+                                        setShowVoucherUpdate(true);
+                                      }}
+                                    />
+                                  </Link>
+                                  <img
+                                    className="w-5 h-5 cursor-pointer ml-3"
+                                    src="/image/lock.png"
+                                    alt="Delete"
+                                    onClick={() => handleImageClick(item)}
+                                  />
+                                </>
+                              )}
 
                               {showPopup &&
                                 selectedVoucher?.voucherId ===
@@ -295,7 +337,24 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
-
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
                 <CreateVoucher
                   showVoucherCreate={showVoucherCreate}
                   setShowVoucherCreate={setShowVoucherCreate}

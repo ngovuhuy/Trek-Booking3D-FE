@@ -23,6 +23,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
 
   const [loading, setLoading] = useState(false);
   const [RoomId, setRoomId] = useState(0);
+ 
 
   const [Room, setRoom] = useState<IRoom | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
@@ -120,10 +121,10 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
         <div className="search-hotel flex">
         {hotel && (
       
-         <span  className="fix-name">
-              Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
-       </span>
-        )}
+      <span  className="fix-name">
+           Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
+    </span>
+     )}
           <input
             type="text"
             placeholder="Search........."
@@ -139,7 +140,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
         </button>
       </div>
 
-      <div className="table-hotel pt-8">
+      <div className="table-hotel ">
         <div className="flex flex-col overflow-x-auto">
           <div className="sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -216,7 +217,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href="#">
+                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}>
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room 3D"

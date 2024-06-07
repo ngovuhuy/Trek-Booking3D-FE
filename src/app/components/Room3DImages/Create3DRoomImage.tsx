@@ -4,18 +4,18 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { analytics } from "../../../../public/firebase/firebase-config";
-import tourImageService from "@/app/services/tourImageService";
+import room3DImageService from "@/app/services/room3DImageService";
 
 interface Iprops {
-  showTourImageCreate: boolean;
-  setShowTourImageCreate: (value: boolean) => void;
+  showRoomImageCreate: boolean;
+  setShowRoomImageCreate: (value: boolean) => void;
   onCreate: () => void;
-  tourId: number;
-  listTourImage: number;
+  roomId: number;
+  listRoomImage: number;
 }
 
-function CreateTourImage(props: Iprops) {
-  const { showTourImageCreate, setShowTourImageCreate, onCreate, tourId, listTourImage } = props;
+function CreateRoom3DImage(props: Iprops) {
+  const { showRoomImageCreate, setShowRoomImageCreate, onCreate, roomId, listRoomImage } = props;
   const [fileUploads, setFileUploads] = useState<File[]>([]);
   const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
   const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
@@ -29,7 +29,7 @@ function CreateTourImage(props: Iprops) {
 
   const uploadImages = async () => {
     const uploadPromises = fileUploads.map(file => {
-      const storageRef = ref(analytics, "Trek_Image/" + file.name);
+      const storageRef = ref(analytics, "Room_3D_Image/" + file.name);
       return uploadBytes(storageRef, file)
         .then(async snapshot => {
           const downloadURL = await getDownloadURL(snapshot.ref);
@@ -56,7 +56,7 @@ function CreateTourImage(props: Iprops) {
     setFileUploads([]);
     setPreviewImageURLs([]);
     setUploadedImageURLs([]);
-    setShowTourImageCreate(false);
+    setShowRoomImageCreate(false);
   };
 
   const handleSubmit = async () => {
@@ -64,47 +64,46 @@ function CreateTourImage(props: Iprops) {
       toast.error("Please choose at least one image!!!");
       return;
     }
-    if (fileUploads.length + listTourImage > 6) {
+    if (fileUploads.length + listRoomImage > 6) {
       toast.error("You can only add up to 6 images for this tour.");
       return;
     }
 
-
     try {
       const imageURLs = await uploadImages();
-      const tourImagePromises = imageURLs.map(url => {
-        const tourImage = {
-          tourImageId: 0,
-          tourImageURL: url,
-          tourId: tourId
+      const roomImagePromises = imageURLs.map(url => {
+        const roomImage = {
+          roomImage3DId: 0,
+          roomImage3DURL: url,
+          roomId: roomId
         };
-        return tourImageService.createTourImage(tourImage);
+        return room3DImageService.createRoom3DImage(roomImage);
       });
 
-      await Promise.all(tourImagePromises);
-      toast.success("Tour Images created successfully");
+      await Promise.all(roomImagePromises);
+      toast.success("Room 3D Images created successfully");
       handleCloseModal();
       onCreate();
     } catch (error) {
-      toast.error("Failed to create tour images");
-      console.error("Error creating tour images:", error);
+      toast.error("Failed to create room images");
+      console.error("Error creating room images:", error);
     }
   };
 
   useEffect(() => {
-    if (showTourImageCreate) {
+    if (showRoomImageCreate) {
       setFileUploads([]);
       setPreviewImageURLs([]);
       setUploadedImageURLs([]);
     }
-  }, [showTourImageCreate]);
+  }, [showRoomImageCreate]);
 
   return (
     <>
-      <Modal show={showTourImageCreate} onHide={handleCloseModal} size="lg" centered>
+      <Modal show={showRoomImageCreate} onHide={handleCloseModal} size="lg" centered>
         <Modal.Body className="p-4">
-          <h2 className="font-bold pb-4">Add Image Pictures</h2>
-          <h4 className="font-bold pb-4">Tour Image: {listTourImage}/6 </h4>
+          <h2 className="font-bold pb-4">Add 3D Image Pictures</h2>
+          <h4 className="font-bold pb-4">Room 3D Image: {listRoomImage}/6 </h4>
           <div className="flex justify-center flex-wrap">
             {previewImageURLs.length > 0 ? (
               previewImageURLs.map((url, index) => (
@@ -115,7 +114,6 @@ function CreateTourImage(props: Iprops) {
                   alt="Preview"
                   onClick={() => document.getElementById("fileInput")?.click()}
                 />
-                
               ))
             ) : (
               <img
@@ -148,4 +146,4 @@ function CreateTourImage(props: Iprops) {
   );
 }
 
-export default CreateTourImage;
+export default CreateRoom3DImage;

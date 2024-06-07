@@ -33,6 +33,12 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     currentTitle = "Room";
   } else if (pathname.match(/^\/supplier\/tour\/tourImage\/\d+$/)) {
     currentTitle = "Tour Image";
+  } else if (pathname.match(/^\/supplier\/hotel\/room\/\d+\/roomImage\/\d+$/)) {
+    currentTitle = "Room Image";
+  } else if (
+    pathname.match(/^\/supplier\/hotel\/room\/\d+\/room3DImage\/\d+$/)
+  ) {
+    currentTitle = "Room 3D Image";
   }
   const handleCloseMenuClick = () => {
     setDivVisible(false);
@@ -170,10 +176,15 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                 </li>
               </ul>
             </div>
-            <div className='border-t-2 border-white pt-3'>
-              <Link href='/' className='bottom-logout flex justify-center items-center no-underline text-white'>
-                <img className='w-7 h-7' src='/image/out.png' alt='Log out' />
-                <p className='color-white mb-0 ml-1 font-semibold text-xl'>Log out</p>
+            <div className="border-t-2 border-white pt-3">
+              <Link
+                href="/"
+                className="bottom-logout flex justify-center items-center no-underline text-white"
+              >
+                <img className="w-7 h-7" src="/image/out.png" alt="Log out" />
+                <p className="color-white mb-0 ml-1 font-semibold text-xl">
+                  Log out
+                </p>
               </Link>
             </div>
           </header>

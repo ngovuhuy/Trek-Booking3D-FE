@@ -134,7 +134,7 @@ const handleSubmit = async () => {
       staffPhoneNumber,
       staffEmail,
       staffAddress,
-      IsVerify:true,
+      IsVerify: true,
       staffPassword,
       status: true,        
       roleId: 3,

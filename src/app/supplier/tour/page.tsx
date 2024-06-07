@@ -91,7 +91,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
           <img src="/image/search.png" alt="" />
         </div>
         <button
-          className="ml-8 button-add ml-4rem cursor-pointer"
+          className="ml-8 button-add ml-4rem"
           onClick={() => setShowTourCreate(true)}
         >
           + Add tour
@@ -156,7 +156,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                             </td>
                            
                             <td className="whitespace-nowrap px-6 py-4 flex justify-center">
-                              <Link href="#" className='cursor-pointer'>
+                              <Link href="#" className=''>
                                 <img
                                   onClick={() => {
                                     setTour(item);
@@ -168,7 +168,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                               </Link>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center cursor-pointer' href={`/supplier/tour/tourImage/${item.tourId}`}>
+                            <Link className='flex justify-center' href={`/supplier/tour/tourImage/${item.tourId}`}>
                                 <img
                                   src="/image/managevoucher.png"
                                   alt="Manage Image"
@@ -192,7 +192,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                    />
                            
                               <img
-                                className="w-5 h-5 cursor-pointer ml-3 "
+                                className="w-5 h-5 cursor-pointer ml-3"
                                 onClick={() => handleImageClick(item)}
                                 src={
                                   item.status

@@ -81,7 +81,7 @@ function CreateRoomImage(props: Iprops) {
       });
 
       await Promise.all(roomImagePromises);
-    //  toast.success("Room Images created successfully");
+      toast.success("Room Images created successfully");
       handleCloseModal();
       onCreate();
     } catch (error) {

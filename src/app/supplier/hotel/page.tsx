@@ -21,6 +21,8 @@ const HotelListOfSupplier = () => {
   const [HotelId, setHotelId] = useState(0);
   const [Hotel, setHotel] = useState<IHotel | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hotelPerPage] = useState(5);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedHotel, setSelectedHotel] = useState<IHotel | null>(null);
 
@@ -164,6 +166,24 @@ const HotelListOfSupplier = () => {
   if (error) {
     return <div>Error loading hotels</div>;
   }
+
+  const indexOfLastHotel = currentPage * hotelPerPage;
+  const indexOfFirstHotel = indexOfLastHotel - hotelPerPage;
+  const currentHotel = hotelList.slice(indexOfFirstHotel, indexOfLastHotel);
+
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(hotelList.length / hotelPerPage);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   console.log(hotelList);
   return (
     <div className="relative">
@@ -189,7 +209,7 @@ const HotelListOfSupplier = () => {
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-x-auto">
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
-                  <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table ">
+                  <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
                     <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
                         HotelId
@@ -218,20 +238,20 @@ const HotelListOfSupplier = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {hotelList.length > 0 ? (
-                      hotelList.map((item: IHotel, index) => (
+                    {currentHotel.length > 0 ? (
+                      currentHotel.map((item: IHotel, index) => (
                         <tr
                           key={index}
                           className="border-b border-neutral-200 dark:border-white/10 text-center"
                         >
-                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black text-center">
+                          <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.hotelId}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 font-semibold text-black text-center">
+                          <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                             {item.hotelName}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href="#">
+                            <Link href="#">
                               <img src="/image/avatar.png" alt="Avatar" />
                             </Link>
                           </td>
@@ -242,8 +262,8 @@ const HotelListOfSupplier = () => {
                           >
                             {item.isVerify ? "Active" : "Stopped"}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 ">
-                            <Link className='flex justify-center mr-3'
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link className="flex justify-center"
                               href={`/supplier/hotel/voucher/${item.hotelId}`}
                             >
                               <img
@@ -252,8 +272,8 @@ const HotelListOfSupplier = () => {
                               />
                             </Link>
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 ">
-                            <Link  className='flex justify-center mr-3' href={`/supplier/hotel/room/${item.hotelId}`}>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href={`/supplier/hotel/room/${item.hotelId}`} className="flex justify-center">
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room"
@@ -261,7 +281,7 @@ const HotelListOfSupplier = () => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center mr-3' href="#">
+                            <Link href="#" className="flex justify-center">
                               <img
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
@@ -273,8 +293,8 @@ const HotelListOfSupplier = () => {
                               />
                             </Link>
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 flex justify-center">
-                            <Link href="#" >
+                          <td className="whitespace-nowrap px-6 py-4 flex">
+                            <Link href="#" className="flex justify-center">
                               <img
                                 className="w-5 h-5 cursor-pointer"
                                 src="/image/pen.png"
@@ -356,6 +376,24 @@ const HotelListOfSupplier = () => {
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
