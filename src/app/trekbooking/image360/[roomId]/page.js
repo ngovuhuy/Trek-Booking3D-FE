@@ -1,7 +1,8 @@
-'use client'
+'use client';
+
 import React, { useEffect, useState, useRef } from 'react';
-import '../../../../public/css/imag360.css';
-import '../../../../public/css/voucher.css';
+import '../../../../../public/css/imag360.css';
+import '../../../../../public/css/voucher.css';
 
 const roomImage3DService = {
   async getRoom3DImageByRoomId(roomId) {
@@ -31,11 +32,11 @@ const roomImage3DService = {
   },
 };
 
-const Tour = () => {
+const List3DRoom = ({ params }) => {
   const [listImageUrl, setListImageUrl] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
-  const roomId = "1"; // Replace with your roomId
+  const roomId = params.roomId; // Lấy roomId từ params
   const viewerRef = useRef(null);
   const panoramaRef = useRef(null);
 
@@ -61,7 +62,7 @@ const Tour = () => {
     script1.async = true;
     script1.onload = () => {
       const script2 = document.createElement('script');
-      script2.src = '../Components/panolens.min.js';
+      script2.src = '/Components/panolens.min.js';
       script2.async = true;
       script2.onload = () => {
         console.log("Panolens script loaded");
@@ -74,7 +75,7 @@ const Tour = () => {
     return () => {
       document.body.removeChild(script1);
     };
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     if (scriptsLoaded && listImageUrl.length > 0) {
@@ -151,4 +152,4 @@ const Tour = () => {
   );
 };
 
-export default Tour;
+export default List3DRoom;
