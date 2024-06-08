@@ -341,7 +341,30 @@ a {
     opacity: 0.8;
     background: #ccc;
   }
-
+  .underline_hv:hover{
+    text-decoration: underline;
+  }
+  .slick-next{
+    z-index: 10;
+    right: 0 !important;
+  }
+  .slick-prev{
+    z-index: 10;
+    left: 0 !important;
+  }
+  .slick-dots{
+    bottom: -15px !important;
+  }
+  .zoom-effect-container {
+    position: relative;
+    overflow: hidden;
+}
+.image-card {
+    transition: transform 0.3s ease-in-out;
+}
+.image-card:hover {
+    transform: scale(1.1);
+}
 @media all and (max-width: 1100px) {
   .cham {
     left: 48.6%;
