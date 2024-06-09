@@ -14,6 +14,8 @@
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "bootstrap": "^5.3.3",
+    "country-cities": "^1.0.8",
+    "country-state-city": "^3.2.1",
     "firebase": "^10.11.1",
     "next": "14.2.2",
     "react": "^18",
@@ -23,7 +25,8 @@
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "save": "^2.9.0",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "vn-local-plus": "^1.1.5"
   },
   "devDependencies": {
     "@types/node": "^20",
