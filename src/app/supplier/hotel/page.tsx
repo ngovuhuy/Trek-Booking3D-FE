@@ -9,6 +9,9 @@ import UpdateHotel from "@/app/components/Hotel/UpdateHotel";
 import DetailHotel from "@/app/components/Hotel/DetailHotel";
 import { mutate } from "swr";
 import { toast } from "react-toastify";
+import HotelAvatar from "@/app/components/Hotel/HotelAvatar";
+import { ref, deleteObject } from "firebase/storage";
+import { analytics } from "../../../../public/firebase/firebase-config";
 
 const HotelListOfSupplier = () => {
   const [hotelList, setHotelList] = useState([]);
@@ -17,17 +20,22 @@ const HotelListOfSupplier = () => {
   const [showHotelCreate, setShowHotelCreate] = useState<boolean>(false);
   const [showHotelUpdate, setShowHotelUpdate] = useState<boolean>(false);
   const [showHotelDetail, setShowHotelDetail] = useState<boolean>(false);
+  const [showHotelAvatar, setShowHotelAvatar] = useState<boolean>(false);
   const [showNoti, setShowNoti] = useState<boolean>(false);
   const [HotelId, setHotelId] = useState(0);
   const [Hotel, setHotel] = useState<IHotel | null>(null);
-
+  const [oldAvatarUrl, setOldAvatarUrl] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [hotelPerPage] = useState(5);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedHotel, setSelectedHotel] = useState<IHotel | null>(null);
+  const [imageLoadErrors, setImageLoadErrors] = useState<{ [key: number]: boolean }>({});
 
   const [loadingPage, setLoadingPage] = useState(false);
 
+  const handleImageError = (hotelId: number) => {
+    setImageLoadErrors((prevErrors) => ({ ...prevErrors, [hotelId]: true }));
+  };
   const handleImageClick = (hotel: IHotel) => {
     setSelectedHotel(hotel);
     setShowPopup(true);
@@ -90,6 +98,27 @@ const HotelListOfSupplier = () => {
     }
   }, []);
 
+  const handleHotelAvatar = async () => {
+    setShowHotelAvatar(false);
+    const supplierId = localStorage.getItem("supplierId");
+    if (supplierId) {
+      hotelService
+        .getHotelsBySuppierId(Number(supplierId))
+        .then(async (data: any) => {
+          setHotelList(data);
+          setLoading(false);
+          await handleDeleteHotelAvatar(oldAvatarUrl);
+        })
+        .catch((error) => {
+          console.error("Error fetching hotel list:", error);
+          setError(error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
   //reload sau khi add
   const handleCreateHotel = async () => {
     setShowHotelCreate(false);
@@ -130,7 +159,27 @@ const HotelListOfSupplier = () => {
     }
   };
 
-  //Update
+//delete image from firebase
+  const deleteImageFromStorage = async (imageUrl: string) => {
+    try {
+      const storageRef = ref(analytics, imageUrl);
+      await deleteObject(storageRef);
+   //   console.log("Image deleted successfully from Firebase Storage");
+    } catch (error) {
+      console.error("Error deleting image from Firebase Storage:", error);
+    }
+  };
+  //Delete Hotel avatar in cloud storage after update new avatar
+  const handleDeleteHotelAvatar = async (imageUrl: string) => {
+    try {
+   //   console.log("Deleting room image with ID:", roomImageId);
+      await deleteImageFromStorage(imageUrl);
+      //toast.success("Delete Image Successful")
+    } catch (error) {
+      console.error("Error deleting room image:", error);
+      alert("Failed to delete room image");
+    }
+  };
 
   //Delete
   const handleDeleteHotel = async (hotelId: number) => {
@@ -171,7 +220,7 @@ const HotelListOfSupplier = () => {
   const indexOfFirstHotel = indexOfLastHotel - hotelPerPage;
   const currentHotel = hotelList.slice(indexOfFirstHotel, indexOfLastHotel);
 
-  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(hotelList.length / hotelPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -252,7 +301,33 @@ const HotelListOfSupplier = () => {
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link href="#">
-                              <img src="/image/avatar.png" alt="Avatar" />
+                              {imageLoadErrors[item.hotelId] ? (
+                                <div
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    setOldAvatarUrl(item.hotelAvatar);
+                                    setHotelId(item.hotelId);
+                                    setShowHotelAvatar(true);
+                                    console.log("HotelID: " + item.hotelId, item);
+                                  }}
+                                >
+                                  Upload Avatar
+                                </div>
+                              ) : (
+                                <img
+                                  src={item.hotelAvatar}
+                                  alt="Avatar"
+                                  className="cursor-pointer rounded-full"
+                                  style={{ width: "70px", height: "70px" }}
+                                  onClick={() => {
+                                    setOldAvatarUrl(item.hotelAvatar);
+                                    setHotelId(item.hotelId);
+                                    setShowHotelAvatar(true);
+                                    console.log("HotelID: " + item.hotelId, item);
+                                  }}
+                                  onError={() => handleImageError(item.hotelId)}
+                                />
+                              )}
                             </Link>
                           </td>
                           <td
@@ -378,20 +453,34 @@ const HotelListOfSupplier = () => {
                 </table>
                 <div className="pagination mt-4 flex justify-between items-center font-semibold">
                   <div>
-                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
                   </div>
                   <div className="flex items-center mr-8">
-                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
                     {Array.from({ length: totalPages }, (_, index) => (
                       <p
                         key={index}
                         onClick={() => paginate(index + 1)}
-                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
                       >
                         {index + 1}
                       </p>
                     ))}
-                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
                   </div>
                 </div>
               </div>
@@ -411,6 +500,13 @@ const HotelListOfSupplier = () => {
         ThishotelId={HotelId}
         hotel={Hotel}
         setHotel={setHotel}
+      />
+
+      <HotelAvatar
+        showHotelAvatar={showHotelAvatar}
+        setShowHotelAvatar={setShowHotelAvatar}
+        onUpdate={handleHotelAvatar} // Thêm callback để xử lý sau khi tạo
+        hotelId={HotelId}
       />
       <DetailHotel
         showHotelDetail={showHotelDetail}
