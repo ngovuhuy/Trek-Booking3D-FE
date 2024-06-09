@@ -16,29 +16,31 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
   };
   let currentTitle = title;
   if (pathname === "/supplier/hotel") {
-    currentTitle = "Hotel";
+    currentTitle = "HOTEL";
   } else if (pathname === "/supplier/tour") {
-    currentTitle = "Tour";
+    currentTitle = "TOUR";
+  } else if (pathname === "/supplier/dashboard") {
+    currentTitle = "DASHBOARD";
   } else if (pathname === "/supplier/staff") {
-    currentTitle = "Staff";
+    currentTitle = "STAFF";
   } else if (pathname.match(/^\/supplier\/hotel\/voucher\/\d+$/)) {
-    currentTitle = "Voucher";
+    currentTitle = "VOUCHER";
   } else if (pathname === "/supplier/roombooking") {
-    currentTitle = "Room Booking";
+    currentTitle = "ROOM BOOKING";
   } else if (pathname === "/supplier/tourbooking") {
-    currentTitle = "Tour Booking";
+    currentTitle = "TOUR BOOKING";
   } else if (pathname === "/supplier/roomservice") {
-    currentTitle = "Room Service";
+    currentTitle = "ROOM SERVICE";
   } else if (pathname.match(/^\/supplier\/hotel\/room\/\d+$/)) {
-    currentTitle = "Room";
+    currentTitle = "ROOM";
   } else if (pathname.match(/^\/supplier\/tour\/tourImage\/\d+$/)) {
-    currentTitle = "Tour Image";
+    currentTitle = "TOUR IMAGE";
   } else if (pathname.match(/^\/supplier\/hotel\/room\/\d+\/roomImage\/\d+$/)) {
-    currentTitle = "Room Image";
+    currentTitle = "ROOM IMAGE";
   } else if (
     pathname.match(/^\/supplier\/hotel\/room\/\d+\/room3DImage\/\d+$/)
   ) {
-    currentTitle = "Room 3D Image";
+    currentTitle = "ROOM 3D IMAGE";
   }
   const handleCloseMenuClick = () => {
     setDivVisible(false);

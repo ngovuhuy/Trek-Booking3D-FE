@@ -114,7 +114,13 @@ function UpdateProfile(props: IProps) {
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!userName) newErrors.userName = "UserName is required";
+    if (!userName) {
+      newErrors.userName = "UserName is required";
+    } else if (/[^a-zA-Z\s]/.test(userName)) {
+      newErrors.userName =
+        "UserName must not contain numbers or special characters";
+    }
+
     if (!phone || isNaN(parseInt(phone)))
       newErrors.roomAvailable = "Available must be a number";
     if (!email) newErrors.email = "Email is required";
@@ -124,11 +130,10 @@ function UpdateProfile(props: IProps) {
   };
 
   const handleCloseModal = async () => {
-    setUserName("");
-    setAvatar("");
-    setPhone("");
-    setEmail("");
-    setAddress("");
+    // setUserName("");
+    // setPhone("");
+    // setAvatar("");
+    // setAddress("");
     setErrors({});
     setUser(null);
     setFileUpload(null);
