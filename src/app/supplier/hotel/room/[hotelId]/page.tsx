@@ -225,7 +225,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href="#">
+                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/serviceOfRoom/${item.roomId}`}>
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Service"
