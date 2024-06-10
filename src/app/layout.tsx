@@ -23,10 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+
     <html lang="en">
+     
       <body className={roboto.className}>
         {/* <Navbar></Navbar> */}
-    
+        
         {children}
         {/* <Footer/> */}
         </body>

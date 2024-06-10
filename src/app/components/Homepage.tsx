@@ -22,9 +22,9 @@ const Homepage = () => {
               </a>
             </li>
             <li className="li-menu hover-bold">
-              <a href="" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>
+              <Link href="/trekbooking/list_hotel" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>
                 Hotel
-              </a>
+              </Link>
             </li>
             <li className="li-menu hover-bold">
               <a href="" className="font-bold text-decoration-none" style={{ color: "#1F1C17" }}>

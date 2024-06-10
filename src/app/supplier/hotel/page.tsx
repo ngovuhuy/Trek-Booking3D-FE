@@ -259,7 +259,7 @@ const HotelListOfSupplier = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
-                    <tr>
+                    <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
                         HotelId
                       </th>
@@ -282,6 +282,12 @@ const HotelListOfSupplier = () => {
                         View Detail
                       </th>
                       <th scope="col" className="px-6 py-4">
+                        Manage Comment
+                      </th>
+                      <th scope="col" className="px-6 py-4">
+                        Manage Rate
+                      </th>
+                      <th scope="col" className="px-6 py-4">
                         Action
                       </th>
                     </tr>
@@ -291,7 +297,7 @@ const HotelListOfSupplier = () => {
                       currentHotel.map((item: IHotel, index) => (
                         <tr
                           key={index}
-                          className="border-b border-neutral-200 dark:border-white/10"
+                          className="text-center border-b border-neutral-200 dark:border-white/10"
                         >
                           <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                             {item.hotelId}
@@ -366,6 +372,16 @@ const HotelListOfSupplier = () => {
                                   console.log("HotelID: " + item.hotelId, item);
                                 }}
                               />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href={`/supplier/hotel/comment/${item.hotelId}`}>
+                              <img src="/image/managevoucher.png" alt="Manage Comment" />
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            <Link href={`/supplier/hotel/rate/${item.hotelId}`}>
+                              <img src="/image/managevoucher.png" alt="Manage Rate" />
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex">
