@@ -140,7 +140,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   
    
       const result = await addToBookingCart(bookingData);
-      toast.success()
+      //toast.success()
      // router.push('/trekbooking/booking_infor');
       router.push(`/trekbooking/booking_infor?roomId=${room.roomId}&hotelId=${room.hotelId}`);
       console.log('Booking cart added:', result);
