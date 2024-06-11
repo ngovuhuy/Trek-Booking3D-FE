@@ -93,7 +93,10 @@ const handleLogout = async () => {
                   alt=""
                   className="pr-2"
                 />
-                <Link className="no-underline text-accent font-bold" href="confirmregister">
+                <Link
+                  className="no-underline text-accent font-bold"
+                  href="confirmregister"
+                >
                   Post your hotel
                 </Link>
               </li>
