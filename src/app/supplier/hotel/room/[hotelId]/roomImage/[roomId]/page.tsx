@@ -70,19 +70,21 @@ const ListRoomImage = ({ params }: { params: { hotelId: string, roomId: string }
 
   useEffect(() => {
     if (params.roomId) {
-      roomImageService
-        .getRoomImageByRoomId(Number(params.roomId))
-        .then((data: any) => {
-          setRoomImage(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching room images:", error);
-          setError(error);
-          setLoading(false);
-        });
-    }
+        roomImageService
+          .getRoomImageByRoomId(Number(params.roomId))
+          .then((data: any) => {
+            setRoomImage(data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching room images:", error);
+            setError(error);
+            setLoading(false);
+          });
+      }
   }, [params.roomId]);
+
+
 
   const deleteImageButtonHandler = (roomImageId: number, imageUrl: string) => {
     handleDeleteRoomImage(roomImageId, imageUrl);

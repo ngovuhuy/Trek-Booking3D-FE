@@ -13,6 +13,9 @@ import { addToBookingCart, getBookingCartByUserId } from "@/app/services/booking
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
+import commentService from "@/app/services/commentService";
+import rateService from "@/app/services/rateService";
+
 
 const formatRoomDescription = (description: string) => {
 
@@ -29,6 +32,9 @@ const formatRoomDescription = (description: string) => {
 
 const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const userId = localStorage.getItem("userId");
+  const [commentList, setCommentList] = useState<IComment[]>([]);
+  const [rateList, setRateList] = useState<IRate[]>([]);
+  const [combinedList, setCombinedList] = useState<(IComment & { rateValue?: number })[]>([]);
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [roomList, setRoomList] = useState<IRoom[]>([]);
@@ -41,6 +47,12 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const { data: listRoom, isLoading } = useSWR("listRoom", () =>
     roomService.getRoomsByHotelId(Number(params.hotelId))
   );
+  const { data: listComment } = useSWR("listComment", () =>
+    commentService.getCommentsByHotelId(Number(params.hotelId))
+  );
+  const { data: listRate } = useSWR("listRate", () =>
+    rateService.getRatesByHotelId(Number(params.hotelId))
+  );
   const router = useRouter();
   useEffect(() => {
     if (listRoom) {
@@ -48,7 +60,28 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       fetchRoomImages(listRoom);
     }
   }, [listRoom]);
-
+  useEffect(() => {
+    if (listComment) {
+      setCommentList(listComment);
+    }
+  }, [listComment]);
+  useEffect(() => {
+    if (listRate) {
+      setRateList(listRate);
+    }
+  }, [listRate]);
+  useEffect(() => {
+    if (listComment && listRate) {
+      const combined = listComment.map(comment => {
+        const rate = listRate.find(rate => rate.bookingId === comment.bookingId);
+        return {
+          ...comment,
+          rateValue: rate?.rateValue
+        };
+      });
+      setCombinedList(combined);
+    }
+  }, [listComment, listRate]);
   const fetchRoomImages = async (rooms: IRoom[]) => {
     const imagesMap: { [key: number]: IRoomImage[] } = {};
     for (const room of rooms) {
@@ -79,7 +112,15 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     }
     return guests;
   };
-
+  const renderStars = (rateValue: number) => {
+    const stars = [];
+    for (let i = 0; i < rateValue; i++) {
+      stars.push(
+        <img key={i} className="pr-1" src={i < rateValue ? "/image/start.png" : ""} alt="star" />
+      );
+    }
+    return stars;
+  };
   const handleAddToCart = async (room: IRoom) => {
     if (!checkInDate || !checkOutDate) {
       toast.error("Please select both check-in and check-out dates");
@@ -153,11 +194,27 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   if (!listRoom) {
     return <div>Loading...</div>;
   }
+  if (!listComment) {
+    return <div>Loading...</div>;
+  }
+  if (!combinedList) {
+    return <div>Loading...</div>;
+  }
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
+    slidesToScroll: 1,
+    draggable: false,
+    autoplay: false,
+    autoplaySpeed: 4000,
+  };
+  const settingsComment = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
     slidesToScroll: 1,
     draggable: false,
     autoplay: false,
@@ -492,7 +549,61 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
             </div>
           )}
         </div>
-      </div>
+        
+        <p className="font-semibold text-3xl my-8">Reviews</p>
+
+          <div className="row mb-5">
+            <Slider {...settingsComment}>
+              {combinedList.length > 0 ? (
+                combinedList.map((item, index) => (
+                  <>
+                    <div key={index} className="py-5 px-3">
+                      <div
+                        className="border"
+                        style={{
+                          boxShadow: "0 4px 4px 0 #7F7F7F",
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <div className=" w-4/5 mx-auto mt-4 mb-10">
+                          <div className="flex justify-items-center">
+                            <img
+                              src="/image/user.png"
+                              alt="user"
+                              className="rounded-full border w-16 h-16"
+                            />
+                            <div className="pl-4">
+                              <span className="font-semibold text-lg">
+                                {item.user.userName}
+                              </span>
+                              <p className="font-normal text-base">
+                                {new Date(
+                                  item.dateSubmitted
+                                ).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex h-3 my-3">
+                            {renderStars(item.rateValue || 0)}
+                          </div>
+                          <div>
+                            <span className="font-medium">{item.message}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <div className="col-12">
+                  <p className="text-center py-4 text-red-600 font-bold">
+                    No comment found
+                  </p>
+                </div>
+              )}
+            </Slider>
+          </div>
+        </div>
     </>
   );
   };
