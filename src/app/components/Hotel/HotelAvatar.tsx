@@ -4,19 +4,21 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { analytics } from "../../../../public/firebase/firebase-config";
-import tourImageService from "@/app/services/tourImageService";
+
+//tao ten file doc nhat
 import { v4 as uuidv4 } from 'uuid';
+import hotelService from "@/app/services/hotelService";
 
 interface Iprops {
-  showTourImageCreate: boolean;
-  setShowTourImageCreate: (value: boolean) => void;
-  onCreate: () => void;
-  tourId: number;
-  listTourImage: number;
+  showHotelAvatar: boolean;
+  setShowHotelAvatar: (value: boolean) => void;
+  onUpdate: () => void;
+  hotelId: number;
+  
 }
 
-function CreateTourImage(props: Iprops) {
-  const { showTourImageCreate, setShowTourImageCreate, onCreate, tourId, listTourImage } = props;
+function HotelAvatar(props: Iprops) {
+  const { showHotelAvatar, setShowHotelAvatar, onUpdate, hotelId } = props;
   const [fileUploads, setFileUploads] = useState<File[]>([]);
   const [previewImageURLs, setPreviewImageURLs] = useState<string[]>([]);
   const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
@@ -31,7 +33,7 @@ function CreateTourImage(props: Iprops) {
   const uploadImages = async () => {
     const uploadPromises = fileUploads.map(file => {
       const uniqueFileName = `${uuidv4()}_${file.name}`;
-      const storageRef = ref(analytics, "Trek_Image/" + uniqueFileName);
+      const storageRef = ref(analytics, "Hotel_Image/" + uniqueFileName);
       return uploadBytes(storageRef, file)
         .then(async snapshot => {
           const downloadURL = await getDownloadURL(snapshot.ref);
@@ -58,7 +60,7 @@ function CreateTourImage(props: Iprops) {
     setFileUploads([]);
     setPreviewImageURLs([]);
     setUploadedImageURLs([]);
-    setShowTourImageCreate(false);
+    setShowHotelAvatar(false);
   };
 
   const handleSubmit = async () => {
@@ -66,46 +68,41 @@ function CreateTourImage(props: Iprops) {
       toast.error("Please choose at least one image!!!");
       return;
     }
-    if (fileUploads.length + listTourImage > 6) {
-      toast.error("You can only add up to 6 images for this tour.");
-      return;
-    }
+    
 
     try {
       const imageURLs = await uploadImages();
-      const tourImagePromises = imageURLs.map(url => {
-        const tourImage = {
-          tourImageId: 0,
-          tourImageURL: url,
-          tourId: tourId
+      const hotelImagePromises = imageURLs.map(url => {
+        const hotel = {
+          hotelId: hotelId,
+          hotelAvatar: url,
         };
-        return tourImageService.createTourImage(tourImage);
+        return hotelService.updateHotelAvatar(hotel);
       });
 
-      await Promise.all(tourImagePromises);
-      toast.success("Tour Images created successfully");
+      await Promise.all(hotelImagePromises);
+      //toast.success("Hotel Images updated successfully");
       handleCloseModal();
-      onCreate();
+      onUpdate();
     } catch (error) {
-      toast.error("Failed to create tour images");
-      console.error("Error creating tour images:", error);
+      toast.error("Failed to update hotel images");
+      console.error("Error update hotel images:", error);
     }
   };
 
   useEffect(() => {
-    if (showTourImageCreate) {
+    if (showHotelAvatar) {
       setFileUploads([]);
       setPreviewImageURLs([]);
       setUploadedImageURLs([]);
     }
-  }, [showTourImageCreate]);
+  }, [showHotelAvatar]);
 
   return (
     <>
-      <Modal show={showTourImageCreate} onHide={handleCloseModal} size="lg" centered>
+      <Modal show={showHotelAvatar} onHide={handleCloseModal} size="lg" centered>
         <Modal.Body className="p-4">
-          <h2 className="font-bold pb-4">Add Image Pictures</h2>
-          <h4 className="font-bold pb-4">Tour Image: {listTourImage}/6 </h4>
+          <h2 className="font-bold pb-4">Add Hotel Avatar Pictures</h2>
           <div className="flex justify-center flex-wrap">
             {previewImageURLs.length > 0 ? (
               previewImageURLs.map((url, index) => (
@@ -129,7 +126,6 @@ function CreateTourImage(props: Iprops) {
               id="fileInput"
               type="file"
               accept="image/*"
-              multiple
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
@@ -148,4 +144,4 @@ function CreateTourImage(props: Iprops) {
   );
 }
 
-export default CreateTourImage;
+export default HotelAvatar;

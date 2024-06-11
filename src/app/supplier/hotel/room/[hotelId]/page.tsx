@@ -117,14 +117,30 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
-    
+      {hotel && (
+          <div className="breadcrumb">
+            <Link
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <span style={{ color: "blue", fontSize: "18px" }}>
+              {hotel.hotelName}
+            </span>
+          </div>
+        )}
         <div className="search-hotel flex">
-        {hotel && (
-      
-      <span  className="fix-name">
-           Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
-    </span>
-     )}
           <input
             type="text"
             placeholder="Search........."
@@ -140,7 +156,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
         </button>
       </div>
 
-      <div className="table-hotel ">
+      <div className="table-hotel pt-8">
         <div className="flex flex-col overflow-x-auto">
           <div className="sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">

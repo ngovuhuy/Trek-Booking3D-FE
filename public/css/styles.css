@@ -1,3 +1,38 @@
+
+.hotel-date-input{
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.slick-next {
+  z-index: 10;
+  right: 0 !important;
+
+
+}
+.slick-next:before, .slick-prev:before {
+  font-size: 20px;
+  line-height: 1;
+  opacity: .75;
+  color: #a55d33c9 !important;
+}
+.slick-prev {
+  z-index: 10;
+  left: 0 !important;
+
+}
+.slick-dots {
+  bottom: -15px !important;
+}
+.fix-logo{
+  width: 250px;
+  height: 130px;
+}
+.image-fix-link{
+  margin-left: -8px;
+  margin-top: -39px;
+}
 .rounded-20 {
   border: 1px solid rgba(217, 217, 217, 1);
   border-radius: 20px;
@@ -31,10 +66,12 @@ a {
   text-decoration: none;
 }
 .link-style {
-  color: #305a61;
+  color: #305a61 !important;
   position: relative; /* Thiết lập vị trí tương đối để chứa phần gạch chân */
 }
-
+.link-text{
+  color: #1F1C17;
+}
 .link-style::after {
   content: "";
   position: absolute;
@@ -50,13 +87,13 @@ a {
 .hover-bold {
   border: none;
   border-radius: 10px;
-  padding: 10px 20px;
+  padding: 10px 8px;
+  border: 1px solid #ffffff; 
 }
 .hover-bold:hover {
   background-color: #ffe2e27d;
-  border: 1px solid #ffffff;
+
   border-radius: 20px;
-  padding: 10px 20px;
 }
 .background-img {
   background-image: url("/image/home1.png");
@@ -342,6 +379,32 @@ a {
     background: #ccc;
   }
 
+
+  
+  .backgourd-li{
+    z-index: 0;
+    padding: 40px 6px;
+    padding-bottom: 4px;
+    width: 165px;
+    position: absolute;
+    right: -44px;
+    top: -16px;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+.dropdown:hover .color-mess .color-mon{
+  color: #305a61 !important;
+}
+.dropdown:hover .backgourd-li{
+  display: block;
+}
+.hover-nav-sub:hover{
+  border-radius: 14px;
+color: #ffffff;
+background-color: #305A61;
+}
+ 
 @media all and (max-width: 1100px) {
   .cham {
     left: 48.6%;
@@ -366,6 +429,10 @@ a {
   }
 }
 @media all and (max-width: 1024px) {
+  .image-fix-link{
+
+    margin-top: -48px;
+  }
   .buttonrepon {
     padding: 2px 2px;
   }

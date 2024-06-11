@@ -5,7 +5,8 @@ const inter = Inter({ subsets: ["latin"] });
 import { Roboto } from 'next/font/google'
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const metadata: Metadata = {
@@ -25,9 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-      <Navbar></Navbar> 
-       
+      <Navbar title=""></Navbar> 
+      <ToastContainer/>
         {children}
+   
          <Footer/>
         </body>
     </html>
