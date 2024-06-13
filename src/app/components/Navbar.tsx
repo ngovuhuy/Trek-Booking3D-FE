@@ -122,7 +122,7 @@ const handleLogout = async () => {
                     <div className="backgourd-li  text-center">
                <Link
                   className="no-underline text-accent font-bold block mt-3 mb-3 hover-nav-sub"
-                  href="signup_client"
+                  href="/trekbooking/profile"
                 >
                  Manager profile 
                 </Link>
