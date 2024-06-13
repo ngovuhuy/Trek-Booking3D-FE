@@ -74,56 +74,64 @@ const List3DRoom = ({ params }) => {
 
     return () => {
       document.body.removeChild(script1);
+      // Optional: Remove script2 if it was added
+      const script2 = document.querySelector('script[src="/Components/panolens.min.js"]');
+      if (script2) {
+        document.body.removeChild(script2);
+      }
     };
   }, [roomId]);
 
   useEffect(() => {
     if (scriptsLoaded && listImageUrl.length > 0) {
-      console.log("Initializing Panolens viewer with images:", listImageUrl);
-      const imageUrl = listImageUrl[currentImageIndex];
-      console.log("ImageURL: ", imageUrl);
+      const delay = 500; // Adjust the delay as necessary
+      setTimeout(() => {
+        console.log("Initializing Panolens viewer with images:", listImageUrl);
+        const imageUrl = listImageUrl[currentImageIndex];
+        console.log("ImageURL: ", imageUrl);
 
-      if (typeof imageUrl === 'string') {
-        // Remove and dispose the previous panorama if it exists
-        if (panoramaRef.current) {
-          viewerRef.current.remove(panoramaRef.current);
-          panoramaRef.current.dispose();
-          panoramaRef.current = null;
-        }
+        if (typeof imageUrl === 'string') {
+          // Remove and dispose the previous panorama if it exists
+          if (panoramaRef.current) {
+            viewerRef.current.remove(panoramaRef.current);
+            panoramaRef.current.dispose();
+            panoramaRef.current = null;
+          }
 
-        const panorama = new PANOLENS.ImagePanorama(imageUrl);
-        panoramaRef.current = panorama;
+          const panorama = new PANOLENS.ImagePanorama(imageUrl);
+          panoramaRef.current = panorama;
 
-        const imageContainer = document.querySelector('.image360-container');
-        if (!imageContainer) {
-          console.error("Image container not found");
-          return;
-        }
+          const imageContainer = document.querySelector('.image360-container');
+          if (!imageContainer) {
+            console.error("Image container not found");
+            return;
+          }
 
-        if (!viewerRef.current) {
-          const viewer = new PANOLENS.Viewer({
-            container: imageContainer,
-            autoRotate: true,
-            autoRotateSpeed: 0.3,
-            controlBar: true,
-          });
-          viewerRef.current = viewer;
-        }
+          if (!viewerRef.current) {
+            const viewer = new PANOLENS.Viewer({
+              container: imageContainer,
+              autoRotate: true,
+              autoRotateSpeed: 0.3,
+              controlBar: true,
+            });
+            viewerRef.current = viewer;
+          }
 
-        // Only add panorama to viewer if both are valid
-        if (viewerRef.current && panoramaRef.current) {
-          viewerRef.current.add(panoramaRef.current);
+          // Only add panorama to viewer if both are valid
+          if (viewerRef.current && panoramaRef.current) {
+            viewerRef.current.add(panoramaRef.current);
+          } else {
+            console.error("Failed to initialize viewer or panorama");
+          }
         } else {
-          console.error("Failed to initialize viewer or panorama");
+          console.error("Current image URL is not a string:", imageUrl);
         }
-      } else {
-        console.error("Current image URL is not a string:", imageUrl);
-      }
+      }, delay);
     } else {
       console.log("Scripts not loaded or no images found");
     }
   }, [scriptsLoaded, listImageUrl, currentImageIndex]);
-//di chuyen hinh anh trong list
+
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % listImageUrl.length);
   };
@@ -134,20 +142,39 @@ const List3DRoom = ({ params }) => {
 
   return (
     <>
-      <div className="tour">
-        <div className="container">
-          <div className="tour__head">
-            <h2>3D TOUR</h2>
+      <div className="virtual flex justify-center">
+        <div className="border-virtual">
+          <div className="virtual-tour flex justify-center items-center">
+            <img className='img-line' src="/image/line40.png" alt="" />
+            <h5 className='px-3 color-primary font-semibold fz-16'>Virtual tour</h5>
+            <img className='img-line' src="/image/line40.png" alt="" />
           </div>
-          <div className="image360-container"></div>
-          {listImageUrl.length > 0 && (
-            <div className="controls">
-              <button onClick={handleBack}>Back</button>
-              <button onClick={handleNext}>Next</button>
-            </div>
-          )}
+          <p className='color-primary text-center pb-3 fz-12'>Lorem ipsum dolor sit amet consectetur. Vel sit dignissim feugiat semper at pharetra laoreet</p>
         </div>
       </div>
+      <div className="tour">
+        <div className="container">
+          <div className="tour__head"></div>
+          <p>Lorem ipsum dolor sit amet consectetur. Sodales vitae gravida eget tristique sed nec. Lectus ac viverra arcu vestibulum. Tincidunt velit nulla pellentesque dolor cras. Lacus auctor ut quis ullamcorper consectetur sit.</p>
+          <p>Lorem ipsum dolor sit amet consectetur. Sodales vitae gravida eget tristique sed nec. Lectus ac viverra arcu vestibulum. Tincidunt velit nulla pellentesque dolor cras. Lacus auctor ut quis ullamcorper consectetur sit.</p>
+          <div className='relative'>
+            <div className="image360-container"></div>
+            {listImageUrl.length > 0 && (
+              <div className="action-image flex justify-between">
+                <img onClick={handleBack} className='cursor-pointer wh-fix' src="/image/left360.png" alt="" />
+                <div className="img-control flex">
+                  <img className='mx-1 cursor-pointer wh-fix' src="/image/plus.png" alt="" />
+                  <img className='mx-1 cursor-pointer wh-fix' src="/image/minus.png" alt="" />
+                  <img className='mx-1 cursor-pointer wh-fix' src="/image/up.png" alt="" />
+                  <img className='mx-1 cursor-pointer wh-fix' src="/image/down1.png" alt="" />
+                </div>
+                <img onClick={handleNext} className='cursor-pointer wh-fix' src="/image/right360.png" alt="" />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className='pb-28 backgr-home max-[500px]:pb-14'></div>
     </>
   );
 };
