@@ -305,8 +305,8 @@ const HotelListOfSupplier = () => {
                           <td className="whitespace-nowrap px-6 py-4 font-semibold text-black">
                             {item.hotelName}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <Link href="#">
+                          <td className="whitespace-nowrap px-6 py-4 w-0 h-0">
+                            <Link href="#" className='flex justify-center'>
                               {imageLoadErrors[item.hotelId] ? (
                                 <div
                                   className="cursor-pointer"
@@ -324,7 +324,7 @@ const HotelListOfSupplier = () => {
                                   src={item.hotelAvatar}
                                   alt="Avatar"
                                   className="cursor-pointer rounded-full"
-                                  style={{ width: "70px", height: "70px" }}
+                                  style={{ width: "60px", height: "50px" }}
                                   onClick={() => {
                                     setOldAvatarUrl(item.hotelAvatar);
                                     setHotelId(item.hotelId);
@@ -384,9 +384,10 @@ const HotelListOfSupplier = () => {
                               <img src="/image/managevoucher.png" alt="Manage Rate" />
                             </Link>
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4 flex">
+                          <td className="whitespace-nowrap px-6 py-4 ">
                          
-                              <img
+                            <Link href="#" className="flex">
+                            <img
                                 className="w-10 h-5 cursor-pointer"
                                 src="/image/pen.png"
                                 alt="Edit"
@@ -408,6 +409,7 @@ const HotelListOfSupplier = () => {
                               }
                               alt={item.isVerify ? "Ban" : "Unban"}
                             />
+                            </Link>
                             {showPopup &&
                               selectedHotel?.hotelId === item.hotelId && (
                                 <div className="fixed inset-0 z-10 flex items-center justify-center">

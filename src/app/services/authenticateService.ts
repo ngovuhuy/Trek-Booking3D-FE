@@ -116,7 +116,7 @@ const authenticateService: IAuthenticateService = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-      });
+});
 
       if (!response.ok) {
         throw new Error("Sign Up unsuccessful!");

@@ -96,8 +96,8 @@ const ListHotels = () => {
               <Link href="#" className="text-white no-underline zoom-effect-container">
                 <div className="relative image-card">
                   <img
-                    className="border "
-                    style={{ borderRadius: "20px" }}
+                    className="border w-full"
+                    style={{ borderRadius: "20px",height: "231px" }}
                     src="/image/dalat.png"
                     alt="da lat"
                   />
@@ -130,43 +130,9 @@ const ListHotels = () => {
               <Link href="#" className="text-white no-underline zoom-effect-container">
                 <div className="relative image-card">
                   <img
-                    className="border"
-                    style={{ borderRadius: "20px" }}
+                    className="border w-full"
+                    style={{ borderRadius: "20px",height: "231px" }}
                     src="/image/phuquoc.png"
-                    alt="da lat"
-                  />
-                  <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
-                    style={{
-                      backgroundColor: "rgb(31,28,23,0.3)",
-                      border: "0 0 1px 1px",
-                      borderBottomLeftRadius: "20px",
-                      borderBottomRightRadius: "20px",
-                    }}
-                  >
-                    <span className="text-white font-semibold text-base">
-                      Da Lat
-                    </span>
-                  </div>
-                </div>
-              </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
-                  href=""
-                >
-                  Find hotel
-                </Link>
-              </div>
-            </div>
-            <div className="col-2">
-              <Link href="#" className="text-white no-underline zoom-effect-container">
-                <div className="relative image-card">
-                  <img
-                    className="border"
-                    style={{ borderRadius: "20px" }}
-                    src="/image/halong.png"
                     alt="da lat"
                   />
                   <div
@@ -198,9 +164,9 @@ const ListHotels = () => {
               <Link href="#" className="text-white no-underline zoom-effect-container">
                 <div className="relative image-card">
                   <img
-                    className="border"
-                    style={{ borderRadius: "20px" }}
-                    src="/image/hcm.png"
+                    className="border w-full"
+                    style={{ borderRadius: "20px",height: "231px" }}
+                    src="/image/halong.png"
                     alt="da lat"
                   />
                   <div
@@ -232,9 +198,9 @@ const ListHotels = () => {
               <Link href="#" className="text-white no-underline zoom-effect-container">
                 <div className="relative image-card">
                   <img
-                    className="border"
-                    style={{ borderRadius: "20px" }}
-                    src="/image/hanoi.png"
+                    className="border w-full"
+                    style={{ borderRadius: "20px",height: "231px" }}
+                    src="/image/hcm.png"
                     alt="da lat"
                   />
                   <div
@@ -266,9 +232,9 @@ const ListHotels = () => {
               <Link href="#" className="text-white no-underline zoom-effect-container">
                 <div className="relative image-card">
                   <img
-                    className="border"
-                    style={{ borderRadius: "20px" }}
-                    src="/image/dalat.png"
+                    className="border w-full"
+                    style={{ borderRadius: "20px",height: "231px" }}
+                    src="/image/hanoi.png"
                     alt="da lat"
                   />
                   <div
@@ -281,7 +247,41 @@ const ListHotels = () => {
                     }}
                   >
                     <span className="text-white font-semibold text-base">
-                      Da Lat
+                     Ha Noi
+                    </span>
+                  </div>
+                </div>
+              </Link>
+              <div className="flex justify-center my-3">
+                <Link
+                  className="no-underline text-white border px-3 font-medium text-sm"
+                  style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
+                  href=""
+                >
+                  Find hotel
+                </Link>
+              </div>
+            </div>
+            <div className="col-2">
+              <Link href="#" className="text-white no-underline zoom-effect-container">
+                <div className="relative image-card">
+                  <img
+                    className="border w-full"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/phocohoian.jpg"
+                    alt="da lat"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
+                  >
+                    <span className="text-white font-semibold text-base">
+                     Nghe An
                     </span>
                   </div>
                 </div>

@@ -1,9 +1,60 @@
+.history-title{
+  background: #305A61;
+}
+.backgr-fffff{
+  background: #ffffff;
+}
+.rated{
+  background-color: #ffffff;
+  color: #000;
+  padding: 2px 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+}
+.buyagain{
+  background-color: #305A61;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  margin-left: 12px;
+}
+.send{
+  background-color: #305A61;
+  color: #ffffff;
+  padding: 4px 24px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-left: 12px;
+}
+.review-text{
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding-left: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 
+  padding-right: 6px;
+width: 100%;
+}
+.input-full-rate{
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 97%;
+  padding-bottom: 2px;
+  padding-top: 2px;
+}
 .hotel-date-input{
   border: 1px solid #ccc;
   border-radius: 12px;
   padding-left: 8px;
   padding-right: 8px;
+  
 }
 .slick-next {
   z-index: 10;
@@ -26,7 +77,7 @@
   bottom: -15px !important;
 }
 .fix-logo{
-  width: 250px;
+  width: 200px;
   height: 130px;
 }
 .image-fix-link{
@@ -577,7 +628,7 @@ background-color: #305A61;
   .text-small {
     font-size: 19px;
   }
-  .pright-repon{
+  .pright-repon {
     padding-right: 5rem;
   }
 }
