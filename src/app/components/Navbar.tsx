@@ -80,7 +80,7 @@ const handleLogout = async () => {
                   className="pr-2"
                 />
                 <Link
-                  href="cart"
+                  href="/trekbooking/booking_cart"
                   className="no-underline text-accent font-bold"
                 >
                   Cart(1)
@@ -95,7 +95,7 @@ const handleLogout = async () => {
                 />
                 <Link
                   className="no-underline text-accent font-bold"
-                  href="confirmregister"
+                  href="/confirmregister"
                 >
                   Post your hotel
                 </Link>

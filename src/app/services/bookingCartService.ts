@@ -79,3 +79,13 @@ export async function getRoomImagesByRoomId(roomId: number) {
   
     return await response.json();
   }
+
+  export const deleteBookingCart = async (cartId: number): Promise<void> => {
+    const response = await fetch(`https://localhost:7132/deleteBookingCart/${cartId}`, {
+      method: 'DELETE',
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to delete booking cart item');
+    }
+  };

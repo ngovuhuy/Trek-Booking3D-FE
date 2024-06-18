@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 import commentService from "@/app/services/commentService";
 import rateService from "@/app/services/rateService";
+import { Oval } from 'react-loader-spinner'; // Import spinner
 
 
 const formatRoomDescription = (description: string) => {
@@ -190,16 +191,23 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     }
   
   };
-  
-  if (!listRoom) {
-    return <div>Loading...</div>;
+  if (isLoading || !listRoom || !listComment || !combinedList) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
   }
-  if (!listComment) {
-    return <div>Loading...</div>;
-  }
-  if (!combinedList) {
-    return <div>Loading...</div>;
-  }
+
   const settings = {
     dots: true,
     infinite: true,
