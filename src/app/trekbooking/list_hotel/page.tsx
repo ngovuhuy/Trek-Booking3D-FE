@@ -6,7 +6,7 @@ import commentService from "@/app/services/commentService";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback } from "react";
-
+import { Oval } from 'react-loader-spinner'; // Import spinner
 const ListHotels = () => {
   const [hotelList, setHotelList] = useState<IHotel[]>([]);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
@@ -78,7 +78,22 @@ const ListHotels = () => {
     [roomList]
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
+  }
   if (error) return <p>Error loading data.</p>;
 
   return (

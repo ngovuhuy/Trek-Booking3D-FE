@@ -128,8 +128,6 @@ const ListRoomImage = ({ params }: { params: {hotelId:string, roomId: string } }
     }
   };
 
-    
-
   const handleAddImage = () => {
     if (listRoomImage.length >= 6) {
       alert("You can only add up to 6 images for this tour.");
@@ -220,7 +218,7 @@ const ListRoomImage = ({ params }: { params: {hotelId:string, roomId: string } }
                                 target.src = "/image/imagedefault.png";
                               }}
                             />
-                            {showPopup && selectedImageRoom === item.roomImage3DId && (
+                            {showPopup && selectedImageRoom?.roomImage3DId === item.roomImage3DId && (
                               <div className="fixed inset-0 z-10 flex items-center justify-center ">
                                 <div className="fixed inset-0 bg-black opacity-5" onClick={handleClosePopup}></div>
                                 <div className="relative bg-white p-8 rounded-lg">

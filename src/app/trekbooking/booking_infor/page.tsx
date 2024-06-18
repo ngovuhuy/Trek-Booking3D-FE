@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId } from "@/app/services/bookingCartService";
 import { BookingCartItem } from "@/app/entities/bookingCartItem";
 import { useSearchParams } from 'next/navigation';
+import { Oval } from 'react-loader-spinner'; 
 
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
@@ -57,7 +58,20 @@ const BookingInfo = () => {
   }, [roomId, hotelId]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
   }
 
   const settings = {

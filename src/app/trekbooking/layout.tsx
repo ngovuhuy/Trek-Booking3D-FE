@@ -5,8 +5,7 @@ const inter = Inter({ subsets: ["latin"] });
 import { Roboto } from "next/font/google";
 import Navbar from "../components/Navbar";
 import Footer from "../components/footer";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+
 
 
 import Script from "next/script";
@@ -36,11 +35,11 @@ export default function RootLayout({
       </head>
       <body className={roboto.className}>
       <Navbar title=""></Navbar> 
-      <ToastContainer/>
+    
         {children}
    
          <Footer/>
-         <ToastContainer />
+        
         <df-messenger
           intent="WELCOME"
           chat-title="Trek_Booking"

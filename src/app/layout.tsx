@@ -23,13 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-
     <html lang="en">
-     
       <body className={roboto.className}>
       <ToastContainer/>
         {children}
-
         </body>
     </html>
   );
