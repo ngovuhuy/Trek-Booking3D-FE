@@ -10,7 +10,7 @@ import CreateVoucher from "@/app/components/Voucher/CreateVoucher";
 import UpdateVoucher from "@/app/components/Voucher/UpdateVoucher";
 import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
-
+import "../../../../../../public/css/voucher.css";
 const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   const [showVoucherCreate, setShowVoucherCreate] = useState<boolean>(false);
   const [showVoucherUpdate, setShowVoucherUpdate] = useState<boolean>(false);
@@ -143,15 +143,14 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
-        {hotel && (
-          <div className="breadcrumb">
+      {hotel && (
+          <div className="fix-name">
             <Link
               href="/supplier/hotel"
               style={{ color: "black", fontSize: "18px" }}
             >
               Hotel
             </Link>
-
             <span
               style={{
                 color: "black",
@@ -162,10 +161,12 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
             >
               {" > "}
             </span>
-
-            <span style={{ color: "blue", fontSize: "18px" }}>
+            <Link
+              href={`/supplier/hotel/room/${params.hotelId}`}
+              style={{ color: "#4c7cab", fontSize: "18px" }}
+            >
               {hotel.hotelName}
-            </span>
+            </Link>
           </div>
         )}
         <div className="search-hotel flex">
