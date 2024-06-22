@@ -59,7 +59,6 @@ export const tourService: ITourService = {
   },
 
   async getTourImageByTourId(tourId) {
-    console.log(tourId);
     try {
       const response = await fetch(
         `https://localhost:7132/getTourImageByTourId/${tourId}`,
@@ -77,7 +76,6 @@ export const tourService: ITourService = {
         throw new Error("Failed to fetch room list");
       }
       const data = await response.json();
-      console.log(data); // Trigger refetch after fetching
       return data;
     } 
     catch (error) {

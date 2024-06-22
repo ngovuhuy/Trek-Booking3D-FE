@@ -39,16 +39,18 @@ const NavSupplier = () => {
               </li>
             </div>
             <li className="flex items-center pb-10">
-  <Link
-    className={`flex no-underline nav-i-hover py-2 pl-3 pr-40 ${
-      pathname ===("/supplier/tour") ? "active-link" : ""
-    }`}
-    href="/supplier/tour"
-  >
-    <img className="w-7 h-7" src="/image/suitcase.png" alt="" />
-    <span className="text-white ml-2 text-xl font-semibold">Tour</span>
-  </Link>
-</li>
+              <Link
+                className={`flex no-underline nav-i-hover py-2 pl-3 pr-40 ${
+                  pathname === "/supplier/tour" ? "active-link" : ""
+                }`}
+                href="/supplier/tour"
+              >
+                <img className="w-7 h-7" src="/image/suitcase.png" alt="" />
+                <span className="text-white ml-2 text-xl font-semibold">
+                  Tour
+                </span>
+              </Link>
+            </li>
             <li className="flex items-center pb-10 ">
               <Link
                 className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
@@ -63,7 +65,6 @@ const NavSupplier = () => {
               </Link>
             </li>
 
-            
             <li className="flex items-center pb-10 ">
               <Link
                 className={`flex no-underline  nav-i-hover py-2 pl-3 pr-40 ${
