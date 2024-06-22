@@ -143,32 +143,14 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
-        {hotel && (
-          <div className="breadcrumb">
-            <Link
-              href="/supplier/hotel"
-              style={{ color: "black", fontSize: "18px" }}
-            >
-              Hotel
-            </Link>
 
-            <span
-              style={{
-                color: "black",
-                fontSize: "18px",
-                marginLeft: "5px",
-                marginRight: "5px",
-              }}
-            >
-              {" > "}
-            </span>
-
-            <span style={{ color: "blue", fontSize: "18px" }}>
-              {hotel.hotelName}
-            </span>
-          </div>
-        )}
         <div className="search-hotel flex">
+        {hotel && (
+
+<span  className="fix-name">
+     Hotel {" > "} <span     style={{ color: "#0cc560", fontSize: "18px" }}>{hotel.hotelName}</span>
+</span>
+)}
           <input
             type="text"
             placeholder="Search........."

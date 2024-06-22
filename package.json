@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
+    "@stripe/stripe-js": "^4.0.0",
     "bootstrap": "^5.3.3",
     "country-cities": "^1.0.8",
     "country-state-city": "^3.2.1",
