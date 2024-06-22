@@ -66,18 +66,21 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 </a>
               </li>
               <li className="flex hover-bold cursor-pointer">
+                <Link className="flex text-decoration-none"  href="/trekbooking/booking_cart">
                 <img
                   style={{ width: "30px", height: "25px" }}
                   src="/image/cart.png"
                   alt=""
                   className="pr-2"
                 />
-                <Link
-                  href="cart"
+                <span
+                 
                   className="no-underline text-accent font-bold"
                 >
                   Cart(1)
+                </span>
                 </Link>
+               
               </li>
               <li className="flex hover-bold cursor-pointer">
                 <img
@@ -88,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 />
                 <Link
                   className="no-underline text-accent font-bold"
-                  href="confirmregister"
+                  href="/confirmregister"
                 >
                   Post your hotel
                 </Link>
