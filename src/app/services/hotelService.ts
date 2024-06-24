@@ -13,7 +13,7 @@ interface IHotelService {
   searchHotelByCity(city: string): Promise<IHotel[]>;
   searchHotelSchedule(checkInDate: string, checkOutDate: string, city: string): Promise<IHotel[]>;
 
-  convertDateFormat(dateStr: string): string;
+ // convertDateFormat(dateStr: string): string;
 
 }
 
@@ -69,14 +69,14 @@ const hotelService: IHotelService = {
 
    ///search hotel by schedule
 
-    convertDateFormat(dateStr: string): string {
-    const [day, month, year] = dateStr.split('/');
-    return `${year}/${month}/${day}`;
-  },
+  //   convertDateFormat(dateStr: string): string {
+  //   const [day, month, year] = dateStr.split('/');
+  //   return `${year}/${month}/${day}`;
+  // },
 
-  async searchHotelSchedule(checkInDateStr: string, checkOutDateStr: string, city: string): Promise<IHotel[]> {
-    const checkInDate = this.convertDateFormat(checkInDateStr);
-    const checkOutDate = this.convertDateFormat(checkOutDateStr);
+  async searchHotelSchedule(checkInDate: string, checkOutDate: string, city: string): Promise<IHotel[]> {
+    // const checkInDate = this.convertDateFormat(checkInDateStr);
+    // const checkOutDate = this.convertDateFormat(checkOutDateStr);
 
     try {
       const response = await fetch(

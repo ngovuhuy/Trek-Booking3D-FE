@@ -6,16 +6,8 @@ import useSWR from "swr";
 import voucherWalletService from "@/app/services/voucherWalletService";
 import paymentWalletService from "@/app/services/paymentWalletService";
 const PaymentWallet = () => {
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const id = localStorage.getItem("userId");
-    setUserId(id);
-  }, []);
-
-  const { data: paymentWalletList, error } = useSWR(
-    userId ? `paymentWalletList-${userId}` : null,
-    () => paymentWalletService.getPaymentInforByUserId(Number(userId))
+  const { data: paymentWalletList, error } = useSWR("paymentWalletList", () =>
+    paymentWalletService.getPaymentInforByUserId()
   );
 
   if (!paymentWalletList) {
@@ -67,7 +59,7 @@ const PaymentWallet = () => {
                   <div>
                     <p className="pb-repon">
                       Paid Date: {new Date(item.paidDate).toLocaleDateString()}{" "}
-                      {new Date(item.paidDate).toLocaleTimeString()}
+{new Date(item.paidDate).toLocaleTimeString()}
                     </p>
                     <p className="mb-0">Payment Fee: {item.paymentFee} $</p>
                   </div>

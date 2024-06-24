@@ -3,10 +3,10 @@ import UpdateProfile from "@/app/components/Profile/UpdateProfile";
 import UpdateUser from "@/app/components/Profile/UpdateProfile";
 import userService from "@/app/services/userService";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-
+import useSWR, { mutate } from "swr";
+import { ref, deleteObject } from "firebase/storage";
+import { analytics } from "../../../../public/firebase/firebase-config";
 const Profile = () => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -15,19 +15,46 @@ const Profile = () => {
 
   const [showUserUpdate, setShowUserUpdate] = useState<boolean>(false);
   const [User, setUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    const id = localStorage.getItem("userId");
-    setUserId(id);
-  }, []);
-
-  const { data: user, error } = useSWR(userId ? `user/${userId}` : null, () =>
-    userService.getUserById(Number(userId))
+  //delete avatar from firebase
+  const [oldAvatarUrl, setOldAvatarUrl] = useState<string>('');
+  const { data: user, error } = useSWR("profile", () =>
+    userService.getUserById()
   );
+
+
+//
+const handleAvatar = async () => {
+  setShowUserUpdate(false);
+  await handleDeleteAvatar(oldAvatarUrl);
+};
+
+//delete image from firebase
+const deleteImageFromStorage = async (imageUrl: string) => {
+  try {
+    const storageRef = ref(analytics, imageUrl);
+    await deleteObject(storageRef);
+ //   console.log("Image deleted successfully from Firebase Storage");
+  } catch (error) {
+    console.error("Error deleting image from Firebase Storage:", error);
+  }
+};
+//Delete Hotel avatar in cloud storage after update new avatar
+const handleDeleteAvatar = async (imageUrl: string) => {
+  try {
+ //   console.log("Deleting room image with ID:", roomImageId);
+    await deleteImageFromStorage(imageUrl);
+    //toast.success("Delete Image Successful")
+  } catch (error) {
+    console.error("Error deleting room image:", error);
+    alert("Failed to delete room image");
+  }
+};
+
+
+
 
   useEffect(() => {
     if (user) {
-      //setUserId(userId);
       setUserName(user.userName);
       setAvatar(user.avatar);
       setEmail(user.email);
@@ -39,7 +66,7 @@ const Profile = () => {
     }
   }, [user, error]);
 
-  if (!userId) {
+  if (!user) {
     return <div>User ID not found in localStorage</div>;
   }
 
@@ -170,6 +197,7 @@ const Profile = () => {
                   className="text-white font-medium py-2 px-6 text-lg border"
                   style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
                   onClick={() => {
+                    setOldAvatarUrl(user.avatar);
                     setShowUserUpdate(true);
                   }}
                 >
@@ -178,10 +206,11 @@ const Profile = () => {
               </div>
             </div>
             <UpdateProfile
+              onUpdate={handleAvatar}
               showUserUpdate={showUserUpdate}
               setShowUserUpdate={setShowUserUpdate}
               user={User}
-              userId={Number(userId)}
+              userId={Number(user.userId)}
               setUser={setUser}
             />
           </div>
