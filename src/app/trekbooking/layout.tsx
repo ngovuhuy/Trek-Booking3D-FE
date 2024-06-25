@@ -25,17 +25,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script
+        {/* <Script
           src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"
           strategy="afterInteractive"
-        />
+        /> */}
       </head>
       <body className={roboto.className}>
       <Navbar title=""></Navbar> 
-    
         {children}
          <Footer/>
-       
+        {/* <df-messenger
+          intent="WELCOME"
+          chat-title="Trek_Booking"
+          agent-id="8906b6ec-4d2c-476b-b37c-7823f3f31ce8"
+          language-code="en"
+        ></df-messenger> */}
         </body>
     </html>
   );

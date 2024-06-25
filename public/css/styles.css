@@ -414,6 +414,9 @@ a {
     opacity: 0.8;
     
   }
+  .underline_hv:hover{
+    text-decoration: underline;
+  }
   .btn-exit-modal{
     border: 1px solid #ccc;
     border-radius: 8px;

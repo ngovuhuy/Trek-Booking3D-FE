@@ -8,8 +8,6 @@ import { useRouter } from "../../../node_modules/next/navigation";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
 import Cookies from 'js-cookie';
-import useSWR from "swr";
-import userService from "../services/userService";
 
 interface NavbarProps {
   title: string;
@@ -18,11 +16,6 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ title }) => {
   const [userName, setUserName] = useState<string | null>(null);
   const router = useRouter();
-
-  const { data: user, error } = useSWR("user", () =>
-    userService.getUserById()
-  );
-
   useEffect(() => {
     const cookieUserName = Cookies.get("userName");
     setUserName(cookieUserName ?? null);
@@ -105,20 +98,20 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
               </li>
               <li className="flex hover-bold cursor-pointer dropdown relative z-10">
                 <div className="flex relative z-2 color-mess">
-                  {user ? (
+                  {userName ? (
                     <div className="flex">
                       <div className="flex relative z-2 color-mess">
                         <img
                           style={{ height: "25px" }}
-                          src={user.avatar ? user.avatar : "/image/usersupplier.png"}
+                          src="/image/usersupplier.png"
                           alt=""
-                          className="pr-2" 
+                          className="pr-2"
                         />
                         <Link
                           className="no-underline text-accent font-bold"
                           href="#"
                         >
-                          {user.userName}
+                          {userName}
                         </Link>
                       </div>
                       <div className="backgourd-li text-center">
@@ -130,19 +123,13 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                         </Link>
                         <Link
                           className="no-underline text-accent font-bold block mb-3 hover-nav-sub"
-                          href="/trekbooking/voucher"
-                        >
-                          Voucher Wallet
-                        </Link>
-                        <Link
-                          className="no-underline text-accent font-bold block mb-3 hover-nav-sub"
-                          href="/trekbooking/payment_wallet"
+                          href="signup_client"
                         >
                           Payment Wallet
                         </Link>
                         <Link
                           className="no-underline text-accent font-bold block mb-3 hover-nav-sub"
-                          href="/trekbooking/booking_history"
+                          href="signup_client"
                         >
                           History
                         </Link>

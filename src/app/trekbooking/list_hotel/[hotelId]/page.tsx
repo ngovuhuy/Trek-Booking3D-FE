@@ -319,7 +319,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <div className="row">
             <div className="col-md-12 max-[767px]:mb-8">
               <img
-                className="w-full h-96 border rounded-xl"
+                className="w-full border rounded-xl"
                 src={hotel?.hotelAvatar}
                 alt=""
               />
