@@ -57,31 +57,31 @@ const ListHotels = () => {
   };
 
   //
-  useEffect(() => {
-    const fetchHotelsAndRooms = async () => {
-      setLoading(true);
-      try {
-        const [hotels, rooms] = await Promise.all([
-          hotelService.getHotels(),
-          roomService.getRooms(),
-        ]);
-        setHotelList(hotels);
-        setRoomList(rooms);
-        setLoading(false);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error("Error fetching hotel or room list:", error);
-          setError(error);
-        } else {
-          console.error("Unexpected error:", error);
-          setError(new Error("An unexpected error occurred"));
-        }
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchHotelsAndRooms = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const [hotels, rooms] = await Promise.all([
+  //         hotelService.getHotels(),
+  //         roomService.getRooms(),
+  //       ]);
+  //       setHotelList(hotels);
+  //       setRoomList(rooms);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         console.error("Error fetching hotel or room list:", error);
+  //         setError(error);
+  //       } else {
+  //         console.error("Unexpected error:", error);
+  //         setError(new Error("An unexpected error occurred"));
+  //       }
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchHotelsAndRooms();
-  }, []);
+  //   fetchHotelsAndRooms();
+  // }, []);
 
   const fetchCommentsCount = useCallback(async () => {
     const counts: { [key: number]: number } = {};

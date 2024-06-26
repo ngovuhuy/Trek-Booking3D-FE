@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "../../../node_modules/next/link";
 import "../../../public/css/authen.css";
-const page = () => {
+const Page = () => {
   return (
     <div>
       <div className="confirm-register backgr-home">
@@ -72,4 +72,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default Page;
