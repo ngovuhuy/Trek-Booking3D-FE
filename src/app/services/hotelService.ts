@@ -1,7 +1,8 @@
+import Cookies from 'js-cookie';
 
 
 interface IHotelService {
-  getHotelsBySuppierId(supplierId: number): Promise<IHotel[]>;
+  getHotelsBySuppierId(): Promise<IHotel[]>;
   getHotelById(hotelId: number): Promise<IHotel>;
   createHotel(hotel: IHotel): Promise<IHotel>;
   updateHotel(hotel: Partial<IHotel>): Promise<IHotel>;
@@ -34,18 +35,17 @@ const hotelService: IHotelService = {
     }
   },
   
-  async getHotelsBySuppierId(supplierId) {
-    console.log(supplierId);
+  async getHotelsBySuppierId() {
     try {
       const response = await fetch(
-        `https://localhost:7132/getHotelsBySupplierId/${supplierId}`,
+        `https://localhost:7132/getHotelsBySupplierId`,
         {
           method: "GET",
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
             // Include the token in the headers
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+            Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from localStorage
           },
         }
       );
