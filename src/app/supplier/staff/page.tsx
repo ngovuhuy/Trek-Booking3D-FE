@@ -21,7 +21,7 @@ const SupplierStaffList = () => {
   const [staffId, setStaffId] = useState(0);
   const [supplierStaff, setSupplierStaff] = useState<ISupplierStaff | null>(null);
 
-  const supplierId = localStorage.getItem("supplierId");
+  //const supplierId = localStorage.getItem("supplierId");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [staffPerPage] = useState(5);
@@ -31,8 +31,8 @@ const SupplierStaffList = () => {
     error,
     mutate: mutateSupplierStaffs,
   } = useSWR(
-    supplierId ? `supplierStaffList-${supplierId}` : null,
-    () => supplierStaffService.getStaffsBySuppierId(Number(supplierId)),
+    "listStaff",
+    () => supplierStaffService.getStaffsBySuppierId(),
     {
       revalidateOnFocus: false,
     }

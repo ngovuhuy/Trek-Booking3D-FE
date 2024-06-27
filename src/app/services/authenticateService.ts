@@ -140,10 +140,9 @@ const authenticateService: IAuthenticateService = {
         const data: ILoginResponse = await response.json();
         const token = data.toKen;
         const supplierName = data.supplierName;
-        const supplierId = data.supplier.supplierId;
         const roleName = data.roleName;
         // Save token to local storage or cookies for future requests
-        localStorage.setItem("supplierId", supplierId.toString());
+        // localStorage.setItem("supplierId", supplierId.toString());
         Cookies.set("tokenSupplier", token, { expires: 1 });
         Cookies.set("supplierName", supplierName, { expires: 1 });
         Cookies.set("roleName", roleName, { expires: 1 });
@@ -222,7 +221,6 @@ const authenticateService: IAuthenticateService = {
   async logOutClient() {
     try {
       // Clear the local storage
-      localStorage.removeItem("userId");
       Cookies.remove("tokenUser");
       Cookies.remove("roleName");
       Cookies.remove("userName");
@@ -235,7 +233,7 @@ const authenticateService: IAuthenticateService = {
   async logOutSupplier() {
     try {
       // Clear the local storage
-      localStorage.removeItem("supplierId");
+      // localStorage.removeItem("supplierId");
       Cookies.remove("tokenSupplier");
       Cookies.remove("roleName");
       Cookies.remove("supplierName");

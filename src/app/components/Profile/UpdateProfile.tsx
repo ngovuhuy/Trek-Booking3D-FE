@@ -11,14 +11,13 @@ import userService from "@/app/services/userService";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { analytics } from "../../../../public/firebase/firebase-config";
 import { countries, cities } from "country-cities";
-import { v4 as uuidv4 } from 'uuid';
+
 interface IProps {
   showUserUpdate: boolean;
   setShowUserUpdate: (value: boolean) => void;
   user: IUser | null;
   userId: number;
   setUser: (value: IUser | null) => void;
-  onUpdate: () => void;
 }
 
 type FormControlElement =
@@ -35,7 +34,7 @@ const handleEvent = <T extends HTMLElement>(
 };
 
 function UpdateProfile(props: IProps) {
-  const { showUserUpdate, setShowUserUpdate, user, userId, setUser, onUpdate } = props;
+  const { showUserUpdate, setShowUserUpdate, user, userId, setUser } = props;
   //const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
@@ -79,7 +78,7 @@ function UpdateProfile(props: IProps) {
     const cityCode = event.target.value;
     setSelectedCity(cityCode);
   };
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
@@ -100,8 +99,7 @@ function UpdateProfile(props: IProps) {
     }
 
     try {
-      const uniqueFileName = `${uuidv4()}_${fileUpload.name}`;
-      const storageRef = ref(analytics, "User_Image/" + uniqueFileName);
+      const storageRef = ref(analytics, "User_Image/" + fileUpload.name);
       const snapshot = await uploadBytes(storageRef, fileUpload);
       const downloadURL = await getDownloadURL(snapshot.ref);
       setUploadedImageURLs([downloadURL]);
@@ -172,7 +170,7 @@ function UpdateProfile(props: IProps) {
       } else {
         // Xử lý khi user.address là null hoặc undefined
         setSelectedCity("");
-        setSelectedCountry("");
+setSelectedCountry("");
         setCitiesList([]);
       }
     }
@@ -212,7 +210,6 @@ function UpdateProfile(props: IProps) {
         toast.success("Update Profile Success");
       }
       handleCloseModal();
-      onUpdate();
       mutate("profile");
       mutate("user");
     } catch (error) {
@@ -273,7 +270,7 @@ function UpdateProfile(props: IProps) {
                       {country.name}
                     </option>
                   ))}
-                </Form.Control>
+</Form.Control>
                 <Form.Control
                   as="select"
                   value={selectedCity}
@@ -355,7 +352,7 @@ function UpdateProfile(props: IProps) {
                   border: "1px solid #ccc",
                   color: "black",
                   background: "white",
-                }}
+}}
                 onClick={handleCloseModal}
               >
                 Exit
