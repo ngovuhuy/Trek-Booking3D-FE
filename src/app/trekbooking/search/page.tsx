@@ -1,6 +1,7 @@
+'use client'
 import React from 'react'
-import Searchcart from '../components/searchcart'
-import "../../../public/css/search.css";
+import Searchcart from '../../components/searchcart'
+import "../../../../public/css/search.css";
 
 const page = () => {
   return (
