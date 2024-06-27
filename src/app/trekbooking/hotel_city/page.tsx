@@ -19,37 +19,33 @@ const ListHotels = () => {
     {}
   );
 
-  //filter
+  //filter city
   const [selectedCity, setSelectedCity] = useState<string>("");
+
   ///search
   const [city, setCity] = useState<string | null>(null);
-  const [checkInDate, setCheckInDate] = useState<string | null>(null);
-  const [checkOutDate, setCheckOutDate] = useState<string | null>(null);
+
 
   useEffect(() => {
     // This effect will run only once when the component mounts
     const searchParams = new URLSearchParams(window.location.search);
     const cityParam = searchParams.get("city");
-    const checkInDateParam = searchParams.get("checkInDate");
-    const checkOutDateParam = searchParams.get("checkOutDate");
-
     setCity(cityParam);
-    setCheckInDate(checkInDateParam);
-    setCheckOutDate(checkOutDateParam);
+
   }, []);
 
   useEffect(() => {
-    if (city && checkInDate && checkOutDate) {
-      searchHotels(checkInDate, checkOutDate, city);
+    if (city) {
+      searchHotels(city);
     } else {
       //fetchHotelsAndRooms();
     }
-  }, [city, checkInDate, checkOutDate]);
+  }, [city]);
 
-  const searchHotels = async (checkInDate: string, checkOutDate: string, city: string) => {
+  const searchHotels = async (city: string) => {
     try {
       setLoading(true);
-      const hotelSchedule = await hotelService.searchHotelSchedule(checkInDate, checkOutDate, city);
+      const hotelSchedule = await hotelService.searchHotelByCity(city);
       setHotelList(hotelSchedule);
       setLoading(false);
     } catch (error) {
@@ -179,14 +175,14 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   //filter city can tho
                   href={`/trekbooking/hotel_city?city=Cần Thơ`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
             <div className="col-2">
@@ -217,13 +213,13 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   href={`/trekbooking/hotel_city?city=Vũng Tàu`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
             <div className="col-2">
@@ -254,13 +250,13 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   href={`/trekbooking/hotel_city?city=Ninh Bình`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
             <div className="col-2">
@@ -291,13 +287,13 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   href={`/trekbooking/hotel_city?city=Ho Chi Minh`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
             <div className="col-2">
@@ -328,13 +324,13 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   href={`/trekbooking/hotel_city?city=Hanoi`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
             <div className="col-2">
@@ -365,13 +361,13 @@ const ListHotels = () => {
                 </div>
               </Link>
               <div className="flex justify-center my-3">
-                <Link
+                <a
                   className="no-underline text-white border px-3 font-medium text-sm"
                   style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
                   href={`/trekbooking/hotel_city?city=Phan Thiết`}
                 >
                   Find hotel
-                </Link>
+                </a>
               </div>
             </div>
           </div>
