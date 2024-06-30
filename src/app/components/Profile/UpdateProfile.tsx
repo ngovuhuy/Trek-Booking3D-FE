@@ -78,7 +78,7 @@ function UpdateProfile(props: IProps) {
     const cityCode = event.target.value;
     setSelectedCity(cityCode);
   };
-const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
@@ -170,7 +170,7 @@ const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
       } else {
         // Xử lý khi user.address là null hoặc undefined
         setSelectedCity("");
-setSelectedCountry("");
+        setSelectedCountry("");
         setCitiesList([]);
       }
     }
@@ -184,7 +184,7 @@ setSelectedCountry("");
     }
 
     try {
-      let imageURLs = avatar; // Use existing avatar URL
+      let imageURLs = avatar;
       if (fileUpload) {
         imageURLs = await uploadImages();
       }
@@ -211,7 +211,6 @@ setSelectedCountry("");
       }
       handleCloseModal();
       mutate("profile");
-      mutate("user");
     } catch (error) {
       toast.error("Failed to update profile");
       console.error(error);
@@ -270,7 +269,7 @@ setSelectedCountry("");
                       {country.name}
                     </option>
                   ))}
-</Form.Control>
+                </Form.Control>
                 <Form.Control
                   as="select"
                   value={selectedCity}
@@ -352,7 +351,7 @@ setSelectedCountry("");
                   border: "1px solid #ccc",
                   color: "black",
                   background: "white",
-}}
+                }}
                 onClick={handleCloseModal}
               >
                 Exit

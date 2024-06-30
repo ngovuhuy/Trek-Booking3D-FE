@@ -21,7 +21,7 @@ const formatRoomDescription = (description: string) => {
 };
 
 
-const booking_cart = () => {
+const Booking_cart = () => {
   const router = useRouter();
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
 
@@ -61,8 +61,8 @@ const booking_cart = () => {
   useEffect(() => {
     const fetchBookingCart = async () => {
       try {
-        const userIdNumber = Number(userId);
-        const result = await getBookingCartByUserId(userIdNumber);
+        
+        const result = await getBookingCartByUserId();
         setBookingCart(result);
 
         // Fetch room and hotel details for each cart item
@@ -523,5 +523,5 @@ const booking_cart = () => {
       </div>
     );
   };
-  export default booking_cart;
+  export default Booking_cart;
   

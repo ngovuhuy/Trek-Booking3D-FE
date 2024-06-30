@@ -14,6 +14,8 @@ import { toast } from "react-toastify";
 import commentService from "@/app/services/commentService";
 import rateService from "@/app/services/rateService";
 import { Oval } from 'react-loader-spinner'; // Import spinner
+import Cookies from "js-cookie";
+import userService from "@/app/services/userService";
 
 
 const formatRoomDescription = (description: string) => {
@@ -30,7 +32,7 @@ const formatRoomDescription = (description: string) => {
 };
 
 const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
-  const userId = localStorage.getItem("userId");
+  const token = Cookies.get("tokenUser");
   const [commentList, setCommentList] = useState<IComment[]>([]);
   const [rateList, setRateList] = useState<IRate[]>([]);
   const [combinedList, setCombinedList] = useState<(IComment & { rateValue?: number })[]>([]);
@@ -81,6 +83,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       setCombinedList(combined);
     }
   }, [listComment, listRate]);
+  const userData =  userService.getUserById();
   const fetchRoomImages = async (rooms: IRoom[]) => {
     const imagesMap: { [key: number]: IRoomImage[] } = {};
     for (const room of rooms) {
@@ -150,14 +153,14 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     try {
 
 
-      const existingCart = await getBookingCartByUserId(Number(userId));
+      const existingCart = await getBookingCartByUserId();
       const roomExists = existingCart.some((item: any) => item.roomId === room.roomId);
       if (roomExists) {
         toast.error('Room is already in the cart');
         return;
       }
   
-      if(!userId){
+      if(!token){
         toast.error('You must login to book the room!');
        setTimeout(()=> {
         router.push(`/login_client?redirect=/trekbooking/list_hotel/${params.hotelId}`); 
@@ -167,7 +170,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       }
     const bookingData = {
       bookingCartId: 0,
-      userId: userId, // Thay bằng giá trị thực tế
+      userId: (await userData).userId, // Thay bằng giá trị thực tế
       hotelId: room.hotelId,
       roomId: room.roomId,
       checkInDate: new Date(checkInDate).toISOString(),
@@ -319,7 +322,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <div className="row">
             <div className="col-md-12 max-[767px]:mb-8">
               <img
-                className="w-full border rounded-xl"
+                className="w-full h-96 border rounded-xl"
                 src={hotel?.hotelAvatar}
                 alt=""
               />
