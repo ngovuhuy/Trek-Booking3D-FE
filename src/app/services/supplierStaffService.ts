@@ -20,7 +20,7 @@ interface ISupplierStaffService {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
               // Include the token in the headers
-              Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from localStorage
+              Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from cookies
             },
           }
         );
@@ -43,7 +43,8 @@ interface ISupplierStaffService {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from cookies
+
           },
           body: JSON.stringify(supplierStaff),
         });
@@ -66,7 +67,8 @@ interface ISupplierStaffService {
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+              Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from cookies
+
             },
             body: JSON.stringify(supplierStaff),
           }
@@ -89,7 +91,8 @@ interface ISupplierStaffService {
             method: "PUT",headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+              Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from cookies
+
             },
             body: JSON.stringify({ status: false }),
           }

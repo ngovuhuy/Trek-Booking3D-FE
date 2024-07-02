@@ -56,7 +56,8 @@ interface IBookingService {
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("tokenSupplier")}`, // Retrieve token from localStorage
+             // Retrieve token from localStorage
+              Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, 
             },
             body: JSON.stringify(booking),
           }
