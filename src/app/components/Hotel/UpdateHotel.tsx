@@ -91,7 +91,7 @@ function UpdateHotel(props: Iprops) {
   ) => {
     const countryCode = event.target.value;
     console.log("Fetched country: ", countryCode);
-setSelectedCountry(countryCode);
+    setSelectedCountry(countryCode);
     const city = await cities.getByCountry(countryCode);
     console.log("Fetched cities: ", city);
     setCitiesList(city || []);
@@ -198,7 +198,7 @@ setSelectedCountry(countryCode);
 
   useEffect(() => {
     if (isTouched.hotelInformation) {
-setErrors((prevErrors) => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
         hotelInformation: validateHotelInformation(hotelInformation),
       }));

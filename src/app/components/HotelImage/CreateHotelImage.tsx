@@ -87,7 +87,7 @@ function CreateHotelImage(props: Iprops) {
 
       await Promise.all(hotelImagePromises);
       toast.success("Hotel Images created successfully");
-onCreate();
+      onCreate();
     } catch (error) {
       toast.error("Failed to create hotel images");
       console.error("Error creating hotel images:", error);

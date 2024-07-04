@@ -50,17 +50,33 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   >([]);
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
+  const [userData, setUserData] = useState<any>(null);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
   const [roomImages, setRoomImages] = useState<{ [key: number]: IRoomImage[] }>(
+
     {}
   );
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // const token = Cookies.get("tokenUser");
+      if (token) {
+        try {
+          const user = await userService.getUserById();
+          setUserData(user);
+        } catch (err) {
+          console.error(err);
+          // Xử lý lỗi nếu cần
+        }
+      }
+    };
+    fetchUserData();
+  }, [token]);
   const averageRating = () => {
     if (combinedList.length === 0) return 0;
-
-    const totalRates = combinedList.reduce(
-      (acc, curr) => acc + (curr.rateValue || 0),
-      0
-    );
+  
+    const totalRates = combinedList.reduce((acc, curr) => acc + (curr.rateValue || 0), 0);
     return totalRates / combinedList.length;
   };
   const { data: hotel, error } = useSWR("detailHotel", () =>
@@ -110,8 +126,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     if (hotel) {
       fetchHotelImages(Number(params.hotelId), setHotelImages);
     }
+  
   }, [hotel, params.hotelId]);
-  const userData = userService.getUserById();
+   // const userData = userService.getUserById();
   const fetchRoomImages = async (rooms: IRoom[]) => {
     const imagesMap: { [key: number]: IRoomImage[] } = {};
     for (const room of rooms) {
@@ -348,7 +365,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           </div>
           <div className="row">
             <div className="col-md-12 max-[767px]:mb-8">
-              <div className="row">
+            <div className="row">
                 <div className="col-md-6">
                   <div className="">
                     <img
@@ -361,7 +378,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 </div>
                 <div className="col-md-6">
                   <div className="grid h-full grid-cols-2 gap-x-2 gap-y-2">
-                    {hotelImages.map((image, index) => (
+                  {hotelImages.map((image, index) => (
                       <div key={index}>
                         <img
                           src={image}
@@ -374,6 +391,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
           <div className="row mt-4">
@@ -398,10 +416,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   <span className="font-bold text-xl">Reviews and ratings</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="font-bold text-xl pr-2 my-2">
-                    {averageRating().toFixed(1)}
-                  </span>
-                  <div className="flex h-3">{renderStars(averageRating())}</div>
+                  <span className="font-bold text-xl pr-2 my-2">{averageRating().toFixed(1)}</span>
+                  <div className="flex h-3">
+                    {renderStars(averageRating())}
+                  </div>
                 </div>
                 <span>Based on {combinedList.length} reviews</span>
               </div>
@@ -611,10 +629,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                   >
                                     {item.roomPrice}$
                                   </span>
-                                  <span
-                                    className="text-center text-xl font-bold pb-3"
-                                    style={{ color: "rgb(255, 94, 31)" }}
-                                  >
+                                  <span className="text-center text-xl font-bold pb-3" style={{color: "rgb(255, 94, 31)"}}>
                                     {item.roomPrice}$
                                   </span>
                                   <span

@@ -1,15 +1,15 @@
 import Cookies from 'js-cookie';
 import BASE_URL from './apiService';
 
-interface IVoucherWalletService {
-  getVoucherUsageHistoryByUserId(): Promise<IVoucherWallet[]>;
+interface IOrderTourDetailService {
+  getOrderTourDetailByOrderTourHeaderId(orderTourHeaderId: number): Promise<IOrderTourDetail>;
 }
 
-const voucherWalletService: IVoucherWalletService = {
-  async getVoucherUsageHistoryByUserId() {
+const orderTourDetailService: IOrderTourDetailService = {
+  async getOrderTourDetailByOrderTourHeaderId(orderTourHeaderId) {
     try {
       const response = await fetch(
-        `${BASE_URL}/getVoucherUsageHistoryByUserId`,
+        `${BASE_URL}/getOrderTourDetailByOrderTourHeaderId/${orderTourHeaderId}`,
         {
           method: "GET",
           headers: {
@@ -20,16 +20,16 @@ const voucherWalletService: IVoucherWalletService = {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch voucher usage history");
+        throw new Error("Failed to fetch order tour detail");
       }
       const data = await response.json();
-      console.log("API RESPONSE DATA", data); // Trigger refetch after fetching
+      console.log(data); // Trigger refetch after fetching
       return data;
     } catch (error) {
-      console.error("Error fetching voucher usage history:", error);
+      console.error("Error fetching order tour detail:", error);
       throw error;
     }
   },
 };
 
-export default voucherWalletService;
+export default orderTourDetailService;

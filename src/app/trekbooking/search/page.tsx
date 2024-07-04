@@ -136,7 +136,6 @@ const SearchPage = () => {
     }
     setHotelImages(imagesMap);
   };
-
   //------------------ Fetch Comment List ---------------------//
 
   const fetchCommentsCount = useCallback(async () => {
