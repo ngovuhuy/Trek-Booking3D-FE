@@ -5,14 +5,14 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import authenticateService from "../services/authenticateService"; // Adjust the path as needed
 import "../../../public/css/authen.css"; // Adjust the path as needed
 
 export default function LoginSupplierStaff() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const [staffEmail, setStaffEmail] = useState("");
   const [staffPassword, setStaffPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
