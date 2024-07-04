@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                               : "/image/usersupplier.png"
                           }
                           alt=""
-                          className="rounded-full w-7 mr-2"
+                          className="rounded-full w-7 h-6 mr-2"
                         />
                         <Link
                           className="no-underline text-accent font-bold"
@@ -156,10 +156,10 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   ) : (
                     <div className="flex">
                       <img
-                        style={{ width: "30px", height: "25px" }}
+                        
                         src="/image/users.png"
                         alt=""
-                        className="pr-2"
+                        className="pr-2 w-7 h-6"
                       />
                       <Link
                         className="no-underline text-accent font-bold"
@@ -188,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 <li className="flex pb-4 hover-bold">
                   <img src="/image/cart.png" alt="" className="pr-2" />
                   <a
-                    href=""
+                    href="/trekbooking/booking_cart"
                     className="font-bold text-decoration-none text-accent"
                   >
                     Cart
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 <li className="flex pb-4 hover-bold">
                   <img src="/image/bell.png" alt="" className="pr-2" />
                   <a
-                    href=""
+                    href="/confirmregister"
                     className="font-bold text-decoration-none text-accent"
                   >
                     Post your hotel
@@ -205,7 +205,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                 </li>
                 <li className="flex pb-4 hover-bold">
                 {user ? (
-                    <div className="flex">
+                    <div className="flex dropdown">
                       <div className="flex relative z-2 color-mess">
                         <img
                           src={
@@ -214,7 +214,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                               : "/image/usersupplier.png"
                           }
                           alt=""
-                          className="rounded-full w-7 mr-2"
+                          className="rounded-full w-7 h-6 mr-2"
                         />
                         <Link
                           className="no-underline text-accent font-bold"
@@ -223,7 +223,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                           {user.userName}
                         </Link>
                       </div>
-                      <div className="backgourd-li text-center">
+                      <div className="backgourd-li1 text-center">
                         <Link
                           className="no-underline text-accent font-bold block mt-3 mb-3 hover-nav-sub"
                           href="/trekbooking/profile"

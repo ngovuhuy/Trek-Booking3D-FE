@@ -258,7 +258,7 @@ const SearchPage = () => {
                       <img
                         className="border w-full"
                         style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/cantho.webp"
+                        src="/image/cantho.png"
                         alt="Can Tho"
                       />
                       <div
