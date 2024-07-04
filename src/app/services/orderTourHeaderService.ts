@@ -15,7 +15,7 @@ const orderTourHeaderService: IOrderTourHeaderService = {
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`, // Retrieve token from localStorage
+            Authorization: `Bearer ${Cookies.get("tokenUser")}`, // Retrieve token from localStorage
           },
         }
       );
