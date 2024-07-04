@@ -144,7 +144,7 @@ const ListHotels = () => {
                     className="border w-full"
                     style={{ borderRadius: "20px", height: "231px" }}
                     src="/image/cantho.webp"
-                    alt="Can Tho"
+                    alt="can tho"
                   />
                   <div
                     className="absolute z-10 w-full bottom-0 flex justify-center"
