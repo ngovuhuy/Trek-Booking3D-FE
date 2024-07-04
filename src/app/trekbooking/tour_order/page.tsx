@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import tourService from "@/app/services/tourService"; // Đảm bảo import đúng
 import { ITour } from '@/app/entities/tour';
 import { useRouter, useSearchParams } from "next/navigation";
@@ -251,4 +251,11 @@ const TourOrder = () => {
   );
 };
 
-export default TourOrder;
+
+export default function WrappedLoginSupplier() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TourOrder />
+      </Suspense>
+  );
+}

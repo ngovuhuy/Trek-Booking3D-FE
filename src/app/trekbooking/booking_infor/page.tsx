@@ -2,7 +2,7 @@
 'use client';
 import Link from 'next/link';
 import Slider from 'react-slick';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId } from '@/app/services/bookingCartService';
 import { BookingCartItem } from '@/app/entities/bookingCartItem';
 import { useSearchParams } from 'next/navigation';
@@ -469,4 +469,10 @@ const BookingInfo = () => {
     );
 };
 
-export default BookingInfo;
+export default function WrappedLoginSupplier() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <BookingInfo />
+        </Suspense>
+    );
+  }
