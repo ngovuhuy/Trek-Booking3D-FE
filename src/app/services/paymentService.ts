@@ -102,8 +102,29 @@ const handleTourPayment = async (paymentData: any) => {
   }
 };
 
+
+const clearCart = async (roomId:number) => {
+  try {
+    const response = await fetch(`${BASE_URL}/deleteBookingCart/${roomId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${Cookies.get("tokenUser")}`, // Thêm token nếu cần thiết
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to clear cart');
+    }
+
+    toast.success('Cart cleared successfully!');
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    toast.error('Failed to clear cart.');
+  }
+};
 export default {
   handlePayment,
   createBooking,
-  handleTourPayment
+  handleTourPayment,
+  clearCart
 };

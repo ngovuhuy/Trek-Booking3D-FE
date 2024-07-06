@@ -64,12 +64,12 @@ function LoginClient() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <img
+                {/* <img
                   src="/image/hide.png"
                   className="inout-hide cursor-pointer"
                   onClick={togglePasswordVisibility}
                   alt=""
-                />
+                /> */}
                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 <div className="flex justify-center">
                   <button
@@ -79,7 +79,7 @@ function LoginClient() {
                     Continue
                   </button>
                 </div>
-                <div className="nav-sign flex justify-between">
+                <div className="nav-sign flex justify-between pt-3 pb-4">
                   <Link
                     className="pt-2 text-right text-base cursor-pointer text-decoration"
                     href="signup_client"

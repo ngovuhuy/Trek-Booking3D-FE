@@ -25,6 +25,7 @@ const formatRoomDescription = (description: string) => {
 };
 
 const BookingInfo = () => {
+    const successUrl = 'http://localhost:3000/trekbooking';
     const [bookingCart, setBookingCart] = useState<BookingCartItem[]>([]);
     const [roomDetails, setRoomDetails] = useState<IRoom | null>(null);
     const [hotelDetails, setHotelDetails] = useState<IHotel | null>(null);
@@ -42,6 +43,7 @@ const BookingInfo = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [url, setUrl] = useState('');
     const [requirement , setRequirement ] = useState('');
     useEffect(() => {
         const fetchBookingInfo = async () => {
@@ -57,7 +59,7 @@ const BookingInfo = () => {
                 setRoomImages(images);
                 const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
                 setVouchers(fetchedVouchers);
-                const userData = await userService.getUserById();
+const userData = await userService.getUserById();
                 setUser(userData);
                 setFullName(userData.userName || '');
                 setEmail(userData.email || '');
@@ -71,6 +73,13 @@ const BookingInfo = () => {
         fetchBookingInfo();
     }, [roomId, hotelId]);
 
+
+    useEffect(() => {
+        const currentUrl = window.location.href;
+        if (currentUrl.includes(successUrl)) {
+            handleSuccessfulPayment();
+        } 
+    }, [url]);
     const calculateNights = (checkInDate: string, checkOutDate: string) => {
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
@@ -103,7 +112,7 @@ const BookingInfo = () => {
               checkInDate: item?.checkInDate,
               checkOutDate: item?.checkOutDate,
               requirement: requirement,
-              process: "Not",
+              process: "Pending",
               completed: false
             },
             orderDetails: bookingCart.map(cartItem => ({
@@ -134,15 +143,24 @@ const BookingInfo = () => {
           };
       
         try {
+            
             await paymentService.createBooking(bookingData);
           await paymentService.handlePayment(paymentData, item);
-          toast.success('Payment and booking created successfully!');
+         toast.success('Payment and booking created successfully!');
+         setUrl(window.location.href); // Cập nhật URL sau khi thanh toán
+          
         } catch (error) {
           console.error('Error during payment and booking:', error);
           toast.error('Failed to complete payment and create booking.');
         }
+
+        
       };
- 
+      const handleSuccessfulPayment = async () => {
+        if (item) {
+            await paymentService.clearCart(item.roomId);
+        }
+    };
     const buttonStyleEnabled = {
         backgroundColor: '#305A61', // Màu nền ban đầu
         borderRadius: '20px',
@@ -213,7 +231,7 @@ const BookingInfo = () => {
                                     <span className='font-semibold text-xl'>{roomDetails.roomName}</span>
                                     <Link className='mr-8' href={`/trekbooking/image360/${roomDetails.roomId}`}>
                                         <img src='/image/view3D.png' className='w-10 h-10' alt='view 3D' />
-                                    </Link>
+</Link>
                                 </div>
 
                                 <div className='row'>
@@ -254,7 +272,7 @@ const BookingInfo = () => {
                                                 <div className='w-3/4 m-auto'>
                                                     <div className='flex items-center pb-1 '>
                                                         <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-                                                        <span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
+<span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
                                                     </div>
                                                     <div className='flex items-center pb-1 '>
                                                         <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
@@ -288,7 +306,7 @@ const BookingInfo = () => {
                                                             height: '356px',
                                                             border: '1px solid #D9D9D9',
                                                             borderRadius: '10px',
-                                                            backgroundColor: '#F5F5F5',
+backgroundColor: '#F5F5F5',
                                                         }}
                                                     >
                                                         <div className='grid justify-items-center'>
@@ -335,7 +353,7 @@ const BookingInfo = () => {
                                     <div className='pt-3'>
                                         <p className='font-semibold'>Full name</p>
                                         <input
-                                            value={fullName} // Cập nhật giá trị từ trạng thái
+value={fullName} // Cập nhật giá trị từ trạng thái
                                             onChange={(e) => setFullName(e.target.value)} // Theo dõi sự thay đổi
                                             type='text'
                                             className='border w-full py-2 px-2'
@@ -374,7 +392,7 @@ const BookingInfo = () => {
                                         <button
                                             className=' text-white font-medium py-2 px-6 text-lg border'
                                             style={{ backgroundColor: '#305A61', borderRadius: '20px' }}
-                                            onClick={handlePayment}
+onClick={handlePayment}
                                         >
                                             Continue
                                         </button>
@@ -414,53 +432,102 @@ const BookingInfo = () => {
                                     </div>
                                 </div>
                             </div>
-                            <Slider {...settings}>
-                                {vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
-                                    const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                    });
-                                    const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                    });
+                            {vouchers.filter(voucher => voucher.voucherStatus).length >= 2 ? (
+    <Slider {...settings}>
+        {vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
+const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+            const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
 
-                                    return (
-                                        <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
-                                            <div className='w-11/12 m-auto'>
-                                                <div className='pt-5'>
-                                                    <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
-                                                        Discount vouchers:
-                                                    </span>
-                                                </div>
-                                                <div className='pt-4'>
-                                                    <div className='pt-2'>
-                                                        <span className='text-lg'>
-                                                            <span className='text-lg font-semibold'>[{voucher.voucherCode}]</span> -{' '}
-                                                            <span className='text-red-400 font-semibold'> {voucher.discountPercent}%</span>
-                                                        </span>
-                                                    </div>
-                                                    <div className='flex justify-end font-semibold'>
-                                                        <p className='mb-0'>HSD: {availableDate} - {expireDate}</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex justify-end pt-3 pb-2'>
-                                                    <button
-                                                        className='text-white font-medium py-1 px-4 text-lg border'
-                                                        style={selectedVoucher?.voucherId === voucher.voucherId ? buttonStyleDisabled : buttonStyleEnabled}
-                                                        onClick={() => applyVoucher(voucher)}
-                                                        disabled={selectedVoucher?.voucherId === voucher.voucherId}
-                                                    >
-                                                        {selectedVoucher?.voucherId === voucher.voucherId ? 'Applied' : 'Apply'}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </Slider>
+            return (
+                <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
+                    <div className='w-11/12 m-auto'>
+                        <div className='pt-5'>
+                            <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
+                                Discount vouchers:
+                            </span>
+                        </div>
+                        <div className='pt-4'>
+                            <div className='pt-2'>
+                                <span className='text-lg'>
+                                    <span className='text-lg font-semibold'>[{voucher.voucherCode}]</span> -{' '}
+                                    <span className='text-red-400 font-semibold'> {voucher.discountPercent}%</span>
+                                </span>
+                            </div>
+                            <div className='flex justify-end font-semibold'>
+                                <p className='mb-0'>HSD: {availableDate} - {expireDate}</p>
+                            </div>
+                        </div>
+                        <div className='flex justify-end pt-3 pb-2'>
+                            <button
+                                className='text-white font-medium py-1 px-4 text-lg border'
+                                style={selectedVoucher?.voucherId === voucher.voucherId ? buttonStyleDisabled : buttonStyleEnabled}
+                                onClick={() => applyVoucher(voucher)}
+                                disabled={selectedVoucher?.voucherId === voucher.voucherId}
+                            >
+                                {selectedVoucher?.voucherId === voucher.voucherId ? 'Applied' : 'Apply'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        })}
+    </Slider>
+) : (
+    vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
+        const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+
+        return (
+            <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
+<div className='w-11/12 m-auto'>
+                    <div className='pt-5'>
+                        <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
+                            Discount vouchers:
+                        </span>
+                    </div>
+                    <div className='pt-4'>
+                        <div className='pt-2'>
+                            <span className='text-lg'>
+                                <span className='text-lg font-semibold'>[{voucher.voucherCode}]</span> -{' '}
+                                <span className='text-red-400 font-semibold'> {voucher.discountPercent}%</span>
+                            </span>
+                        </div>
+                        <div className='flex justify-end font-semibold'>
+                            <p className='mb-0'>HSD: {availableDate} - {expireDate}</p>
+                        </div>
+                    </div>
+                    <div className='flex justify-end pt-3 pb-2'>
+                        <button
+                            className='text-white font-medium py-1 px-4 text-lg border'
+                            style={selectedVoucher?.voucherId === voucher.voucherId ? buttonStyleDisabled : buttonStyleEnabled}
+                            onClick={() => applyVoucher(voucher)}
+                            disabled={selectedVoucher?.voucherId === voucher.voucherId}
+                        >
+                            {selectedVoucher?.voucherId === voucher.voucherId ? 'Applied' : 'Apply'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    })
+)}
+
                         </div>
                     </div>
                 )}

@@ -84,7 +84,7 @@ const TourOrder = () => {
           phone: phone,   
           totalPrice: finalPrice,
           tourOrderDate: getCurrentDate(),
-          process: "Not",
+          process: "Pending",
           completed: false
         },
         orderDetails: bookingCart.map(cartItem => ({

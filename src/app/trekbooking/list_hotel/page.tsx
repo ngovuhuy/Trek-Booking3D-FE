@@ -136,7 +136,7 @@ const ListHotels = () => {
           <div className="row mx-3">
             <div className="col-lg-2 col-4">
               <Link
-                href="#"
+                href={`/trekbooking/search_city?city=Cần Thơ`}
                 className="text-white no-underline zoom-effect-container"
               >
               <div className="relative image-card">
@@ -174,7 +174,7 @@ const ListHotels = () => {
             </div>
             <div className="col-lg-2 col-4">
               <Link
-                href="#"
+                href={`/trekbooking/search_city?city=Ninh Bình`}
                 className="text-white no-underline zoom-effect-container"
               >
                 <div className="relative image-card">
@@ -211,7 +211,7 @@ const ListHotels = () => {
             </div>
             <div className="col-lg-2 col-4">
               <Link
-                href="#"
+                href={`/trekbooking/search_city?city=Ho Chi Minh`}
                 className="text-white no-underline zoom-effect-container"
               >
                <div className="relative image-card">
@@ -249,7 +249,7 @@ const ListHotels = () => {
             </div>
             <div className="col-lg-2 col-4">
               <Link
-                href="#"
+                href={`/trekbooking/search_city?city=Hanoi`}
                 className="text-white no-underline zoom-effect-container"
               >
                <div className="relative image-card">
@@ -286,7 +286,7 @@ const ListHotels = () => {
             </div>
             <div className="col-lg-2 col-4">
               <Link
-                href="#"
+                 href={`/trekbooking/search_city?city=Phan Thiết`}
                 className="text-white no-underline zoom-effect-container"
               >
                <div className="relative image-card">
@@ -362,30 +362,7 @@ const ListHotels = () => {
             </div>
           </div>
         </div>
-        <div className="text-center">
-          <p className="font-bold text-4xl pb-2">Hotels near home</p>
-        </div>
-        <div className="row text-center">
-          {/* Links to locations */}
-          {[
-            "Ho Chi Minh",
-            "Ha Noi",
-            "Ha Long",
-            "Da Lat",
-            "Phu Quoc",
-            "Da Nang",
-          ].map((city) => (
-            <div key={city} className="col-lg-2 col-sm-4 col-6 col-md-4 pb-2">
-              <a
-                className="no-underline  border text-sm font-semibold listA  py-1 block"
-                href="#"
-                style={{ borderRadius: "10px" }}
-              >
-                {city}
-              </a>
-            </div>
-          ))}
-        </div>
+       
         <div className="mt-16">
           <div className="row">
             {hotelList.length > 0 ? (
