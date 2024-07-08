@@ -20,13 +20,14 @@ import { Oval } from "react-loader-spinner"; // Import spinner
 import Cookies from "js-cookie";
 import userService from "@/app/services/userService";
 import hotelImageService from "@/app/services/hotelImageService";
+import serviceOfRoom from "@/app/services/serviceOfRoom";
 
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
     if (sentence.trim() === "") return null; // Skip empty strings resulting from splitting
     return (
       <div key={index} className="flex items-baseline pb-2">
-        <img className="w-2 h-2 mr-2" src="/image/tick.png" alt="tick" />
+        <img className="w-3 h-3 mr-2" src="/image/greenTick.png" alt="tick" />
         <span className="font-medium text-xs">{sentence.trim()}.</span>
       </div>
     );
@@ -53,6 +54,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [userData, setUserData] = useState<any>(null);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
   const [roomImages, setRoomImages] = useState<{ [key: number]: IRoomImage[] }>(
+    {}
+  );
+  const [roomServices, setRoomServices] = useState<{ [key: number]: IService[] }>(
     {}
   );
 
@@ -97,8 +101,19 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     if (listRoom) {
       setRoomList(listRoom);
       fetchRoomImages(listRoom);
+      fetchRoomServices(listRoom);
     }
   }, [listRoom]);
+  const fetchRoomServices = async (rooms: IRoom[]) => {
+    const servicesMap: { [key: number]: IService[] } = {};
+    for (const room of rooms) {
+      const services: IService[] = await serviceOfRoom.getServiceByRoomId(room.roomId);
+      if (services.length > 0) {
+        servicesMap[room.roomId] = services;
+      }
+    }
+    setRoomServices(servicesMap);
+  };
   useEffect(() => {
     if (listComment) {
       setCommentList(listComment);
@@ -247,6 +262,11 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       console.error("Error adding to booking cart:", error);
     }
   };
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
   if (isLoading || !listRoom || !listComment || !combinedList) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -297,7 +317,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       <div className="container">
-        <div className="font-semibold text-xl" style={{ color: "#305A61" }}>
+        <div className="font-semibold text-xl mt-8" style={{ color: "#305A61" }}>
           <Link
             className="no-underline underline_hv"
             style={{ color: "#305A61" }}
@@ -316,7 +336,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span>/</span> <span>{hotel?.hotelName}</span>
         </div>
       </div>
-      <div className="container my-20">
+      <div className="container mt-2 mb-10">
         <div className="py-8 px-3">
           <div className="row">
             <div className="col-md-8">
@@ -334,7 +354,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   {renderStars(averageRating())}
                 </div>
                 <div className="ml-4">
-                  <img src="/image/map-pin.png" alt="" />
+                  <img className="w-4" src="/image/map-ping.png" alt="" />
                 </div>
                 <div className="ml-4">
                   <span className="text-base font-normal">
@@ -498,7 +518,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                           {roomImages[item.roomId]?.map((image) => (
                             <div key={image.roomImageId} className="slide-flex" >
                               <img
-                                className="w-3/4 h-60 rounded-lg"
+                                className="w-5/6 h-60 rounded-lg"
                                 src={image.roomImageURL}
                                 alt="room thumbnail"
                               />
@@ -541,47 +561,19 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                             Convenient
                           </p>
                           <div className="w-3/4 m-auto">
-                            <div className="flex items-center pb-1 ">
-                              <img
-                                className="w-2 h-2 mr-2"
-                                src="/image/tick.png"
-                                alt="tick"
-                              />
-                              <span className="font-medium text-xs">
-                                Lorem ipsum dolor sit
-                              </span>
+                            {roomServices[item.roomId]?.map((service) => (
+                                <div className="flex items-center pb-3" key={service.serviceId}>
+                                  <img
+                                    className="w-3 h-3 mr-2"
+                                    src={service.serviceImage || "/image/greenTick.png"}
+                                    alt={service.serviceDescription}
+                                  />
+                                  <span className="font-medium text-xs">
+                                    {service.serviceName}
+                                  </span>
+                                </div>
+                              ))}
                             </div>
-                            <div className="flex items-center pb-1 ">
-                              <img
-                                className="w-2 h-2 mr-2"
-                                src="/image/tick.png"
-                                alt="tick"
-                              />
-                              <span className="font-medium text-xs">
-                                Lorem ipsum dolor sit
-                              </span>
-                            </div>
-                            <div className="flex items-center pb-1 ">
-                              <img
-                                className="w-2 h-2 mr-2"
-                                src="/image/tick.png"
-                                alt="tick"
-                              />
-                              <span className="font-medium text-xs">
-                                Lorem ipsum dolor sit
-                              </span>
-                            </div>
-                            <div className="flex items-center pb-1 ">
-                              <img
-                                className="w-2 h-2 mr-2"
-                                src="/image/tick.png"
-                                alt="tick"
-                              />
-                              <span className="font-medium text-xs">
-                                Lorem ipsum dolor sit
-                              </span>
-                            </div>
-                          </div>
                         </div>
                         <div className="col-4">
                           <div className="row">
@@ -647,7 +639,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 <div className="pb-1">
                                   <Link
                                     href=""
-                                    className="px-2 py-1 border text-white no-underline font-medium text-xs "
+                                    className="px-2 py-1  text-white no-underline font-medium text-xs "
                                     style={{
                                       backgroundColor: "#305A61",
                                       borderRadius: "10px",
@@ -661,7 +653,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 <div className="pt-3">
                                   <Link
                                     href=""
-                                    className="px-1 py-1 border text-white no-underline font-medium text-xs"
+                                    className="px-1 py-1  text-white no-underline font-medium text-xs"
                                     style={{
                                       backgroundColor: "#305A61",
                                       borderRadius: "10px",
@@ -692,43 +684,64 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         <p className="font-semibold text-3xl my-8">Reviews</p>
 
         <div className="row mb-5">
-          <Slider {...settingsComment}>
+        <Slider {...settingsComment}>
             {combinedList.length > 0 ? (
-              combinedList.map((item) => (
-                <div key={item.commentId} className="py-5 px-3">
-                  <div
-                    className="border"
-                    style={{
-                      boxShadow: "0 4px 4px 0 #7F7F7F",
-                      borderRadius: "20px",
-                    }}
-                  >
-                    <div className=" w-4/5 mx-auto mt-4 mb-10">
-                      <div className="flex justify-items-center">
-                        <img
-                          src="/image/user.png"
-                          alt="user"
-                          className="rounded-full border w-16 h-16"
-                        />
-                        <div className="pl-4">
-                          <span className="font-semibold text-lg">
-                            {item.user.userName}
-                          </span>
-                          <p className="font-normal text-base">
-                            {new Date(item.dateSubmitted).toLocaleDateString()}
-                          </p>
+              combinedList.map((item, index) => {
+                const isExpanded = expandedIndex === index;
+                const message = item.message;
+                const maxChars = 25; // Giới hạn số ký tự
+
+                return (
+                  <div key={index} className="py-5 px-3">
+                    <div
+                      className="border"
+                      style={{
+                        boxShadow: "0 4px 4px 0 #7F7F7F",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      <div className=" w-4/5 mx-auto mt-4 mb-10">
+                        <div className="flex justify-items-center">
+                          <img
+                            src={item.user.avatar || "/image/user.png"}
+                            alt="user"
+                            className="rounded-full border w-16 h-16"
+                          />
+                          <div className="pl-4">
+                            <span className="font-semibold text-lg">
+                              {item.user.userName}
+                            </span>
+                            <p className="font-normal text-base">
+                              {new Date(
+                                item.dateSubmitted
+                              ).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex h-3 my-3">
-                        {renderStars(item.rateValue || 0)}
-                      </div>
-                      <div>
-                        <span className="font-medium">{item.message}</span>
+                        <div className="flex h-3 my-3">
+                          {renderStars(item.rateValue || 0)}
+                        </div>
+                        <div className="comment-transition" style={{ maxHeight: isExpanded ? '500px' : '50px'}}>
+                          <span className="font-medium break-words">
+                            {isExpanded || message.length <= maxChars
+                              ? message
+                              : `${message.substring(0, maxChars)}...`}
+                            {message.length > maxChars && (
+                              <span
+                                onClick={() => toggleExpand(index)}
+                                className="font-bold cursor-pointer"
+                                style={{color: "rgb(48, 90, 97)"}}
+                              >
+                                {isExpanded ? "  See Less" : "  See More"}
+                              </span>
+                            )}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <div className="col-12">
                 <p className="text-center py-4 text-red-600 font-bold">

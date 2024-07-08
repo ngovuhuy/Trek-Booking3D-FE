@@ -9,7 +9,6 @@ import { useSearchParams } from 'next/navigation';
 import { Oval } from 'react-loader-spinner'; 
 import voucherService from '@/app/services/voucherService';
 import userService from '@/app/services/userService';
-import stripePromise from '@/app/services/stripe';
 import { toast } from "react-toastify";
 import paymentService from '@/app/services/paymentService';
 const formatRoomDescription = (description: string) => {
@@ -43,11 +42,13 @@ const BookingInfo = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [url, setUrl] = useState('');
+    const item = bookingCart.find(item => item.roomId === roomId && item.hotelId === hotelId);
     const [requirement , setRequirement ] = useState('');
+ 
     useEffect(() => {
         const fetchBookingInfo = async () => {
             try {
+              
                 const bookingCartItems = await getBookingCartByUserId();
                 setBookingCart(bookingCartItems);
                 const room = await getRoomById(roomId);
@@ -57,9 +58,9 @@ const BookingInfo = () => {
                 const images = await getRoomImagesByRoomId(roomId);
                 // console.log('Room Images:', images);
                 setRoomImages(images);
-                const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
+const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
                 setVouchers(fetchedVouchers);
-const userData = await userService.getUserById();
+               const userData = await userService.getUserById();
                 setUser(userData);
                 setFullName(userData.userName || '');
                 setEmail(userData.email || '');
@@ -72,14 +73,7 @@ const userData = await userService.getUserById();
         };
         fetchBookingInfo();
     }, [roomId, hotelId]);
-
-
-    useEffect(() => {
-        const currentUrl = window.location.href;
-        if (currentUrl.includes(successUrl)) {
-            handleSuccessfulPayment();
-        } 
-    }, [url]);
+   
     const calculateNights = (checkInDate: string, checkOutDate: string) => {
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
@@ -113,7 +107,8 @@ const userData = await userService.getUserById();
               checkOutDate: item?.checkOutDate,
               requirement: requirement,
               process: "Pending",
-              completed: false
+              completed: false,
+              supplierId: hotelDetails?.supplierId
             },
             orderDetails: bookingCart.map(cartItem => ({
               roomId: cartItem.roomId,
@@ -122,6 +117,8 @@ const userData = await userService.getUserById();
               roomQuantity: cartItem.roomQuantity,
               roomName: roomDetails?.roomName,
               hotelName: hotelDetails?.hotelName,
+           
+
             })),
           },
           successUrl: '', // Thay thế bằng URL thành công thực tế của bạn
@@ -139,16 +136,14 @@ const userData = await userService.getUserById();
             voucherCode: "string", // Thay thế bằng mã voucher nếu có
             userNote: requirement, // Sử dụng ghi chú của người dùng nếu có
             status: true,
-            isConfirmed: true,
+isConfirmed: true,
           };
       
         try {
-            
-            await paymentService.createBooking(bookingData);
-          await paymentService.handlePayment(paymentData, item);
-         toast.success('Payment and booking created successfully!');
-         setUrl(window.location.href); // Cập nhật URL sau khi thanh toán
           
+            await paymentService.createBooking(bookingData);
+           await paymentService.handlePayment(paymentData, item);
+         toast.success('Payment and booking created successfully!');
         } catch (error) {
           console.error('Error during payment and booking:', error);
           toast.error('Failed to complete payment and create booking.');
@@ -156,11 +151,7 @@ const userData = await userService.getUserById();
 
         
       };
-      const handleSuccessfulPayment = async () => {
-        if (item) {
-            await paymentService.clearCart(item.roomId);
-        }
-    };
+
     const buttonStyleEnabled = {
         backgroundColor: '#305A61', // Màu nền ban đầu
         borderRadius: '20px',
@@ -188,7 +179,7 @@ const userData = await userService.getUserById();
             </div>
         );
     }
-    const item = bookingCart.find(item => item.roomId === roomId && item.hotelId === hotelId);
+   
     if (!item) {
         return <div className='container py-8'>No booking information found.</div>;
     }
@@ -230,7 +221,7 @@ const userData = await userService.getUserById();
                                 <div className='flex justify-between'>
                                     <span className='font-semibold text-xl'>{roomDetails.roomName}</span>
                                     <Link className='mr-8' href={`/trekbooking/image360/${roomDetails.roomId}`}>
-                                        <img src='/image/view3D.png' className='w-10 h-10' alt='view 3D' />
+<img src='/image/view3D.png' className='w-10 h-10' alt='view 3D' />
 </Link>
                                 </div>
 
@@ -307,7 +298,7 @@ const userData = await userService.getUserById();
                                                             border: '1px solid #D9D9D9',
                                                             borderRadius: '10px',
 backgroundColor: '#F5F5F5',
-                                                        }}
+}}
                                                     >
                                                         <div className='grid justify-items-center'>
                                                             <span className='text-center text-sm font-semibold pb-3 pt-3 ' style={{ color: '#305A61' }}>
@@ -354,7 +345,7 @@ backgroundColor: '#F5F5F5',
                                         <p className='font-semibold'>Full name</p>
                                         <input
 value={fullName} // Cập nhật giá trị từ trạng thái
-                                            onChange={(e) => setFullName(e.target.value)} // Theo dõi sự thay đổi
+onChange={(e) => setFullName(e.target.value)} // Theo dõi sự thay đổi
                                             type='text'
                                             className='border w-full py-2 px-2'
                                             style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
@@ -395,7 +386,7 @@ value={fullName} // Cập nhật giá trị từ trạng thái
 onClick={handlePayment}
                                         >
                                             Continue
-                                        </button>
+</button>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +431,7 @@ const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN'
                 month: '2-digit',
                 year: 'numeric',
             });
-            const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
+const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -499,7 +490,7 @@ const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN'
                     <div className='pt-5'>
                         <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
                             Discount vouchers:
-                        </span>
+</span>
                     </div>
                     <div className='pt-4'>
                         <div className='pt-2'>

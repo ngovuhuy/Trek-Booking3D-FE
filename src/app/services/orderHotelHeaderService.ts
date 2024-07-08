@@ -3,6 +3,7 @@ import BASE_URL from './apiService';
 
 interface IOrderHotelHeaderService {
   getOrderHotelHeaderByUserId(): Promise<IOrderHotelHeader[]>;
+  getOrderHotelHeaderBySupplierId(): Promise<IOrderHotelHeader[]>;
 }
 
 const orderHotelHeaderService: IOrderHotelHeaderService = {
@@ -16,6 +17,30 @@ const orderHotelHeaderService: IOrderHotelHeaderService = {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("tokenUser")}`, // Retrieve token from localStorage
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch order hotel headers");
+      }
+      const data = await response.json();
+      console.log(data); // Trigger refetch after fetching
+      return data;
+    } catch (error) {
+      console.error("Error fetching order hotel headers:", error);
+      throw error;
+    }
+  },
+  async getOrderHotelHeaderBySupplierId() {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/getOrderHotelHeaderBySupplierId`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from localStorage
           },
         }
       );
