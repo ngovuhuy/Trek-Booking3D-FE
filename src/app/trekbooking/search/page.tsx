@@ -354,7 +354,7 @@ const SearchPage = () => {
                   </div>
                   <div className="pb-4">
                     <div className="start flex justify-between">
-                      <p className="font-bold">Facilities</p>
+                      <p className="font-bold">Services</p>
                       <img className="h-5 w-5 cursor-pointer" src="/image/down.png" alt="" />
                     </div>
                     <div className="input-star flex pb-8">

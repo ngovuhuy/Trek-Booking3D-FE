@@ -121,8 +121,8 @@ await deleteObject(storageRef);
   };
 
   const handleAddImage = () => {
-    if (listHotelImage.length >= 6) {
-      alert("You can only add up to 6 images for this hotel.");
+    if (listHotelImage.length >= 4) {
+      toast.error("You can only add up to 4 images for this hotel.");
       return;
     }
     setHotelId(Number(params.hotelId));
