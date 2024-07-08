@@ -12,34 +12,7 @@ import Slider from "react-slick";
 import hotelImageService from "@/app/services/hotelImageService";
 import Link from "next/link";
 
-interface IHotel {
-  hotelId: number;
-  hotelName: string;
-  hotelPhone: string;
-  hotelEmail: string;
-  hotelAvatar: string;
-  hotelFulDescription: string;
-  hotelDistrict: string;
-  hotelCity: string;
-  hotelInformation: string;
-  supplierId: number;
-  isVerify: boolean;
-  services: string[]; // Thêm trường này
-}
 
-interface IRoom {
-  roomId: number;
-  hotelId: number;
-  roomName: string;
-  roomPrice: number;
-  discountPercent: number;
-}
-
-interface IHotelImage {
-  hotelImageId: number;
-  hotelId: number;
-  hotelImageURL: string;
-}
 
 const SearchPage = () => {
   const [hotelList, setHotelList] = useState<IHotel[]>([]);
