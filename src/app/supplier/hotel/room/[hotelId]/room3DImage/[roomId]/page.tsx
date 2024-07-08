@@ -206,7 +206,7 @@ const ListRoomImage = ({ params }: { params: {hotelId:string, roomId: string } }
           />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem" onClick={handleAddImage}>
+        <button className="ml-8 button-add relative z-10" onClick={handleAddImage}>
           + Add Room 3D Image
         </button>
       </div>

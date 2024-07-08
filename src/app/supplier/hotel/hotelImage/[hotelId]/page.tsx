@@ -160,36 +160,36 @@ await deleteObject(storageRef);
     <div className="relative">
       <div className="search-add">
       {hotel && (
-            <div className="fix-name">
-              <Link
-                href="/supplier/hotel"
-                style={{ color: "black", fontSize: "18px" }}
-              >
-                Hotel
-              </Link>
-              <span
-                style={{
-                  color: "black",
-                  fontSize: "18px",
-                  marginLeft: "5px",
-                  marginRight: "5px",
-                }}
-              >
-                {" > "}
-              </span>
-              <Link
-                href={`/supplier/hotel/room/${params.hotelId}`}
-                style={{ color: "black", fontSize: "18px" }}
-              >
-                {hotel.hotelName}
-              </Link>
-            </div>
-          )}
+          <div className="fix-name">
+            <Link
+              href="/supplier/hotel"
+              style={{ color: "black", fontSize: "18px" }}
+            >
+              Hotel
+            </Link>
+            <span
+              style={{
+                color: "black",
+                fontSize: "18px",
+                marginLeft: "5px",
+                marginRight: "5px",
+              }}
+            >
+              {" > "}
+            </span>
+            <Link
+              href={`/supplier/hotel/room/${params.hotelId}`}
+              style={{ color: "#4c7cab", fontSize: "18px" }}
+            >
+              {hotel.hotelName}
+            </Link>
+          </div>
+        )}
         <div className="search-hotel flex">
           <input type="text" placeholder="Search........." className="input-hotel pl-3" />
           <img src="/image/search.png" alt="" />
         </div>
-<button className="ml-8 button-add ml-4rem" onClick={handleAddImage}>
+<button className="ml-8 button-add relative z-10" onClick={handleAddImage}>
           + Add Hotel Image
         </button>
       </div>

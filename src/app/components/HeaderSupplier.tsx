@@ -7,9 +7,10 @@ import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
-import router from "next/router";
+
 import useSWR from "swr";
 import supplierService from "../services/supplierService";
+import { useRouter } from "../../../node_modules/next/navigation";
 interface HeaderSupplierProps {
   title: string;
 }
@@ -67,7 +68,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     const roleName = Cookies.get("roleName") || ""; // Thêm giá trị mặc định là chuỗi rỗng nếu roleName là undefined
     setRole(roleName);
   }, []);
-
+ const router = useRouter();
   const handleLogoutSupplier = async () => {
     await authenticateService.logOutSupplier();
     toast.success("Logout Success..");
@@ -79,7 +80,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     router.push("/login_supplier_staff");
   };
   return (
-    <div className="fix-border flex justify-between ml-96 p-8 pr-11">
+    <div className="fix-border flex justify-between ml-72 p-8 pr-11">
       <div
         className={`overlay ${isDivVisible ? "show" : ""}`}
         onClick={handleMenuClick}
@@ -89,7 +90,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
         style={{ float: "right", fontSize: "22px" }}
         onClick={handleMenuClick}
       />
-      <span className="ml-4 color-black font-semibold text-2xl">
+      <span className="ml-4 color-black font-semibold text-2xl fix-title-400">
         {currentTitle}
       </span>
 

@@ -208,7 +208,7 @@ const ListRoomImage = ({ params }: { params: { hotelId: string, roomId: string }
           <input type="text" placeholder="Search........." className="input-hotel pl-3" />
           <img src="/image/search.png" alt="" />
         </div>
-        <button className="ml-8 button-add ml-4rem" onClick={handleAddImage}>
+        <button className="ml-8 button-add relative z-10" onClick={handleAddImage}>
           + Add Room Image
         </button>
       </div>
