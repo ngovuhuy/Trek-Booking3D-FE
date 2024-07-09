@@ -183,7 +183,7 @@ border-radius: 12px;
     min-height: 100%;
     right: 0;
     display: block;
-    z-index: 2;
+    z-index: 100;
   }
   .fix-border {
     transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
@@ -197,7 +197,7 @@ border-radius: 12px;
     font-size: 37px;
     position: absolute;
     right: 20px;
-    top: 62px;
+    top: 20px;
     cursor: pointer;
   }
   .overlay {
