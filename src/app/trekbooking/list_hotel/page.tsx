@@ -416,7 +416,7 @@ const ListHotels = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        Book now
+                        View Hotel
                       </Link>
                     </div>
                   </div>

@@ -458,7 +458,7 @@ const SearchPage = () => {
                           </p>
                           <p style={{ color: "#8E8D8A" }}>Exclude taxes & fees</p>
                           <Link href={`/trekbooking/list_hotel/${item.hotelId}`} className="text-white font-medium py-2 px-6 text-lg border no-underline" style={{ backgroundColor: "#305A61", borderRadius: "20px" }}>
-                            Book now
+                            View Hotel
                           </Link>
                         </div>
                       </div>
