@@ -8,6 +8,12 @@ import tourService from "@/app/services/tourService";
 import Link from "next/link";
 import "../../../../public/css/styles.css";
 import { Oval } from "react-loader-spinner"; // Import spinner
+
+//fliter
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import { Padding } from "@mui/icons-material";
+
 const fetchTourImages = async (
   tourList: ITour[],
   setTourImages: (images: { [key: number]: string }) => void
@@ -15,11 +21,11 @@ const fetchTourImages = async (
   const images = await Promise.all(
     tourList.map(async (tour: ITour) => {
       const image = await tourService.getTourImageByTourId(tour.tourId);
-      if(image.length > 0) {
+      if (image.length > 0) {
         return { tourId: tour.tourId, imageUrl: image[0].tourImageURL };
       } else {
         return { tourId: tour.tourId, imageUrl: "/image/tour.png" };
-      } // Assuming image[0] is the correct image
+      }
     })
   );
 
@@ -33,28 +39,44 @@ const fetchTourImages = async (
 
   setTourImages(imageMap);
 };
+
+const removeVietnameseTones = (str: string) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+};
+
 const TourList = () => {
   const [tourImages, setTourImages] = useState<{ [key: number]: string }>({});
-  const { data: tourList, error } = useSWR("tourList", tourService.getTours);
-  const [truncatedText, setTruncatedText] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
+  const { data: tourList, error } = useSWR<ITour[]>("tourList", tourService.getTours);
 
-  
   useEffect(() => {
     if (tourList) {
       fetchTourImages(tourList, setTourImages);
     }
   }, [tourList]);
 
-  const handleImageChange = async () => {
-    if (tourList) {
-      await fetchTourImages(tourList, setTourImages);
-      mutate("tourList");
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSliderChange = (value: number | number[]) => {
+    if (Array.isArray(value)) {
+      setPriceRange(value as [number, number]);
     }
   };
-  useEffect(() => {
-    const interval = setInterval(handleImageChange, 1000); //Kiểm tra thay đổi hình ảnh mỗi 1000mili giây
-    return () => clearInterval(interval); // Xóa interval để tránh rò rỉ bộ nhớ
-  }, [tourList]);
+
+  const filteredTours = tourList ? tourList.filter(tour => {
+    const normalizedAddress = removeVietnameseTones(tour.tourAddress.toLowerCase());
+    const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
+    const matchesSearch = normalizedAddress.includes(normalizedSearchTerm);
+    const matchesPrice = tour.tourPrice >= priceRange[0] && tour.tourPrice <= priceRange[1];
+    return matchesSearch && matchesPrice;
+  }) : [];
 
   if (!tourList) {
     return (
@@ -75,42 +97,57 @@ const TourList = () => {
 
   if (error) {
     return <div>Error loading tours</div>;
-  }  
+  }
+
   return (
     <div>
-     
-      <div className="container">
-        <div className="container">
-        <div className="font-semibold text-xl my-5" style={{ color: "#305A61" }}>
-          <Link
-            className="no-underline underline_hv"
-            style={{ color: "#305A61" }}
-            href="/"
-          >
-            Home
-          </Link>{" "}
-          <span>/</span>{" "}
-          <Link
-            className="no-underline underline_hv"
-            style={{ color: "#305A61" }}
-            href="/trekbooking/tour"
-          >
-            Attractions
-          </Link>{" "}
+      <div className="container pt-4">
+        <div className="flex justify-between">
+          <div className="font-semibold text-xl my-5" style={{ color: "#305A61" }}>
+            <Link className="no-underline underline_hv" style={{ color: "#305A61" }} href="/">Home</Link>
+            <span>/</span>
+            <Link className="no-underline underline_hv" style={{ color: "#305A61" }} href="/trekbooking/tour">Attractions</Link>
+          </div>
+          <div className="input__container input__container--variant">
+            <div className="shadow__input shadow__input--variant"></div>
+            <input
+              type="text"
+              name="text"
+              className="input__search input__search--variant"
+              placeholder="Search by address..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <button className="input__button__shadow input__button__shadow--variant">
+              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="1.5em" width="13em">
+                <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#FFF"></path>
+              </svg>
+            </button>
+          </div>
         </div>
-        </div>
-        <div className="row ">
-          <div className="col-lg-3 col-md-3 col-12 ">
+        <div className="row">
+        <div className="col-lg-3 col-md-3 col-12">
             <div className="border-tour">
               <p className="color-black font-bold">Price Range</p>
-              <p className="color-black">0 US$ - 170 US$</p>
-              <img className="mleft-8" src="/image/filtertour.png" alt="" />
+              <Slider
+                range
+                min={0}
+                max={5000}
+                value={priceRange}
+                onChange={handleSliderChange}
+                trackStyle={[{ backgroundColor: '#305A61' }]}
+                handleStyle={[{ borderColor: '#305A61' }, { borderColor: '#305A61' }]}
+              />
+              <div className="flex justify-between mt-2 pt-8" >
+                <span>Min: {priceRange[0]}$</span>
+                <span>Max: {priceRange[1]}$</span>
+              </div>
             </div>
           </div>
-          <div className="col-lg-9 col-md-9 col-12 fix-768-tour ">
+          <div className="col-lg-9 col-md-9 col-12 fix-768-tour">
             <div className="row">
-              {tourList.length > 0 ? (
-                tourList.map((item: ITour, index) => {
+              {filteredTours.length > 0 ? (
+                filteredTours.map((item, index) => {
                   const tourTimeDate = new Date(item.tourTime);
                   const formattedTourTime = tourTimeDate.toLocaleDateString(
                     "en-US",
@@ -120,66 +157,41 @@ const TourList = () => {
                       day: "numeric",
                     }
                   );
-                  const newPrice =
-                    item.tourPrice - (item.tourPrice * item.tourDiscount) / 100;
+                  const newPrice = item.tourPrice - (item.tourPrice * item.tourDiscount) / 100;
                   return (
-                    <div
-                      key={index}
-                      className="col-lg-4 pb-9 col-md-6 hover-tour cursor-pointer">
-                        <Link href={`/trekbooking/tour/tour_detail/${item.tourId}`} className="fix-link">                        
-                        <div className="block-tour content-tour fix-image-tour-client ">                                                                                          
+                    <div key={index} className="col-lg-4 pb-9 col-md-6 hover-tour cursor-pointer">
+                      <Link href={`/trekbooking/tour/tour_detail/${item.tourId}`} className="fix-link">
+                        <div className="block-tour content-tour fix-image-tour-client">
                           <div className="img-tour">
-                          <img
-                            src={tourImages[item.tourId] || "/image/tour.png"}
-                            className="w-100 fix-image-tour-client h-56"
-                            alt="Tour"
-                          />
-                           </div>                   
-                        <div className="py-1 px-6">
-                          <p className="color-black font-bold pt-2 text-left">
-                            {item.tourName}
-                          </p>
-                          <div className="flex">
-                            <p className="text-gach font-bold pr-10">
-                              {item.tourPrice}US$
-                            </p>
-                            <p className="text-black font-bold">{newPrice}US$</p>
+                            <img
+                              src={tourImages[item.tourId] || "/image/tour.png"}
+                              className="w-100 fix-image-tour-client h-56"
+                              alt="Tour"
+                            />
                           </div>
-                          <div className="row pb-2">
-                            <div className="time flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
-                              <img
-                                className="w-5 h-5"
-                                src="/image/calendartour.png"
-                                alt="Calendar"
-                              />
-                              <p className="color-black ml-1 font-bold">
-                                {formattedTourTime}
-                              </p>
+                          <div className="py-1 px-6">
+                            <p className="color-black font-bold pt-2 text-left">{item.tourName}</p>
+                            <div className="flex">
+                              <p className="text-gach font-bold pr-10">{item.tourPrice}US$</p>
+                              <p className="text-black font-bold">{newPrice}US$</p>
                             </div>
-                            <div className="vitri flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
-                              <img
-                                className="w-5 h-5"
-                                src="/image/uptour.png"
-                                alt="Location"
-                              />
-                              <p className="color-black ml-1 font-bold fix-location-length">
-                                {item.tourAddress}
-                              </p>
-                            </div>
-                            <div className="vitri flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
-                              <img
-                                className="w-5 h-5"
-                                src="/image/user.png"
-                                alt="Capacity"
-                              />
-                              <p className="color-black ml-1 font-bold">
-                                {item.tourCapacity}
-                              </p>
+                            <div className="row pb-2">
+                              <div className="time flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
+                                <img className="w-5 h-5" src="/image/calendartour.png" alt="Calendar" />
+                                <p className="color-black ml-1 font-bold">{formattedTourTime}</p>
+                              </div>
+                              <div className="vitri flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
+                                <img className="w-5 h-5" src="/image/uptour.png" alt="Location" />
+                                <p className="color-black ml-1 font-bold fix-location-length">{item.tourAddress}</p>
+                              </div>
+                              <div className="vitri flex cursor-pointer col-lg-4 col-md-12 col-sm-4 col-4">
+                                <img className="w-5 h-5" src="/image/user.png" alt="Capacity" />
+                                <p className="color-black ml-1 font-bold">{item.tourCapacity}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>                        
                         </div>
-                        </Link>
+                      </Link>
                     </div>
                   );
                 })
@@ -193,11 +205,7 @@ const TourList = () => {
           <p className="font-bold mr-4 text-xl cursor-pointer">1</p>
           <p className="font-bold mr-4 text-xl cursor-pointer">2</p>
           <p className="font-bold mr-4 text-xl cursor-pointer">3</p>
-          <img
-            className="w-3 h-4 mg-t-6 cursor-pointer"
-            src="/image/righttour.png"
-            alt="Next"
-          />
+          <img className="w-3 h-4 mg-t-6 cursor-pointer" src="/image/righttour.png" alt="Next" />
         </div>
       </div>
     </div>

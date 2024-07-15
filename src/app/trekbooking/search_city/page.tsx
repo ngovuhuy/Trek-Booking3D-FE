@@ -12,8 +12,9 @@ import Slider from "react-slick";
 import hotelImageService from "@/app/services/hotelImageService";
 import Link from "next/link";
 import serviceOfRoom from "@/app/services/serviceOfRoom";
-
-
+import RangeSlider from "rc-slider";
+import "rc-slider/assets/index.css";
+import useSWR from "swr";
 
 const SearchPage = () => {
   const [hotelList, setHotelList] = useState<IHotel[]>([]);
@@ -21,9 +22,6 @@ const SearchPage = () => {
     [key: number]: number;
   }>({});
   const [roomList, setRoomList] = useState<IRoom[]>([]);
-  const [roomServices, setRoomServices] = useState<{
-    [key: number]: IService[];
-  }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>(
@@ -32,10 +30,18 @@ const SearchPage = () => {
   const [hotelImages, setHotelImages] = useState<{
     [key: number]: IHotelImage[];
   }>({});
+  const [roomServices, setRoomServices] = useState<{
+    [key: number]: IService[];
+  }>({});
 
+  const { data: listService, mutate: mutateService } = useSWR(
+    "listService",
+    () => serviceOfRoom.getServices()
+  );
   // Filter states
   const [selectedRating, setSelectedRating] = useState<number[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
 
   // Search states
   const [city, setCity] = useState<string | null>(null);
@@ -53,7 +59,9 @@ const SearchPage = () => {
     }
   }, [city]);
 
-  const searchHotels = async (city: string) => {
+  const searchHotels = async (
+    city: string
+  ) => {
     try {
       setLoading(true);
       const hotelSchedule = await hotelService.searchHotelByCity(city);
@@ -112,6 +120,12 @@ const SearchPage = () => {
     };
     fetchHotelsAndRooms();
   }, []);
+
+  useEffect(() => {
+    if (roomList.length > 0) {
+      roomList.forEach((room) => fetchRoomServices(room.roomId));
+    }
+  }, [roomList]);
 
   useEffect(() => {
     if (hotelList) {
@@ -177,7 +191,7 @@ const SearchPage = () => {
               room.roomPrice - room.roomPrice * (room.discountPercent / 100)
           )
         );
-        return lowestPrice.toFixed(2);
+        return parseFloat(lowestPrice.toFixed(2));
       }
       return null;
     },
@@ -211,23 +225,24 @@ const SearchPage = () => {
         selectedRating.includes(averageRatings[hotel.hotelId]);
       const matchesService =
         selectedServices.length === 0 ||
-        selectedServices.every((service) => hotel.services.includes(service));
-      return matchesRating && matchesService;
+        selectedServices.every((service) =>
+          roomList.some(
+            (room) =>
+              room.hotelId === hotel.hotelId &&
+              roomServices[room.roomId]?.some(
+                (rs) => rs.serviceName === service
+              )
+          )
+        );
+      const lowestPriceDiscount = getLowestPriceDiscount(hotel.hotelId);
+      const matchesPrice =
+        lowestPriceDiscount !== null &&
+        lowestPriceDiscount >= priceRange[0] &&
+        lowestPriceDiscount <= priceRange[1];
+      return matchesRating && matchesService && matchesPrice;
     });
   };
-  const fetchRoomServices = async (roomId: number) => {
-    try {
-      const services = await serviceOfRoom.getServiceByRoomId(roomId);
-      setRoomServices((prev) => ({ ...prev, [roomId]: services }));
-    } catch (error) {
-      console.error("Error fetching room services:", error);
-    }
-  };
-  useEffect(() => {
-    if (roomList.length > 0) {
-      roomList.forEach((room) => fetchRoomServices(room.roomId));
-    }
-  }, [roomList]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -244,6 +259,15 @@ const SearchPage = () => {
       </div>
     );
   }
+
+  const fetchRoomServices = async (roomId: number) => {
+    try {
+      const services = await serviceOfRoom.getServiceByRoomId(roomId);
+      setRoomServices((prev) => ({ ...prev, [roomId]: services }));
+    } catch (error) {
+      console.error("Error fetching room services:", error);
+    }
+  };
 
   const settings = {
     dots: true,
@@ -532,128 +556,81 @@ const SearchPage = () => {
                   </p>
                   <div className="range">
                     <p className="font-bold color-black">Price Range</p>
-                    <p className="color-black">0 US$ - 170 US$</p>
-                    <div className="search-filter pb-4">
-                      <img src="/image/searchfilter.png" alt="" />
+                    <p className="color-black">0 US$ - 5000 US$</p>
+                    <RangeSlider
+                      range
+                      min={0}
+                      max={5000}
+                      value={priceRange}
+                      onChange={(value) => setPriceRange(value as number[])}
+                      trackStyle={[{ backgroundColor: "#305A61" }]}
+                      handleStyle={[
+                        { borderColor: "#305A61" },
+                        { borderColor: "#305A61" },
+                      ]}
+                    />
+                    <div className="flex justify-between mt-2">
+                      <span>Min: {priceRange[0]}$</span>
+                      <span>Max: {priceRange[1]}$</span>
                     </div>
-                    <div className="start flex justify-between">
-                      <p className="font-bold">Star Rating</p>
-                      <img
-                        className="h-5 w-5 cursor-pointer"
-                        src="/image/down.png"
-                        alt=""
-                      />
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleRatingChange(1)}
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleRatingChange(2)}
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleRatingChange(3)}
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleRatingChange(4)}
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleRatingChange(5)}
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                      <img
-                        className="input-star"
-                        src="/image/star.png"
-                        alt=""
-                      />
-                    </div>
+                  </div>
+                  <div className="start flex justify-between mt-4">
+                    <p className="font-bold">Star Rating</p>
+                    <img
+                      className="h-5 w-5 cursor-pointer"
+                      src="/image/down.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="input-star flex pb-8">
+                    <input
+                      type="checkbox"
+                      className="h-5"
+                      onChange={() => handleRatingChange(1)}
+                    />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                  </div>
+                  <div className="input-star flex pb-8">
+                    <input
+                      type="checkbox"
+                      className="h-5"
+                      onChange={() => handleRatingChange(2)}
+                    />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                  </div>
+                  <div className="input-star flex pb-8">
+                    <input
+                      type="checkbox"
+                      className="h-5"
+                      onChange={() => handleRatingChange(3)}
+                    />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                  </div>
+                  <div className="input-star flex pb-8">
+                    <input
+                      type="checkbox"
+                      className="h-5"
+                      onChange={() => handleRatingChange(4)}
+                    />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                  </div>
+                  <div className="input-star flex pb-8">
+                    <input
+                      type="checkbox"
+                      className="h-5"
+                      onChange={() => handleRatingChange(5)}
+                    />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
+                    <img className="input-star" src="/image/star.png" alt="" />
                   </div>
                   <div className="pb-4">
                     <div className="start flex justify-between">
@@ -664,46 +641,22 @@ const SearchPage = () => {
                         alt=""
                       />
                     </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleServiceChange("Parking")}
-                      />
-                      <p className="text-faci">Parking</p>
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleServiceChange("Elevator")}
-                      />
-                      <p className="text-faci">Elevator</p>
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleServiceChange("Restaurant")}
-                      />
-                      <p className="text-faci">Restaurant</p>
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleServiceChange("Fitness")}
-                      />
-                      <p className="text-faci">Fitness</p>
-                    </div>
-                    <div className="input-star flex pb-8">
-                      <input
-                        type="checkbox"
-                        className="h-5"
-                        onChange={() => handleServiceChange("Wifi")}
-                      />
-                      <p className="text-faci">Wifi</p>
-                    </div>
+                    {listService &&
+                      listService.map((service) => (
+                        <div
+                          className="input-star flex pb-8"
+                          key={service.serviceId}
+                        >
+                          <input
+                            type="checkbox"
+                            className="h-5"
+                            onChange={() =>
+                              handleServiceChange(service.serviceName)
+                            }
+                          />
+                          <p className="text-faci">{service.serviceName}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -784,46 +737,43 @@ const SearchPage = () => {
                                 : `${commentsCount[item.hotelId] || 0} reviews`}
                             </span>
                           </div>
-                          <div className="flex items-center">
+                          <div className="flex">
                             <img
                               className="w-5 h-5"
                               src="/image/map.png"
                               alt=""
                             />
-                            <span className="ml-3 color-black">{item.hotelCity}</span>
+                            <p className="ml-3 color-black">{item.hotelCity}</p>
                           </div>
                           <div className="row mt-4">
-                              {getRoomsByHotelId(item.hotelId).map((room) => (
-                                <div className="col-6" key={room.roomId}>
-                                  <div>
-                                    <p className="font-bold text-sm">
-                                      {room.roomName}
-                                    </p>
-                                    {roomServices[room.roomId]?.map(
-                                      (service) => (
-                                        <div
-                                          className="flex items-center mt-3"
-                                          key={service.serviceId}
-                                        >
-                                          <img
-                                            className="w-3 h-3"
-                                            src={
-                                              service.serviceImage ||
-                                              "/image/greenTick.png"
-                                            }
-                                            alt=""
-                                          />
-                                          <span className="ml-2 color-black">
-                                            {service.serviceName}
-                                          </span>
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
+                            {getRoomsByHotelId(item.hotelId).map((room) => (
+                              <div className="col-6" key={room.roomId}>
+                                <div>
+                                  <p className="font-bold text-sm">
+                                    {room.roomName}
+                                  </p>
+                                  {roomServices[room.roomId]?.map((service) => (
+                                    <div
+                                      className="flex items-center mt-3"
+                                      key={service.serviceId}
+                                    >
+                                      <img
+                                        className="w-3 h-3"
+                                        src={
+                                          service.serviceImage ||
+                                          "/image/greenTick.png"
+                                        }
+                                        alt=""
+                                      />
+                                      <span className="ml-2 color-black">
+                                        {service.serviceName}
+                                      </span>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                       <div
@@ -860,7 +810,7 @@ const SearchPage = () => {
                               borderRadius: "20px",
                             }}
                           >
-                            Book now
+                            View Hotel
                           </Link>
                         </div>
                       </div>
