@@ -134,7 +134,26 @@ a {
 .link-text{
   color: #1F1C17;
 }
+.button-add {
+  background: #305a61;
+  color: #ffffff;
+
+  padding: 6px 12px;
+  border-radius: 12px;
+}
 .link-style::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 85%;
+  height: 3px;
+  background-color: #305a61;
+}
+.link-text{
+  color: #1F1C17;
+}
+/* .link-style::after {
   content: "";
   position: absolute;
   left: 0;
@@ -142,7 +161,7 @@ a {
   width: 80%;
   height: 3px;
   background-color: #305a61;
-}
+} */
 .li-menu {
   margin: 0 5rem;
 }
@@ -158,13 +177,12 @@ a {
   border-radius: 20px;
 }
 .background-img {
-  background-image: url("/image/home1.png");
-  /* Điều chỉnh kích thước của hình ảnh */
-  background-size: cover; /* hoặc contain để hình ảnh không bị cắt */
-  /* Vị trí của hình ảnh */
-
-  /* Lặp lại hình ảnh (nếu cần) */
+  background-image: url("/image/content2.png");
+  background-size: contain; /* Hình ảnh sẽ được co lại để vừa với phần tử mà không bị cắt */
+  background-position: center; /* Hình ảnh sẽ được căn giữa */
+  background-repeat: no-repeat; /* Hình ảnh sẽ không lặp lại */
 }
+
 .input-first {
   padding: 9px 0px;
   text-align: left;
@@ -330,9 +348,12 @@ a {
   color: #1f1c17;
 }
 .search-main {
-  background: #ffffff;
+  background: #ffffff99;
   border-radius: 12px;
   border: 1px solid #ccc;
+}
+.cam{
+  color: rgb(33 29 27);
 }
 .input-search {
   border: 1px solid #cccccc;

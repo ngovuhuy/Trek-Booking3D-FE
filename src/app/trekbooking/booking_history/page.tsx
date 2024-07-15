@@ -13,7 +13,6 @@ import orderHotelHeaderService from "@/app/services/orderHotelHeaderService";
 import orderHotelDetailService from "@/app/services/orderHotelDetailService";
 import roomImageService from "@/app/services/roomImageService";
 
-
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
     if (sentence.trim() === "") return null;
@@ -82,9 +81,9 @@ const Booking_History = () => {
           detailsMap[detail.orderTourHeaderlId].push(detail);
         });
         setTourDetails(detailsMap);
-// Fetch tour images
+        // Fetch tour images
         const tourIds = new Set(
-          detailsArray
+detailsArray
             .filter(
               (detail): detail is IOrderTourDetail =>
                 detail !== null && detail.tourId !== undefined
@@ -187,10 +186,10 @@ const Booking_History = () => {
   const settings = {
     infinite: true,
     speed: 500,
-slidesToShow: 1,
+    slidesToShow: 1,
     slidesToScroll: 1,
     draggable: false,
-    autoplay: false,
+autoplay: false,
     autoplaySpeed: 1000,
   };
 
@@ -371,10 +370,9 @@ className="w-full h-12 border rounded-lg"
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
                               <a href="#" style={{ display: "flex" }}>
-                                <img src="/image/trash.png" alt="" />
-<img src="/image/trash.png" alt="" />
+                                <img className="w-6" src="/image/infor.png" alt="" />
                               </a>
-                            </div>
+</div>
                           </div>
                         </div>
                       ))
@@ -439,10 +437,10 @@ className="w-full h-12 border rounded-lg"
                             className="font-bold text-lg max-[555px]:text-xs  max-[370px]:ml-3"
                             style={{ color: "#305A61" }}
                           >
-Status
+                            Status
                           </span>
                         </div>
-                        <div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
+<div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
                           <span
                             className="font-bold text-lg max-[555px]:text-xs max-[370px]:ml-6"
                             style={{ color: "#305A61" }}
@@ -526,9 +524,9 @@ Status
                               {header.process}
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
-                              <a href="#" style={{ display: "flex" }}>
-                                <img src="/image/trash.png" alt="" />
-                                <img src="/image/trash.png" alt="" />
+                              <a href="#" className="flex items-center">
+                                <img className="w-6 mr-3" src="/image/feedback.png" alt="" />
+                                <img className="w-6" src="/image/infor.png" alt="" />
                               </a>
                             </div>
                           </div>
