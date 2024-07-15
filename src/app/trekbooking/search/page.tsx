@@ -11,6 +11,7 @@ import rateService from "@/app/services/rateService";
 import Slider from "react-slick";
 import hotelImageService from "@/app/services/hotelImageService";
 import Link from "next/link";
+import serviceOfRoom from "@/app/services/serviceOfRoom";
 
 
 
@@ -22,6 +23,9 @@ const SearchPage = () => {
   const [error, setError] = useState<Error | null>(null);
   const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>({});
   const [hotelImages, setHotelImages] = useState<{ [key: number]: IHotelImage[] }>({});
+  const [roomServices, setRoomServices] = useState<{
+    [key: number]: IService[];
+  }>({});
 
   // Filter states
   const [selectedRating, setSelectedRating] = useState<number[]>([]);
@@ -96,7 +100,11 @@ const SearchPage = () => {
     };
     fetchHotelsAndRooms();
   }, []);
-
+  useEffect(() => {
+    if (roomList.length > 0) {
+      roomList.forEach((room) => fetchRoomServices(room.roomId));
+    }
+  }, [roomList]);
   useEffect(() => {
     if (hotelList) {
       fetchHotelImages(hotelList);
@@ -188,6 +196,17 @@ const SearchPage = () => {
       </div>
     );
   }
+  
+  const fetchRoomServices = async (roomId: number) => {
+    try {
+      const services = await serviceOfRoom.getServiceByRoomId(roomId);
+      setRoomServices((prev) => ({ ...prev, [roomId]: services }));
+    } catch (error) {
+      console.error("Error fetching room services:", error);
+    }
+  };
+  
+
 
   const settings = {
     dots: true,
@@ -424,27 +443,37 @@ const SearchPage = () => {
                             <img className="w-5 h-5" src="/image/map.png" alt="" />
                             <p className="ml-3 color-black">{item.hotelCity}</p>
                           </div>
-                          <p className="font-bold color-primary">
-                            {getRoomsByHotelId(item.hotelId).map((room) => (
-                              <p key={room.roomId}>{room.roomName}</p>
-                            ))}
-                          </p>
-                          <div className="flex">
-                            <img className="w-3 h-3 mt-2" src="/image/check1.png" alt="" />
-                            <p className="ml-2 color-black">Lorem ipsum dolor sit</p>
-                          </div>
-                          <div className="flex">
-                            <img className="w-3 h-3 mt-2" src="/image/check1.png" alt="" />
-                            <p className="ml-2 color-black">Lorem ipsum dolor sit</p>
-                          </div>
-                          <div className="flex">
-                            <img className="w-3 h-3 mt-2" src="/image/check1.png" alt="" />
-                            <p className="ml-2 color-black">Lorem ipsum dolor sit</p>
-                          </div>
-                          <div className="flex">
-                            <img className="w-3 h-3 mt-2" src="/image/check1.png" alt="" />
-                            <p className="ml-2 color-black">Lorem ipsum dolor sit</p>
-                          </div>
+                          <div className="row mt-4">
+                              {getRoomsByHotelId(item.hotelId).map((room) => (
+                                <div className="col-6" key={room.roomId}>
+                                  <div>
+                                    <p className="font-bold text-sm">
+                                      {room.roomName}
+                                    </p>
+                                    {roomServices[room.roomId]?.map(
+                                      (service) => (
+                                        <div
+                                          className="flex items-center mt-3"
+                                          key={service.serviceId}
+                                        >
+                                          <img
+                                            className="w-3 h-3"
+                                            src={
+                                              service.serviceImage ||
+                                              "/image/greenTick.png"
+                                            }
+                                            alt=""
+                                          />
+                                          <span className="ml-2 color-black">
+                                            {service.serviceName}
+                                          </span>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                         </div>
                       </div>
                       <div className="col-3" style={{ borderRadius: "10px", backgroundColor: "#F5F5F5" }}>
