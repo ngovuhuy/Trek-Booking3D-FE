@@ -410,7 +410,7 @@ const ListHotels = () => {
                       </p>
                       <Link
                         href={`/trekbooking/list_hotel/${item.hotelId}`}
-                        className="text-white font-medium pt-2 pb-1  px-6 text-lg no-underline"
+                        className="text-white font-medium flex items-center  px-6 text-lg no-underline"
                         style={{
                           backgroundColor: "#305A61",
                           borderRadius: "20px",

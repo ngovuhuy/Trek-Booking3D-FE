@@ -80,7 +80,7 @@ const Homepage = () => {
         </div>
         <div className="content-page p-12 backgr-home relative">
           <h1 className="pb-4 pl-6 font-bold text-center">
-            Lorem ipsum dolor sit
+          Explore Your World
           </h1>
           <div className="line">
             <img src="/image/linecontent.png" alt="" />
@@ -103,30 +103,22 @@ const Homepage = () => {
             </div>
 
             <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
-              <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-right  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur
+              <p className="text-blackish font-bold text-2xl  text-content-wrap mt--8 text-center-1024 width-70 float-right  magin-r-0">
+              Tourism Tour
               </p>
-              <p className="text-center-1024 width-70 float-right  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse sapien suscipit interdum purus malesuada tellus
-                mauris. Turpis libero congue viverra faucibus pulvinar odio
-                purus consectetur. Potenti mollis non odio suspendisse turpis
-                egestas sit. Sit nisi dictum orci nulla risus platea suscipit.
+              <p className="text-center-1024 width-70 float-right  magin-r-0 text-xl">
+              Tourism tours offer amazing and unforgettable experiences for travelers. Experience beautiful landscapes, enjoy rich local cuisine, and participate in unique cultural activities. All of these will create memorable moments in each journey.
               </p>
             </div>
           </div>
 
           <div className="row reponsive-content pb-12">
             <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
-              <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-left  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur
+              <p className="text-blackish font-bold text-2xl  text-content-wrap mt--8 text-center-1024 width-70 float-left  magin-r-0">
+              Adventurous Expeditions
               </p>
-              <p className="text-center-1024 width-70 float-left  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse sapien suscipit interdum purus malesuada tellus
-                mauris. Turpis libero congue viverra faucibus pulvinar odio
-                purus consectetur. Potenti mollis non odio suspendisse turpis
-                egestas sit. Sit nisi dictum orci nulla risus platea suscipit.
+              <p className="text-center-1024 width-70 float-left  magin-r-0 text-xl">
+              Adventurous expeditions provide thrill-seekers with the chance to explore uncharted territories. Engage in exhilarating activities, from mountain climbing to deep-sea diving, and discover the beauty of nature’s most remote places. Each adventure brings new challenges and unforgettable memories.
               </p>
             </div>
             <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024 image-repons">
@@ -140,30 +132,22 @@ const Homepage = () => {
             </div>
 
             <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
-              <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-right  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur
+              <p className="text-blackish font-bold 2text-xl  text-content-wrap mt--8 text-center-1024 width-70 float-right  magin-r-0">
+              Cultural Journeys
               </p>
-              <p className="text-center-1024 width-70 float-right  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse sapien suscipit interdum purus malesuada tellus
-                mauris. Turpis libero congue viverra faucibus pulvinar odio
-                purus consectetur. Potenti mollis non odio suspendisse turpis
-                egestas sit. Sit nisi dictum orci nulla risus platea suscipit.
+              <p className="text-center-1024 width-70 float-right  magin-r-0 text-xl">
+              Cultural journeys immerse travelers in the rich heritage and traditions of diverse communities. Visit historical landmarks, attend local festivals, and learn about the unique customs of each destination. These experiences foster a deeper understanding and appreciation of different cultures.
               </p>
             </div>
           </div>
 
           <div className="row reponsive-content pb-12">
             <div className=" col col-lg-6 col-md-12 col-sm-12 col-12  text-content reponsive-content">
-              <p className="text-blackish font-bold text-xl  text-content-wrap text-center-1024 width-70 float-left  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur
+              <p className="text-blackish font-bold text-2xl  text-content-wrap mt--8 text-center-1024 width-70 float-left  magin-r-0">
+              Relaxing Retreats
               </p>
-              <p className="text-center-1024 width-70 float-left  magin-r-0">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse sapien suscipit interdum purus malesuada tellus
-                mauris. Turpis libero congue viverra faucibus pulvinar odio
-                purus consectetur. Potenti mollis non odio suspendisse turpis
-                egestas sit. Sit nisi dictum orci nulla risus platea suscipit.
+              <p className="text-center-1024 width-70 float-left  magin-r-0 text-xl">
+              Relaxing retreats offer a perfect escape from the hustle and bustle of everyday life. Enjoy serene environments, luxurious spa treatments, and peaceful surroundings. These retreats provide an opportunity to rejuvenate and unwind, leaving you refreshed and revitalized.
               </p>
             </div>
             <div className="col col-lg-6 col-md-12  col-sm-12 col-12 img-reponsive-1024 image-repons">
@@ -186,10 +170,9 @@ const Homepage = () => {
           className="w-3/4 h text-center grid content-center"
           style={{ height: "957px" }}
         >
-          <p className="text-white font-bold text-4xl">
-            Lorem ipsum dolor sit amet consectetur. Donec lectus consequat
-            posuere eleifend orci platea.
-          </p>
+          <h2 className="color247 font-bold text-4xl">
+          Discover Luxurious Stays: Your Ultimate Hotel Experience Awaits in Every Destination.
+          </h2>
         </div>
       </div>
 
@@ -203,16 +186,13 @@ const Homepage = () => {
           </div>
           <div className="w-3/5 text-center m-auto">
             <p className="text-base font-normal">
-              Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-              suspendisse sapien suscipit interdum purus malesuada tellus
-              mauris. Turpis libero congue viverra faucibus pulvinar odio purus
-              consectetur. Potenti mollis non odio suspendisse turpis egestas
-              sit. Sit nisi dictum orci nulla risus platea suscipit.
+            Tailor your travel experience to suit your personal preferences. Choose from a variety of accommodations, from cozy boutique hotels to luxurious resorts. Enjoy personalized services, exclusive amenities, and unique local experiences. Whether you seek adventure, relaxation, or cultural immersion, our tailored options ensure your trip is exactly how you envision it.
             </p>
           </div>
 
-          <div className="row pt-5 ">
-            <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1 cursor-pointer">
+          <Link href="/trekbooking/tour" className="row pt-5 text-decoration-none">
+  
+          <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1 cursor-pointer">
               <Image
                 src={"/image/boat1.png"}
                 className="card1"
@@ -221,7 +201,7 @@ const Homepage = () => {
                 alt="thuyen"
               ></Image>
               <div className="mt-3">
-                <p className="text-lg font-bold">Tours and Attraction</p>
+                <p className="lg:text-lg font-bold text-black">Tours and Attraction</p>
               </div>
             </div>
             <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1 cursor-pointer">
@@ -233,7 +213,7 @@ const Homepage = () => {
                 alt="nha tren song"
               ></Image>
               <div className="mt-3">
-                <p className="text-lg font-bold">Fun Activities</p>
+                <p className="lg:text-lg font-bold text-black">Fun Activities</p>
               </div>
             </div>
             <div className="col-md-4 col-4  grid items-center justify-items-center justify-center card1 cursor-pointer">
@@ -245,10 +225,11 @@ const Homepage = () => {
                 alt="xe tuk tuk"
               ></Image>
               <div className="mt-3">
-                <p className="text-lg font-bold">Travel Insurance</p>
+                <p className="lg:text-lg  font-bold text-black">Travel Insurance</p>
               </div>
             </div>
-          </div>
+          
+            </Link>
         </div>
       </div>
       {/* ------------------------------------------------------------------------------------------ */}
@@ -260,34 +241,31 @@ const Homepage = () => {
         <div className="w-full row">
           <div className="col-md-4 h-full pb-4">
             <div className="h-full rounded-20">
-              <p className="title-whatbook pl-4 mt-3 text-lg">
-                Lorem ipsum dolor sit
+               <p className="title-whatbook pl-4 mt-3 text-lg">
+                Why Choose Us?
               </p>
-              <div className="w-3/4  pl-4 text-base pb-4">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse
+              <div className="w-full  px-3 text-base pb-4">
+              Exceptional travel experiences tailored just for you. Enjoy seamless booking and personalized services.
               </div>
             </div>
           </div>
           <div className="col-md-4  h-full pb-4">
             <div className="h-full rounded-20">
               <p className="title-whatbook pl-4 mt-3 text-lg">
-                Lorem ipsum dolor sit
+               Our Promise
               </p>
-              <div className="w-3/4  pl-4 text-base pb-4">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse
+              <div className="w-full  px-3 text-base pb-4">
+              Unforgettable adventures with top-notch service and unmatched value. Your satisfaction guaranteed.
               </div>
             </div>
           </div>
           <div className="col-md-4  h-full  pb-4">
             <div className="h-full rounded-20">
               <p className="title-whatbook pl-4 mt-3 text-lg">
-                Lorem ipsum dolor sit
+              Book with Confidence
               </p>
-              <div className="w-3/4  pl-4 text-base pb-4">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque vulputate
-                suspendisse
+              <div className="w-full  px-3 text-base pb-4">
+              Secure and easy booking process. Enjoy peace of mind and exceptional travel support.
               </div>
             </div>
           </div>

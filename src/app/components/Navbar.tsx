@@ -63,7 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
   }
 
   return (
-    <header className="bg-background">
+    <header className="bg-background relative z-10">
       <div className="container pt-4">
         <div className="nav row pb-3">
           <div className="col-5 text-center h-0">
@@ -87,6 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   EN/VI
                 </a>
               </li>
+              {userName ? (
               <li className="flex hover-bold cursor-pointer">
                 <Link
                   className="flex items-center text-decoration-none"
@@ -103,6 +104,24 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   </span>
                 </Link>
               </li>
+                 ) : (
+                  <li className="flex hover-bold cursor-pointer">
+                <Link
+                  className="flex items-center text-decoration-none"
+                  href="/login_client"
+                >
+                  <img
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
+                    alt=""
+                    className="pr-2"
+                  />
+                  <span className="no-underline text-accent font-bold">
+                    Cart(1)
+                  </span>
+                </Link>
+              </li>
+               )}
               <li className="flex hover-bold cursor-pointer items-center">
                 <img
                   style={{ width: "40px" }}
@@ -184,14 +203,9 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                         className="no-underline text-accent font-bold"
                         href="/login_client"
                       >
-                        Log In /
+                        Log In 
                       </Link>
-                      <Link
-                        className="no-underline text-accent font-bold"
-                        href="signup_client"
-                      >
-                        Register
-                      </Link>
+                     
                     </div>
                   )}
                 </div>
@@ -298,14 +312,9 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                         className="no-underline text-accent font-bold"
                         href="/login_client"
                       >
-                        Log In /
+                        Log In 
                       </Link>
-                      <Link
-                        className="no-underline text-accent font-bold"
-                        href="signup_client"
-                      >
-                        Register
-                      </Link>
+                      
                     </div>
                   )}
                 </li>
@@ -315,7 +324,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
         </div>
 
         <nav className="to-white pt-2 pb-2">
-        <ul className="flex ul-menu">
+        <ul className="flex ul-menu max-[400px]:pl-0">
             <li className="li-menu hover-bold">
               <Link
                 href="/"
@@ -323,7 +332,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   pathname === "/trekbooking" ? "link-style" : ""
                 }`}
               >
-              <img src="/image/gifhouse.gif" alt="" className=""   style={{ width: "40px" }} />
+              <img src="/image/gifhouse.gif" alt="" className="max-[400px]:w-8"   style={{ width: "40px" }} />
               <span className="ml-1 ">Home</span>
               </Link>
             </li>
@@ -337,7 +346,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                     : ""
                 }`}
               >
-                <img src="/image/gifhotel.gif" alt="" className=""   style={{ width: "40px" }} />
+                <img src="/image/gifhotel.gif" alt="" className="max-[400px]:w-8"   style={{ width: "40px" }} />
                <span className="ml-1 ">Hotel</span>
               </Link>
             </li>
@@ -348,7 +357,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   pathname === "/trekbooking/tour" ? "link-style" : ""
                 }`}
               >
-                <img src="/image/giftour.gif" alt="" className=""   style={{ width: "40px" }} />
+                <img src="/image/giftour.gif" alt="" className="max-[400px]:w-8"   style={{ width: "40px" }} />
                 <span className="ml-1 ">Attractions</span>
               </Link>
             </li>

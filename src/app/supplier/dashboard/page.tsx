@@ -8,7 +8,7 @@ import BarChart from "../../components/Dashboard/BarChart";
 import LineChartGGTour from "../../components/Dashboard/LineChartGGTour";
 import orderHotelHeaderService from "@/app/services/orderHotelHeaderService";
 import orderTourHeaderService from "@/app/services/orderTourHeaderService";
-
+import * as XLSX from "xlsx";
 const DashBoard = () => {
   const [count, setCount] = useState<number | null>(null);
   const [countTour, setCountTour] = useState<number | null>(null);
@@ -24,6 +24,10 @@ const DashBoard = () => {
   const [percentRevenueTour, setPercentRevenueTour] = useState<number | null>(
     null
   );
+  const [lineChartData, setLineChartData] = useState([]);
+  const [barChartData, setBarChartData] = useState([]);
+  const [donutChartData, setDonutChartData] = useState([]);
+  const [pieChartData, setPieChartData] = useState([]);
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -72,7 +76,7 @@ const DashBoard = () => {
           await orderTourHeaderService.countTotalOrderTourBySupplierId();
         setCountTour(count);
       } catch (error) {
-        console.error("Failed to fetch total tour count", error);
+console.error("Failed to fetch total tour count", error);
       }
     };
 
@@ -80,7 +84,7 @@ const DashBoard = () => {
       try {
         const percentTourChange =
           await orderTourHeaderService.getPercentChangeTourFromLastWeek();
-setPercentTour(percentTourChange);
+        setPercentTour(percentTourChange);
       } catch (error) {
         console.error("Failed to fetch percent tour change", error);
       }
@@ -116,6 +120,50 @@ setPercentTour(percentTourChange);
     fetchPercentRevenueTour();
   }, []);
 
+  const exportToExcel = () => {
+    const workbook = XLSX.utils.book_new();
+    const data = [
+      ["Total Hotel Orders", count],
+      ["Hotel Order Percent Change", percent],
+      ["Total Hotel Revenue", totalRevenueHotel],
+      ["Hotel Revenue Percent Change", percentRevenueHotel],
+      ["Total Tour Orders", countTour],
+      ["Tour Order Percent Change", percentTour],
+      ["Total Tour Revenue", totalRevenueTour],
+      ["Tour Revenue Percent Change", percentRevenueTour],
+    ];
+    if (data.length > 0) {
+      const datax = XLSX.utils.aoa_to_sheet(data);
+      XLSX.utils.book_append_sheet(workbook, datax, "Total Data");
+    }
+
+    if (barChartData.length > 0) {
+      const barChartWS = XLSX.utils.aoa_to_sheet(barChartData);
+      XLSX.utils.book_append_sheet(workbook, barChartWS, "Revenue Data");
+    }
+
+    if (lineChartData.length > 0) {
+      const lineChartWS = XLSX.utils.aoa_to_sheet(lineChartData);
+      XLSX.utils.book_append_sheet(
+        workbook,
+        lineChartWS,
+        "Annual Revenue Data"
+      );
+    }
+
+    if (pieChartData.length > 0) {
+      const pieChartWS = XLSX.utils.aoa_to_sheet(pieChartData);
+      XLSX.utils.book_append_sheet(workbook, pieChartWS, "Tour Data");
+    }
+
+    if (donutChartData.length > 0) {
+      const donutChartWS = XLSX.utils.aoa_to_sheet(donutChartData);
+      XLSX.utils.book_append_sheet(workbook, donutChartWS, "Room Data");
+    }
+
+    XLSX.writeFile(workbook, "dashboard_charts_data.xlsx");
+  };
+
   return (
     <>
       <link
@@ -123,7 +171,24 @@ setPercentTour(percentTourChange);
         rel="stylesheet"
       />
       <div className="relative">
-        <div className="table-hotel1 max-[768px]:w-100 pt-8">
+<div className="table-hotel1 max-[768px]:w-100 pt-8">
+          <button
+            onClick={exportToExcel}
+            style={{
+              marginBottom: "10px",
+              color: "white",
+              fontWeight: "bold",
+              background: "green",
+              borderRadius: "5px",
+              paddingRight: "3px",
+            }}
+          >
+            <i
+              className="fa fa-file-excel-o"
+              style={{ marginRight: "5px", marginLeft: "3px" }}
+            ></i>
+            Export All to Excel
+          </button>
           <div className="row pb-4">
             <div className="col-lg-3 col-6 max-[992px]:mb-4">
               <div className="card radius-10 border-start border-0 border-3 border-info">
@@ -158,7 +223,7 @@ setPercentTour(percentTourChange);
                 <div className="card-body">
                   <div className="d-flex align-items-center">
                     <div>
-<p className="mb-0 text-secondary">Total Hotel Revenue</p>
+                      <p className="mb-0 text-secondary">Total Hotel Revenue</p>
                       <h4 className="my-1 text-danger">
                         $
                         {totalRevenueHotel !== null
@@ -173,7 +238,7 @@ setPercentTour(percentTourChange);
                               ? percentRevenueHotel
                               : percentRevenueHotel.toFixed(1).replace(".", ",")
                           }% from last week`}
-                        </p>
+</p>
                       ) : (
                         <p className="mb-0 font-13">Loading...</p>
                       )}
@@ -222,7 +287,7 @@ setPercentTour(percentTourChange);
                       <p className="mb-0 text-secondary">Total Tour Revenue</p>
                       <h4 className="my-1 text-warning">
                         $
-{totalRevenueTour !== null
+                        {totalRevenueTour !== null
                           ? totalRevenueTour.toLocaleString()
                           : "No revenue yet..."}
                       </h4>
@@ -237,7 +302,7 @@ setPercentTour(percentTourChange);
                       ) : (
                         <p className="mb-0 font-13">Loading...</p>
                       )}
-                    </div>
+</div>
                     <div className="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
                       <i className="fa fa-dollar"></i>
                     </div>
@@ -246,25 +311,38 @@ setPercentTour(percentTourChange);
               </div>
             </div>
           </div>
-          <div className="row chart-row">
-            <BarChart />
+          <div>
+            <BarChart setBarChartData={setBarChartData} />
           </div>
-          <div className="row  pb-4 ml-1 max-[768px]:ml-0">
+          <div>
+            <DonutChart setDonutChart={setDonutChartData} />
+          </div>
+          <div>
+            <PieChartGG setPieChartData={setPieChartData} />
+          </div>
+          <div>
+            <LineChartGG setLineChartData={setLineChartData} />
+          </div>
+
+          {/* <div>
+            <LineChartGGTour />
+          </div> */}
+          {/* <div className="row  pb-4 ml-1 max-[768px]:ml-0">
             <div className="col-lg-6 col-md-6 col-12 max-[768px]:mb-4">
               <LineChartGG />
             </div>
             <div className=" col-lg-5 col-md-6 col-12 ml-4 max-[768px]:ml-0  ">
               <DonutChart />
             </div>
-          </div>
-          <div className="row  ml-1 max-[768px]:ml-0">
+          </div> */}
+          {/* <div className="row  ml-1 max-[768px]:ml-0">
             <div className=" col-lg-6 col-md-6  col-12 max-[768px]:mb-4">
               <LineChartGGTour />
             </div>
             <div className="col-lg-5 col-md-6 col-12  ml-4 max-[768px]:ml-0 ">
               <PieChartGG />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

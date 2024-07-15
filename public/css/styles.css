@@ -137,9 +137,12 @@ a {
 .button-add {
   background: #305a61;
   color: #ffffff;
-
+  opacity: 0.7;
   padding: 6px 12px;
   border-radius: 12px;
+}
+.button-add:hover{
+ opacity: 1;
 }
 .link-style::after {
   content: "";
@@ -153,15 +156,7 @@ a {
 .link-text{
   color: #1F1C17;
 }
-/* .link-style::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 80%;
-  height: 3px;
-  background-color: #305a61;
-} */
+
 .li-menu {
   margin: 0 5rem;
 }
@@ -176,13 +171,27 @@ a {
 
   border-radius: 20px;
 }
+.mt--8{
+  margin-top: -8px;
+}
+.color247{
+  line-height: 52px;
+   color:rgb(247 223 223);
+}
+.search-home-fill{
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20rem;
+}
 .background-img {
-  background-image: url("/image/content2.png");
+  /* background-image: url("/image/home3.gif"); */
   background-size: contain; /* Hình ảnh sẽ được co lại để vừa với phần tử mà không bị cắt */
   background-position: center; /* Hình ảnh sẽ được căn giữa */
   background-repeat: no-repeat; /* Hình ảnh sẽ không lặp lại */
 }
-
 .input-first {
   padding: 9px 0px;
   text-align: left;
@@ -238,6 +247,9 @@ a {
 }
 .backgr-home {
   background-color: #fdfdf6;
+}
+.color-home-fd{
+  color: #fdfdf6;
 }
 .text-content-wrap {
   padding-top: 5rem;
@@ -348,9 +360,9 @@ a {
   color: #1f1c17;
 }
 .search-main {
-  background: #ffffff99;
+  background: #fdfdf675;
   border-radius: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #ffffff8a;
 }
 .cam{
   color: rgb(33 29 27);
@@ -740,6 +752,9 @@ background-color: #305A61;
   }
   .userplus-input {
     left: 22px;
+  }
+  .link-text{
+    font-size: 12px;
   }
 }
 @media all and (max-width: 320px) {

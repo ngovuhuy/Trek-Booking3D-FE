@@ -16,34 +16,34 @@ const NavbarRegisterSupplier = () => {
     <header className="bg-background">
       <div className="container pt-4 ">
         <div className="nav row pb-3">
-          <div className="col-5 text-center ">
+        <div className="col-5 text-center h-0">
             <Link
               href="/"
-              className="text-blackish no-underline text-2xl lg:mr-44 font-bold "
+              className="text-blackish no-underline text-2xl lg:mr-44 font-bold flex justify-center image-fix-link"
             >
-              Trek Booking
+              <img className="fix-logo" src="/image/logo.png" alt="" />
             </Link>
           </div>
           <div className="col-7 hidden lg:block ">
             <ul className="flex no-underline justify-around">
-              <li className="flex hover-bold">
-                <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/globe.png"
+              <li className="flex items-center hover-bold">
+              <img
+                  style={{ width: "40px",  }}
+                  src="/image/gifglobal.gif"
                   alt=""
-                  className="pr-2 "
+                  className="pr-2"
                 />
                 <a className="no-underline text-accent font-bold" href="">
                   EN/VI
                 </a>
               </li>
-              <li className="flex hover-bold">
-                <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/cart.png"
-                  alt=""
-                  className="pr-2"
-                />
+              <li className="flex items-center hover-bold">
+              <img
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
+                    alt=""
+                    className="pr-2"
+                  />
                 <Link
                   href="cart"
                   className="no-underline text-accent font-bold"
@@ -51,10 +51,10 @@ const NavbarRegisterSupplier = () => {
                   Cart(1)
                 </Link>
               </li>
-              <li className="flex hover-bold">
-                <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/bell.png"
+              <li className="flex items-center hover-bold">
+              <img
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
                   alt=""
                   className="pr-2"
                 />
@@ -62,10 +62,10 @@ const NavbarRegisterSupplier = () => {
                   Post your hotel
                 </Link>
               </li>
-              <li className="flex hover-bold">
-                <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/users.png"
+              <li className="flex items-center hover-bold">
+              <img
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
                   alt=""
                   className="pr-2"
                 />
@@ -87,8 +87,13 @@ const NavbarRegisterSupplier = () => {
           {showSubMenu && (
             <div className="sub-menu-mobi flex justify-center pt-4">
               <ul className="lg:hidden">
-                <li className="flex pb-4 hover-bold">
-                  <img src="/image/cart.png" alt="" className="pr-2" />
+                <li className="flex items-center pb-4 hover-bold">
+                <img
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
+                    alt=""
+                    className="pr-2"
+                  />
                   <a
                     href=""
                     className="font-bold text-decoration-none text-accent"
@@ -96,8 +101,13 @@ const NavbarRegisterSupplier = () => {
                     Cart
                   </a>
                 </li>
-                <li className="flex pb-4 hover-bold">
-                  <img src="/image/bell.png" alt="" className="pr-2" />
+                <li className="flex items-center pb-4 hover-bold">
+                <img
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
+                  alt=""
+                  className="pr-2"
+                />
                   <a
                     href=""
                     className="font-bold text-decoration-none text-accent"
@@ -105,8 +115,13 @@ const NavbarRegisterSupplier = () => {
                     Post your hotel
                   </a>
                 </li>
-                <li className="flex pb-4 hover-bold">
-                  <img src="/image/users.png" alt="" className="pr-2" />
+                <li className="flex items-center pb-4 hover-bold">
+                <img
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
+                  alt=""
+                  className="pr-2"
+                />
                   <Link
                     href="login_supplier"
                     className="font-bold text-decoration-none text-accent"

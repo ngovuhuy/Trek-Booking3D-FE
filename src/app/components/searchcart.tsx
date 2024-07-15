@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 
+
 type FormControlElement =
   | HTMLInputElement
   | HTMLSelectElement
@@ -59,19 +60,22 @@ const Searchcart = () => {
   };
 
   return (
-    <div className="background-img">
-      <div className="text-bg text-center pt-60">
-        <h1 className="text-white text-4xl pb-3 font-bold">
+    <div className="background-img ">
+  <video className="" id="background-video relative" src="/image/introduce.mp4" loop autoPlay muted>
+  
+  </video>
+  <div className="flex  search-home-fill">
+  <div className="text-bg text-center  ">
+        <h1 className="text-4xl pb-3 font-bold color-home-fd">
           WELCOME TO TREK BOOKING
         </h1>
-        <p className="text-white text-2xl pb-3">
-          Lorem ipsum dolor sit amet consectetur. Eget pellentesque congue
-          eget amet vel <br></br> quam molestie bibendum.
+        <p className="color-home-fd font-bold text-2xl pb-3 ">
+        Explore More, Stress Less: Book Your Dream Tour and Hotel Effortlessly  with Us Today <br></br> for Unforgettable Memories.
         </p>
         <div className="intro flex justify-center pb-3">
           <div className="seure flex">
-            <img className="" src="/image/check.png" alt="" />
-            <p className="text-white font-bold ml-2 mb-1 font1rem">
+            <img  className="max-[400px]:w-8"   style={{ width: "30px" }} src="/image/check.png" alt=""  />
+            <p className="color-home-fd font-bold ml-2 mb-1 font1rem">
               Secure payment
             </p>
           </div>
@@ -79,14 +83,14 @@ const Searchcart = () => {
             <img className="" src="/image/line.png" alt="" />
           </div>
           <div className="seure flex">
-            <img className="" src="/image/clock.png" alt="" />
-            <p className="text-white font-bold ml-2 mb-1 font1rem">
+            <img className="max-[400px]:w-8"   style={{ width: "30px" }} src="/image/clock.png" alt="" />
+            <p className="color-home-fd font-bold ml-2 mb-1 font1rem">
               Quick support
             </p>
           </div>
         </div>
-        <div className="search-home block justify-center pb-48">
-          <div className="search-main p-12 relative w-3/4 m-auto">
+        <div className="search-home pb-48">
+          <div className="search-main p-12 relative w-full m-auto">
             <Form>
            <div className="row">
            <Form.Group controlId="countrySelect" className="col-6 text-left">
@@ -137,6 +141,8 @@ const Searchcart = () => {
           </div>
         </div>
       </div>
+  </div>
+
     </div>
   );
 };

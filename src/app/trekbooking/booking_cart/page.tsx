@@ -349,7 +349,7 @@ No tours in your cart
             <div className="container py-8">
               <div>
                 <span className="font-semibold text-3xl">
-                  Thông tin giỏ hàng
+                  Cart Information
                 </span>
                 {bookingCart.length > 0 ? (
                   bookingCart.map((item, index) => {

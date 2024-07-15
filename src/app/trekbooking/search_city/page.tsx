@@ -799,7 +799,7 @@ const SearchPage = () => {
                           >
                             {getLowestPriceDiscount(item.hotelId) || "N/A"}US$
                           </p>
-                          <p style={{ color: "#8E8D8A" }}>
+                          <p className="pb-4" style={{ color: "#8E8D8A" }}>
                             Exclude taxes & fees
                           </p>
                           <Link
