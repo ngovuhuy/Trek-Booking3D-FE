@@ -83,7 +83,7 @@ const Booking_History = () => {
         setTourDetails(detailsMap);
         // Fetch tour images
         const tourIds = new Set(
-          detailsArray
+detailsArray
             .filter(
               (detail): detail is IOrderTourDetail =>
                 detail !== null && detail.tourId !== undefined
@@ -189,7 +189,7 @@ const Booking_History = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     draggable: false,
-    autoplay: false,
+autoplay: false,
     autoplaySpeed: 1000,
   };
 
@@ -372,7 +372,7 @@ const Booking_History = () => {
                               <a href="#" style={{ display: "flex" }}>
                                 <img className="w-6" src="/image/infor.png" alt="" />
                               </a>
-                            </div>
+</div>
                           </div>
                         </div>
                       ))
@@ -440,7 +440,7 @@ const Booking_History = () => {
                             Status
                           </span>
                         </div>
-                        <div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
+<div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
                           <span
                             className="font-bold text-lg max-[555px]:text-xs max-[370px]:ml-6"
                             style={{ color: "#305A61" }}

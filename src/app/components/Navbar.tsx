@@ -76,10 +76,10 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           </div>
           <div className="col-7 hidden lg:block">
             <ul className="flex no-underline justify-around">
-              <li className="flex hover-bold cursor-pointer">
+              <li className="flex items-center hover-bold cursor-pointer">
                 <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/globe.png"
+                  style={{ width: "40px",  }}
+                  src="/image/gifglobal.gif"
                   alt=""
                   className="pr-2"
                 />
@@ -89,12 +89,12 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
               </li>
               <li className="flex hover-bold cursor-pointer">
                 <Link
-                  className="flex text-decoration-none"
+                  className="flex items-center text-decoration-none"
                   href="/trekbooking/booking_cart"
                 >
                   <img
-                    style={{ width: "30px", height: "25px" }}
-                    src="/image/cart.png"
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
                     alt=""
                     className="pr-2"
                   />
@@ -103,10 +103,10 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   </span>
                 </Link>
               </li>
-              <li className="flex hover-bold cursor-pointer">
+              <li className="flex hover-bold cursor-pointer items-center">
                 <img
-                  style={{ width: "30px", height: "25px" }}
-                  src="/image/bell.png"
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
                   alt=""
                   className="pr-2"
                 />
@@ -173,10 +173,10 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex">
+                    <div className="flex items-center">
                       <img
-                        style={{ width: "30px", height: "25px" }}
-                        src="/image/users.png"
+                        style={{ width: "40px" }}
+                        src="/image/join.gif"
                         alt=""
                         className="pr-2 w-7 h-6"
                       />
@@ -204,8 +204,13 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           {showSubMenu && (
             <div className="sub-menu-mobi flex justify-center pt-4">
               <ul className="lg:hidden">
-                <li className="flex pb-4 hover-bold">
-                  <img src="/image/cart.png" alt="" className="pr-2" />
+                <li className="flex items-center pb-4 hover-bold">
+                <img
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
+                    alt=""
+                    className="pr-2"
+                  />
                   <a
                     href="/trekbooking/booking_cart"
                     className="font-bold text-decoration-none text-accent"
@@ -213,8 +218,13 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                     Cart
                   </a>
                 </li>
-                <li className="flex pb-4 hover-bold">
-                  <img src="/image/bell.png" alt="" className="pr-2" />
+                <li className="flex items-center pb-4 hover-bold">
+                <img
+                  style={{ width: "40px" }}
+                  src="/image/graffiti.gif"
+                  alt=""
+                  className="pr-2"
+                />
                   <a
                     href="/confirmregister"
                     className="font-bold text-decoration-none text-accent"
@@ -277,13 +287,13 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex">
-                      <img
-                        style={{ width: "30px", height: "25px" }}
-                        src="/image/users.png"
-                        alt=""
-                        className="pr-2"
-                      />
+                    <div className="flex items-center">
+                       <img
+                    style={{ width: "40px"}}
+                    src="/image/gifcart.gif"
+                    alt=""
+                    className="pr-2"
+                  />
                       <Link
                         className="no-underline text-accent font-bold"
                         href="/login_client"
@@ -305,51 +315,57 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
         </div>
 
         <nav className="to-white pt-2 pb-2">
-          <ul className="flex ul-menu">
+        <ul className="flex ul-menu">
             <li className="li-menu hover-bold">
               <Link
                 href="/"
-                className={`font-bold text-decoration-none link-text ${
+                className={`flex items-end font-bold text-decoration-none link-text ${
                   pathname === "/trekbooking" ? "link-style" : ""
                 }`}
               >
-                Home
+              <img src="/image/gifhouse.gif" alt="" className=""   style={{ width: "40px" }} />
+              <span className="ml-1 ">Home</span>
               </Link>
             </li>
             <li className="li-menu hover-bold">
               <Link
                 href="/trekbooking/list_hotel"
-                className={`font-bold text-decoration-none link-text ${
+                className={`font-bold items-end  text-decoration-none link-text flex ${
                   pathname === "/trekbooking/list_hotel" ||
                   pathname === "/trekbooking/search"
                     ? "link-style"
                     : ""
                 }`}
               >
-                Hotel
+                <img src="/image/gifhotel.gif" alt="" className=""   style={{ width: "40px" }} />
+               <span className="ml-1 ">Hotel</span>
               </Link>
             </li>
             <li className="li-menu hover-bold">
               <Link
                 href="/trekbooking/tour"
-                className={`font-bold text-decoration-none link-text ${
+                className={` flex items-end  font-bold text-decoration-none link-text ${
                   pathname === "/trekbooking/tour" ? "link-style" : ""
                 }`}
               >
-                Attractions
+                <img src="/image/giftour.gif" alt="" className=""   style={{ width: "40px" }} />
+                <span className="ml-1 ">Attractions</span>
               </Link>
             </li>
-            <li className="li-menu hover-bold none-t">
+            {/* <li className="li-menu hover-bold none-t">
               <Link
                 href="/"
-                className={`font-bold text-decoration-none link-text ${
+                className={`flex font-bold text-decoration-none link-text ${
                   pathname === "/trekbooking/voucher" ? "link-style" : ""
                 }`}
               >
-                Gift Voucher
+                 <img src="/image/iconvoucher.png" alt="" className=""   style={{ width: "30px", height: "25px" }} />
+                <span className="ml-1">Gift Voucher</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
+
+
         </nav>
       </div>
     </header>

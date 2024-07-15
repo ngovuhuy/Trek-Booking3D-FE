@@ -85,11 +85,12 @@ const Searchcart = () => {
             </p>
           </div>
         </div>
-        <div className="search-home flex justify-center pb-48">
-          <div className="search-main p-12 relative">
+        <div className="search-home block justify-center pb-48">
+          <div className="search-main p-12 relative w-3/4 m-auto">
             <Form>
-              <Form.Group controlId="countrySelect">
-                <Form.Label className='font-semibold'>Country</Form.Label>
+           <div className="row">
+           <Form.Group controlId="countrySelect" className="col-6 text-left">
+                <Form.Label className='font-semibold lg:text-lg cam ml-1 '>Country</Form.Label>
                 <Form.Control as="select" value={selectedCountry} onChange={handleEvent(handleCountryChange)}>
                   <option value="">Select Country</option>
                   {countriesList.map((country) => (
@@ -99,8 +100,8 @@ const Searchcart = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId="citySelect">
-                <Form.Label className='font-semibold mt-2'>City</Form.Label>
+              <Form.Group controlId="citySelect" className="col-6 text-left">
+                <Form.Label className='font-semibold lg:text-lg cam ml-1  '>City</Form.Label>
                 <Form.Control as="select" value={selectedCity} onChange={handleEvent(handleCityChange)} disabled={!selectedCountry}>
                   <option value="">Select City</option>
                   {citiesList.map((city) => (
@@ -110,23 +111,28 @@ const Searchcart = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId="checkInDate">
-                <Form.Label className='font-semibold mt-2' >Check-in Date</Form.Label>
+           </div>
+             <div className="row">
+             <Form.Group controlId="checkInDate" className="col-6 text-left">
+                <Form.Label className='font-semibold lg:text-lg cam ml-1  pt-2 ' >Check-in Date</Form.Label>
                 <Form.Control type="date" value={checkInDate} onChange={handleCheckInDateChange} />
               </Form.Group>
-              <Form.Group controlId="checkOutDate ">
-                <Form.Label className='font-semibold mt-2'>Check-out Date</Form.Label>
+              <Form.Group controlId="checkOutDate" className="col-6 text-left">
+                <Form.Label className='font-semibold lg:text-lg cam ml-1  pt-2 '>Check-out Date</Form.Label>
                 <Form.Control  type="date" value={checkOutDate} onChange={handleCheckOutDateChange} />
               </Form.Group>
-              <a
+             </div>
+             <div className="flex justify-end mt-4">
+             <a
               
                 
-                href={`/trekbooking/search?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&city=${selectedCity}`}
-                className={`btn btn-primary mt-2 ${!(selectedCity && checkInDate && checkOutDate) ? 'disabled' : ''}`}
-                onClick={e => !(selectedCity && checkInDate && checkOutDate) && e.preventDefault()}
-              >
-                Search
-              </a>
+              href={`/trekbooking/search?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&city=${selectedCity}`}
+              className={`button-add mt-2 text-decoration-none ${!(selectedCity && checkInDate && checkOutDate) ? 'disabled' : ''}`}
+              onClick={e => !(selectedCity && checkInDate && checkOutDate) && e.preventDefault()}
+            >
+              Search
+            </a>
+             </div>
             </Form>
           </div>
         </div>
