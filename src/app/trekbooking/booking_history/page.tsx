@@ -12,6 +12,8 @@ import tourImageService from "@/app/services/tourImageService";
 import orderHotelHeaderService from "@/app/services/orderHotelHeaderService";
 import orderHotelDetailService from "@/app/services/orderHotelDetailService";
 import roomImageService from "@/app/services/roomImageService";
+import Rates from "@/app/components/FeedBack/Rates";
+import commentService from "@/app/services/commentService";
 
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
@@ -28,7 +30,19 @@ const formatRoomDescription = (description: string) => {
 const Booking_History = () => {
   const router = useRouter();
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
-
+  const [showRate, setShowRate] = useState<boolean>(false);
+  const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [currentHotelId, setCurrentHotelId] = useState<number | null>(null);
+  const [currentOrderHotelHeaderId, setCurrentOrderHotelHeaderId] = useState<
+    number | null
+  >(null);
+  const [currentHotelName, setCurrentHotelName] = useState<string | null>(null);
+  const [currentRoomName, setCurrentRoomName] = useState<string | null>(null);
+  const [currentRoomImageURL, setCurrentRoomImageURL] = useState<string | null>(null);
+  const [feedbackStatus, setFeedbackStatus] = useState<{
+    [key: number]: boolean;
+  }>({});
   const handleBookingCartClick = (e: any) => {
     e.preventDefault();
     setIsFirstDivVisible(false);
@@ -48,17 +62,15 @@ const Booking_History = () => {
   const [tourDetails, setTourDetails] = useState<{
     [key: number]: IOrderTourDetail[];
   }>({});
-
   const [hotelDetails, setHotelDetails] = useState<{
     [key: number]: IOrderHotelDetail[];
   }>({});
-
   const [roomImages, setRoomImages] = useState<IRoomImage[]>([]);
   const [tourImages, setTourImages] = useState<ITourImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTour = async () => {
+const fetchTour = async () => {
       try {
         const headers =
           await orderTourHeaderService.getOrderTourHeaderByUserId();
@@ -81,9 +93,10 @@ const Booking_History = () => {
           detailsMap[detail.orderTourHeaderlId].push(detail);
         });
         setTourDetails(detailsMap);
+
         // Fetch tour images
         const tourIds = new Set(
-detailsArray
+          detailsArray
             .filter(
               (detail): detail is IOrderTourDetail =>
                 detail !== null && detail.tourId !== undefined
@@ -136,7 +149,7 @@ detailsArray
         });
         setHotelDetails(detailsMap);
 
-        // Fetch tour images
+        // Fetch room images
         const roomIds = new Set(
           detailsArray
             .filter(
@@ -149,23 +162,31 @@ detailsArray
         const imagePromises = Array.from(roomIds).map((roomId) =>
           roomImageService.getRoomImageByRoomId(roomId)
         );
-        const imagesArray = await Promise.all(imagePromises);
-        const allTourImages = imagesArray.flat();
-        setRoomImages(allTourImages);
-
-        console.log("Order Tour Headers:", headers);
-        console.log("Tour Details Map:", detailsMap);
-
+const imagesArray = await Promise.all(imagePromises);
+        const allRoomImages = imagesArray.flat();
+        setRoomImages(allRoomImages);
+        // Kiểm tra feedback cho từng orderHotelHeader
+        const feedbackPromises = headers.map(async (header) => {
+          const hasFeedback = await commentService.checkFeedback(header.id);
+          return { headerId: header.id, hasFeedback };
+        });
+        // console.log("Order Hotel Headers:", headers);
+        // console.log("Hotel Details Map:", detailsMap);
+        const feedbackResults = await Promise.all(feedbackPromises);
+        const feedbackStatusMap: { [key: number]: boolean } = {};
+        feedbackResults.forEach((result) => {
+          feedbackStatusMap[result.headerId] = result.hasFeedback;
+        });
+        setFeedbackStatus(feedbackStatusMap);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching tour:", error);
+        console.error("Error fetching room:", error);
         setIsLoading(false);
       }
     };
 
     fetchRoom();
   }, []);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -189,8 +210,28 @@ detailsArray
     slidesToShow: 1,
     slidesToScroll: 1,
     draggable: false,
-autoplay: false,
+    autoplay: false,
     autoplaySpeed: 1000,
+  };
+
+  const handleFeedbackClick = (headerId: number, userId: number) => {
+    const hotelDetail = hotelDetails[headerId]?.find(
+      (detail) => detail.orderHotelHeaderlId === headerId
+    );
+
+    if (hotelDetail) {
+      const roomImage = roomImages.find(image => image.roomId === hotelDetail.roomId);
+      setShowRate(true);
+      setCurrentBookingId(1); // Assuming 99 is the bookingId you want to use
+      setCurrentUserId(userId);
+      setCurrentHotelId(hotelDetail.hotelId);
+      setCurrentOrderHotelHeaderId(headerId);
+      setCurrentHotelName(hotelDetail.hotelName); // Assuming hotelName is a property of hotelDetail
+      setCurrentRoomName(hotelDetail.roomName);
+      setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null); 
+    } else {
+      console.error("Hotel detail not found for headerId:", headerId);
+    }
   };
 
   return (
@@ -213,7 +254,7 @@ autoplay: false,
           <div className="flex my-8">
             <div className="pr-5">
               <a
-                className="no-underline px-4 py-2 border text-sm font-medium listA"
+className="no-underline px-4 py-2 border text-sm font-medium listA"
                 href="#"
                 style={{ borderRadius: "10px" }}
                 onClick={handleCartToursClick}
@@ -280,7 +321,7 @@ autoplay: false,
                         <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 text-center ">
                           <span
                             className="font-bold text-lg max-[555px]:text-xs  max-[370px]:ml-3"
-                            style={{ color: "#305A61" }}
+style={{ color: "#305A61" }}
                           >
                             Status
                           </span>
@@ -337,7 +378,7 @@ autoplay: false,
                               </span>
                             </div>
                           </div>
-                          <div className="col-lg-6 col-md-8 col-12 row ">
+<div className="col-lg-6 col-md-8 col-12 row ">
                             <div className="col-lg-4 col-md-4 col-3 flex items-center content-center justify-evenly  max-[400px]:hidden">
                               <div>
                                 <span className="max-[500px]:text-xs ">
@@ -356,9 +397,7 @@ autoplay: false,
                             </div>
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
-                                {tourDetails[header.id]
-                                  ?.map((detail) => detail.tourTotalPrice)
-                                  .join(", ")}
+                                {header.totalPrice}
                                 $
                               </div>
                             </div>
@@ -370,9 +409,13 @@ autoplay: false,
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
                               <a href="#" style={{ display: "flex" }}>
-                                <img className="w-6" src="/image/infor.png" alt="" />
+                                <img
+                                  className="w-6"
+                                  src="/image/infor.png"
+                                  alt=""
+                                />
                               </a>
-</div>
+                            </div>
                           </div>
                         </div>
                       ))
@@ -394,7 +437,7 @@ autoplay: false,
                   className="border "
                   style={{
                     borderRadius: "10px",
-                    boxShadow: "0 6px 4px 0 #7F7F7F",
+boxShadow: "0 6px 4px 0 #7F7F7F",
                   }}
                 >
                   <div className="px-10 pt-7 pb-12">
@@ -440,7 +483,7 @@ autoplay: false,
                             Status
                           </span>
                         </div>
-<div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
+                        <div className="col-lg-2 col-md-2 col-3 max-[400px]:col-2 text-center max-[400px]:ml-4">
                           <span
                             className="font-bold text-lg max-[555px]:text-xs max-[370px]:ml-6"
                             style={{ color: "#305A61" }}
@@ -453,7 +496,7 @@ autoplay: false,
                     {orderHotelHeader.length > 0 ? (
                       orderHotelHeader.map((header, index) => (
                         <div className="row pt-10" key={index}>
-                          <div className="col-lg-6 col-md-4 col-0 flex items-center">
+<div className="col-lg-6 col-md-4 col-0 flex items-center">
                             <div className="col-lg-2 col-md-6 col-12 max-[768px]:hidden">
                               {roomImages.length >= 0 ? (
                                 <Slider {...settings}>
@@ -470,7 +513,7 @@ autoplay: false,
                                           style={{ borderRadius: "10px" }}
                                           className="w-3/4 h-12 border rounded-lg mx-auto"
                                           src={image.roomImageURL}
-                                          alt="tour thumbnail"
+                                          alt="room thumbnail"
                                         />
                                       </div>
                                     ))}
@@ -505,15 +548,13 @@ autoplay: false,
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-4 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
                                 {new Date(
-                                  header.checkOutDate
+header.checkOutDate
                                 ).toLocaleDateString()}
                               </div>
                             </div>
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
-                                {hotelDetails[header.id]
-                                  ?.map((detail) => detail.price)
-                                  .join(", ")}
+                                {header.totalPrice}
                                 $
                               </div>
                             </div>
@@ -523,10 +564,27 @@ autoplay: false,
                             >
                               {header.process}
                             </div>
-                            <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
+                            <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2 flex items-center content-center justify-evenly max-[400px]:ml-4 ">
                               <a href="#" className="flex items-center">
-                                <img className="w-6 mr-3" src="/image/feedback.png" alt="" />
-                                <img className="w-6" src="/image/infor.png" alt="" />
+                                {!feedbackStatus[header.id] && (
+                                  <img
+                                    className="w-6 mr-3"
+                                    src="/image/feedback.png"
+                                    alt=""
+                                    onClick={() =>
+                                      handleFeedbackClick(
+                                        header.id,
+                                        header.userId
+                                      )
+                                    }
+                                  />
+                                )}
+
+                                <img
+                                  className="w-6"
+                                  src="/image/infor.png"
+                                  alt=""
+                                />
                               </a>
                             </div>
                           </div>
@@ -546,7 +604,19 @@ autoplay: false,
           )}
         </div>
       </div>
+      <Rates
+        showRate={showRate}
+        setShowRate={setShowRate}
+        bookingId={currentBookingId}
+        userId={currentUserId}
+        hotelId={currentHotelId}
+        orderHotelHeaderId={currentOrderHotelHeaderId}
+        hotelName={currentHotelName}
+        roomName={currentRoomName}
+        roomImageURL={currentRoomImageURL}
+      />
     </>
   );
 };
+
 export default Booking_History;

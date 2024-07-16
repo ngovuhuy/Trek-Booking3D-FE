@@ -102,9 +102,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       setRoomList(listRoom);
       fetchRoomImages(listRoom);
       fetchRoomServices(listRoom);
+
     }
   }, [listRoom]);
-  
   const fetchRoomServices = async (rooms: IRoom[]) => {
     const servicesMap: { [key: number]: IService[] } = {};
     for (const room of rooms) {
@@ -127,9 +127,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   }, [listRate]);
   useEffect(() => {
     if (listComment && listRate) {
-      const combined = listComment.map((comment) => {
+      const combined = listComment.map((comment:any) => {
         const rate = listRate.find(
-          (rate) => rate.bookingId === comment.bookingId
+          (rate:any) => rate.userId === comment.userId && rate.orderHotelHeaderId === comment.orderHotelHeaderId
         );
         return {
           ...comment,
@@ -540,7 +540,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                       style={{ borderRadius: "10px" }}
                     >
                       <div className="row">
-                        <div className="col-4 border-r border-gray">
+                        <div className="col-5 border-r border-gray">
                           <p
                             className="text-center text-sm font-semibold pt-3"
                             style={{ color: "#305A61" }}
@@ -552,7 +552,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                           </div>
                         </div>
                         <div
-                          className="col-4 border-r border-gray"
+                          className="col-3 border-r border-gray"
                           style={{ height: "290px" }}
                         >
                           <p
@@ -563,18 +563,18 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                           </p>
                           <div className="w-3/4 m-auto">
                             {roomServices[item.roomId]?.map((service) => (
-                                <div className="flex items-center pb-3" key={service.serviceId}>
-                                  <img
-                                    className="w-3 h-3 mr-2"
-                                    src={service.serviceImage || "/image/greenTick.png"}
-                                    alt={service.serviceDescription}
-                                  />
-                                  <span className="font-medium text-xs">
-                                    {service.serviceName}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
+                              <div className="flex items-center pb-3" key={service.serviceId}>
+                                <img
+                                  className="w-3 h-3 mr-2"
+                                  src={service.serviceImage || "/image/greenTick.png"}
+                                  alt={service.serviceDescription}
+                                />
+                                <span className="font-medium text-xs">
+                                  {service.serviceName}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                         <div className="col-4">
                           <div className="row">
@@ -627,7 +627,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 >
                                   {(item.roomPrice -
                                     (item.roomPrice * item.discountPercent) /
-                                      100).toFixed(2)}
+                                    100).toFixed(2)}
                                   $
                                 </span>
                                 <span
@@ -685,7 +685,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         <p className="font-semibold text-3xl my-8">Reviews</p>
 
         <div className="row mb-5">
-        <Slider {...settingsComment}>
+          <Slider {...settingsComment}>
             {combinedList.length > 0 ? (
               combinedList.map((item, index) => {
                 const isExpanded = expandedIndex === index;
@@ -704,13 +704,13 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                       <div className=" w-4/5 mx-auto mt-4 mb-10">
                         <div className="flex justify-items-center">
                           <img
-                            src={item.user.avatar || "/image/user.png"}
+                            src={item.user?.avatar || "/image/user.png"}
                             alt="user"
                             className="rounded-full border w-16 h-16"
                           />
                           <div className="pl-4">
                             <span className="font-semibold text-lg">
-                              {item.user.userName}
+                              {item.user?.userName}
                             </span>
                             <p className="font-normal text-base">
                               {new Date(
@@ -722,7 +722,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                         <div className="flex h-3 my-3">
                           {renderStars(item.rateValue || 0)}
                         </div>
-                        <div className="comment-transition" style={{ maxHeight: isExpanded ? '500px' : '50px'}}>
+                        <div className="comment-transition" style={{ maxHeight: isExpanded ? '500px' : '50px' }}>
                           <span className="font-medium break-words">
                             {isExpanded || message.length <= maxChars
                               ? message
@@ -731,7 +731,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                               <span
                                 onClick={() => toggleExpand(index)}
                                 className="font-bold cursor-pointer"
-                                style={{color: "rgb(48, 90, 97)"}}
+                                style={{ color: "rgb(48, 90, 97)" }}
                               >
                                 {isExpanded ? "  See Less" : "  See More"}
                               </span>

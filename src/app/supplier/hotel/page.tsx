@@ -22,6 +22,7 @@ const HotelListOfSupplier = () => {
   const [hotelList, setHotelList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filteredHotelList, setFilteredHotelList] = useState([]);
   const [showHotelCreate, setShowHotelCreate] = useState<boolean>(false);
   const [showHotelUpdate, setShowHotelUpdate] = useState<boolean>(false);
   const [showHotelDetail, setShowHotelDetail] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const HotelListOfSupplier = () => {
   const [imageLoadErrors, setImageLoadErrors] = useState<{
     [key: number]: boolean;
   }>({});
-
+  const [searchQuery, setSearchQuery] = useState("");
   const [loadingPage, setLoadingPage] = useState(false);
 
   const handleImageError = (hotelId: number) => {
@@ -65,10 +66,10 @@ const HotelListOfSupplier = () => {
         setShowPopup(false);
         await hotelService.getHotelsBySuppierId().then((data: any) => {
           setHotelList(data);
+          setFilteredHotelList(data);
           setLoading(false);
         });
-
-        toast.success(`Hotel ${isVerify ? "locked" : "unlocked"} successfully`);
+toast.success(`Hotel ${isVerify ? "locked" : "unlocked"} successfully`);
       } else {
         throw new Error(`Failed to ${isVerify ? "lock" : "unlock"} hotel`);
       }
@@ -88,6 +89,7 @@ const HotelListOfSupplier = () => {
       .getHotelsBySuppierId()
       .then((data: any) => {
         setHotelList(data);
+        setFilteredHotelList(data);
         setLoading(false);
       })
       .catch((error) => {
@@ -104,6 +106,7 @@ const HotelListOfSupplier = () => {
       .getHotelsBySuppierId()
       .then(async (data: any) => {
         setHotelList(data);
+        setFilteredHotelList(data);
         setLoading(false);
         await handleDeleteHotelAvatar(oldAvatarUrl);
       })
@@ -122,6 +125,7 @@ const HotelListOfSupplier = () => {
       .getHotelsBySuppierId()
       .then((data: any) => {
         setHotelList(data);
+        setFilteredHotelList(data);
         setLoading(false);
       })
       .catch((error) => {
@@ -136,6 +140,7 @@ const HotelListOfSupplier = () => {
       .getHotelsBySuppierId()
       .then((data: any) => {
         setHotelList(data);
+        setFilteredHotelList(data);
         setLoading(false);
       })
       .catch((error) => {
@@ -177,7 +182,7 @@ const HotelListOfSupplier = () => {
         .getHotelsBySuppierId()
         .then((data: any) => {
           setHotelList(data);
-          setLoading(false);
+setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching hotel list:", error);
@@ -189,6 +194,17 @@ const HotelListOfSupplier = () => {
       alert("Failed to delete hotel");
     }
   };
+  useEffect(() => {
+    const filteredHotels = hotelList.filter((hotel: IHotel) => {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      return (
+        hotel.hotelName?.toLowerCase().includes(lowerCaseQuery) ||
+        hotel.hotelId?.toString().toLowerCase().includes(lowerCaseQuery)
+      );
+    });
+    setFilteredHotelList(filteredHotels);
+    setCurrentPage(1); // Reset to the first page when search query changes
+  }, [searchQuery, hotelList]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -199,10 +215,13 @@ const HotelListOfSupplier = () => {
 
   const indexOfLastHotel = currentPage * hotelPerPage;
   const indexOfFirstHotel = indexOfLastHotel - hotelPerPage;
-  const currentHotel = hotelList.slice(indexOfFirstHotel, indexOfLastHotel);
+  const currentHotel = filteredHotelList.slice(
+    indexOfFirstHotel,
+    indexOfLastHotel
+  );
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-  const totalPages = Math.ceil(hotelList.length / hotelPerPage);
+  const totalPages = Math.ceil(filteredHotelList.length / hotelPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -219,10 +238,12 @@ const HotelListOfSupplier = () => {
     <div className="relative">
       <div className="search-add ">
         <div className="search-hotel flex">
-          <input
+        <input
             type="text"
             placeholder="Search........."
             className="input-hotel pl-3"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <img src="/image/search.png" alt="" />
         </div>
@@ -251,7 +272,7 @@ const HotelListOfSupplier = () => {
                       <th scope="col" className="px-6 py-4 text-center">
                         Name
                       </th>
-                      <th scope="col" className="px-6 py-4">
+<th scope="col" className="px-6 py-4">
                         Avatar
                       </th>
                       {/* <th scope="col" className="px-6 py-4">
@@ -315,7 +336,7 @@ const HotelListOfSupplier = () => {
                                   src={item.hotelAvatar}
                                   alt="Avatar"
                                   className="cursor-pointer rounded-full"
-                                  style={{ width: "60px", height: "50px" }}
+style={{ width: "60px", height: "50px" }}
                                   onClick={() => {
                                     setOldAvatarUrl(item.hotelAvatar);
                                     setHotelId(item.hotelId);
@@ -375,8 +396,7 @@ const HotelListOfSupplier = () => {
                                 onClick={() => {
                                   setHotel(item);
                                   setShowHotelDetail(true);
-                                 
-                                }}
+}}
                               />
                             </Link>
                           </td>
@@ -435,7 +455,7 @@ const HotelListOfSupplier = () => {
                                       className="fixed inset-0 bg-black opacity-50"
                                       onClick={handleClosePopup}
                                     ></div>
-                                    <div className="relative bg-white p-8 rounded-lg">
+<div className="relative bg-white p-8 rounded-lg">
                                       <p className="color-black font-bold text-2xl">
                                         Do you want to{" "}
                                         {item.isVerify ? "lock" : "unlock"} this{" "}
@@ -497,7 +517,7 @@ const HotelListOfSupplier = () => {
                     </span>
                   </div>
                   <div className="flex items-center mr-8">
-                    <img
+<img
                       className="w-3 h-3 cursor-pointer"
                       src="/image/left.png"
                       alt="Previous"

@@ -23,14 +23,15 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
 
   const [Voucher, setVoucher] = useState<IVoucher | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [voucherPerPage] = useState(5);
-
-  const { data: listVoucher, error } = useSWR("listVoucher", () =>
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data: listVoucher = [], error } = useSWR("listVoucher", () =>
     voucherService.getVouchersByHotelId(Number(params.hotelId))
   );
-
+  const [filteredVoucherList, setFilteredVoucherList] =
+    useState<IVoucher[]>(listVoucher);
   const handleImageClick = (voucher: IVoucher) => {
     setSelectedVoucher(voucher);
     setShowPopup(true);
@@ -85,7 +86,7 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   };
 
   const checkAndUpdateVoucherStatus = async () => {
-    const currentDate = new Date();
+const currentDate = new Date();
 
     if (listVoucher) {
       for (let voucher of listVoucher) {
@@ -105,7 +106,19 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
       checkAndUpdateVoucherStatus();
     }
   }, [listVoucher]);
-
+  useEffect(() => {
+    if (listVoucher) {
+      const filteredVouchers = listVoucher.filter((voucher: IVoucher) => {
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        return (
+          voucher.voucherCode?.toLowerCase().includes(lowerCaseQuery) ||
+          voucher.voucherId?.toString().toLowerCase().includes(lowerCaseQuery)
+        );
+      });
+      setFilteredVoucherList(filteredVouchers);
+      setCurrentPage(1);
+    }
+  }, [searchQuery, listVoucher]);
   if (!listVoucher) {
     return <div>Loading...</div>;
   }
@@ -115,20 +128,19 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
   }
 
   // Sort vouchers: first by voucherStatus (true first), then by voucherId (newest first)
-  const sortedVouchers = listVoucher.sort((a, b) => {
+  const sortedVouchers = listVoucher.sort((a:any, b:any) => {
     if (a.voucherStatus === b.voucherStatus) {
       return b.voucherId - a.voucherId;
     }
     return a.voucherStatus ? -1 : 1;
   });
 
-
   const indexOfLastVC = currentPage * voucherPerPage;
   const indexOfFirstVC = indexOfLastVC - voucherPerPage;
-  const currentVoucher = sortedVouchers.slice(indexOfFirstVC, indexOfLastVC);
+  const currentVoucher = filteredVoucherList.slice(indexOfFirstVC, indexOfLastVC);
 
-  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
-  const totalPages = Math.ceil(listVoucher.length / voucherPerPage);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(filteredVoucherList.length / voucherPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -145,7 +157,7 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
     <div className="relative">
       <div className="search-add">
         <div className="search-hotel flex">
-        {hotel && (
+          {hotel && (
             <div className="fix-name">
               <Link
                 href="/supplier/hotel"
@@ -175,6 +187,8 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
             type="text"
             placeholder="Search........."
             className="input-hotel pl-3"
+value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <img src="/image/search.png" alt="" />
         </div>
@@ -194,25 +208,25 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                 <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
                     <tr>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         VoucherId
                       </th>
                       <th scope="col" className="px-6 py-4 text-center">
                         Voucher Code
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Available Date
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Expire Date
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Voucher Quantity
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Discount Percent
                       </th>
-                      <th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4 text-center">
                         Voucher Status
                       </th>
                       <th scope="col" className="px-6 py-4">
@@ -242,7 +256,7 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                         return (
                           <tr
                             key={index}
-                            className="border-b border-neutral-200 dark:border-white/10"
+className="border-b border-neutral-200 dark:border-white/10 text-center"
                           >
                             <td className="whitespace-nowrap px-6 py-4 font-medium text-black">
                               {item.voucherId}
@@ -297,7 +311,7 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
 
                               {showPopup &&
                                 selectedVoucher?.voucherId ===
-                                  item.voucherId && (
+item.voucherId && (
                                   <div className="fixed inset-0 z-10 flex items-center justify-center">
                                     <div
                                       className="fixed inset-0 bg-black opacity-50"
@@ -356,21 +370,35 @@ const ListVoucher = ({ params }: { params: { hotelId: string } }) => {
                   </tbody>
                 </table>
                 <div className="pagination mt-4 flex justify-between items-center font-semibold">
-                  <div>
-                    <span className="ml-8">{currentPage} of {totalPages}</span>
+<div>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
                   </div>
                   <div className="flex items-center mr-8">
-                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
                     {Array.from({ length: totalPages }, (_, index) => (
                       <p
                         key={index}
                         onClick={() => paginate(index + 1)}
-                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
                       >
                         {index + 1}
                       </p>
                     ))}
-                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
                   </div>
                 </div>
                 <CreateVoucher

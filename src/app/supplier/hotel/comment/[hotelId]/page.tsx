@@ -117,10 +117,10 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
                               {item.bookingId}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.hotel.hotelName}
+                              {item.hotel?.hotelName}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.user.email}
+                              {item.user?.email}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
                               {item.message}

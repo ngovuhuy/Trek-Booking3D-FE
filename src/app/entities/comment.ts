@@ -1,21 +1,19 @@
 interface IComment{
     commentId: number;
     bookingId: number;
-    booking: {
-        bookingId: number;
-    };
     userId: number;
-    user: {
+    user?: {
         userId: number;
-        email: string;
         userName: string;
+        email: string;
         avatar: string;
-    };
+    }
     hotelId: number;
-    hotel: {
+    hotel?:{
         hotelId: number;
         hotelName: string;
-    };
+    }
     dateSubmitted: string|Date;
     message: string;
+    orderHotelHeaderId: number;
 }
