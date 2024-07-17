@@ -64,38 +64,38 @@ const Searchcart = () => {
   <video className="" id="background-video relative" src="/image/introduce.mp4" loop autoPlay muted>
   
   </video>
-  <div className="flex  search-home-fill">
-  <div className="text-bg text-center  ">
-        <h1 className="text-4xl pb-3 font-bold color-home-fd">
+  <div className="flex  search-home-fill ">
+  <div className="text-bg text-center">
+        <h1 className="lg:text-4xl md:text-xl text-xs lg:pb-3 max-[768px]:pb-1  font-bold color-home-fd max-[575px]:hidden">
           WELCOME TO TREK BOOKING
         </h1>
-        <p className="color-home-fd font-bold text-2xl pb-3 ">
+        <p className="color-home-fd font-bold lg:text-2xl md:text-xl text-xs lg:pb-3 max-[768px]:pb-1 max-[768px]:mb-0 max-[575px]:hidden">
         Explore More, Stress Less: Book Your Dream Tour and Hotel Effortlessly  with Us Today <br></br> for Unforgettable Memories.
         </p>
-        <div className="intro flex justify-center pb-3">
+        <div className="intro flex justify-center lg:pb-3 max-[768px]:pb-1 max-[575px]:hidden">
           <div className="seure flex">
-            <img  className="max-[400px]:w-8"   style={{ width: "30px" }} src="/image/check.png" alt=""  />
-            <p className="color-home-fd font-bold ml-2 mb-1 font1rem">
+            <img  className=" max-[400px]:w-8"   style={{ width: "30px" }} src="/image/check.png" alt=""  />
+            <p className="color-home-fd lg:text-2xl md:text-xl text-xs font-bold ml-2 mb-1 max-[768px]:mt-2">
               Secure payment
             </p>
           </div>
-          <div className="seure flex mx-3">
+          <div className=" flex mx-3">
             <img className="" src="/image/line.png" alt="" />
           </div>
-          <div className="seure flex">
+          <div className=" flex">
             <img className="max-[400px]:w-8"   style={{ width: "30px" }} src="/image/clock.png" alt="" />
-            <p className="color-home-fd font-bold ml-2 mb-1 font1rem">
+            <p className="max-[768px]:mt-2 color-home-fd lg:text-2xl md:text-xl text-xs font-bold ml-2 mb-1">
               Quick support
             </p>
           </div>
         </div>
-        <div className="search-home pb-48">
-          <div className="search-main p-12 relative w-full m-auto">
+        <div className="search-home ">
+          <div className="search-main lg:p-4  md:p-4  max-[768px]:p-2   relative w-full m-auto">
             <Form>
            <div className="row">
            <Form.Group controlId="countrySelect" className="col-6 text-left">
-                <Form.Label className='font-semibold lg:text-lg cam ml-1 '>Country</Form.Label>
-                <Form.Control as="select" value={selectedCountry} onChange={handleEvent(handleCountryChange)}>
+                <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1 '>Country</Form.Label>
+                <Form.Control className='py-1 px-1' as="select" value={selectedCountry} onChange={handleEvent(handleCountryChange)}>
                   <option value="">Select Country</option>
                   {countriesList.map((country) => (
                     <option key={country.isoCode} value={country.isoCode}>
@@ -105,8 +105,8 @@ const Searchcart = () => {
                 </Form.Control>
               </Form.Group>
               <Form.Group controlId="citySelect" className="col-6 text-left">
-                <Form.Label className='font-semibold lg:text-lg cam ml-1  '>City</Form.Label>
-                <Form.Control as="select" value={selectedCity} onChange={handleEvent(handleCityChange)} disabled={!selectedCountry}>
+                <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1  '>City</Form.Label>
+                <Form.Control className='py-1 px-1' as="select" value={selectedCity} onChange={handleEvent(handleCityChange)} disabled={!selectedCountry}>
                   <option value="">Select City</option>
                   {citiesList.map((city) => (
                     <option key={city.code} value={city.code}>
@@ -118,20 +118,20 @@ const Searchcart = () => {
            </div>
              <div className="row">
              <Form.Group controlId="checkInDate" className="col-6 text-left">
-                <Form.Label className='font-semibold lg:text-lg cam ml-1  pt-2 ' >Check-in Date</Form.Label>
-                <Form.Control type="date" value={checkInDate} onChange={handleCheckInDateChange} />
+                <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1  pt-2 ' >Check-in Date</Form.Label>
+                <Form.Control className='py-1 px-1' type="date" value={checkInDate} onChange={handleCheckInDateChange} />
               </Form.Group>
               <Form.Group controlId="checkOutDate" className="col-6 text-left">
-                <Form.Label className='font-semibold lg:text-lg cam ml-1  pt-2 '>Check-out Date</Form.Label>
-                <Form.Control  type="date" value={checkOutDate} onChange={handleCheckOutDateChange} />
+                <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1  pt-2 '>Check-out Date</Form.Label>
+                <Form.Control className='py-1 px-1'  type="date" value={checkOutDate} onChange={handleCheckOutDateChange} />
               </Form.Group>
              </div>
-             <div className="flex justify-end mt-4">
+             <div className="flex justify-end  max-[768px]:mt-0">
              <a
               
                 
               href={`/trekbooking/search?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&city=${selectedCity}`}
-              className={`button-add mt-2 text-decoration-none ${!(selectedCity && checkInDate && checkOutDate) ? 'disabled' : ''}`}
+              className={`button-add button-add1 mt-2 text-decoration-none ${!(selectedCity && checkInDate && checkOutDate) ? 'disabled' : ''}`}
               onClick={e => !(selectedCity && checkInDate && checkOutDate) && e.preventDefault()}
             >
               Search

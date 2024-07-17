@@ -184,7 +184,7 @@ a {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-top: 20rem;
+  padding-top: 22%;
 }
 .background-img {
   /* background-image: url("/image/home3.gif"); */
@@ -674,6 +674,10 @@ background-color: #305A61;
   .w-100-768 {
     width: 100%;
   }
+  .search-home-fill{
+   
+    padding-top: 28%;
+  }
 }
 
 @media all and (max-width: 640px) {
@@ -714,6 +718,16 @@ background-color: #305A61;
   }
   .pright-repon {
     padding-right: 5rem;
+  }
+  .search-home-fill{
+   
+    padding-top: 32%;
+  }
+}
+@media all and (max-width: 575px) {
+  .search-home-fill{
+   
+    padding-top: 42%;
   }
 }
 @media all and (max-width: 440px) {
@@ -756,6 +770,15 @@ background-color: #305A61;
   .link-text{
     font-size: 12px;
   }
+  .button-add1 {
+
+    padding: 0px 3px;
+
+}
+.search-home-fill{
+   
+  padding-top: 48%;
+}
 }
 @media all and (max-width: 320px) {
   .font1rem {
