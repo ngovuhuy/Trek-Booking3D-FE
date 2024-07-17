@@ -59,9 +59,7 @@ const SearchPage = () => {
     }
   }, [city]);
 
-  const searchHotels = async (
-    city: string
-  ) => {
+  const searchHotels = async (city: string) => {
     try {
       setLoading(true);
       const hotelSchedule = await hotelService.searchHotelByCity(city);
@@ -752,24 +750,28 @@ const SearchPage = () => {
                                   <p className="font-bold text-sm">
                                     {room.roomName}
                                   </p>
-                                  {roomServices[room.roomId]?.map((service) => (
-                                    <div
-                                      className="flex items-center mt-3"
-                                      key={service.serviceId}
-                                    >
-                                      <img
-                                        className="w-3 h-3"
-                                        src={
-                                          service.serviceImage ||
-                                          "/image/greenTick.png"
-                                        }
-                                        alt=""
-                                      />
-                                      <span className="ml-2 color-black">
-                                        {service.serviceName}
-                                      </span>
-                                    </div>
-                                  ))}
+                                  <div className="max-h-40 overflow-y-auto custom-scrollbar">
+                                    {roomServices[room.roomId]?.map(
+                                      (service) => (
+                                        <div
+                                          className="flex items-center mt-3"
+                                          key={service.serviceId}
+                                        >
+                                          <img
+                                            className="w-3 h-3"
+                                            src={
+                                              service.serviceImage ||
+                                              "/image/greenTick.png"
+                                            }
+                                            alt=""
+                                          />
+                                          <span className="ml-2 color-black">
+                                            {service.serviceName}
+                                          </span>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             ))}
