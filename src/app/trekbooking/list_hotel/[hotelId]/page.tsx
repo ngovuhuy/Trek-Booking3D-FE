@@ -56,9 +56,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [roomImages, setRoomImages] = useState<{ [key: number]: IRoomImage[] }>(
     {}
   );
-  const [roomServices, setRoomServices] = useState<{ [key: number]: IService[] }>(
-    {}
-  );
+  const [roomServices, setRoomServices] = useState<{
+    [key: number]: IService[];
+  }>({});
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -102,13 +102,14 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       setRoomList(listRoom);
       fetchRoomImages(listRoom);
       fetchRoomServices(listRoom);
-
     }
   }, [listRoom]);
   const fetchRoomServices = async (rooms: IRoom[]) => {
     const servicesMap: { [key: number]: IService[] } = {};
     for (const room of rooms) {
-      const services: IService[] = await serviceOfRoom.getServiceByRoomId(room.roomId);
+      const services: IService[] = await serviceOfRoom.getServiceByRoomId(
+        room.roomId
+      );
       if (services.length > 0) {
         servicesMap[room.roomId] = services;
       }
@@ -127,9 +128,11 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   }, [listRate]);
   useEffect(() => {
     if (listComment && listRate) {
-      const combined = listComment.map((comment:any) => {
+      const combined = listComment.map((comment: any) => {
         const rate = listRate.find(
-          (rate:any) => rate.userId === comment.userId && rate.orderHotelHeaderId === comment.orderHotelHeaderId
+          (rate: any) =>
+            rate.userId === comment.userId &&
+            rate.orderHotelHeaderId === comment.orderHotelHeaderId
         );
         return {
           ...comment,
@@ -318,7 +321,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       <div className="container">
-        <div className="font-semibold text-xl mt-8" style={{ color: "#305A61" }}>
+        <div
+          className="font-semibold text-xl mt-8"
+          style={{ color: "#305A61" }}
+        >
           <Link
             className="no-underline underline_hv"
             style={{ color: "#305A61" }}
@@ -517,7 +523,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                       {roomImages[item.roomId]?.length >= 2 ? (
                         <Slider {...settings}>
                           {roomImages[item.roomId]?.map((image) => (
-                            <div key={image.roomImageId} className="slide-flex" >
+                            <div key={image.roomImageId} className="slide-flex">
                               <img
                                 className="w-5/6 h-60 rounded-lg"
                                 src={image.roomImageURL}
@@ -561,12 +567,18 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                           >
                             Convenient
                           </p>
-                          <div className="w-3/4 m-auto">
+                          <div className="w-3/4 m-auto max-h-48 overflow-y-auto custom-scrollbar">
                             {roomServices[item.roomId]?.map((service) => (
-                              <div className="flex items-center pb-3" key={service.serviceId}>
+                              <div
+                                className="flex items-center pb-3"
+                                key={service.serviceId}
+                              >
                                 <img
                                   className="w-3 h-3 mr-2"
-                                  src={service.serviceImage || "/image/greenTick.png"}
+                                  src={
+                                    service.serviceImage ||
+                                    "/image/greenTick.png"
+                                  }
                                   alt={service.serviceDescription}
                                 />
                                 <span className="font-medium text-xs">
@@ -625,9 +637,11 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                   className="text-center text-xl font-bold pb-3"
                                   style={{ color: "rgb(255, 94, 31)" }}
                                 >
-                                  {(item.roomPrice -
+                                  {(
+                                    item.roomPrice -
                                     (item.roomPrice * item.discountPercent) /
-                                    100).toFixed(2)}
+                                      100
+                                  ).toFixed(2)}
                                   $
                                 </span>
                                 <span
@@ -722,7 +736,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                         <div className="flex h-3 my-3">
                           {renderStars(item.rateValue || 0)}
                         </div>
-                        <div className="comment-transition" style={{ maxHeight: isExpanded ? '500px' : '50px' }}>
+                        <div
+                          className="comment-transition"
+                          style={{ maxHeight: isExpanded ? "500px" : "50px" }}
+                        >
                           <span className="font-medium break-words">
                             {isExpanded || message.length <= maxChars
                               ? message

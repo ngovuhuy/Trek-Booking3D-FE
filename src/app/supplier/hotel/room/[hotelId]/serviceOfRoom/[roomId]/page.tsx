@@ -173,7 +173,7 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
                               {item.serviceDescription}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.serviceImage}
+                             <div className="flex justify-center"><img className="w-[35px] h-[40px]" src={item.serviceImage}></img></div>
                             </td>
 
                             <td className="whitespace-nowrap px-6 py-4 flex justify-center">
@@ -238,6 +238,7 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
                   setShowServiceOfRoomCreate={setShowServiceOfRoomCreate}
                   onCreate={handleCreateServiceOfRoom}
                   thisRoomId={Number(params.roomId)}
+                  existingServices={listServiceOfRoom}
                 />
               </div>
             </div>
