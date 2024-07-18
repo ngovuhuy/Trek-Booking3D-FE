@@ -22,7 +22,6 @@ import userService from "@/app/services/userService";
 import hotelImageService from "@/app/services/hotelImageService";
 import serviceOfRoom from "@/app/services/serviceOfRoom";
 
-
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
     if (sentence.trim() === "") return null; // Skip empty strings resulting from splitting
@@ -44,16 +43,21 @@ const fetchHotelImages = async (
 };
 const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const token = Cookies.get("tokenUser");
+  const [hotelId, setHotelId] = useState<number | null>(null);
   const [hotelImages, setHotelImages] = useState<string[]>([]);
   const [commentList, setCommentList] = useState<IComment[]>([]);
   const [rateList, setRateList] = useState<IRate[]>([]);
   const [combinedList, setCombinedList] = useState<
     (IComment & { rateValue?: number })[]
   >([]);
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
+
+  const [checkInDate, setCheckInDate] = useState<string | null>(null);
+  const [checkOutDate, setCheckOutDate] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
+  const [availableRooms, setAvailableRooms] = useState<{
+    [key: number]: number;
+  }>({});
   const [roomImages, setRoomImages] = useState<{ [key: number]: IRoomImage[] }>(
     {}
   );
@@ -61,21 +65,46 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     [key: number]: IService[];
   }>({});
 
+  //format date
+  const formatDateTime = (dateString: string | null): string => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      // const token = Cookies.get("tokenUser");
-      if (token) {
+    const searchParams = new URLSearchParams(window.location.search);
+    const hotelIdParam = Number(searchParams.get("hotelId"));
+    const checkInDateParam = formatDateTime(searchParams.get("checkin"));
+    const checkOutDateParam = formatDateTime(searchParams.get("checkout"));
+
+    setHotelId(hotelIdParam);
+    setCheckInDate(checkInDateParam);
+    setCheckOutDate(checkOutDateParam);
+
+    console.log("hotelId", hotelIdParam);
+    console.log("setCheckInDate", checkInDateParam);
+    console.log("setCheckOutDate", checkOutDateParam);
+
+    // Fetch user data if token is available
+    if (token) {
+      const fetchUserData = async () => {
         try {
           const user = await userService.getUserById();
           setUserData(user);
         } catch (err) {
           console.error(err);
-          // Xử lý lỗi nếu cần
         }
-      }
-    };
-    fetchUserData();
-  }, [token]);
+      };
+      fetchUserData();
+    }
+  }, []); // Chỉ chạy một lần khi component được mount
+
   const averageRating = () => {
     if (combinedList.length === 0) return 0;
 
@@ -86,16 +115,16 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     return totalRates / combinedList.length;
   };
   const { data: hotel, error } = useSWR("detailHotel", () =>
-    hotelService.getHotelById(Number(params.hotelId))
+    hotelService.getHotelById(Number(hotelId))
   );
   const { data: listRoom, isLoading } = useSWR("listRoom", () =>
-    roomService.getRoomsByHotelId(Number(params.hotelId))
+    roomService.getRoomsByHotelId(Number(hotelId))
   );
   const { data: listComment } = useSWR("listComment", () =>
-    commentService.getCommentsByHotelId(Number(params.hotelId))
+    commentService.getCommentsByHotelId(Number(hotelId))
   );
   const { data: listRate } = useSWR("listRate", () =>
-    rateService.getRatesByHotelId(Number(params.hotelId))
+    rateService.getRatesByHotelId(Number(hotelId))
   );
   const router = useRouter();
   useEffect(() => {
@@ -145,9 +174,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   }, [listComment, listRate]);
   useEffect(() => {
     if (hotel) {
-      fetchHotelImages(Number(params.hotelId), setHotelImages);
+      fetchHotelImages(Number(hotelId), setHotelImages);
     }
-  }, [hotel, params.hotelId]);
+  }, [hotel, hotelId]);
   // const userData = userService.getUserById();
   const fetchRoomImages = async (rooms: IRoom[]) => {
     const imagesMap: { [key: number]: IRoomImage[] } = {};
@@ -162,6 +191,38 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     setRoomImages(imagesMap);
   };
   //console.log(roomImages);
+  //lấy phòng trống
+  const getRoomAvailable = async (
+    hotelId: number,
+    checkInDate: string,
+    checkOutDate: string
+  ) => {
+    try {
+      const hotelSchedule: IRoomAvailability[] =
+        await roomService.SearchRoomSchedule(
+          hotelId,
+          checkInDate,
+          checkOutDate
+        );
+      const availableRoomsMap: { [key: number]: number } = {};
+      hotelSchedule.forEach((room) => {
+        availableRoomsMap[room.roomId] = room.availableRooms;
+      });
+      setAvailableRooms(availableRoomsMap);
+      console.log(hotelSchedule);
+    } catch (error) {
+      console.error("Error searching hotels:", error);
+    }
+  };
+
+  const handleDateChange = async () => {
+    if (!hotelId || !checkInDate || !checkOutDate) {
+      toast.error("Please select both check-in and check-out dates");
+      return;
+    }
+    await getRoomAvailable(hotelId, checkInDate, checkOutDate);
+  };
+  //
   const getLowestPrice = (hotelId: number) => {
     const rooms = roomList.filter((room) => room.hotelId === hotelId);
     if (rooms.length > 0) {
@@ -227,7 +288,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       toast.error("You must login to book the room!");
       setTimeout(() => {
         router.push(
-          `/login_client?redirect=/trekbooking/list_hotel/${params.hotelId}`
+          `/login_client?redirect=/trekbooking/list_hotel/${hotelId}`
         );
       }, 2000);
 
@@ -386,7 +447,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   </span>
                 </div>
                 <span className="font-bold text-2xl my-1">
-                  ${getLowestPrice(Number(params.hotelId)) || "N/A"}
+                  ${getLowestPrice(Number(hotelId)) || "N/A"}
                 </span>
               </div>
             </div>
@@ -470,7 +531,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
               <input
                 type="datetime-local"
                 id="checkInDate"
-                value={checkInDate}
+                value={checkInDate || ""}
                 onChange={(e) => setCheckInDate(e.target.value)}
                 required
                 className="hotel-date-input outline-none "
@@ -488,12 +549,13 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
               <input
                 type="datetime-local"
                 id="checkOutDate"
-                value={checkOutDate}
+                value={checkOutDate || ""}
                 onChange={(e) => setCheckOutDate(e.target.value)}
                 required
                 className="hotel-date-input outline-none "
               />
             </div>
+            <button onClick={handleDateChange}>Check Availability</button>
           </div>
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
@@ -506,6 +568,12 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   <div className="flex justify-between">
                     <span className="font-semibold text-xl">
                       {item.roomName}
+                    </span>
+                    <span
+                      className="text-center text-xs font-light pb-3"
+                      style={{ color: "#8E8D8A" }}
+                    >
+                      Available Rooms: {availableRooms[item.roomId] || 0}
                     </span>
                     <Link
                       className="mr-8"
@@ -655,14 +723,29 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 <div className="pb-1">
                                   <Link
                                     href=""
-                                    className="px-2 py-1  text-white no-underline font-medium text-xs "
+                                    className={`px-2 py-1 text-white no-underline font-medium text-xs ${
+                                      availableRooms[item.roomId] == null
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : ""
+                                    }`}
                                     style={{
-                                      backgroundColor: "#305A61",
+                                      backgroundColor:
+                                        availableRooms[item.roomId] == null
+                                          ? "#d3d3d3"
+                                          : "#305A61",
                                       borderRadius: "10px",
                                     }}
-                                    onClick={() => handleAddToCart(item)}
+                                    onClick={(e) => {
+                                      if (availableRooms[item.roomId] == null) {
+                                        e.preventDefault();
+                                      } else {
+                                        handleAddToCart(item);
+                                      }
+                                    }}
                                   >
-                                    Choose
+                                    {availableRooms[item.roomId] == null
+                                      ? "Room's full"
+                                      : "Choose"}
                                   </Link>
                                 </div>
 
@@ -771,7 +854,6 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           </Slider>
         </div>
       </div>
-      
     </>
   );
 };
