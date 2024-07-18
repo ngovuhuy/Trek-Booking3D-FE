@@ -9,9 +9,39 @@ interface IRoomService {
   updateRoom(room: IRoom): Promise<IRoom>;
   getRooms(): Promise<any[]>;
   getRoomById(roomId: number): Promise<IRoom>;
+
+  SearchRoomSchedule(hotelId: number, checkInDate: string, checkOutDate: string): Promise<IRoomAvailability[]>;
 }
 
 const roomService: IRoomService = {
+
+  //láy số phòng trống
+  async SearchRoomSchedule(hotelId: number, checkInDate: string, checkOutDate: string): Promise<IRoomAvailability[]> {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/getRoomAvailability?hotelId=${hotelId}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("tokenUser")}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch hotel details");
+      }
+      const data: IRoomAvailability[] = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching hotel details:", error);
+      throw error;
+    }
+  },
+   
+
+  //
   async getRooms() {
     try {
       const response = await fetch(`${BASE_URL}/getRooms`, {

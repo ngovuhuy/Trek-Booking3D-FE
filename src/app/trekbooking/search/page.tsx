@@ -819,7 +819,7 @@ const SearchPage = () => {
                             Exclude taxes & fees
                           </p>
                           <Link
-                            href={`/trekbooking/list_hotel/${item.hotelId}`}
+                            href={`/trekbooking/hotel_by_shedule?hotelId=${item.hotelId}&checkin=${checkInDate}&checkout=${checkOutDate}`}
                             className="text-white font-medium py-2 px-6 text-lg border no-underline"
                             style={{
                               backgroundColor: "#305A61",
