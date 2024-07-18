@@ -29,7 +29,7 @@ function CreateTour(props: Iprops) {
   const [tourCapacity, SetTourCapacity] = useState<number>(0);
   const [tourDiscount, setTourDiscount] = useState<number>(0);
   const [status, SetStatus] = useState<boolean>(true);
-  const [supplierId, setSupplierId] = useState<number | null>(null);
+  const [supplierId, setSupplierId] = useState<number>(0);
 
   const handleSubmit = async () => {
     const validationErrors = {
