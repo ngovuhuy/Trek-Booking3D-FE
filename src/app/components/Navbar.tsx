@@ -302,12 +302,12 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                     </div>
                   ) : (
                     <div className="flex items-center">
-                       <img
-                    style={{ width: "40px"}}
-                    src="/image/gifcart.gif"
-                    alt=""
-                    className="pr-2"
-                  />
+                   <img
+                        style={{ width: "40px" }}
+                        src="/image/join.gif"
+                        alt=""
+                        className="pr-2 w-7 h-6"
+                      />
                       <Link
                         className="no-underline text-accent font-bold"
                         href="/login_client"

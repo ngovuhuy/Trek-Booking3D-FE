@@ -64,11 +64,11 @@ const NavbarRegisterSupplier = () => {
               </li>
               <li className="flex items-center hover-bold">
               <img
-                  style={{ width: "40px" }}
-                  src="/image/graffiti.gif"
-                  alt=""
-                  className="pr-2"
-                />
+                        style={{ width: "40px" }}
+                        src="/image/join.gif"
+                        alt=""
+                        className="pr-2 w-7 h-6"
+                      />
                 <Link
                   className="no-underline text-accent font-bold"
                   href="login_supplier"
@@ -117,11 +117,11 @@ const NavbarRegisterSupplier = () => {
                 </li>
                 <li className="flex items-center pb-4 hover-bold">
                 <img
-                  style={{ width: "40px" }}
-                  src="/image/graffiti.gif"
-                  alt=""
-                  className="pr-2"
-                />
+                        style={{ width: "40px" }}
+                        src="/image/join.gif"
+                        alt=""
+                        className="pr-2 w-7 h-6"
+                      />
                   <Link
                     href="login_supplier"
                     className="font-bold text-decoration-none text-accent"
