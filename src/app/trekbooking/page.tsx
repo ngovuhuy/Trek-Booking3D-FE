@@ -24,7 +24,7 @@ import { Oval } from "react-loader-spinner"; // Import spinner
 export default function WrappedHome() {
   return (
     <Suspense fallback={
-    <div className="flex justify-center">
+    <div className="flex justify-center pt-10 pb-10">
   <Oval
           height={80}
           width={80}

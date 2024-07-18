@@ -1,3 +1,25 @@
+.backgroundVideo {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: relative;
+}
+
+.backgroundVideo::-webkit-media-controls {
+  display: none !important;
+}
+
+.backgroundVideo::-moz-media-controls {
+  display: none !important;
+}
+
+.backgroundVideo::-ms-media-controls {
+  display: none !important;
+}
+
+.backgroundVideo::controls {
+  display: none !important;
+}
 .hleft-12{
   left: -12px;
 }

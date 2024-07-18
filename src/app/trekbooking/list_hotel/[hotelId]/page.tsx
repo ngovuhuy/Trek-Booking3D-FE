@@ -307,6 +307,15 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     draggable: false,
     autoplay: false,
     autoplaySpeed: 4000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <>
@@ -430,7 +439,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 Overview
               </a>
               <p className="font-bold pt-3">About Accommodation</p>
-              <p> {hotel?.hotelFulDescription}</p>
+              <p className="text-justify"> {hotel?.hotelFulDescription}</p>
             </div>
 
             <div className="col-md-4">
@@ -733,14 +742,14 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                             </p>
                           </div>
                         </div>
-                        <div className="flex h-3 my-3">
+                        <div className="flex max-[1024px]:justify-center h-3 my-3">
                           {renderStars(item.rateValue || 0)}
                         </div>
                         <div
-                          className="comment-transition"
+                          className="comment-transition max-[1024px]:text-center  "
                           style={{ maxHeight: isExpanded ? "500px" : "50px" }}
                         >
-                          <span className="font-medium break-words">
+                          <span className=" font-medium break-words">
                             {isExpanded || message.length <= maxChars
                               ? message
                               : `${message.substring(0, maxChars)}...`}
