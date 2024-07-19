@@ -22,7 +22,6 @@ import userService from "@/app/services/userService";
 import hotelImageService from "@/app/services/hotelImageService";
 import serviceOfRoom from "@/app/services/serviceOfRoom";
 
-
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
     if (sentence.trim() === "") return null; // Skip empty strings resulting from splitting
@@ -54,12 +53,36 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [checkOutDate, setCheckOutDate] = useState("");
   const [userData, setUserData] = useState<any>(null);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
+  const [availableRooms, setAvailableRooms] = useState<{
+    [key: number]: number;
+  }>({});
   const [roomImages, setRoomImages] = useState<{ [key: number]: IRoomImage[] }>(
     {}
   );
   const [roomServices, setRoomServices] = useState<{
     [key: number]: IService[];
   }>({});
+
+  //format date de show
+  const formatDateTime = (dateString: string | null): string => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+  //
+  // check chechkin checkout khi nó thay đổi
+  useEffect(() => {
+    if (Number(params.hotelId) && checkInDate && checkOutDate) {
+      getRoomAvailable(Number(params.hotelId), checkInDate, checkOutDate);
+    }
+  }, [checkInDate, checkOutDate]);
+
+  //
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -162,6 +185,38 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     setRoomImages(imagesMap);
   };
   //console.log(roomImages);
+
+  //lấy phòng trống
+  const getRoomAvailable = async (
+    hotelId: number,
+    checkInDate: string,
+    checkOutDate: string
+  ) => {
+    try {
+      const hotelSchedule: IRoomAvailability[] =
+        await roomService.SearchRoomSchedule(
+          hotelId,
+          checkInDate,
+          checkOutDate
+        );
+      const availableRoomsMap: { [key: number]: number } = {};
+      hotelSchedule.forEach((room) => {
+        availableRoomsMap[room.roomId] = room.availableRooms;
+      });
+      setAvailableRooms(availableRoomsMap);
+      console.log(hotelSchedule);
+    } catch (error) {
+      console.error("Error searching hotels:", error);
+    }
+  };
+  const handleDateChange = async () => {
+    if (!Number(params.hotelId) || !checkInDate || !checkOutDate) {
+      toast.error("Please select both check-in and check-out dates");
+      return;
+    }
+    await getRoomAvailable(Number(params.hotelId), checkInDate, checkOutDate);
+  };
+  //
   const getLowestPrice = (hotelId: number) => {
     const rooms = roomList.filter((room) => room.hotelId === hotelId);
     if (rooms.length > 0) {
@@ -479,10 +534,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
               <input
                 type="datetime-local"
                 id="checkInDate"
-                value={checkInDate}
+                value={checkInDate || ""}
                 onChange={(e) => setCheckInDate(e.target.value)}
                 required
-                className="hotel-date-input outline-none "
+                className="hotel-date-input outline-none"
               />
             </div>
             <div className="col-lg-2 ml-4">
@@ -497,10 +552,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
               <input
                 type="datetime-local"
                 id="checkOutDate"
-                value={checkOutDate}
+                value={checkOutDate || ""}
                 onChange={(e) => setCheckOutDate(e.target.value)}
                 required
-                className="hotel-date-input outline-none "
+                className="hotel-date-input outline-none"
               />
             </div>
           </div>
@@ -516,6 +571,14 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                     <span className="font-semibold text-xl">
                       {item.roomName}
                     </span>
+                    <span
+                      className="text-center text-xs font-light pb-3"
+                      style={{ color: "#8E8D8A", fontSize: "16px" }}
+                    >
+                      {/* <img src="/image/correct.png" className="w-5 h-5" /> */}
+                      Available Rooms: {availableRooms[item.roomId] || 0}
+                    </span>
+
                     <Link
                       className="mr-8"
                       href={`/trekbooking/image360/${item.roomId}`}
@@ -780,7 +843,6 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           </Slider>
         </div>
       </div>
-      
     </>
   );
 };
