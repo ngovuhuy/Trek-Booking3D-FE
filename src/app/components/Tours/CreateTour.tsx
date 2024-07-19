@@ -10,6 +10,7 @@ import Form from "../../../../node_modules/react-bootstrap/esm/Form";
 import Modal from "../../../../node_modules/react-bootstrap/esm/Modal";
 import useSWR from "swr";
 import { mutate } from "../../../../node_modules/swr/dist/core/index";
+import supplierService from "@/app/services/supplierService";
 
 interface Iprops {
   showTourCreate: boolean;
@@ -28,14 +29,8 @@ function CreateTour(props: Iprops) {
   const [tourCapacity, SetTourCapacity] = useState<number>(0);
   const [tourDiscount, setTourDiscount] = useState<number>(0);
   const [status, SetStatus] = useState<boolean>(true);
-  const [supplierId, SetSupplierId] = useState<number>(0);
+  const [supplierId, setSupplierId] = useState<number>(0);
 
-  useEffect(() => {
-    const supplierIdFromStorage = localStorage.getItem("supplierId");
-    if (supplierIdFromStorage) {
-      SetSupplierId(parseInt(supplierIdFromStorage));
-    }
-  }, []);
   const handleSubmit = async () => {
     const validationErrors = {
       tourName: validateTourName(tourName),
@@ -63,7 +58,7 @@ function CreateTour(props: Iprops) {
         tourCapacity,
         tourDiscount,
         status,
-        supplierId
+       Number(supplierId)
       );
       if (typeof response === "string") {
         toast.success(response);
@@ -77,7 +72,17 @@ function CreateTour(props: Iprops) {
       console.error(error);
     }
   };
-
+  useEffect(() => {
+    const fetchSupplierId = async () => {
+      try {
+        const supplier = await supplierService.getSupplierById();
+        setSupplierId(supplier.supplierId);
+      } catch (error) {
+        toast.error("Failed to fetch supplier ID");
+      }
+    };
+    fetchSupplierId();
+  }, []);
   // Lay ngay hom nay dinh dang dd-mm-yyyy
   const getTodayDate = () => {
     const today = new Date();
@@ -391,7 +396,7 @@ function CreateTour(props: Iprops) {
                   type="number"
                   placeholder="Please enter supplier id !!!"
                   value={supplierId}
-                  onChange={(e) => SetSupplierId(parseInt(e.target.value))}
+                  onChange={(e) => setSupplierId(parseInt(e.target.value))}
                 />
               </Form.Group>
             </div>

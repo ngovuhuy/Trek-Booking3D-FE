@@ -54,12 +54,13 @@ import DetailTour from "@/app/components/Tours/DetailTour";
 
   const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(tourList.length / toursPerPage);
-  const toggleTour = async (userId:number) => {
+  const toggleTour = async (tourId:number) => {
     setLoading(true);
-    try {
-      // await toggleTourStatus(userId);
-      // setShowPopup(false);
-      // mutate(revalidateTours);
+    try {   
+      var response = await tourService.getTourById(tourId);
+      await toggleTourStatus(tourId);
+      setShowPopup(false);
+      mutate(revalidateTours);
       toast.success("Success");
     } catch (error: any) {
       console.error(error.message);
@@ -191,7 +192,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                   onClick={() => {setTour(item); setShowTourUpdate(true);}}
                                    />
                            
-                              {/* <img
+                              <img
                                 className="w-5 h-5 cursor-pointer ml-3"
                                 onClick={() => handleImageClick(item)}
                                 src={
@@ -201,7 +202,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                 }
                                 alt={item.status ? "Ban" : "Unban"}
                                 // onClick={() => handleDeleteTour(item.tourId)}
-                              /> */}
+                              />
                               {showPopup &&
                                 selectedTour?.tourId === item.tourId && (
                                   <div className="fixed inset-0 z-10 flex items-center justify-center ">

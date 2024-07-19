@@ -193,7 +193,7 @@ export const updateTour = async (
 
 export const toggleTourStatus = async (tourId: number): Promise<void> => {
   try {
-    const response = await fetch(`${BASE_URL}/api/TourAPI/ToggleTour`, {
+    const response = await fetch(`${BASE_URL}/toggleTourStatus`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain, */*',

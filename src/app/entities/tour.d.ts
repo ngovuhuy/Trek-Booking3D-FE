@@ -10,8 +10,5 @@ export interface ITour{
     tourDiscount: number;
     status: boolean;
     supplierId: number;
-    supplier: {
-        supplierId: number;
-        supplierName: string;
-    }
+
 }

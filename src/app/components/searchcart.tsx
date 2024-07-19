@@ -1,6 +1,5 @@
 'use client'
 import { countries, cities } from "country-cities";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 
@@ -61,8 +60,7 @@ const Searchcart = () => {
 
   return (
     <div className="background-img ">
-  <video className="" id="background-video relative" src="/image/introduce.mp4" loop autoPlay muted>
-  
+  <video  className="backgroundVideo" id="background-video relative" src="/image/introduce.mp4" loop autoPlay muted>
   </video>
   <div className="flex  search-home-fill ">
   <div className="text-bg text-center">
