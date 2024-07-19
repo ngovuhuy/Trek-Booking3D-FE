@@ -24,11 +24,11 @@ export default function RootLayout({
 {
   return (
     <div className={roboto.className}>
-    <CartProvider>
+
       <Navbar title="" />
       {children}
       <Footer />
-    </CartProvider>
+  
   </div>
   );
 }

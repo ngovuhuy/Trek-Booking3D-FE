@@ -8,6 +8,7 @@ import { Roboto } from 'next/font/google'
 import "../../public/css/styles.css";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { CartProvider } from "./components/CartContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
+      <CartProvider>
       <ToastContainer/>
 
         {children}
+        </CartProvider>
         </body>
     </html>
   );

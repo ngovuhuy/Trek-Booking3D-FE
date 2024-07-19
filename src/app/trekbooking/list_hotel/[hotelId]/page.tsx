@@ -65,6 +65,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [roomServices, setRoomServices] = useState<{
     [key: number]: IService[];
   }>({});
+  const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
+  const [RoomId, setRoomId] = useState(0);
+  const [Room, setRoom] = useState<IRoom | null>(null);
 
   //format date de show
   const formatDateTime = (dateString: string | null): string => {
@@ -851,6 +854,13 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           </Slider>
         </div>
       </div>
+      <DetailRoomClient
+                  showRoomDetail={showRoomDetail}
+                  setShowRoomDetail={setShowRoomDetail}
+                  hotelId={params.hotelId}
+                  room={Room}
+                  setRoom={setRoom}
+                />
     </>
   );
 };

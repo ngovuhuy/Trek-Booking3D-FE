@@ -1,6 +1,6 @@
 "use client"
 import { BookingCartItem } from "@/app/entities/bookingCartItem";
-import { deleteBookingCart, getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId, getTotalCartItems } from "@/app/services/bookingCartService";
+import { deleteBookingCart, getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId } from "@/app/services/bookingCartService";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Link from "next/link";
@@ -26,10 +26,8 @@ const formatRoomDescription = (description: string) => {
     );
   });
 };
-interface Props {
-  onFetchTotalItems: () => void; // Nhận prop từ Navbar
-}
-const BookingCart: React.FC<Props> = ({ onFetchTotalItems }) => {
+
+const BookingCart  = () => {
   const router = useRouter();
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
   const { fetchTotalItems } = useCart();
