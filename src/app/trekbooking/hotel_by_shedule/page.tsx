@@ -105,6 +105,14 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     }
   }, []); // Chỉ chạy một lần khi component được mount
 
+  // check chechkin checkout khi nó thay đổi
+  useEffect(() => {
+    if (hotelId && checkInDate && checkOutDate) {
+      getRoomAvailable(hotelId, checkInDate, checkOutDate);
+    }
+  }, [hotelId, checkInDate, checkOutDate]);
+
+  ///
   const averageRating = () => {
     if (combinedList.length === 0) return 0;
 
@@ -534,7 +542,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 value={checkInDate || ""}
                 onChange={(e) => setCheckInDate(e.target.value)}
                 required
-                className="hotel-date-input outline-none "
+                className="hotel-date-input outline-none"
               />
             </div>
             <div className="col-lg-2 ml-4">
@@ -552,10 +560,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 value={checkOutDate || ""}
                 onChange={(e) => setCheckOutDate(e.target.value)}
                 required
-                className="hotel-date-input outline-none "
+                className="hotel-date-input outline-none"
               />
             </div>
-            <button onClick={handleDateChange}>Check Availability</button>
           </div>
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
@@ -569,10 +576,12 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                     <span className="font-semibold text-xl">
                       {item.roomName}
                     </span>
+
                     <span
                       className="text-center text-xs font-light pb-3"
-                      style={{ color: "#8E8D8A" }}
+                      style={{ color: "#8E8D8A", fontSize: "16px" }}
                     >
+                      {/* <img src="/image/correct.png" className="w-5 h-5" /> */}
                       Available Rooms: {availableRooms[item.roomId] || 0}
                     </span>
                     <Link
