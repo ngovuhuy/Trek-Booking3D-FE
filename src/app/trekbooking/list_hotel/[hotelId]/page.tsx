@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import userService from "@/app/services/userService";
 import hotelImageService from "@/app/services/hotelImageService";
 import serviceOfRoom from "@/app/services/serviceOfRoom";
-import DetailRoomClient from "@/app/components/Room/DetailRoomClient";
+import DetailRoomClient from "@/app/components/RoomClient/DetailRoomClient";
 import { useCart } from "@/app/components/CartContext";
 
 
