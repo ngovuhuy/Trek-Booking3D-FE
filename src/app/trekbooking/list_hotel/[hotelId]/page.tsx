@@ -68,7 +68,6 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
   const [RoomId, setRoomId] = useState(0);
   const [Room, setRoom] = useState<IRoom | null>(null);
-
   //format date de show
   const formatDateTime = (dateString: string | null): string => {
     if (!dateString) return "";
@@ -231,6 +230,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     return null;
   };
 
+  //d
   const renderGuests = (guestValue: number) => {
     const guests = [];
     for (let i = 0; i < guestValue; i++) {
@@ -620,7 +620,6 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                         />
                       )}
                     </div>
-
                     <div
                       className="col-lg-8 col-md-12 border "
                       style={{ borderRadius: "10px" }}
@@ -855,12 +854,12 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         </div>
       </div>
       <DetailRoomClient
-                  showRoomDetail={showRoomDetail}
-                  setShowRoomDetail={setShowRoomDetail}
-                  hotelId={params.hotelId}
-                  room={Room}
-                  setRoom={setRoom}
-                />
+        showRoomDetail={showRoomDetail}
+        setShowRoomDetail={setShowRoomDetail}
+        hotelId={params.hotelId}
+        room={Room}
+        setRoom={setRoom}
+      />
     </>
   );
 };

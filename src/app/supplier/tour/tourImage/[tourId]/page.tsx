@@ -165,18 +165,20 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
+     
+        <div className="search-hotel flex">
         {tour && (
-          <div className="fix-name">
+          <div className="fix-name max-[1522px]:hidden">
             <Link
               href="/supplier/tour"
-              style={{ color: "black", fontSize: "18px" }}
+              style={{ color: "black", fontSize: "14px" }}
             >
               Tour
             </Link>
             <span
               style={{
                 color: "black",
-                fontSize: "18px",
+                fontSize: "14px",
                 marginLeft: "5px",
                 marginRight: "5px",
               }}
@@ -185,13 +187,12 @@ const ListTourImage = ({ params }: { params: { tourId: string } }) => {
             </span>
             <Link
               href={`/supplier/tour/tourImage/${params.tourId}`}
-              style={{ color: "#4c7cab", fontSize: "18px" }}
+              style={{ color: "#4c7cab", fontSize: "14px" }}
             >
               {tour.tourName}
             </Link>
           </div>
         )}
-        <div className="search-hotel flex">
           <input
             type="text"
             placeholder="Search........."

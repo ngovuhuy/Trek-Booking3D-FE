@@ -24,7 +24,6 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   const [loading, setLoading] = useState(false);
   const [RoomId, setRoomId] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  
 
   const [Room, setRoom] = useState<IRoom | null>(null);
   const [hotel, setHotel] = useState<IHotel | null>(null);
@@ -79,7 +78,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
         response = await roomService.deleteRoom(roomId);
       } else {
         response = await roomService.recoverRoomDeleted(roomId);
-}
+      }
       if (response) {
         setShowPopup(false);
         await mutate(
@@ -113,9 +112,12 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   }
   const indexOfLastRoom = currentPage * roomsPerPage;
   const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
-  const currentRooms = filteredRoomList.slice(indexOfFirstRoom, indexOfLastRoom);
+  const currentRooms = filteredRoomList.slice(
+    indexOfFirstRoom,
+    indexOfLastRoom
+  );
 
-  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const totalPages = Math.ceil(filteredRoomList.length / roomsPerPage);
 
   const handlePrevPage = () => {
@@ -132,9 +134,8 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
   return (
     <div className="relative">
       <div className="search-add">
-     
         <div className="search-hotel flex">
-        {hotel && (
+          {hotel && (
             <div className="fix-name">
               <Link
                 href="/supplier/hotel"
@@ -182,7 +183,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
           <div className="sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div className="overflow-x-auto">
-<table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
+                <table className="min-w-full text-start text-sm font-light text-surface dark:text-white border-solid">
                   <thead className="border-b border-neutral-200 font-medium dark:border-white/10 bk-top-table">
                     <tr className="text-center">
                       <th scope="col" className="px-6 py-4">
@@ -232,8 +233,9 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             {item.roomStatus ? "Active" : "Stopped"}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href="#">
+                            <Link className="flex justify-center" href="#">
                               <img
+                                className="w-7 h-7 cursor-pointer"
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
                                 onClick={() => {
@@ -242,10 +244,13 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                                   setShowRoomDetail(true);
                                 }}
                               />
-</Link>
+                            </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/serviceOfRoom/${item.roomId}`}>
+                            <Link
+                              className="flex justify-center"
+                              href={`/supplier/hotel/room/${params.hotelId}/serviceOfRoom/${item.roomId}`}
+                            >
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Service"
@@ -253,7 +258,10 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}>
+                            <Link
+                              className="flex justify-center"
+                              href={`/supplier/hotel/room/${params.hotelId}/room3DImage/${item.roomId}`}
+                            >
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room 3D"
@@ -261,7 +269,10 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            <Link className='flex justify-center' href={`/supplier/hotel/room/${params.hotelId}/roomImage/${item.roomId}`}>
+                            <Link
+                              className="flex justify-center"
+                              href={`/supplier/hotel/room/${params.hotelId}/roomImage/${item.roomId}`}
+                            >
                               <img
                                 src="/image/managevoucher.png"
                                 alt="Manage Room Image"
@@ -269,7 +280,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                             </Link>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 flex justify-center">
-                            <Link className='flex justify-center' href="#">
+                            <Link className="flex justify-center" href="#">
                               <img
                                 className="w-5 h-5 cursor-pointer"
                                 src="/image/pen.png"
@@ -296,7 +307,7 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                               selectedRoom?.roomId === item.roomId && (
                                 <div className="fixed inset-0 z-10 flex items-center justify-center">
                                   <div
-className="fixed inset-0 bg-black opacity-50"
+                                    className="fixed inset-0 bg-black opacity-50"
                                     onClick={handleClosePopup}
                                   ></div>
                                   <div className="relative bg-white p-8 rounded-lg">
@@ -353,20 +364,34 @@ className="fixed inset-0 bg-black opacity-50"
                 </table>
                 <div className="pagination mt-4 flex justify-between items-center font-semibold">
                   <div>
-                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
                   </div>
                   <div className="flex items-center mr-8">
-<img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
                     {Array.from({ length: totalPages }, (_, index) => (
                       <p
                         key={index}
                         onClick={() => paginate(index + 1)}
-                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
                       >
                         {index + 1}
                       </p>
                     ))}
-                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
                   </div>
                 </div>
                 <CreateRoom

@@ -14,6 +14,7 @@ import orderHotelDetailService from "@/app/services/orderHotelDetailService";
 import roomImageService from "@/app/services/roomImageService";
 import Rates from "@/app/components/FeedBack/Rates";
 import commentService from "@/app/services/commentService";
+import RoomBookingDetail from "@/app/components/BookingDetail/RoomBookingDetail";
 
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
@@ -29,6 +30,7 @@ const formatRoomDescription = (description: string) => {
 
 const Booking_History = () => {
   const router = useRouter();
+  const [currentOrderHotelHeader, setCurrentOrderHotelHeader] = useState<IOrderHotelHeader | null>(null);
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
   const [showRate, setShowRate] = useState<boolean>(false);
   const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
@@ -39,10 +41,13 @@ const Booking_History = () => {
   >(null);
   const [currentHotelName, setCurrentHotelName] = useState<string | null>(null);
   const [currentRoomName, setCurrentRoomName] = useState<string | null>(null);
-  const [currentRoomImageURL, setCurrentRoomImageURL] = useState<string | null>(null);
+  const [currentRoomImageURL, setCurrentRoomImageURL] = useState<string | null>(
+    null
+  );
   const [feedbackStatus, setFeedbackStatus] = useState<{
     [key: number]: boolean;
   }>({});
+
   const handleBookingCartClick = (e: any) => {
     e.preventDefault();
     setIsFirstDivVisible(false);
@@ -53,12 +58,19 @@ const Booking_History = () => {
     setIsFirstDivVisible(true);
   };
 
-  const [orderTourHeader, setOrderTourHeader] = useState<IOrderTourHeader[]>(
-    []
-  );
   const [orderHotelHeader, setOrderHotelHeader] = useState<IOrderHotelHeader[]>(
     []
   );
+
+  const [orderTourHeader, setOrderTourHeader] = useState<IOrderTourHeader[]>(
+    []
+  );
+  //popuppp
+  const [showRoomBookingDetail, setShowRoomBookingDetail] =
+    useState<boolean>(false);
+    const [orderHotelHeaderId, setOrderHotelHeaderId] = useState<number | null>(null);
+    const [orderTourHeaderId, setOrderTourHeaderId] = useState<number | null>(null);
+  //
   const [tourDetails, setTourDetails] = useState<{
     [key: number]: IOrderTourDetail[];
   }>({});
@@ -70,7 +82,7 @@ const Booking_History = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-const fetchTour = async () => {
+    const fetchTour = async () => {
       try {
         const headers =
           await orderTourHeaderService.getOrderTourHeaderByUserId();
@@ -162,7 +174,7 @@ const fetchTour = async () => {
         const imagePromises = Array.from(roomIds).map((roomId) =>
           roomImageService.getRoomImageByRoomId(roomId)
         );
-const imagesArray = await Promise.all(imagePromises);
+        const imagesArray = await Promise.all(imagePromises);
         const allRoomImages = imagesArray.flat();
         setRoomImages(allRoomImages);
         // Kiểm tra feedback cho từng orderHotelHeader
@@ -220,7 +232,9 @@ const imagesArray = await Promise.all(imagePromises);
     );
 
     if (hotelDetail) {
-      const roomImage = roomImages.find(image => image.roomId === hotelDetail.roomId);
+      const roomImage = roomImages.find(
+        (image) => image.roomId === hotelDetail.roomId
+      );
       setShowRate(true);
       setCurrentBookingId(1); // Assuming 99 is the bookingId you want to use
       setCurrentUserId(userId);
@@ -228,7 +242,7 @@ const imagesArray = await Promise.all(imagePromises);
       setCurrentOrderHotelHeaderId(headerId);
       setCurrentHotelName(hotelDetail.hotelName); // Assuming hotelName is a property of hotelDetail
       setCurrentRoomName(hotelDetail.roomName);
-      setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null); 
+      setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null);
     } else {
       console.error("Hotel detail not found for headerId:", headerId);
     }
@@ -254,7 +268,7 @@ const imagesArray = await Promise.all(imagePromises);
           <div className="flex my-8">
             <div className="pr-5">
               <a
-className="no-underline px-4 py-2 border text-sm font-medium listA"
+                className="no-underline px-4 py-2 border text-sm font-medium listA"
                 href="#"
                 style={{ borderRadius: "10px" }}
                 onClick={handleCartToursClick}
@@ -321,7 +335,7 @@ className="no-underline px-4 py-2 border text-sm font-medium listA"
                         <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 text-center ">
                           <span
                             className="font-bold text-lg max-[555px]:text-xs  max-[370px]:ml-3"
-style={{ color: "#305A61" }}
+                            style={{ color: "#305A61" }}
                           >
                             Status
                           </span>
@@ -378,7 +392,7 @@ style={{ color: "#305A61" }}
                               </span>
                             </div>
                           </div>
-<div className="col-lg-6 col-md-8 col-12 row ">
+                          <div className="col-lg-6 col-md-8 col-12 row ">
                             <div className="col-lg-4 col-md-4 col-3 flex items-center content-center justify-evenly  max-[400px]:hidden">
                               <div>
                                 <span className="max-[500px]:text-xs ">
@@ -397,8 +411,7 @@ style={{ color: "#305A61" }}
                             </div>
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
-                                {header.totalPrice}
-                                $
+                                {header.totalPrice}$
                               </div>
                             </div>
                             <div
@@ -437,7 +450,7 @@ style={{ color: "#305A61" }}
                   className="border "
                   style={{
                     borderRadius: "10px",
-boxShadow: "0 6px 4px 0 #7F7F7F",
+                    boxShadow: "0 6px 4px 0 #7F7F7F",
                   }}
                 >
                   <div className="px-10 pt-7 pb-12">
@@ -496,7 +509,7 @@ boxShadow: "0 6px 4px 0 #7F7F7F",
                     {orderHotelHeader.length > 0 ? (
                       orderHotelHeader.map((header, index) => (
                         <div className="row pt-10" key={index}>
-<div className="col-lg-6 col-md-4 col-0 flex items-center">
+                          <div className="col-lg-6 col-md-4 col-0 flex items-center">
                             <div className="col-lg-2 col-md-6 col-12 max-[768px]:hidden">
                               {roomImages.length >= 0 ? (
                                 <Slider {...settings}>
@@ -548,14 +561,13 @@ boxShadow: "0 6px 4px 0 #7F7F7F",
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-4 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
                                 {new Date(
-header.checkOutDate
+                                  header.checkOutDate
                                 ).toLocaleDateString()}
                               </div>
                             </div>
                             <div className="col-lg-2 col-md-2 col-2 max-[400px]:col-3 max-[400px]:ml-2 flex items-center content-center justify-evenly ">
                               <div className="max-[500px]:text-xs">
-                                {header.totalPrice}
-                                $
+                                {header.totalPrice}$
                               </div>
                             </div>
                             <div
@@ -584,6 +596,11 @@ header.checkOutDate
                                   className="w-6"
                                   src="/image/infor.png"
                                   alt=""
+                                  onClick={() => {
+                                    setOrderHotelHeaderId(header.id);
+                                    setCurrentOrderHotelHeader(header);
+                                    setShowRoomBookingDetail(true);
+                                  }}
                                 />
                               </a>
                             </div>
@@ -614,6 +631,14 @@ header.checkOutDate
         hotelName={currentHotelName}
         roomName={currentRoomName}
         roomImageURL={currentRoomImageURL}
+      />
+      <RoomBookingDetail
+        showRoomBookingDetail={showRoomBookingDetail}
+        setShowRoomBookingDetail={setShowRoomBookingDetail}
+        orderHotelHeaderId={Number(orderHotelHeaderId)}
+        orderHotelHeader={currentOrderHotelHeader}
+        setOrderHotelHeader={setCurrentOrderHotelHeader}
+     
       />
     </>
   );

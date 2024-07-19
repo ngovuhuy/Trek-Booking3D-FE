@@ -829,3 +829,22 @@ background-color: #305A61;
   background: #555; 
   
 }
+.blur {
+  filter: blur(0.5px);
+  opacity: 0.4;
+}
+.capacity {
+  display: flex;
+  align-items: center;
+}
+
+.inline-image {
+  width: 14px; /* Adjust size as needed */
+  height: 14px; /* Adjust size as needed */
+  margin-left: 5px; /* Adjust margin as needed */
+  margin-bottom: 2px;
+}
+.services-container {
+  max-height: 12rem; /* or max-h-48 */
+  overflow-y: auto;
+}
