@@ -159,6 +159,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                             <td className="whitespace-nowrap px-6 py-4 flex justify-center">
                               <Link href="#" className=''>
                                 <img
+                                className="w-7 h-7 cursor-pointer"
                                   onClick={() => {
                                     setTour(item);
                                     setShowTourDetail(true);

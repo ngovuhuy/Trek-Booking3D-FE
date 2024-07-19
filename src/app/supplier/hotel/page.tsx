@@ -391,6 +391,7 @@ style={{ width: "60px", height: "50px" }}
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link className="flex justify-center" href="#">
                               <img
+                              className="w-7 h-7 cursor-pointer"
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
                                 onClick={() => {
