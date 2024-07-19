@@ -1,5 +1,24 @@
 import Cookies from 'js-cookie';
 import BASE_URL from './apiService';
+import { getCartTourByUserId } from './bookingCartTourService';
+
+
+export const getTotalCartItems = async () => {
+  try {
+    const [rooms, tours] = await Promise.all([
+      getBookingCartByUserId(),
+      getCartTourByUserId()
+    ]);
+
+    const totalItems = rooms.length + tours.length;
+
+    return totalItems;
+  } catch (error) {
+    console.error('Error fetching total cart items:', error);
+    return 0; // Trả về 0 nếu có lỗi
+  }
+};
+
 
 export async function addToBookingCart(data: any) {
   const response = await fetch(`${BASE_URL}/createBookingCart`, {

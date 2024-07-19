@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import "../../../../../../public/css/comment.css";
+
 const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
   const [hotel, setHotel] = useState<IHotel | null>(null);
   const { data: listComment, error } = useSWR("listComment", () =>
@@ -34,6 +35,7 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
   if (error) {
     return <div>Error loading comments</div>;
   }
+
   return (
     <div className="relative">
       <div className="search-add ">
@@ -105,6 +107,11 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
                             day: "numeric",
                           });
 
+                        const truncatedMessage =
+                          item.message.length > 20
+                            ? `${item.message.slice(0, 20)}...`
+                            : item.message;
+
                         return (
                           <tr
                             key={index}
@@ -123,7 +130,7 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
                               {item.user?.email}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
-                              {item.message}
+                              {truncatedMessage}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 font-semibold">
                               {formattedCommentTime}
@@ -152,4 +159,5 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
     </div>
   );
 };
+
 export default ListCommentOfHotel;

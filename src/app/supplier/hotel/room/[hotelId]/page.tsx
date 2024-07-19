@@ -240,7 +240,6 @@ const ListRoom = ({ params }: { params: { hotelId: string } }) => {
                                   setRoomId(item.roomId);
                                   setRoom(item);
                                   setShowRoomDetail(true);
-                                  console.log("RoomId: " + item.roomId, item);
                                 }}
                               />
 </Link>

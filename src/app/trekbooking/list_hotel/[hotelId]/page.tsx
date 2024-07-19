@@ -21,6 +21,8 @@ import Cookies from "js-cookie";
 import userService from "@/app/services/userService";
 import hotelImageService from "@/app/services/hotelImageService";
 import serviceOfRoom from "@/app/services/serviceOfRoom";
+import DetailRoomClient from "@/app/components/Room/DetailRoomClient";
+import { useCart } from "@/app/components/CartContext";
 
 
 const formatRoomDescription = (description: string) => {
@@ -43,6 +45,7 @@ const fetchHotelImages = async (
   setHotelImages(imageUrls);
 };
 const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
+  const { fetchTotalItems } = useCart();
   const token = Cookies.get("tokenUser");
   const [hotelImages, setHotelImages] = useState<string[]>([]);
   const [commentList, setCommentList] = useState<IComment[]>([]);
@@ -60,7 +63,9 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
   const [roomServices, setRoomServices] = useState<{
     [key: number]: IService[];
   }>({});
-
+  const [showRoomDetail, setShowRoomDetail] = useState<boolean>(false);
+  const [RoomId, setRoomId] = useState(0);
+  const [Room, setRoom] = useState<IRoom | null>(null);
   useEffect(() => {
     const fetchUserData = async () => {
       // const token = Cookies.get("tokenUser");
@@ -257,6 +262,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
       };
 
       const result = await addToBookingCart(bookingData);
+      fetchTotalItems(); // Gọi hàm này để cập nhật số lượng items trong giỏ hàng
       //toast.success()
       // router.push('/trekbooking/booking_infor');
       router.push(
@@ -676,16 +682,20 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 </div>
 
                                 <div className="pt-3">
-                                  <Link
-                                    href=""
-                                    className="px-1 py-1  text-white no-underline font-medium text-xs"
+                                  <div
+                                    className="px-1 py-1  text-white no-underline font-medium text-xs cursor-pointer"
                                     style={{
                                       backgroundColor: "#305A61",
                                       borderRadius: "10px",
                                     }}
+                                    onClick={() => {
+                                      setRoomId(item.roomId);
+                                      setRoom(item);
+                                      setShowRoomDetail(true);
+                                    }}
                                   >
                                     View Detail
-                                  </Link>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -780,7 +790,13 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           </Slider>
         </div>
       </div>
-      
+      <DetailRoomClient
+                  showRoomDetail={showRoomDetail}
+                  setShowRoomDetail={setShowRoomDetail}
+                  hotelId={params.hotelId}
+                  room={Room}
+                  setRoom={setRoom}
+                />
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client"
 import { BookingCartItem } from "@/app/entities/bookingCartItem";
-import { deleteBookingCart, getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId } from "@/app/services/bookingCartService";
+import { deleteBookingCart, getBookingCartByUserId, getHotelById, getRoomById, getRoomImagesByRoomId, getTotalCartItems } from "@/app/services/bookingCartService";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import tourService from "@/app/services/tourService";
 import { ITour } from "@/app/entities/tour";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { useCart } from "@/app/components/CartContext";
 
 
 const formatRoomDescription = (description: string) => {
@@ -25,11 +26,13 @@ const formatRoomDescription = (description: string) => {
     );
   });
 };
-
-const BookingCart = () => {
+interface Props {
+  onFetchTotalItems: () => void; // Nhận prop từ Navbar
+}
+const BookingCart: React.FC<Props> = ({ onFetchTotalItems }) => {
   const router = useRouter();
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
-
+  const { fetchTotalItems } = useCart();
   const handleBookingCartClick = (e: any) => {
     e.preventDefault();
     setIsFirstDivVisible(false);
@@ -44,6 +47,7 @@ const BookingCart = () => {
     try {
       await deleteBookingCart(cartId);
       setBookingCart((prev) => prev.filter((item) => item.bookingCartId !== cartId));
+      fetchTotalItems(); // Gọi hàm này để cập nhật số lượng items trong giỏ hàng
     } catch (error) {
       console.error('Error deleting cart:', error);
     }
@@ -171,6 +175,7 @@ const namesMap: { [key: number]: ITour } = {};
     try {
       await deleteCartTour(cartTourId);
       setCartTours(prevCartTours => prevCartTours.filter(tour => tour.cartTourId !== cartTourId));
+      fetchTotalItems(); // Gọi hàm này để cập nhật số lượng items trong giỏ hàng
       toast.success('Cart tour deleted successfully');
     } catch (error) {
       console.error('Error deleting cart tour:', error);

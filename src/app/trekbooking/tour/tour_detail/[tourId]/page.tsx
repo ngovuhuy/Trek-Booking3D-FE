@@ -14,6 +14,8 @@ import userService from "@/app/services/userService";
 import Cookies from "js-cookie";
 import { useRouter } from "../../../../../../node_modules/next/navigation";
 import { Oval } from "react-loader-spinner";
+import { useCart } from "@/app/components/CartContext";
+
 const fetchTourImages = async (
   tourId: number,
   setTourImages: (images: string[]) => void
@@ -24,6 +26,7 @@ const fetchTourImages = async (
 };
 
 const TourDetail = ({ params }: { params: { tourId: string } }) => {
+  const { fetchTotalItems } = useCart();
   const token = Cookies.get("tokenUser");
   const [tour, setTour] = useState<ITour | null>(null);
   const [tourImages, setTourImages] = useState<string[]>([]);
@@ -103,6 +106,7 @@ const TourDetail = ({ params }: { params: { tourId: string } }) => {
       };
 
       await addToBookingCartTour(tourCartItem);
+      fetchTotalItems(); // Gọi hàm này để cập nhật số lượng items trong giỏ hàng
       toast.success("Tour added to cart!");
       router.push("/trekbooking/booking_cart");
     } catch (error: any) {
