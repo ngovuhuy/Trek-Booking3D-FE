@@ -59,7 +59,8 @@ const Profile = () => {
               </Link>
             </div>
             <div className="flex items-start">
-              <img src="/image/lock.png" alt="Lock" />
+            <img style={{ width: "40px", height: "40px" }} src="/image/lock.png" alt="Lock" />
+
               <Link
                 href="/supplier/password"
                 className="text-hv no-underline font-semibold text-black text-xl pl-2"

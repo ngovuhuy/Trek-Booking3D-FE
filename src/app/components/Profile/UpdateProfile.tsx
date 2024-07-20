@@ -32,7 +32,7 @@ const handleEvent = <T extends HTMLElement>(
   };
 };
 
-function UpdateProfile(props: IProps) {
+function  UpdateProfile(props: IProps) {
   const { showUserUpdate, setShowUserUpdate, user, userId, setUser } = props;
   //const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string>("");

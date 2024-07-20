@@ -15,6 +15,7 @@ import roomImageService from "@/app/services/roomImageService";
 import Rates from "@/app/components/FeedBack/Rates";
 import commentService from "@/app/services/commentService";
 import RoomBookingDetail from "@/app/components/BookingDetail/RoomBookingDetail";
+import TourBookingDetail from "@/app/components/BookingDetail/TourBookingDetail";
 
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
@@ -30,7 +31,10 @@ const formatRoomDescription = (description: string) => {
 
 const Booking_History = () => {
   const router = useRouter();
-  const [currentOrderHotelHeader, setCurrentOrderHotelHeader] = useState<IOrderHotelHeader | null>(null);
+  const [currentOrderHotelHeader, setCurrentOrderHotelHeader] =
+    useState<IOrderHotelHeader | null>(null);
+  const [currentOrderTourHeader, setCurrentOrderTourHeader] =
+    useState<IOrderTourHeader | null>(null);
   const [isFirstDivVisible, setIsFirstDivVisible] = useState(true);
   const [showRate, setShowRate] = useState<boolean>(false);
   const [currentBookingId, setCurrentBookingId] = useState<number | null>(null);
@@ -68,8 +72,14 @@ const Booking_History = () => {
   //popuppp
   const [showRoomBookingDetail, setShowRoomBookingDetail] =
     useState<boolean>(false);
-    const [orderHotelHeaderId, setOrderHotelHeaderId] = useState<number | null>(null);
-    const [orderTourHeaderId, setOrderTourHeaderId] = useState<number | null>(null);
+  const [showTourBookingDetail, setShowTourBookingDetail] =
+    useState<boolean>(false);
+  const [orderHotelHeaderId, setOrderHotelHeaderId] = useState<number | null>(
+    null
+  );
+  const [orderTourHeaderId, setOrderTourHeaderId] = useState<number | null>(
+    null
+  );
   //
   const [tourDetails, setTourDetails] = useState<{
     [key: number]: IOrderTourDetail[];
@@ -421,7 +431,16 @@ const Booking_History = () => {
                               {header.process}
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
-                              <a href="#" style={{ display: "flex" }}>
+                              <a
+                                href=""
+                                style={{ display: "flex" }}
+                                onClick={() => {
+                                  console.log("Clicked on tour info icon"); // Log kiểm tra sự kiện
+                                  setOrderTourHeaderId(header.id);
+                                  setCurrentOrderTourHeader(header);
+                                  setShowTourBookingDetail(true);
+                                }}
+                              >
                                 <img
                                   className="w-6"
                                   src="/image/infor.png"
@@ -632,13 +651,19 @@ const Booking_History = () => {
         roomName={currentRoomName}
         roomImageURL={currentRoomImageURL}
       />
+      <TourBookingDetail
+        showTourBookingDetail={showTourBookingDetail}
+        setShowTourBookingDetail={setShowTourBookingDetail}
+        orderTourHeaderId={Number(orderTourHeaderId)}
+        orderTourHeader={currentOrderTourHeader}
+        setOrderTourHeader={setCurrentOrderTourHeader}
+      />
       <RoomBookingDetail
         showRoomBookingDetail={showRoomBookingDetail}
         setShowRoomBookingDetail={setShowRoomBookingDetail}
         orderHotelHeaderId={Number(orderHotelHeaderId)}
         orderHotelHeader={currentOrderHotelHeader}
         setOrderHotelHeader={setCurrentOrderHotelHeader}
-     
       />
     </>
   );

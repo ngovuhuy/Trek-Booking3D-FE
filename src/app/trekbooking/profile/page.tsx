@@ -56,7 +56,7 @@ const Profile = () => {
             </Link>
           </div>
           <div className="flex items-start">
-            <img src="/image/lock.png" alt="Lock" />
+          <img style={{ width: "24px", height: "24px" }} src="/image/lock.png" alt="Lock" />
             <Link
               href="/trekbooking/password"
               className="text-hv no-underline font-semibold text-black text-xl pl-2"
