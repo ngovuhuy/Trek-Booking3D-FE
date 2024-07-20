@@ -431,20 +431,17 @@ const Booking_History = () => {
                               {header.process}
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2    flex items-center content-center justify-evenly max-[400px]:ml-4 ">
-                              <a
-                                href=""
-                                style={{ display: "flex" }}
-                                onClick={() => {
-                                  console.log("Clicked on tour info icon"); // Log kiểm tra sự kiện
-                                  setOrderTourHeaderId(header.id);
-                                  setCurrentOrderTourHeader(header);
-                                  setShowTourBookingDetail(true);
-                                }}
-                              >
+                              <a href="#" style={{ display: "flex" }}>
                                 <img
                                   className="w-6"
                                   src="/image/infor.png"
                                   alt=""
+                                  onClick={() => {
+                                    console.log("Clicked on tour info icon"); // Log kiểm tra sự kiện
+                                    setOrderTourHeaderId(header.id);
+                                    setCurrentOrderTourHeader(header);
+                                    setShowTourBookingDetail(true);
+                                  }}
                                 />
                               </a>
                             </div>
