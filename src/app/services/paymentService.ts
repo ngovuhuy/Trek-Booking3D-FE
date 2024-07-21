@@ -161,10 +161,70 @@ const clearCart = async (roomId: number) => {
   }
 };
 
+
+const CreatePaymentInfor = async (paymentInfor: any) => {
+  try {
+    const response = await fetch(`${BASE_URL}/createPaymentInfor`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${Cookies.get("tokenUser")}` // Thêm token nếu cần thiết
+      },
+      body: JSON.stringify(paymentInfor),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create booking');
+    }
+
+    // Kiểm tra nếu phản hồi không phải JSON
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      return await response.text(); // Nếu không phải JSON, trả về văn bản
+    }
+
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    throw error;
+  }
+};
+const CreateVoucherUsageHistory = async (voucherUsageHistory: any) => {
+  try {
+    const response = await fetch(`${BASE_URL}/createVoucherUsageHistory`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${Cookies.get("tokenUser")}` // Thêm token nếu cần thiết
+      },
+      body: JSON.stringify(voucherUsageHistory),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create booking');
+    }
+
+    // Kiểm tra nếu phản hồi không phải JSON
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      return await response.text(); // Nếu không phải JSON, trả về văn bản
+    }
+
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    throw error;
+  }
+};
+
 export default {
   handlePayment,
   createBooking,
   createTourOrder,
   handleTourPayment,
-  clearCart
+  clearCart,
+  CreatePaymentInfor,
+  CreateVoucherUsageHistory
 };

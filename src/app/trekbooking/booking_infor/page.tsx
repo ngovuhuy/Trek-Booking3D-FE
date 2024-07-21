@@ -37,14 +37,17 @@ const BookingInfo = () => {
     const hotelId = Number(searchParams.get('hotelId'));
     //const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     const [user, setUser] = useState<IUser | null>(null);
-
+    const [paidDate, setPaidDate] = useState('');
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const item = bookingCart.find(item => item.roomId === roomId && item.hotelId === hotelId);
     const [requirement , setRequirement ] = useState('');
- 
+    useEffect(() => {
+        const currentDate = new Date().toISOString(); // Lấy ngày hiện tại và chuyển thành định dạng ISO
+        setPaidDate(currentDate);
+      }, []);
     useEffect(() => {
         const fetchBookingInfo = async () => {
             try {
@@ -109,6 +112,7 @@ const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
               process: "Pending",
               completed: false,
               supplierId: hotelDetails?.supplierId,
+              voucherId: selectedVoucher ? selectedVoucher.voucherId : null ,
               voucherCode: selectedVoucher ? selectedVoucher.voucherCode : null ,
             },
             orderDetails: bookingCart.map(cartItem => ({
@@ -139,11 +143,9 @@ const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
             status: true,
 isConfirmed: true,
           };
-      
         try {
-          
             await paymentService.createBooking(bookingData);
-           await paymentService.handlePayment(paymentData, item);
+          await paymentService.handlePayment(paymentData, item);
          toast.success('Payment and booking created successfully!');
         } catch (error) {
           console.error('Error during payment and booking:', error);
