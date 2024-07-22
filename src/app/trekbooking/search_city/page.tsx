@@ -304,7 +304,7 @@ const SearchPage = () => {
               style={{ borderRadius: "20px", boxShadow: "0 6px 6px #0000004d" }}
             >
               <div className="row mx-3">
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Cần Thơ`}
                     className="text-white no-underline zoom-effect-container"
@@ -344,7 +344,7 @@ const SearchPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Vũng Tàu`}
                     className="text-white no-underline zoom-effect-container"
@@ -384,7 +384,7 @@ const SearchPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Ninh Bình`}
                     className="text-white no-underline zoom-effect-container"
@@ -424,7 +424,7 @@ const SearchPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Ho Chi Minh`}
                     className="text-white no-underline zoom-effect-container"
@@ -464,7 +464,7 @@ const SearchPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Hanoi`}
                     className="text-white no-underline zoom-effect-container"
@@ -504,7 +504,7 @@ const SearchPage = () => {
                     </a>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <a
                     href={`/trekbooking/search_city?city=Phan Thiết`}
                     className="text-white no-underline zoom-effect-container"
