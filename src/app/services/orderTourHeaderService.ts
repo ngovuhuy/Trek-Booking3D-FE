@@ -15,6 +15,10 @@ interface IOrderTourHeaderService {
   getRevenueQuarterOfYearTourBySupplierId(year: number): Promise<IQuarterlyRevenue>;
   getRevenueTourBySupplierIdAndDateRange(startDate: Date, endDate: Date): Promise<IRevenueTourDateRange>;
   getRevenueTourMonthToYearBySupplierId(year: number):Promise<IRevenueTourMonthToYear>;
+  updateOrderTourHeader(orderTourHeader: {
+    id: number;
+    process: string;
+  }): Promise<IOrderTourHeader[]>;
 }
 
 const orderTourHeaderService: IOrderTourHeaderService = {
@@ -335,6 +339,36 @@ const orderTourHeaderService: IOrderTourHeaderService = {
       return data;
     } catch (error) {
       console.error("Error fetching order hotel headers:", error);
+      throw error;
+    }
+  },
+  async updateOrderTourHeader(orderTourHeader) {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/updateOrderTourHeader`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from localStorage
+          },
+          body: JSON.stringify(orderTourHeader),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch order tour headers");
+      }
+
+      const responseData = await response.json();
+
+      if (!responseData.data) {
+        throw new Error("Empty response data from server");
+      }
+
+      return responseData.data;
+    } catch (error) {
+      console.error("Error fetching order tour headers:", error);
       throw error;
     }
   },

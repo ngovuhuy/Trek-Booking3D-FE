@@ -15,6 +15,10 @@ interface IOrderHotelHeaderService {
   getRevenueQuarterOfYearHotelBySupplierId(year: number): Promise<IQuarterlyRevenue>;
   getRevenueHotelBySupplierIdAndDateRange(startDate: Date, endDate: Date): Promise<IRevenueHotelDateRange>;
   getRevenueHotelMonthToYearBySupplierId(year: number): Promise<IRevenueHotelMonthToYear>;
+  updateOrderHotelHeader(orderHotelHeader: {
+    id: number;
+    process: string;
+  }): Promise<IOrderHotelHeader[]>;
 }
 
 const orderHotelHeaderService: IOrderHotelHeaderService = {
@@ -329,6 +333,36 @@ const orderHotelHeaderService: IOrderHotelHeaderService = {
       const data = await response.json();
     
       return data;
+    } catch (error) {
+      console.error("Error fetching order hotel headers:", error);
+      throw error;
+    }
+  },
+  async updateOrderHotelHeader(orderHotelHeader) {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/updateOrderHotelHeader`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("tokenSupplier")}`, // Retrieve token from localStorage
+          },
+          body: JSON.stringify(orderHotelHeader),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch order hotel headers");
+      }
+
+      const responseData = await response.json();
+
+      if (!responseData.data) {
+        throw new Error("Empty response data from server");
+      }
+
+      return responseData.data;
     } catch (error) {
       console.error("Error fetching order hotel headers:", error);
       throw error;

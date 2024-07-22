@@ -9,5 +9,7 @@ interface ISupplier{
     status: boolean;
     isVerify: boolean;
     roleId: number;
-    
+    bankName: string;
+  bankAccount: string;
+  bankNumber: string;
 }

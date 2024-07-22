@@ -6,8 +6,10 @@ import BookingDetail from "./booking_detail";
 import orderHotelHeaderService from "@/app/services/orderHotelHeaderService";
 import orderHotelDetailService from "@/app/services/orderHotelDetailService";
 import useSWR from "swr";
+import UpdateBooking from "./update_booking";
 
 const BookingListOfSupplier = () => {  
+  const [showModalEdit, setShowModalEdit] = useState<boolean>(false);
   const [showModalBookingDetail, setShowModalBookingDetail] =
     useState<boolean>(false);
   const [orderHotelHeaders, setOrderHotelHeaders] = useState<
@@ -91,7 +93,9 @@ const BookingListOfSupplier = () => {
                       <th scope="col" className="px-6 py-4">
                         View Detail
                       </th>
-                     
+                      <th scope="col" className="px-6 py-4">
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -135,10 +139,10 @@ const BookingListOfSupplier = () => {
                             </td>
                             <td
                               className={`whitespace-nowrap px-6 py-4 ${
-                                header.process ? "color-active" : "color-stop"
+                                header.process === "Paid" ? "color-paid" : "color-active"
                               }`}
                             >
-                              {header.process ? "Success" : "Pending..."}
+                              {header.process}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
                               <div className="flex justify-center">
@@ -150,6 +154,20 @@ const BookingListOfSupplier = () => {
                                     setOrderHotelHeader(header);
                                     setOrderHotelDetail(details[header.id][0]);
                                     setShowModalBookingDetail(true);
+                                  }}
+                                />
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="flex justify-center">
+                                <img
+                                  className="w-5 h-5 cursor-pointer"
+                                  src="/image/pen.png"
+                                  alt="Update"
+                                  onClick={() => {
+                                    setOrderHotelHeader(header);
+                                    setOrderHotelDetail(details[header.id][0]);
+                                    setShowModalEdit(true);
                                   }}
                                 />
                               </div>
@@ -172,6 +190,14 @@ const BookingListOfSupplier = () => {
                 <BookingDetail
                   showModalBookingDetail={showModalBookingDetail}
                   setShowModalBookingDetail={setShowModalBookingDetail}
+                  orderHotelHeader={orderHotelHeader}
+                  setOrderHotelHeader={setOrderHotelHeaders}
+                  orderHotelDetail={orderHotelDetail}
+                  setOrderHotelDetail={setOrderHotelDetail}
+                />
+                <UpdateBooking
+                  showModalEditBooking={showModalEdit}
+                  setShowModalEditBooking={setShowModalEdit}
                   orderHotelHeader={orderHotelHeader}
                   setOrderHotelHeader={setOrderHotelHeaders}
                   orderHotelDetail={orderHotelDetail}

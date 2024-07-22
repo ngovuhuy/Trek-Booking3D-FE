@@ -28,9 +28,9 @@ const VoucherWallet = () => {
               <div className="flex justify-center pb-4" key={index}>
                 <div className="border-wallet flex justify-between font-semibold">
                   <div>
-                    <p>Voucher Code: {item.voucher.voucherCode}</p>
+                    <p>Voucher Code: {item.voucher?.voucherCode}</p>
                     <p className="mb-0">
-                      Discount: {item.voucher.discountPercent} %
+                      Discount: {item.voucher?.discountPercent} %
                     </p>
                   </div>
                   <div>

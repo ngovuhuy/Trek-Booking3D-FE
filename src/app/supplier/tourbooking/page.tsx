@@ -5,6 +5,7 @@ import { useState } from "react";
 import TourOrderDetail from "./tour_order_detail";
 import orderTourHeaderService from "@/app/services/orderTourHeaderService";
 import orderTourDetailService from "@/app/services/orderTourDetailService";
+import UpdateTourOrder from "./update_tour_order";
 
 const TourOrderListOfSupplier = () => {
   const [showModalEdit, setShowModalEdit] = useState<boolean>(false);
@@ -86,12 +87,14 @@ const TourOrderListOfSupplier = () => {
                         Total Price
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        Complete
+                        Process
                       </th>
                       <th scope="col" className="px-6 py-4">
                         View Detail
                       </th>
-                      
+                      <th scope="col" className="px-6 py-4">
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -128,10 +131,12 @@ const TourOrderListOfSupplier = () => {
                             </td>
                             <td
                               className={`whitespace-nowrap px-6 py-4 ${
-                                header.completed ? "color-active" : "color-stop"
+                                header.process === "Paid"
+                                  ? "color-paid"
+                                  : "color-active"
                               }`}
                             >
-                              {header.completed ? "Success" : "Pending..."}
+                              {header.process}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
                               <div className="flex justify-center">
@@ -148,6 +153,21 @@ const TourOrderListOfSupplier = () => {
                               </div>
                             </td>
                            
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="flex justify-center">
+                                <img
+                                  className="w-5 h-5 cursor-pointer"
+                                  src="/image/pen.png"
+                                  alt="Update"
+                                  onClick={() => {
+                                    setOrderTourHeader(header);
+                                    setOrderTourDetail(details[header.id][0]);
+                                    setShowModalEdit(true);
+                                  }}
+                                />
+                              </div>
+                            </td>
+
                           </tr>
                         );
                       })
@@ -163,12 +183,14 @@ const TourOrderListOfSupplier = () => {
                     )}
                   </tbody>
                 </table>
-                {/* <UpdateTourOrder
+                <UpdateTourOrder
                   showModalEditTourOrder={showModalEdit}
                   setShowModalEditTourOrder={setShowModalEdit}
-                  tourOrder={tourOrder}
-                  setTourOrder={setTourOrder}
-                /> */}
+                  orderTourHeader={orderTourHeader}
+                  setOrderTourHeader={setOrderTourHeaders}
+                  orderTourDetail={orderTourDetail}
+                  setOrderTourDetail={setOrderTourDetail}
+                />
                 <TourOrderDetail
                   showModalTourOrderDetail={showModalTourOrderDetail}
                   setShowModalTourOrderDetail={setShowModalTourOrderDetail}
@@ -177,6 +199,7 @@ const TourOrderListOfSupplier = () => {
                   orderTourDetail={orderTourDetail}
                   setOrderTourDetail={setOrderTourDetail}
                 />
+       
               </div>
             </div>
           </div>

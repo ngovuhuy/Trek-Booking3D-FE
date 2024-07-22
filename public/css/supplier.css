@@ -4,7 +4,10 @@
   width: 75%;
   left: 350px;
 }
-
+.color-paid {
+  color: #ff7f50;
+  font-weight: bold;
+}
 .bg-background {
   display: none;
 }
@@ -56,8 +59,8 @@
 .table-profile {
   position: absolute;
   top: 120px;
-  width: 60%;
-  left: 400px;
+  width: 74%;
+  left: 262px;
 }
 .search-add {
   position: absolute;

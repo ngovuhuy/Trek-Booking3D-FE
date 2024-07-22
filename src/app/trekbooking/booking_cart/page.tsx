@@ -402,7 +402,7 @@ No tours in your cart
                                     {formatRoomDescription(room.roomDescription)}
                                   </div>
                                 </div>
-                                <div className="col-4 border-r border-gray" style={{ height: "290px" }}>
+                                <div className="col-4 border-r border-gray" >
                                   <p className="text-center text-sm font-semibold pt-3" style={{ color: "#305A61" }}>
                                     Convenient
                                   </p>
@@ -436,15 +436,27 @@ No tours in your cart
                                 <div className="col-4">
                                   <div className="row">
                                     <div className="col-6">
-<p className="text-center text-sm font-semibold pt-3" style={{ color: "#305A61" }}>
-                                        Guest(s)
-                                      </p>
+                                    <p
+                                className="text-center text-sm font-semibold pt-3"
+                                style={{ color: "#305A61" }}
+                              >
+                                Guest(s)
+                              </p>
                                       <div className="flex flex-wrap items-center pb-1 w-3/4 mx-auto">
-                                        {Array.from({ length: room.roomCapacity }).map((_, i) => (
-                                          <img key={i} className="w-4 h-4 m-1" src="/image/user.png" alt="guest" />
-                                        ))}
-                                      </div>
+                                {/* Hiển thị số lượng khách */}
+                                {Array.from({
+                                  length: room.roomCapacity,
+                                }).map((_, i) => (
+                                  <img
+                                    key={i}
+                                    className="w-4 h-4 m-1"
+                                    src="/image/user.png"
+                                    alt="guest"
+                                  />
+                                ))}
+                              </div>
                                     </div>
+                                    
                                     <div className="col-lg-6" style={{
                                       height: "356px",
                                       border: "1px solid #D9D9D9",

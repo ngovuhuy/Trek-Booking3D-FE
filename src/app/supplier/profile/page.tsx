@@ -12,6 +12,9 @@ const Profile = () => {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [address, setAddress] = useState<string>("");
+  const [bankName, setBankName] = useState<string>("");
+  const [bankAccount, setBankAccount] = useState<string>("");
+  const [bankNumber, setBankNumber] = useState<string>("");
 
   const [showSupplierUpdate, setShowSupplierUpdate] = useState<boolean>(false);
   const [Supplier, setSupplier] = useState<ISupplier | null>(null);
@@ -27,6 +30,9 @@ const Profile = () => {
       setEmail(supplier.email);
       setPhone(supplier.phone);
       setAddress(supplier.address);
+      setBankAccount(supplier.bankAccount);
+      setBankName(supplier.bankName);
+      setBankNumber(supplier.bankNumber);
       setSupplier(supplier);
     } else if (error) {
       console.error("Failed to fetch supplier:", error);
@@ -49,7 +55,7 @@ const Profile = () => {
             style={{ borderBottom: "2px solid #D2D2D2" }}
           >
             <div className="flex items-start pr-10">
-              <img src="/image/user.png" alt="User" />
+              <img className='w-7' src="/image/user.png" alt="User" />
               <Link
                 href="/supplier/profile"
                 className="text-hv font-semibold no-underline text-xl pl-2"
@@ -59,8 +65,7 @@ const Profile = () => {
               </Link>
             </div>
             <div className="flex items-start">
-            <img style={{ width: "40px", height: "40px" }} src="/image/lock.png" alt="Lock" />
-
+              <img className='w-7' src="/image/lock.png" alt="Lock" />
               <Link
                 href="/supplier/password"
                 className="text-hv no-underline font-semibold text-black text-xl pl-2"
@@ -79,7 +84,7 @@ const Profile = () => {
               }}
             >
               <div className="w-4/5 m-auto">
-                <span className="text-xl  max-[500px]:text-xs font-semibold">
+<span className="text-xl  max-[500px]:text-xs font-semibold">
                   Account information
                 </span>
                 <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
@@ -99,68 +104,122 @@ const Profile = () => {
                 </div>
                 <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
-                <div
-                  className="mb-3 row"
-                  style={{
-                    display: "flex",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
-                    <label className="font-bold text-xl">Supplier Name:</label>
-                  </div>
-                  <div className="flex-1 col-8 max-[500px]:w-full">
-                    <label className="font-bold text-xl text-gray-400 max-[500px]:text-xs">
-                      {supplierName}
-                    </label>
-                  </div>
-                </div>
-                <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
+                <div className="flex">
+                  <div className="w-1/2 pr-2">
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">
+                          Supplier Name:
+                        </label>
+                      </div>
+                      <div className="flex-1 col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {supplierName}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
-                <div
-                  className="mb-3 row"
-                  style={{ display: "flex", marginTop: "20px" }}
-                >
-                  <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
-                    <label className="font-bold text-xl">Phone:</label>
-                  </div>
-                  <div className=" col-8 max-[500px]:w-full">
-                    <label className="font-bold text-xl text-gray-400 max-[500px]:text-xs">
-                      {phone}
-                    </label>
-                  </div>
-                </div>
-                <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">Phone:</label>
+                      </div>
+                      <div className=" col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {phone}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
-                <div
-                  className="mb-3 row"
-                  style={{ display: "flex", marginTop: "20px" }}
-                >
-                  <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
-                    <label className="font-bold text-xl">Email:</label>
-                  </div>
-                  <div className="col-8 max-[500px]:w-full">
-                    <label className="font-bold text-xl text-gray-400 max-[500px]:text-xs">
-                      {email}
-                    </label>
-                  </div>
-                </div>
-                <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">Email:</label>
+                      </div>
+                      <div className="col-8 max-[500px]:w-full">
+<label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {email}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
-                <div
-                  className="mb-3 row"
-                  style={{ display: "flex", marginTop: "20px" }}
-                >
-                  <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
-                    <label className="font-bold text-xl">Address:</label>
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">Address:</label>
+                      </div>
+                      <div className="col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {address}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
                   </div>
-                  <div className="col-8 max-[500px]:w-full">
-                    <label className="font-bold text-xl text-gray-400 max-[500px]:text-xs">
-                      {address}
-                    </label>
+
+                  <div className="w-1/2 pl-2">
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">
+                          Bank Account:
+                        </label>
+                      </div>
+                      <div className="col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {bankAccount}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
+
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">Bank Name:</label>
+                      </div>
+                      <div className="col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {bankName}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
+
+                    <div
+                      className="mb-3 row"
+                      style={{ display: "flex", marginTop: "20px" }}
+                    >
+                      <div className="col-4 max-[500px]:w-full max-[500px]:pb-2">
+                        <label className="font-bold text-base">
+                          Bank Number:
+                        </label>
+                      </div>
+<div className="col-8 max-[500px]:w-full">
+                        <label className="font-bold text-base text-gray-400 max-[500px]:text-xs">
+                          {bankNumber}
+                        </label>
+                      </div>
+                    </div>
+                    <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
                   </div>
                 </div>
-                <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
                 <div
                   className="flex justify-end pt-5 pb-4"

@@ -48,7 +48,7 @@ const ChangePassword = () => {
             style={{ borderBottom: "2px solid #D2D2D2" }}
           >
             <div className="flex items-start pr-10">
-              <img src="/image/user.png" alt="User" />
+              <img className="w-7" src="/image/user.png" alt="User" />
               <Link
                 href="/supplier/profile"
                 className="text-hv font-semibold no-underline text-black text-xl pl-2"
@@ -57,7 +57,7 @@ const ChangePassword = () => {
               </Link>
             </div>
             <div className="flex items-start">
-              <img src="/image/lock.png" alt="Lock" />
+              <img className="w-7" src="/image/lock.png" alt="Lock" />
               <Link
                 href="/supplier/password"
                 className="text-hv no-underline font-semibold text-xl pl-2"
@@ -122,8 +122,8 @@ className="w-[70px] h-[70px] cursor-pointer m-2 rounded-full object-cover"
                     <label className="font-bold text-xl">Password</label>
                   </div>
                   <div className="col-8">
-                    <label className="font-bold text-xl text-gray-400">
-                       ******
+                    <label className="font-bold text-xl text-gray-400 ">
+                       ********
                     </label>
                   </div>
                 </div>
