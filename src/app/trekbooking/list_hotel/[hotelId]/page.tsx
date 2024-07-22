@@ -733,14 +733,29 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 <div className="pb-1">
                                   <Link
                                     href=""
-                                    className="px-2 py-1  text-white no-underline font-medium text-xs "
+                                    className={`px-2 py-1 text-white no-underline font-medium text-xs ${
+                                      availableRooms[item.roomId] == null
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : ""
+                                    }`}
                                     style={{
-                                      backgroundColor: "#305A61",
+                                      backgroundColor:
+                                        availableRooms[item.roomId] == null
+                                          ? "#d3d3d3"
+                                          : "#305A61",
                                       borderRadius: "10px",
                                     }}
-                                    onClick={() => handleAddToCart(item)}
+                                    onClick={(e) => {
+                                      if (availableRooms[item.roomId] == null) {
+                                        e.preventDefault();
+                                      } else {
+                                        handleAddToCart(item);
+                                      }
+                                    }}
                                   >
-                                    Choose
+                                    {availableRooms[item.roomId] == null
+                                      ? "Room's full"
+                                      : "Choose"}
                                   </Link>
                                 </div>
 
