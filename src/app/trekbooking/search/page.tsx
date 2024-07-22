@@ -318,47 +318,45 @@ const SearchPage = () => {
               style={{ borderRadius: "20px", boxShadow: "0 6px 6px #0000004d" }}
             >
               <div className="row mx-3">
-                <div className="col-2">
-                  <Link
-                    href={`/trekbooking/search_city?city=Cần Thơ`}
-                    className="text-white no-underline zoom-effect-container"
+              <div className="col-lg-2 col-4">
+              <Link
+                href={`/trekbooking/search_city?city=Cần Thơ`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card">
+                  <img
+                    className="border w-full"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/cantho.png"
+                    alt="can tho"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/cantho.png"
-                        alt="Can Tho"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Can Tho
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Cần Thơ`}
-                    >
-                      Find hotel
-                    </Link>
+                    <span className="text-white font-semibold text-base">
+                      Can Tho
+                    </span>
                   </div>
                 </div>
-                <div className="col-2">
+              </Link>
+              <div className="flex justify-center my-3">
+                <Link
+                  className="no-underline text-white border px-3 font-medium text-sm"
+                  style={{ backgroundColor: "#305A61", borderRadius: "10px" }}
+                  //filter city can tho
+                  href={`/trekbooking/search_city?city=Cần Thơ`}
+                >
+                  Find hotel
+                </Link>
+              </div>
+            </div>
+                <div className="col-lg-2 col-4">
                   <Link
                     href={`/trekbooking/search_city?city=Vũng Tàu`}
                     className="text-white no-underline zoom-effect-container"
@@ -398,7 +396,7 @@ const SearchPage = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <Link
                     href={`/trekbooking/search_city?city=Ninh Bình`}
                     className="text-white no-underline zoom-effect-container"
@@ -438,7 +436,7 @@ const SearchPage = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <Link
                     href={`/trekbooking/search_city?city=Ho Chi Minh`}
                     className="text-white no-underline zoom-effect-container"
@@ -478,7 +476,7 @@ const SearchPage = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <Link
                     href={`/trekbooking/search_city?city=Hanoi`}
                     className="text-white no-underline zoom-effect-container"
@@ -518,7 +516,7 @@ const SearchPage = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-2">
+                <div className="col-lg-2 col-4">
                   <Link
                     href={`/trekbooking/search_city?city=Phan Thiết`}
                     className="text-white no-underline zoom-effect-container"
