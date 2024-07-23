@@ -92,7 +92,7 @@ function DetailRoomClient(props: IProps) {
       </Modal.Header>
       <Modal.Body className="padding-tour-detail">
         <Row>
-          <Col md={8}>
+          <Col lg={8}>
             <div className="main-image-container mb-3">
               <img
                 className="w-100 h-auto rounded-lg"
@@ -121,10 +121,10 @@ function DetailRoomClient(props: IProps) {
               ))}
             </Slider>
           </Col>
-          <Col md={4}>
-            <div>
+          <Col lg={4}>
+            <div className="max-[992px]:pt-2">
               <h5 style={{ fontWeight: "bold" }}>Room Information:</h5>
-              <p>{formatRoomDescription(roomDescription)}</p>
+              <p className="pt-2">{formatRoomDescription(roomDescription)}</p>
               <p className="capacity" style={{ fontWeight: "bold" }}>
                 Capacity: {roomCapacity}
                 <img
@@ -154,8 +154,11 @@ function DetailRoomClient(props: IProps) {
               </div>
               </div>
       
-            <div className="price-section">
-              <h4 style={{ fontWeight: "bold", color: "rgb(255, 94, 31)"}}>
+            <div className="price-section pt-2">
+
+            <p className="pt-2" style={{ fontWeight: "bold"}}>Price: {roomPrice} $</p>
+
+              <h4 className="pb-4" style={{ fontWeight: "bold", color: "rgb(255, 94, 31)"}}>
                 Sale:{" "}
                 {(
                   parseFloat(roomPrice) -
@@ -164,8 +167,10 @@ function DetailRoomClient(props: IProps) {
                 $
               </h4>
 
-              <p style={{ fontWeight: "bold"}}>Price: {roomPrice} $</p>
-              <button className="btn btn-primary" style={{ backgroundColor: 'rgb(48, 90, 97)' }} onClick={handleCloseModal}>See another room</button>
+              
+             <div className="flex justify-end">
+             <button className="btn btn-primary mr-14" style={{ backgroundColor: 'rgb(48, 90, 97)' }} onClick={handleCloseModal}>See another room</button>
+             </div>
             </div>
           </Col>
         </Row>

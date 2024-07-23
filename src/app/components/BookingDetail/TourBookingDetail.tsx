@@ -102,7 +102,7 @@ function TourBookingDetail(props: IProps) {
       </Modal.Header>
       <Modal.Body className="padding-tour-detail">
         <Row>
-          <Col md={8}>
+          <Col lg={8}>
             <div className="main-image-container mb-3">
               <img
                 className="w-100 h-auto rounded-lg"
@@ -131,8 +131,8 @@ function TourBookingDetail(props: IProps) {
               ))}
             </Slider>
           </Col>
-          <Col md={4}>
-            <div>
+          <Col lg={4}>
+            <div className="max-[992px]:pt-2">
               <h5 style={{ fontWeight: "bold" }}>Tour Information:</h5>
               <p>
                 <strong>Tour name:</strong>{" "}
@@ -162,7 +162,8 @@ function TourBookingDetail(props: IProps) {
               {/* <h6 style={{ fontWeight: "bold" }}>Check in date: {orderTourHeader?.checkInDate ? new Date(orderHotelHeader.checkInDate).toLocaleDateString() : "N/A"}</h6>
               <h6 style={{ fontWeight: "bold" }}>Check out date: {orderTourHeader?.checkOutDate ? new Date(orderHotelHeader.checkOutDate).toLocaleDateString() : "N/A"}</h6> */}
 
-              <button
+             <div className="flex justify-center pt-6">
+             <button
                 className="btn btn-primary"
                 style={{
                   backgroundColor: "rgb(48, 90, 97)",
@@ -172,6 +173,7 @@ function TourBookingDetail(props: IProps) {
               >
                 See another tour booking
               </button>
+             </div>
             </div>
           </Col>
         </Row>

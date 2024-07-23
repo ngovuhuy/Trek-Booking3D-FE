@@ -115,7 +115,7 @@ function RoomBookingDetail(props: IProps) {
       </Modal.Header>
       <Modal.Body className="padding-tour-detail">
         <Row>
-          <Col md={8}>
+          <Col lg={8}>
             <div className="main-image-container mb-3">
               <img className="w-100 h-auto rounded-lg" src={selectedImage} alt="Selected room" />
             </div>
@@ -127,8 +127,8 @@ function RoomBookingDetail(props: IProps) {
               ))}
             </Slider>
           </Col>
-          <Col md={4}>
-            <div>
+          <Col lg={4}>
+            <div className="max-[992px]:pt-2">
               <h5 style={{ fontWeight: "bold" }}>Room Information:</h5>
               <p><strong>Room name:</strong> <span>{orderHotelDetail?.roomName}</span></p>
               <p><strong>User name:</strong> <span>{orderHotelHeader?.fullName}</span></p>
@@ -137,10 +137,10 @@ function RoomBookingDetail(props: IProps) {
             </div>
 
             <div className="price-section">
+             
+              <p style={{ fontWeight: "bold" }}>Check in date: {orderHotelHeader?.checkInDate ? new Date(orderHotelHeader.checkInDate).toLocaleDateString() : "N/A"}</p>
+              <p style={{ fontWeight: "bold" }}>Check out date: {orderHotelHeader?.checkOutDate ? new Date(orderHotelHeader.checkOutDate).toLocaleDateString() : "N/A"}</p>
               <h4 style={{ fontWeight: "bold", color: "rgb(255, 94, 31)" }}>Total Price: {orderHotelHeader?.totalPrice} $</h4>
-              <h6 style={{ fontWeight: "bold" }}>Check in date: {orderHotelHeader?.checkInDate ? new Date(orderHotelHeader.checkInDate).toLocaleDateString() : "N/A"}</h6>
-              <h6 style={{ fontWeight: "bold" }}>Check out date: {orderHotelHeader?.checkOutDate ? new Date(orderHotelHeader.checkOutDate).toLocaleDateString() : "N/A"}</h6>
-
               <div style={{ padding: '20px', backgroundColor: '#f0f0f0', borderRadius: '10px', marginTop: '20px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                 <h5 style={{ fontWeight: "bold" }}>Reviews and Ratings:</h5>
                 {combinedList.map((item, index) => (
@@ -157,9 +157,11 @@ function RoomBookingDetail(props: IProps) {
                 ))}
               </div>
 
-              <button className="btn btn-primary" style={{ backgroundColor: "rgb(48, 90, 97)", marginTop: '20px' }} onClick={handleCloseModal}>
+              <div className="flex justify-end pt-9 ">
+              <button className="btn btn-primary " style={{ backgroundColor: "rgb(48, 90, 97)" }} onClick={handleCloseModal}>
                 See another booking
               </button>
+              </div>
             </div>
           </Col>
         </Row>
