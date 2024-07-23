@@ -1,18 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../../../../public/css/tour.css";
 import { ITour } from "@/app/entities/tour";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import tourService from "@/app/services/tourService";
 import Link from "next/link";
 import "../../../../public/css/styles.css";
 import { Oval } from "react-loader-spinner"; // Import spinner
 
-//fliter
+// Filter
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { Padding } from "@mui/icons-material";
 
 const fetchTourImages = async (
   tourList: ITour[],
@@ -52,6 +51,9 @@ const TourList = () => {
   const [tourImages, setTourImages] = useState<{ [key: number]: string }>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
   const { data: tourList, error } = useSWR<ITour[]>("tourList", tourService.getTours);
 
   useEffect(() => {
@@ -77,6 +79,29 @@ const TourList = () => {
     const matchesPrice = tour.tourPrice >= priceRange[0] && tour.tourPrice <= priceRange[1];
     return matchesSearch && matchesPrice;
   }) : [];
+
+  const totalPages = Math.ceil(filteredTours.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const currentTours = filteredTours.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   if (!tourList) {
     return (
@@ -118,15 +143,11 @@ const TourList = () => {
               value={searchTerm}
               onChange={handleSearchChange}
             />
-            <button className="input__button__shadow input__button__shadow--variant">
-              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="1.5em" width="13em">
-                <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#FFF"></path>
-              </svg>
-            </button>
+          
           </div>
         </div>
         <div className="row">
-        <div className="col-lg-3 col-md-3 col-12">
+          <div className="col-lg-3 col-md-3 col-12">
             <div className="border-tour">
               <p className="color-black font-bold">Price Range</p>
               <Slider
@@ -138,7 +159,7 @@ const TourList = () => {
                 trackStyle={[{ backgroundColor: '#305A61' }]}
                 handleStyle={[{ borderColor: '#305A61' }, { borderColor: '#305A61' }]}
               />
-              <div className="flex justify-between mt-2 pt-8" >
+              <div className="flex justify-between mt-2 pt-8">
                 <span>Min: {priceRange[0]}$</span>
                 <span>Max: {priceRange[1]}$</span>
               </div>
@@ -146,8 +167,8 @@ const TourList = () => {
           </div>
           <div className="col-lg-9 col-md-9 col-12 fix-768-tour">
             <div className="row">
-              {filteredTours.length > 0 ? (
-                filteredTours.map((item, index) => {
+              {currentTours.length > 0 ? (
+                currentTours.map((item, index) => {
                   const tourTimeDate = new Date(item.tourTime);
                   const formattedTourTime = tourTimeDate.toLocaleDateString(
                     "en-US",
@@ -201,11 +222,23 @@ const TourList = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center">
-          <p className="font-bold mr-4 text-xl cursor-pointer">1</p>
-          <p className="font-bold mr-4 text-xl cursor-pointer">2</p>
-          <p className="font-bold mr-4 text-xl cursor-pointer">3</p>
-          <img className="w-3 h-4 mg-t-6 cursor-pointer" src="/image/righttour.png" alt="Next" />
+        <div className="pagination mt-4 flex justify-between items-center font-semibold pb-4">
+          <div>
+            <span className="ml-8">{currentPage} of {totalPages}</span>
+          </div>
+          <div className="flex items-center mr-8">
+            <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+            {Array.from({ length: totalPages }, (_, index) => (
+              <p
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+              >
+                {index + 1}
+              </p>
+            ))}
+            <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+          </div>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@
     padding: 0.8em;
     font-size: 1.2em;
     color: #002019;
-    background-color: transparent;
+    background-color: #d8d7d7;  
   }
   
   .input__search--variant::placeholder {

@@ -38,6 +38,15 @@ const SearchPage = () => {
     "listService",
     () => serviceOfRoom.getServices()
   );
+  
+  // Pagination for hotels
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+  
+  // Pagination for services
+  const [showAllServices, setShowAllServices] = useState(false);
+  const visibleServicesCount = 10;
+
   // Filter states
   const [selectedRating, setSelectedRating] = useState<number[]>([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -277,6 +286,29 @@ const SearchPage = () => {
     autoplay: false,
     autoplaySpeed: 4000,
   };
+
+  const totalPages = Math.ceil(filterHotels().length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const currentHotels = filterHotels().slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -640,27 +672,43 @@ const SearchPage = () => {
                       />
                     </div>
                     {listService &&
-                      listService.map((service) => (
-                        <div
-                          className="input-star flex pb-8"
-                          key={service.serviceId}
+                      listService
+                        .slice(0, showAllServices ? listService.length : visibleServicesCount)
+                        .map((service) => (
+                          <div
+                            className="input-star flex pb-8"
+                            key={service.serviceId}
+                          >
+                            <input
+                              type="checkbox"
+                              className="h-5"
+                              onChange={() =>
+                                handleServiceChange(service.serviceName)
+                              }
+                            />
+                            <p className="text-faci">{service.serviceName}</p>
+                          </div>
+                        ))}
+                    {listService && listService.length > visibleServicesCount && (
+                      <div className="text-center mt-4">
+                      <button
+                          className="no-underline text-white border px-3 font-medium text-sm"
+                          style={{
+                            backgroundColor: "#305A61",
+                            borderRadius: "10px",
+                          }}
+                          onClick={() => setShowAllServices(!showAllServices)}
                         >
-                          <input
-                            type="checkbox"
-                            className="h-5"
-                            onChange={() =>
-                              handleServiceChange(service.serviceName)
-                            }
-                          />
-                          <p className="text-faci">{service.serviceName}</p>
-                        </div>
-                      ))}
+                          {showAllServices ? "Show Less" : "See More"}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="col-lg-9 col-md-8 col-12">
-                {filterHotels().length > 0 ? (
-                  filterHotels().map((item: IHotel) => (
+                {currentHotels.length > 0 ? (
+                  currentHotels.map((item: IHotel) => (
                     <div
                       key={item.hotelId}
                       className="row bg-white py-3 px-2 mb-4"
@@ -825,6 +873,28 @@ const SearchPage = () => {
                     </p>
                   </div>
                 )}
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                  <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`pagination-button mx-2 ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
+                      <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

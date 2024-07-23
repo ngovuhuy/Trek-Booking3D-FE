@@ -40,7 +40,7 @@ function CreateTour(props: Iprops) {
       tourTime: validateTourTime(tourTime),
       tourTransportation: validateTourTransportation(tourTransportation),
       tourCapacity: validateTourCapacity(tourCapacity),
-      tourDiscount: validateTourDiscount(tourDiscount),
+      // tourDiscount: validateTourDiscount(tourDiscount),
     };
 
     setErrors(validationErrors);
@@ -172,12 +172,12 @@ function CreateTour(props: Iprops) {
     return "";
   };
 
-  const validateTourDiscount = (tourDiscount: number) => {
-    if (!tourDiscount) return "Tour Discount is required";
-    if (isNaN(tourDiscount) || tourDiscount <= 0)
-      return "Tour Capacity must be a positive number";
-    return "";
-  };
+  // const validateTourDiscount = (tourDiscount: number) => {
+  //   if (!tourDiscount) return "Tour Discount is required";
+  //   // if (isNaN(tourDiscount) || tourDiscount <= 0)
+  //   //   return "Tour Capacity must be a positive number";
+  //   return "";
+  // };
 
   useEffect(() => {
     if (isTouched.tourName) {
@@ -242,14 +242,14 @@ function CreateTour(props: Iprops) {
     }
   }, [tourCapacity, isTouched.tourCapacity]);
 
-  useEffect(() => {
-    if (isTouched.tourDiscount) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        tourDiscount: validateTourDiscount(tourDiscount),
-      }));
-    }
-  }, [tourDiscount, isTouched.tourDiscount]);
+  // useEffect(() => {
+  //   if (isTouched.tourDiscount) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       tourDiscount: validateTourDiscount(tourDiscount),
+  //     }));
+  //   }
+  // }, [tourDiscount, isTouched.tourDiscount]);
 
   const handleBlur = (field: string) => {
     setIsTouched((prevTouched) => ({ ...prevTouched, [field]: true }));

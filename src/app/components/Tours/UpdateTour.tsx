@@ -60,7 +60,7 @@ function UpdateTour(props: IProps) {
       tourTime: validateTourTime(tourTime),
       tourTransportation: validateTourTransportation(tourTransportation),
       tourCapacity: validateTourCapacity(tourCapacity),
-      tourDiscount: validateTourDiscount(tourDiscount),
+      // tourDiscount: validateTourDiscount(tourDiscount),
     };
 
     setErrors(validationErrors);
@@ -171,7 +171,7 @@ function UpdateTour(props: IProps) {
     const tourDate = tourTime.split(' ')[0]; // Assuming tourTime is in the format "YYYY-MM-DD HH:MM"
     const today = getTodayDate(); // Assuming getTodayDate() returns the date in "YYYY-MM-DD" format
   
-    if (tourDate < today) return "Tour Time cannot be in the past";
+    // if (tourDate < today) return "Tour Time cannot be in the past";
   
     return "";
   };
@@ -187,12 +187,12 @@ function UpdateTour(props: IProps) {
     return "";
   };
 
-  const validateTourDiscount = (tourDiscount: number) => {
-    if (!tourDiscount) return "Tour Discount is required";
-    if (isNaN(tourDiscount) || tourDiscount <= 0)
-      return "Tour Capacity must be a positive number";
-    return "";
-  };
+  // const validateTourDiscount = (tourDiscount: number) => {
+  //   if (!tourDiscount) return "Tour Discount is required";
+  //   if (isNaN(tourDiscount) || tourDiscount <= 0)
+  //     return "Tour Capacity must be a positive number";
+  //   return "";
+  // };
 
   useEffect(() => {
     if (isTouched.tourName) {
@@ -257,14 +257,14 @@ function UpdateTour(props: IProps) {
     }
   }, [tourCapacity, isTouched.tourCapacity]);
 
-  useEffect(() => {
-    if (isTouched.tourDiscount) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        tourDiscount: validateTourDiscount(tourDiscount),
-      }));
-    }
-  }, [tourDiscount, isTouched.tourDiscount]);
+  // useEffect(() => {
+  //   if (isTouched.tourDiscount) {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       tourDiscount: validateTourDiscount(tourDiscount),
+  //     }));
+  //   }
+  // }, [tourDiscount, isTouched.tourDiscount]);
 
   const handleBlur = (field: string) => {
     setIsTouched((prevTouched) => ({ ...prevTouched, [field]: true }));

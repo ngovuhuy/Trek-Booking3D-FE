@@ -67,6 +67,13 @@
   padding-right: 6px;
 width: 100%;
 }
+.active{
+  color: #ffffff;
+  background: #305A61;
+  border: 1px solid #ccc;
+  padding: 0px 8px;
+  border-radius: 12px;
+  }
 .input-full-rate{
   outline: none;
   border: 1px solid #ccc;

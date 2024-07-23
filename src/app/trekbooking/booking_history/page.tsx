@@ -6,6 +6,7 @@ import Link from "../../../../node_modules/next/link";
 import { useRouter } from "next/navigation";
 import { Oval } from "react-loader-spinner";
 import "../../../../public/css/voucher.css";
+import "../../../../public/css/history.css";
 import orderTourHeaderService from "@/app/services/orderTourHeaderService";
 import orderTourDetailService from "@/app/services/orderTourDetailService";
 import tourImageService from "@/app/services/tourImageService";
