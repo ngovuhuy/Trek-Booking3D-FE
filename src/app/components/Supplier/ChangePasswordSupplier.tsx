@@ -22,7 +22,11 @@ function ChangePasswordSupplier(props: IProps) {
   const [avatar, setAvatar] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [bankName, setBankName] = useState<string>("");
+  const [bankAccount, setBankAccount] = useState<string>("");
+  const [bankNumber, setBankNumber] = useState<string>("");
   const [address, setAddress] = useState<string>("");
+
   const [roleId, setRoleId] = useState<number>();
   const [password, setPassword] = useState<string>("");
   const {
@@ -71,6 +75,9 @@ function ChangePasswordSupplier(props: IProps) {
       setEmail(supplier.email);
       setRoleId(supplier.roleId);
       setAddress(supplier.address);
+      setBankAccount(supplier.bankAccount);
+      setBankName(supplier.bankName);
+      setBankNumber(supplier.bankNumber);
     }
   }, [showChangePassword, supplier]);
 
@@ -92,6 +99,9 @@ function ChangePasswordSupplier(props: IProps) {
 status: true,
         isVerify: true,
         roleId: Number(roleId),
+        bankAccount: bankAccount,
+        bankName: bankName,
+        bankNumber: bankNumber,
       };
       //Check current password
       const checkResponse = await supplierService.checkPasswordSupplier(
