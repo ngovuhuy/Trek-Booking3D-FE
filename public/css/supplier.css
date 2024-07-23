@@ -70,7 +70,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  z-index: 20;
+  z-index: 1;
 }
 .breadcrumb{
   left: 396px;

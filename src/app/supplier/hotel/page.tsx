@@ -451,7 +451,7 @@ style={{ width: "60px", height: "50px" }}
                               </Link>
                               {showPopup &&
                                 selectedHotel?.hotelId === item.hotelId && (
-                                  <div className="fixed inset-0 z-10 flex items-center justify-center">
+                                  <div className="fixed inset-0 z-50 flex items-center justify-center">
                                     <div
                                       className="fixed inset-0 bg-black opacity-50"
                                       onClick={handleClosePopup}

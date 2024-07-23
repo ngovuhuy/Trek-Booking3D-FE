@@ -22,6 +22,9 @@ const BookingListOfSupplier = () => {
   const [hotelDetails, setHotelDetails] = useState<{
     [key: number]: IOrderHotelDetail[];
   }>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   const fetcher = async () => {
     const headers =
       await orderHotelHeaderService.getOrderHotelHeaderBySupplierId();
@@ -47,10 +50,41 @@ const BookingListOfSupplier = () => {
 
   const { data, error } = useSWR("orderHotelData", fetcher);
   console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      const sortedHeaders = [...data.headers].sort((a, b) => b.id - a.id);
+      setOrderHotelHeaders(sortedHeaders);
+    }
+  }, [data]);
+
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
 
   const { headers, details } = data;
+  const totalPages = Math.ceil(orderHotelHeaders.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const currentHeaders = orderHotelHeaders.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="relative">
       <div className="search-add ">
@@ -99,8 +133,8 @@ const BookingListOfSupplier = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderHotelHeaders.length > 0 ? (
-                      orderHotelHeaders.map((header) => {
+                    {currentHeaders.length > 0 ? (
+                      currentHeaders.map((header) => {
                         const detail = details[header.id] || [];
                         const checkInDate = new Date(header.checkInDate);
                         const checkOutDate = new Date(header.checkOutDate);
@@ -186,7 +220,25 @@ const BookingListOfSupplier = () => {
                       </tr>
                     )}
                   </tbody>
-                </table>                
+                </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">{currentPage} of {totalPages}</span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
+                  </div>
+                </div>
                 <BookingDetail
                   showModalBookingDetail={showModalBookingDetail}
                   setShowModalBookingDetail={setShowModalBookingDetail}
