@@ -592,7 +592,7 @@ const SearchPage = () => {
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-3 col-md-4 col-12">
+              <div className="col-lg-3 col-md-4 col-12 pb-4">
                 <div className="border-filter">
                   <p className="text-center text-2xl pb-8 font-bold color-black">
                     Filters
@@ -689,7 +689,7 @@ const SearchPage = () => {
                         .slice(0, showAllServices ? listService.length : 10)
                         .map((service) => (
                           <div
-                            className="input-star flex pb-8"
+                            className="flex pb-4 "
                             key={service.serviceId}
                           >
                             <input
@@ -806,10 +806,10 @@ const SearchPage = () => {
                           </div>
                           <div className="row mt-4">
                             {getRoomsByHotelId(item.hotelId).map((room) => (
-                              <div className="col-6" key={room.roomId}>
+                              <div className="col-12" key={room.roomId}>
                                 <div>
                                   <p className="font-bold text-sm">
-                                    {room.roomName}
+                                    {room.roomName} 
                                   </p>
                                   <div className="max-h-40 overflow-y-auto custom-scrollbar">
                                     {roomServices[room.roomId]?.map(
@@ -847,17 +847,17 @@ const SearchPage = () => {
                         }}
                       >
                         <div className="text-center pt-14">
-                          <p className="text-xl color-primary font-bold">
+                          <p className="text-normal color-primary font-bold">
                             Holiday sale
                           </p>
                           <p
-                            className="font-bold decor text-2xl"
+                            className="font-bold decor text-xl max-[460px]:text-xs"
                             style={{ color: "#8E8D8A" }}
                           >
                             {getLowestPrice(item.hotelId) || "N/A"}US$
                           </p>
                           <p
-                            className="color-black font-bold text-2xl"
+                            className="color-black font-bold text-xl max-[460px]:text-xs"
                             style={{ color: "rgb(255, 94, 31)" }}
                           >
                             {getLowestPriceDiscount(item.hotelId) || "N/A"}US$
@@ -866,8 +866,8 @@ const SearchPage = () => {
                             Exclude taxes & fees
                           </p>
                           <Link
-                            href={`/trekbooking/hotel_by_shedule?hotelId=${item.hotelId}&checkin=${checkInDate}&checkout=${checkOutDate}`}
-                            className="text-white font-medium py-2 px-6 text-lg border no-underline"
+                            href={`/trekbooking/list_hotel/${item.hotelId}`}
+                            className="text-white font-medium btn btn-success text-lg border no-underline"
                             style={{
                               backgroundColor: "#305A61",
                               borderRadius: "20px",
@@ -886,19 +886,9 @@ const SearchPage = () => {
                     </p>
                   </div>
                 )}
-                <div className="pagination mt-4 flex justify-between items-center font-semibold">
-                  <div>
-                    <span className="ml-8">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                  </div>
+                <div className="pagination mt-4 flex justify-center items-center font-semibold">
                   <div className="flex items-center mr-8">
-                    <img
-                      className="w-3 h-3 cursor-pointer"
-                      src="/image/left.png"
-                      alt="Previous"
-                      onClick={handlePrevPage}
-                    />
+                  <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
                     {Array.from({ length: totalPages }, (_, index) => (
                       <button
                         key={index}
@@ -910,12 +900,7 @@ const SearchPage = () => {
                         {index + 1}
                       </button>
                     ))}
-                    <img
-                      className="w-3 h-3 cursor-pointer"
-                      src="/image/right2.png"
-                      alt="Next"
-                      onClick={handleNextPage}
-                    />
+                      <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
                   </div>
                 </div>
               </div>

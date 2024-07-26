@@ -222,10 +222,8 @@ const TourList = () => {
             </div>
           </div>
         </div>
-        <div className="pagination mt-4 flex justify-between items-center font-semibold pb-4">
-          <div>
-            <span className="ml-8">{currentPage} of {totalPages}</span>
-          </div>
+        <div className="pagination mt-4 flex justify-center items-center font-semibold pb-4">
+       
           <div className="flex items-center mr-8">
             <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
             {Array.from({ length: totalPages }, (_, index) => (

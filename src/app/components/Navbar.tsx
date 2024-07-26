@@ -119,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                       className="pr-2"
                     />
                     <span className="no-underline text-accent font-bold">
-                      Cart(1)
+                      Cart(0)
                     </span>
                   </Link>
                 </li>

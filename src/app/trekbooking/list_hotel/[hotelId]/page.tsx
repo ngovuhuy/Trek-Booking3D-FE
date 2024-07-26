@@ -529,7 +529,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
           <div className="row pt-4 ">
-            <div className="col-lg-2">
+            <div className="col-6">
               <label
                 className="font-bold pb-2 "
                 style={{ color: "#ac7171" }}
@@ -547,7 +547,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 className="hotel-date-input outline-none"
               />
             </div>
-            <div className="col-lg-2 ml-4">
+            <div className="col-6">
               <label
                 className="font-bold pb-2"
                 style={{ color: "#ac7171" }}
@@ -668,7 +668,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                           </div>
                         </div>
                         <div className="col-4">
-                          <div className="row">
+                          <div className="row max-[768px]:justify-center">
                             <div className="col-6">
                               <p
                                 className="text-center text-sm font-semibold pt-3"

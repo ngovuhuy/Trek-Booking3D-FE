@@ -68,7 +68,7 @@ const Profile = () => {
 
         <div className="my-10">
           <div
-            className="w-3/4 border m-auto pt-9"
+            className="w-3/4 border m-auto pt-9 max-[432px]:w-full"
             style={{
               borderRadius: "20px",
               boxShadow: "1px 1px 8px 4px rgba(0, 0, 0, 0.25)",
@@ -94,16 +94,16 @@ target.onerror = null;
               <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
               <div
-                className="mb-3 col-6"
+                className="mb-3 row"
                 style={{
                   display: "flex",
                   marginTop: "20px",
                 }}
               >
-                <div className="col-md-5">
+                <div className="col-lg-3 col-5">
                   <label className="font-bold text-xl">User Name</label>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 col-7">
                   <label className="font-bold text-xl text-gray-400">
                     {userName}
                   </label>
@@ -112,13 +112,13 @@ target.onerror = null;
               <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
               <div
-                className="mb-3 col-6"
+                className="mb-3 row"
                 style={{ display: "flex", marginTop: "20px" }}
               >
-                <div className="col-md-5">
+                <div className="col-lg-3 col-5">
                   <label className="font-bold text-xl">Phone</label>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 col-7">
                   <label className="font-bold text-xl text-gray-400">
                     {phone}
                   </label>
@@ -127,13 +127,13 @@ target.onerror = null;
               <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
               <div
-                className="mb-3 col-6"
+                className="mb-3 row"
                 style={{ display: "flex", marginTop: "20px" }}
               >
-                <div className="col-md-5">
+                <div className="col-lg-3 col-3">
                   <label className="font-bold text-xl">Email</label>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 col-9">
                   <label className="font-bold text-xl text-gray-400">
                     {email}
                   </label>
@@ -142,13 +142,13 @@ target.onerror = null;
               <div style={{ borderBottom: "1px solid #D2D2D2" }}></div>
 
               <div
-                className="mb-3 col-6"
+                className="mb-3 row"
                 style={{ display: "flex", marginTop: "20px" }}
               >
-                <div className="col-md-5">
+                <div className="col-lg-3 col-5">
                   <label className="font-bold text-xl">Address</label>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 col-7">
                   <label className="font-bold text-xl text-gray-400">
                     {address}
                   </label>

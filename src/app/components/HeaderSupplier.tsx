@@ -100,7 +100,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
           src="/image/bell.png"
           alt="Bell Icon"
         />
-        <li className="flex hover-bold cursor-pointer dropdown relative z-10">
+        <li className="flex hover-bold cursor-pointer dropdown relative z-1">
           <div className="flex relative z-2 color-mess">
             {supplier && (
               <div className="flex">

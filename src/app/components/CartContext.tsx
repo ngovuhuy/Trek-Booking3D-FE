@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getTotalCartItems } from '../services/bookingCartService';
+import Cookies from 'js-cookie'; // Sử dụng js-cookie để lấy token từ cookies
 
 interface CartContextProps {
   totalItems: number;
@@ -13,8 +14,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [totalItems, setTotalItems] = useState(0);
 
   const fetchTotalItems = async () => {
-    const total = await getTotalCartItems();
-    setTotalItems(total);
+    const token = Cookies.get("tokenUser"); // Lấy token từ cookies
+    if (token) {
+      const total = await getTotalCartItems();
+      setTotalItems(total);
+    }
   };
 
   useEffect(() => {

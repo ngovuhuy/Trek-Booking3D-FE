@@ -551,14 +551,14 @@ const BookingCart = () => {
                                   >
                                     Room information
                                   </p>
-                                  <div className="w-3/4 m-auto">
+                                  <div className="w-3/4 m-auto ">
                                     {formatRoomDescription(
                                       room.roomDescription
                                     )}
                                   </div>
                                 </div>
                                 <div className="col-4">
-                                  <div className="row">
+                                  <div className="row max-[768px]:justify-center">
                                     <div className="col-6">
                                       <p
                                         className="text-center text-lg font-semibold pt-3"

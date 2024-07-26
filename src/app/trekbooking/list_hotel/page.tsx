@@ -161,10 +161,249 @@ const ListHotels = () => {
           className="border mb-10 pt-6"
           style={{ borderRadius: "20px", boxShadow: "0 6px 6px #0000004d" }}
         >
-          <div className="row mx-3">
-            {/* Các thành phố */}
-            {/* ... */}
-          </div>
+         <div className="row mx-3">
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Cần Thơ`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/cantho.png"
+                        alt="can tho"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Can Tho
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      //filter city can tho
+                      href={`/trekbooking/search_city?city=Cần Thơ`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Vũng Tàu`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/vungtau.jpg"
+                        alt="Vung Tau"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Vung Tau
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      href={`/trekbooking/search_city?city=Vũng Tàu`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Ninh Bình`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/ninhbinh.jpg"
+                        alt="ninh binh"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Ninh Binh
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      href={`/trekbooking/search_city?city=Ninh Bình`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Ho Chi Minh`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/hcm.png"
+                        alt="da lat"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Ho Chi Minh
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      href={`/trekbooking/search_city?city=Ho Chi Minh`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Hanoi`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/hanoi.png"
+                        alt="da lat"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Ha Noi
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      href={`/trekbooking/search_city?city=Hanoi`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-lg-2 col-4">
+                  <Link
+                    href={`/trekbooking/search_city?city=Phan Thiết`}
+                    className="text-white no-underline zoom-effect-container"
+                  >
+                    <div className="relative image-card">
+                      <img
+                        className="border w-full"
+                        style={{ borderRadius: "20px", height: "231px" }}
+                        src="/image/phanthiet.jpg"
+                        alt="phan thiet"
+                      />
+                      <div
+                        className="absolute z-10 w-full bottom-0 flex justify-center"
+                        style={{
+                          backgroundColor: "rgb(31,28,23,0.3)",
+                          border: "0 0 1px 1px",
+                          borderBottomLeftRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                        }}
+                      >
+                        <span className="text-white font-semibold text-base">
+                          Phan Thiết
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="flex justify-center my-3">
+                    <Link
+                      className="no-underline text-white border px-3 font-medium text-sm"
+                      style={{
+                        backgroundColor: "#305A61",
+                        borderRadius: "10px",
+                      }}
+                      href={`/trekbooking/search_city?city=Phan Thiết`}
+                    >
+                      Find hotel
+                    </Link>
+                  </div>
+                </div>
+              </div>
         </div>
 
         <div className="mt-16">
@@ -236,10 +475,7 @@ const ListHotels = () => {
               </div>
             )}
           </div>
-          <div className="pagination mt-4 flex justify-between items-center font-semibold">
-            <div>
-              <span className="ml-8">{currentPage} of {totalPages}</span>
-            </div>
+          <div className="pagination mt-4 flex justify-center items-center font-semibold">
             <div className="flex items-center mr-8">
               <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
               {Array.from({ length: totalPages }, (_, index) => (

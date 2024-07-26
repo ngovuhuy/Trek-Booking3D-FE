@@ -17,7 +17,7 @@ const formatRoomDescription = (description: string) => {
         return (
             <div key={index} className='flex items-baseline pb-2'>
                 <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-                <span className='font-medium text-xs'>{sentence.trim()}.</span>
+                <span className='font-medium text-base'>{sentence.trim()}.</span>
             </div>
         );
     });
@@ -217,7 +217,7 @@ isConfirmed: true,
             />
             <div className='container py-8'>
                 <div>
-                    <span className='font-semibold text-3xl'>Thông tin giỏ hàng</span>
+              
                     {roomDetails && hotelDetails ? (
                         <div className='border rounded-xl mt-3 pb-6' style={{ boxShadow: '0 4px 4px 0 #7F7F7F' }}>
                             <div className='mx-5 mt-4 mb-2 '>
@@ -253,37 +253,17 @@ isConfirmed: true,
 
                                     <div className='col-lg-8 col-md-12 border' style={{ borderRadius: '10px' }}>
                                         <div className='row'>
-                                            <div className='col-4 border-r border-gray'>
-                                                <p className='text-center text-sm font-semibold pt-3' style={{ color: '#305A61' }}>
-                                                    Room information
-                                                </p>
-                                                <div className='w-3/4 m-auto'>{formatRoomDescription(roomDetails.roomDescription)}</div>
-                                            </div>
-                                            <div className='col-4 border-r border-gray' style={{ height: '290px' }}>
-                                                <p className='text-center text-sm font-semibold pt-3' style={{ color: '#305A61' }}>
-                                                    Convenient
-                                                </p>
-                                                <div className='w-3/4 m-auto'>
-                                                    <div className='flex items-center pb-1 '>
-                                                        <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-<span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
-                                                    </div>
-                                                    <div className='flex items-center pb-1 '>
-                                                        <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-                                                        <span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
-                                                    </div>
-                                                    <div className='flex items-center pb-1 '>
-                                                        <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-                                                        <span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
-                                                    </div>
-                                                    <div className='flex items-center pb-1 '>
-                                                        <img className='w-2 h-2 mr-2' src='/image/tick.png' alt='tick' />
-                                                        <span className='font-medium text-xs'>Lorem ipsum dolor sit</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div className="col-8 border-r border-gray">
+                                  <p
+                                    className="text-center text-lg font-semibold pt-3"
+                                    style={{ color: "#305A61" }}
+                                  >
+                                    Room information
+                                  </p>
+                                  <div className='w-3/4 m-auto '>{formatRoomDescription(roomDetails.roomDescription)}</div>
+                                </div>
                                             <div className='col-4'>
-                                                <div className='row'>
+                                                <div className='row max-[768px]:justify-center'>
                                                     <div className='col-6'>
                                                         <p className='text-center text-sm font-semibold pt-3' style={{ color: '#305A61' }}>
                                                             Guest(s)
@@ -336,7 +316,7 @@ backgroundColor: '#F5F5F5',
                 </div>
                 {item && (
                     <div className='row pt-8'>
-                        <div className='col-md-6'>
+                        <div className='col-md-6 max-[768px]:pb-6'>
                             <div className='border' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
                                 <div className='w-4/5 m-auto'>
                                     <div className='text-center pt-5'>
@@ -394,7 +374,7 @@ onClick={handlePayment}
                                 </div>
                             </div>
                         </div>
-                        <div className='col-md-6'>
+                        <div className='col-md-6 '>
                             <div className='border' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
                                 <div className='w-3/5 m-auto'>
                                     <div className='text-center pt-5'>

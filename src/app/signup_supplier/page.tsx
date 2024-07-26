@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
+
 const signUpClient = () => {
   const [isPassword, setIsPassword] = useState(true);
   const router = useRouter();
@@ -14,12 +15,19 @@ const signUpClient = () => {
   const [supplierName, setSupplierName] = useState("");
   const [roleId, setRoleId] = useState(2);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const togglePasswordVisibility = () => {
     setIsPassword((prevState) => !prevState);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
 
     try {
       await authenticateService.signUpSupplier({
@@ -36,6 +44,7 @@ const signUpClient = () => {
       toast.error("Sign up unsuccessful!");
     }
   };
+
   return (
     <div>
       <div className="image-bk">
@@ -72,7 +81,7 @@ const signUpClient = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <img
+             <img
                 src="/image/hide.png"
                 className="inout-hide cursor-pointer"
                 onClick={togglePasswordVisibility}
@@ -83,9 +92,9 @@ const signUpClient = () => {
               <input
                 className="input-text"
                 type={isPassword ? "password" : "text"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
               <img
@@ -96,23 +105,19 @@ const signUpClient = () => {
               />
               <div className="flex justify-center">
                 <button
-                    className="w-4/5 text-xl text-white button-text mt-4"
-                    style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
-                  >
-                    Continue
-                  </button>
+                  className="w-4/5 text-xl text-white button-text mt-4"
+                  style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
+                >
+                  Continue
+                </button>
               </div>
-                
-
               <div className="nav-sign flex justify-between">
                 <Link
                   className="pt-2 text-right text-base cursor-pointer text-decoration"
-                 
                   href="login_supplier"
                 >
-                  You have a account?
+                  You have an account?
                 </Link>
-                
               </div>
             </div>
           </form>
@@ -121,4 +126,5 @@ const signUpClient = () => {
     </div>
   );
 };
+
 export default signUpClient;

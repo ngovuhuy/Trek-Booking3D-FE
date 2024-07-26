@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
+
 const signUpClient = () => {
   const [isPassword, setIsPassword] = useState(true);
   const router = useRouter();
@@ -14,12 +15,18 @@ const signUpClient = () => {
   const [userName, setUserName] = useState("");
   const [roleId, setRoleId] = useState(4);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const togglePasswordVisibility = () => {
     setIsPassword((prevState) => !prevState);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
 
     try {
       await authenticateService.signUpClient({
@@ -36,6 +43,7 @@ const signUpClient = () => {
       toast.error("Sign up unsuccessful!");
     }
   };
+
   return (
     <div>
       <div className="image-bk">
@@ -83,9 +91,9 @@ const signUpClient = () => {
               <input
                 className="input-text"
                 type={isPassword ? "password" : "text"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
               <img
@@ -102,17 +110,14 @@ const signUpClient = () => {
                     Continue
                   </button>
               </div>
-                
 
               <div className="nav-sign flex justify-between">
                 <Link
                   className="pt-2 text-right text-base cursor-pointer text-decoration"
-                 
                   href="login_client"
                 >
                   You have a account?
                 </Link>
-               
               </div>
             </div>
           </form>
@@ -121,4 +126,5 @@ const signUpClient = () => {
     </div>
   );
 };
+
 export default signUpClient;
