@@ -145,17 +145,17 @@ const List3DRoom = ({ params }) => {
         <div className="border-virtual">
           <div className="virtual-tour flex justify-center items-center">
             <img className='img-line' src="/image/line40.png" alt="" />
-            <h5 className='px-3 color-primary font-semibold fz-16'>Virtual tour</h5>
+            <h5 className='px-3 color-primary font-semibold fz-16'>Virtual Room</h5>
             <img className='img-line' src="/image/line40.png" alt="" />
           </div>
-          <p className='color-primary text-center pb-3 fz-12'>Lorem ipsum dolor sit amet consectetur. Vel sit dignissim feugiat semper at pharetra laoreet</p>
+          <p className='color-primary text-center pb-3  fz-12'>Explore 3D Hotel Rooms: Experience Immersive Virtual Reality</p>
         </div>
       </div>
       <div className="tour">
         <div className="container">
           <div className="tour__head"></div>
-          <p>Lorem ipsum dolor sit amet consectetur. Sodales vitae gravida eget tristique sed nec. Lectus ac viverra arcu vestibulum. Tincidunt velit nulla pellentesque dolor cras. Lacus auctor ut quis ullamcorper consectetur sit.</p>
-          <p>Lorem ipsum dolor sit amet consectetur. Sodales vitae gravida eget tristique sed nec. Lectus ac viverra arcu vestibulum. Tincidunt velit nulla pellentesque dolor cras. Lacus auctor ut quis ullamcorper consectetur sit.</p>
+          <p>Welcome to our immersive 3D hotel room tour Step into a virtual experience where you can explore every corner of our elegantly designed rooms. Our 3D tour provides a detailed and realistic view of our accommodations, allowing you to feel as if you are physically present.</p>
+          <p>The luxurious bedding to the modern amenities, you can examine each feature up close. Navigate through the room effortlessly and discover the comfort and sophistication that awaits you. Whether you are planning a stay or simply curious, our 3D hotel room tour offers an unparalleled glimpse into your next travel experience.</p>
           <div className='relative'>
             <div className="image360-container"></div>
             {listImageUrl.length > 0 && (
