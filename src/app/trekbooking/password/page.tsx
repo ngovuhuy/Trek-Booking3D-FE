@@ -47,7 +47,7 @@ const ChangePassword = () => {
           style={{ borderBottom: "2px solid #D2D2D2" }}
         >
           <div className="flex items-start pr-10">
-            <img src="/image/user.png" alt="User" />
+            <img className="w-7" src="/image/user.png" alt="User" />
             <Link
               href="/trekbooking/profile"
               className="text-hv font-semibold no-underline text-black text-xl pl-2"
@@ -56,7 +56,7 @@ const ChangePassword = () => {
             </Link>
           </div>
           <div className="flex items-start">
-            <img src="/image/lock.png" alt="Lock" />
+            <img className="w-7" src="/image/lock.png" alt="Lock" />
             <Link
               href="/trekbooking/password"
               className="text-hv no-underline font-semibold text-xl pl-2"
@@ -121,7 +121,7 @@ target.onerror = null;
                 </div>
                 <div className="flex-1">
                   <label className="font-bold text-xl text-gray-400">
-                    {maskPassword(password)}
+                   ********
                   </label>
                 </div>
               </div>

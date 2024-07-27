@@ -66,9 +66,9 @@ const authenticateService: IAuthenticateService = {
         const userName = data.userName;
         const roleName = data.roleName;
         // Save token to local storage or cookies for future requests
-        Cookies.set("tokenUser", token, { expires: 1 });
-        Cookies.set("userName", userName, { expires: 1 });
-        Cookies.set("roleName", roleName, { expires: 1 });
+        Cookies.set("tokenUser", token, { expires: 7 });
+        Cookies.set("userName", userName, { expires: 7 });
+        Cookies.set("roleName", roleName, { expires: 7 });
         return { success: true, token };
       } else {
         const errorData = await response.json();
