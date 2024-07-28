@@ -6,19 +6,17 @@ interface IVoucherWallet{
         email: string;
         userName: string;
     };
-    bookingId: number;
-    booking: {
-        hotelId: number;
-        hotel:{
-            hotelId: number;
-            hotelName: string;
-        }
-        checkInDate: string|Date;
-    };
     voucherId: number;
     voucher: {
         voucherId: number;
         voucherCode: string;
         discountPercent: number;
+       availableDate:string|Date;
     };
+    orderHotelHeaderlId: number;
+    orderHotelHeader:{
+        checkInDate: Date;
+        voucherCode: string;
+        process: string;
+    }
 }

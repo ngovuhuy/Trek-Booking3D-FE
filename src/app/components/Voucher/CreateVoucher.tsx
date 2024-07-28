@@ -78,6 +78,7 @@ function CreateVoucher(props: IProps) {
 
   const validateDiscountPercent = (discountPercent: string) => {
     if (!discountPercent) return "Discount Percent is required";
+    if (Number(discountPercent) < 1 || Number(discountPercent) > 99) return "Discount percent must be greater equal 1 and less equal 99 ";
     if (!discountPercent || isNaN(parseInt(discountPercent)))
       return "Discount Percent must be a number";
     return "";
@@ -126,6 +127,12 @@ function CreateVoucher(props: IProps) {
         discountPercent: validateDiscountPercent(discountPercent),
       }));
     }
+    // if(Number(discountPercent) < 1 || Number(discountPercent) > 99 ){
+    //   setErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     discountPercent: validateDiscountPercent(discountPercent),
+    //   }));
+    // }
   }, [discountPercent, isTouched.discountPercent]);
 
   const handleBlur = (field: string) => {

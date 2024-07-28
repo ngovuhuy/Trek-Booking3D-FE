@@ -1,20 +1,45 @@
   "use client";
 import React, { useEffect, useState } from "react";
 import "../../../../public/css/voucher.css";
-
+import { Oval } from "react-loader-spinner"; // Import spinner
 import useSWR from "swr";
 import voucherWalletService from "@/app/services/voucherWalletService";
 const VoucherWallet = () => {
   const { data: voucherWalletList, error } = useSWR("voucherWalletList", () =>
     voucherWalletService.getVoucherUsageHistoryByUserId()
   );
+  console.log("gfgfg: ", voucherWalletList)
 
   if (!voucherWalletList) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+      <Oval
+        height={80}
+        width={80}
+        color="#305A61"
+        visible={true}
+        ariaLabel="oval-loading"
+        secondaryColor="#4f9a94"
+        strokeWidth={2}
+        strokeWidthSecondary={2}
+      />
+    </div>
+    );
   }
 
   if (error) {
-    return <div>Error loading voucher wallet</div>;
+    <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
   }
   return (
     <div>
@@ -28,19 +53,19 @@ const VoucherWallet = () => {
               <div className="flex justify-center pb-4" key={index}>
                 <div className="border-wallet flex justify-between font-semibold">
                   <div>
-                    <p>Voucher Code: {item.voucher?.voucherCode}</p>
+                    <p className="text-red-400">Voucher Code: {item.orderHotelHeader.voucherCode}</p>
                     <p className="mb-0">
                       Discount: {item.voucher?.discountPercent} %
                     </p>
                   </div>
                   <div>
-                    <p className="pb-repon">
+                    <p className="">
                       Used Date:{" "}
-                      {new Date(item.booking.checkInDate).toLocaleDateString()}{" "}
-                      {new Date(item.booking.checkInDate).toLocaleTimeString()}
+                      {new Date(item.voucher.availableDate).toLocaleDateString()}{" "}
+                    
                     </p>
                     <p className="mb-0">
-                      Hotel: {item.booking.hotel.hotelName}
+                      Process: {item.orderHotelHeader.process}
                     </p>
                   </div>
                 </div>

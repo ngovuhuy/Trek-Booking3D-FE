@@ -53,11 +53,11 @@ const HotelListOfSupplier = () => {
     setSelectedHotel(null);
   };
 
-  const handleLockUnlockHotel = async (hotelId: number, isVerify: boolean) => {
+  const handleLockUnlockHotel = async (hotelId: number, lock: boolean) => {
     setLoadingPage(true);
     try {
       let response;
-      if (isVerify) {
+      if (!lock) {
         response = await hotelService.deleteHotel(hotelId);
       } else {
         response = await hotelService.recoverHotelDeleted(hotelId);
@@ -69,16 +69,16 @@ const HotelListOfSupplier = () => {
           setFilteredHotelList(data);
           setLoading(false);
         });
-toast.success(`Hotel ${isVerify ? "locked" : "unlocked"} successfully`);
+toast.success(`Hotel ${lock ? "locked" : "unlocked"} successfully`);
       } else {
-        throw new Error(`Failed to ${isVerify ? "lock" : "unlock"} hotel`);
+        throw new Error(`Failed to ${lock ? "lock" : "unlock"} hotel`);
       }
     } catch (error) {
       console.error(
-        `Error ${isVerify ? "locking" : "unlocking"} hotel:`,
+        `Error ${lock ? "locking" : "unlocking"} hotel:`,
         error
       );
-      toast.error(`Failed to ${isVerify ? "lock" : "unlock"} hotel`);
+      toast.error(`Failed to ${lock ? "lock" : "unlock"} hotel`);
     } finally {
       setLoading(false);
     }
@@ -296,6 +296,9 @@ setLoading(false);
                       <th scope="col" className="px-6 py-4">
                         Manage Rate
                       </th>
+                      <th scope="col" className="px-6 py-4">
+                        Status
+                      </th>
                       {role === "supplier" ? (
                         <th scope="col" className="px-6 py-4">
                           Action
@@ -423,6 +426,12 @@ style={{ width: "60px", height: "50px" }}
                               />
                             </Link>
                           </td>
+                          <td
+                          className={`whitespace-nowrap px-6 py-4 ${
+                              item.lock ? "color-stop" : "color-active"
+                            }`}>
+                            {item.lock ? "Stopped" : "Active"}
+                          </td>
                           {role === "supplier" ? (
                             <td className="whitespace-nowrap px-6 py-4 ">
                               <Link href="#" className="flex">
@@ -442,11 +451,11 @@ style={{ width: "60px", height: "50px" }}
                                   className="w-5 h-5 cursor-pointer ml-3"
                                   onClick={() => handleImageClick(item)}
                                   src={
-                                    item.isVerify
+                                    item.lock
                                       ? "/image/lock.png"
                                       : "/image/unlock.png"
                                   }
-                                  alt={item.isVerify ? "Ban" : "Unban"}
+                                  alt={item.lock ? "Ban" : "Unban"}
                                 />
                               </Link>
                               {showPopup &&
@@ -459,7 +468,7 @@ style={{ width: "60px", height: "50px" }}
 <div className="relative bg-white p-8 rounded-lg">
                                       <p className="color-black font-bold text-2xl">
                                         Do you want to{" "}
-                                        {item.isVerify ? "lock" : "unlock"} this{" "}
+                                        {item.lock ? "unlock" : "lock"} this{" "}
                                         {item.hotelName}?
                                       </p>
                                       <div className="button-kichhoat pt-4">
@@ -479,7 +488,7 @@ style={{ width: "60px", height: "50px" }}
                                           onClick={() =>
                                             handleLockUnlockHotel(
                                               item.hotelId,
-                                              item.isVerify
+                                              item.lock
                                             )
                                           }
                                           style={{

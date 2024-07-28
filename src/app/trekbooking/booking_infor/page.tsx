@@ -275,20 +275,20 @@ isConfirmed: true,
                                                         </div>
                                                     </div>
                                                     <div
-                                                        className='col-lg-6 col-md-6'
+                                                        className='col-lg-6 col-md-6 flex max-[768px]:items-center'
                                                         style={{
-                                                            height: '356px',
+                                                            height: '20rem',
                                                             border: '1px solid #D9D9D9',
                                                             borderRadius: '10px',
 backgroundColor: '#F5F5F5',
 }}
                                                     >
-                                                        <div className='grid justify-items-center'>
+                                                        <div className='grid justify-items-center r '>
                                                             <span className='text-center text-sm font-semibold pb-3 pt-3 ' style={{ color: '#305A61' }}>
                                                                 Price
                                                             </span>
-                                                            <span className='text-center text-xl font-bold pb-3 '>
-                                                                {roomDetails.roomPrice}
+                                                            <span className='text-center  text-xl font-bold pb-3 '   style={{ color: "rgb(255, 94, 31)" }}>
+                                                                {roomDetails.roomPrice} $
                                                             </span>
                                                             <span className='text-center text-xs font-light pb-3 md:mr-3' style={{ color: '#8E8D8A' }}>
                                                                 Exclude taxes & fees

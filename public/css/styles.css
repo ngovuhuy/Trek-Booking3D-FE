@@ -1,3 +1,23 @@
+.hotel-date-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.hotel-date-input:focus {
+  border-color: #ac7171;
+  outline: none;
+}
+
+.label-custom {
+  font-weight: bold;
+  padding-bottom: 8px;
+  color: #ac7171;
+}
+
 .backgroundVideo {
   width: 100%;
   height: auto;

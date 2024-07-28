@@ -230,6 +230,7 @@ function CreateHotel(props: Iprops) {
         hotelCity:`${selectedCity},${selectedCountry}`,
         hotelInformation,
         isVerify: false, 
+        lock:false,
         supplierId: Number(supplierId),
         services: [],
       };

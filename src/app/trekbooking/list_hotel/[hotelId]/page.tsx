@@ -528,44 +528,35 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span className="font-semibold text-3xl ">
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
-          <div className="row pt-4 ">
-            <div className="col-6">
-              <label
-                className="font-bold pb-2 "
-                style={{ color: "#ac7171" }}
-                htmlFor="checkInDate"
-              >
-                Check-in Date:
-              </label>
-              <br></br>
-              <input
-                type="datetime-local"
-                id="checkInDate"
-                value={checkInDate || ""}
-                onChange={(e) => setCheckInDate(e.target.value)}
-                required
-                className="hotel-date-input outline-none"
-              />
-            </div>
-            <div className="col-6">
-              <label
-                className="font-bold pb-2"
-                style={{ color: "#ac7171" }}
-                htmlFor="checkOutDate"
-              >
-                Check-out Date:
-              </label>
-              <br></br>
-              <input
-                type="datetime-local"
-                id="checkOutDate"
-                value={checkOutDate || ""}
-                onChange={(e) => setCheckOutDate(e.target.value)}
-                required
-                className="hotel-date-input outline-none"
-              />
-            </div>
-          </div>
+          <div className="row pt-4">
+  <div className="col-6">
+    <label className="label-custom" htmlFor="checkInDate">
+      Check-in Date:
+    </label>
+    <input
+      type="datetime-local"
+      id="checkInDate"
+      value={checkInDate || ""}
+      onChange={(e) => setCheckInDate(e.target.value)}
+      required
+      className="hotel-date-input"
+    />
+  </div>
+  <div className="col-6">
+    <label className="label-custom" htmlFor="checkOutDate">
+      Check-out Date:
+    </label>
+    <input
+      type="datetime-local"
+      id="checkOutDate"
+      value={checkOutDate || ""}
+      onChange={(e) => setCheckOutDate(e.target.value)}
+      required
+      className="hotel-date-input"
+    />
+  </div>
+</div>
+
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
               <div

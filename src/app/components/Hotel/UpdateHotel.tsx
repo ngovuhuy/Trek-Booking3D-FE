@@ -238,6 +238,7 @@ function UpdateHotel(props: Iprops) {
         hotelCity: `${selectedCity},${selectedCountry}`,
         hotelInformation,
         isVerify: true, // Default value is true
+        lock: false, // Default value is true
         supplierId: Number(supplierId),
         services: []
       };
