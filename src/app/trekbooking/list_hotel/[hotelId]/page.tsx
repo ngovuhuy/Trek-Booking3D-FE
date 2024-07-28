@@ -415,7 +415,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span>/</span> <span>{hotel?.hotelName}</span>
         </div>
       </div>
-      <div className="container mt-2 mb-10">
+      <div className="container mt-2 mb-10 pt-16">
         <div className="py-8 px-3">
           <div className="row">
             <div className="col-md-8">

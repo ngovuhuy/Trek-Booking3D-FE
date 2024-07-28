@@ -132,8 +132,9 @@ width: 100%;
   bottom: -24px !important;
 }
 .fix-logo{
-  width: 200px;
-  height: 130px;
+  /* width: 200px;
+  height: 130px; */
+  width: 160px;
 }
 .image-fix-link{
   margin-left: -8px;

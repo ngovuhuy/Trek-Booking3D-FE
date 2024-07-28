@@ -65,19 +65,19 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
   }
 
   return (
-    <header className="bg-background relative z-10">
-      <div className="container pt-4">
-        <div className="nav row pb-3">
-          <div className="col-5 text-center h-0">
+    <header className="bg-background fixed w-100 z-10 top-0 ">
+      <div className="container pt-4 ">
+        <div className="nav row ">
+          <div className="col-5 text-center h-0 ">
             <Link
               href="/"
-              className="text-blackish no-underline text-2xl lg:mr-44 font-bold flex justify-center image-fix-link"
+              className="text-blackish no-underline text-2xl lg:mr-44 font-bold flex justify-center image-fix-link max-[1024px]:hidden"
             >
               <img className="fix-logo" src="/image/logo.png" alt="" />
             </Link>
           </div>
           <div className="col-7 hidden lg:block">
-            <ul className="flex no-underline justify-around">
+            <ul className="flex no-underline justify-around mb-0">
               <li className="flex items-center hover-bold cursor-pointer">
                 <img
                   style={{ width: "40px" }}
@@ -323,7 +323,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           )}
         </div>
 
-        <nav className="to-white pt-2 pb-2">
+        <nav className="to-white ">
           <ul className="flex ul-menu max-[400px]:pl-0">
             <li className="li-menu hover-bold">
               <Link
