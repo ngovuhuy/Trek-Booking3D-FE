@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import orderHotelHeaderService from "@/app/services/orderHotelHeaderService";
 import orderTourHeaderService from "@/app/services/orderTourHeaderService";
 import * as XLSX from "xlsx";
@@ -14,82 +14,87 @@ const BarChart = ({ setBarChartData }) => {
   const [loading, setLoading] = useState(true);
   const [hasData, setHasData] = useState(true);
   const [dateError, setDateError] = useState("");
+  const [googleChartsLoaded, setGoogleChartsLoaded] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setHasData(true);
-      setDateError("");
-      try {
-        let dataHotel = [],
-          dataTour = [];
+  const fetchData = async () => {
+    setLoading(true);
+    setHasData(true);
+    setDateError("");
+    try {
+      let dataHotel = [],
+        dataTour = [];
 
-        if (timeRange === "week") {
-          dataHotel =
-            await orderHotelHeaderService.getCurrentWeekRevenueHotelBySupplierId();
-          dataTour =
-            await orderTourHeaderService.getCurrentWeekRevenueTourBySupplierId();
-        } else if (timeRange === "month") {
-          dataHotel =
-            await orderHotelHeaderService.getCurrentMonthOfYearRevenueHotelBySupplierId();
-          dataTour =
-            await orderTourHeaderService.getCurrentMonthOfYearRevenueTourBySupplierId();
-        } else if (timeRange === "quarter" && quarterYear) {
-          dataHotel =
-            await orderHotelHeaderService.getRevenueQuarterOfYearHotelBySupplierId(
-              quarterYear
-            );
-          dataTour =
-            await orderTourHeaderService.getRevenueQuarterOfYearTourBySupplierId(
-              quarterYear
-            );
-        } else if (timeRange === "custom" && startDate && endDate) {
-          const start = new Date(startDate);
-          const end = new Date(endDate);
+      if (timeRange === "week") {
+        dataHotel =
+          await orderHotelHeaderService.getCurrentWeekRevenueHotelBySupplierId();
+        dataTour =
+          await orderTourHeaderService.getCurrentWeekRevenueTourBySupplierId();
+      } else if (timeRange === "month") {
+        dataHotel =
+          await orderHotelHeaderService.getCurrentMonthOfYearRevenueHotelBySupplierId();
+        dataTour =
+          await orderTourHeaderService.getCurrentMonthOfYearRevenueTourBySupplierId();
+      } else if (timeRange === "quarter" && quarterYear) {
+        dataHotel =
+          await orderHotelHeaderService.getRevenueQuarterOfYearHotelBySupplierId(
+            quarterYear
+          );
+        dataTour =
+          await orderTourHeaderService.getRevenueQuarterOfYearTourBySupplierId(
+            quarterYear
+          );
+      } else if (timeRange === "custom" && startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
 
-          if (start > end) {
-            setDateError("Start date cannot be greater than end date");
-            setLoading(false);
-            return;
-          }
-
-          const differenceInDays = (end - start) / (1000 * 3600 * 24);
-          if (differenceInDays > 31) {
-            setDateError("Date range cannot be more than 31 days");
-            setLoading(false);
-            return;
-          }
-
-          dataHotel =
-            await orderHotelHeaderService.getRevenueHotelBySupplierIdAndDateRange(
-              startDate,
-              endDate
-            );
-          dataTour =
-            await orderTourHeaderService.getRevenueTourBySupplierIdAndDateRange(
-              startDate,
-              endDate
-            );
-        } else if (timeRange === "year" && year) {
-          dataHotel =
-            await orderHotelHeaderService.getRevenueHotelMonthToYearBySupplierId(
-              year
-            );
-          dataTour =
-await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
-              year
-            );
+        if (start > end) {
+          setDateError("Start date cannot be greater than end date");
+          setLoading(false);
+          return;
         }
 
-        formatData(dataHotel, dataTour);
-      } catch (error) {
-        console.error("Failed to fetch revenue data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        const differenceInDays = (end - start) / (1000 * 3600 * 24);
+        if (differenceInDays > 31) {
+          setDateError("Date range cannot be more than 31 days");
+          setLoading(false);
+          return;
+        }
 
-    const formatData = (hotelData, tourData) => {
+        dataHotel =
+          await orderHotelHeaderService.getRevenueHotelBySupplierIdAndDateRange(
+            startDate,
+            endDate
+          );
+        dataTour =
+          await orderTourHeaderService.getRevenueTourBySupplierIdAndDateRange(
+            startDate,
+            endDate
+          );
+      } else if (timeRange === "year" && year) {
+        dataHotel =
+          await orderHotelHeaderService.getRevenueHotelMonthToYearBySupplierId(
+            year
+          );
+        dataTour =
+          await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
+            year
+          );
+      }
+const formattedData = formatData(dataHotel, dataTour);
+      setChartData(formattedData);
+      setBarChartData(formattedData);
+    } catch (error) {
+      console.error("Failed to fetch revenue data", error);
+      setHasData(false);
+      setChartData([]);
+      setBarChartData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatData = useMemo(
+    () => (hotelData, tourData) => {
       let formattedData = [];
 
       if (timeRange === "week") {
@@ -165,8 +170,8 @@ await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
           });
         }
       } else if (timeRange === "year") {
-        formattedData = [
-["Revenue of the Months in the Year " + `${year}`, "Hotel", "Tour"],
+formattedData = [
+          ["Revenue of the Months in the Year " + `${year}`, "Hotel", "Tour"],
         ];
         const monthNames = [
           "January",
@@ -195,12 +200,14 @@ await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
         formattedData.length > 1 &&
           formattedData.some((row) => row.slice(1).some((value) => value > 0))
       );
-      setChartData(formattedData);
-      setBarChartData(formattedData);
-    };
+      return formattedData;
+    },
+    [timeRange, startDate, endDate, year, quarterYear]
+  );
 
+  useEffect(() => {
     fetchData();
-  }, [timeRange, startDate, endDate, year, setBarChartData, quarterYear]);
+  }, [timeRange, startDate, endDate, year, quarterYear]);
 
   useEffect(() => {
     if (timeRange !== "custom") {
@@ -218,57 +225,54 @@ await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
   }, [timeRange]);
 
   useEffect(() => {
-    const loadGoogleCharts = () => {
+    if (!window.google) {
       const script = document.createElement("script");
       script.src = "https://www.gstatic.com/charts/loader.js";
       script.onload = () => {
-        google.charts.load("current", { packages: ["bar"] });
-        google.charts.setOnLoadCallback(drawChart);
-      };
-      script.onerror = () => {
-        console.error("Failed to load Google Charts");
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(() => setGoogleChartsLoaded(true));
       };
       document.body.appendChild(script);
-    };
-
-    const drawChart = () => {
-      if (chartRef.current) {
-        // Xóa nội dung hiện tại của chartRef để tránh lỗi DOMException
-        while (chartRef.current.firstChild) {
-          chartRef.current.removeChild(chartRef.current.firstChild);
-        }
-        if (dateError) {
-          chartRef.current.innerHTML = `<div style='text-align: center; font-size: 20px; padding-top: 150px; color: red'>${dateError}</div>`;
-        } else if (hasData && chartData.length > 0) {
-          const dataTable = google.visualization.arrayToDataTable(chartData);
-
-          const options = {
-            chart: {
-              title: "Revenue of Hotel and Tour",
-            },
-          };
-
-          const chart = new google.charts.Bar(chartRef.current);
-          chart.draw(dataTable, google.charts.Bar.convertOptions(options));
-        } else {
-          chartRef.current.innerHTML =
-            "<div style='text-align: center; font-size: 20px; padding-top: 150px;'>No data</div>";
-        }
-      }
-    };
-
-    if (!window.google) {
-      loadGoogleCharts();
     } else {
-      google.charts.load("current", { packages: ["bar"] });
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(() => setGoogleChartsLoaded(true));
     }
-  }, [chartData, hasData, dateError]);
+  }, []);
+
+  useEffect(() => {
+    if (googleChartsLoaded) {
+      drawChart();
+    }
+  }, [chartData, hasData, dateError, googleChartsLoaded]);
+
+  const drawChart = () => {
+    if (chartRef.current) {
+      chartRef.current.innerHTML = "";
+
+      if (dateError) {
+        chartRef.current.innerHTML = `<div style='text-align: center; font-size: 20px; padding-top: 150px; color: red'>${dateError}</div>`;
+      } else if (hasData && chartData.length > 1) {
+        const dataTable = google.visualization.arrayToDataTable(chartData);
+        const options = {
+          title: "Revenue of Hotel and Tour",
+          // hAxis: { title: "Time" },
+          vAxis: { title: "Revenue" },
+          bars: "vertical",
+          legend: { position: "top" },
+        };
+        const chart = new google.visualization.ColumnChart(chartRef.current);
+        chart.draw(dataTable, options);
+      } else {
+        chartRef.current.innerHTML =
+          "<div style='text-align: center; font-size: 20px; padding-top: 150px;'>No data</div>";
+      }
+    }
+  };
 
   const exportToExcel = () => {
     const ws = XLSX.utils.aoa_to_sheet(chartData);
-const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
+    const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
     XLSX.writeFile(wb, "RevenueData.xlsx");
   };
 
@@ -301,7 +305,13 @@ const wb = XLSX.utils.book_new();
         </select>
         {timeRange === "custom" && (
           <div style={{ display: "flex" }}>
-            <div style={{ marginLeft: "20px", background: "white" }}>
+            <div
+              style={{
+                marginLeft: "20px",
+                background: "white",
+                marginBottom: "5px",
+              }}
+            >
               <label>
                 Start Date:
                 <input
@@ -311,7 +321,13 @@ const wb = XLSX.utils.book_new();
                 />
               </label>
             </div>
-            <div style={{ marginLeft: "20px", background: "white" }}>
+            <div
+              style={{
+                marginLeft: "20px",
+                background: "white",
+                marginBottom: "5px",
+              }}
+            >
               <label>
                 End Date:
                 <input
@@ -323,7 +339,6 @@ const wb = XLSX.utils.book_new();
             </div>
           </div>
         )}
-
         {timeRange === "year" && (
           <div style={{ marginLeft: "20px" }}>
             <select value={year} onChange={(e) => handleYearChange(e, "month")}>
@@ -356,7 +371,7 @@ const wb = XLSX.utils.book_new();
           style={{
             marginLeft: "20px",
             marginBottom: "5px",
-            paddingRight: "3px",
+paddingRight: "3px",
             color: "white",
             fontWeight: "bold",
             background: "green",
@@ -364,7 +379,7 @@ const wb = XLSX.utils.book_new();
           }}
         >
           <i
-className="fa fa-file-excel-o"
+            className="fa fa-file-excel-o"
             style={{ marginRight: "5px", marginLeft: "3px" }}
           ></i>
           Excel
@@ -374,25 +389,11 @@ className="fa fa-file-excel-o"
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
-          <div
-            ref={chartRef}
-            id="columnchart_material"
-            style={{ width: "100%", height: "300px" }}
-          >
-            {!hasData && !loading && (
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: "20px",
-                  paddingTop: "150px",
-                }}
-              >
-                No data
-              </div>
-            )}
-          </div>
-        </div>
+        <div
+          ref={chartRef}
+          id="columnchart_material"
+          style={{ width: "100%", height: "300px" }}
+        />
       )}
     </div>
   );

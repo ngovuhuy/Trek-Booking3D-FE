@@ -1,3 +1,77 @@
+.article {
+  display: flex;
+}
+ .gravatar img{
+ border-radius: 50%;
+}
+.tfvt-listing-header {
+
+  align-items: center;
+  justify-content: space-between;
+}
+.tfvt-listing-header h3{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26px;
+
+  border-left: 2px solid rgb(48, 90, 97);
+  padding-left: 8px;
+}
+.rating-review {
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #000000;
+}
+/* .comment-content{
+
+
+} */
+.comment_author {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25px;
+  color: #121416;
+}
+.comment_time {
+  position: relative;
+  display: inline-block;
+  color: #949392;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+}
+.comment_text {
+  color: #4F545A;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28.8px;
+}
+.viewall{
+  font-family: "Plus Jakarta Sans", Sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: rgb(48, 90, 97);
+    border-radius: 5px 5px 5px 5px;
+    padding: 22px 28px 22px 28px;
+    color: #fff;
+}
+.viewall:hover{
+  background-color: #081E2A;
+}
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.active1 {
+  opacity: 1;
+  transform: translateY(0);
+}
 .hotel-date-input {
   width: 100%;
   padding: 8px;

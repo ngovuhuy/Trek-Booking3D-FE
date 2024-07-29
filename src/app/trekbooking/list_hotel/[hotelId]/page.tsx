@@ -529,33 +529,33 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
           <div className="row pt-4">
-  <div className="col-6">
-    <label className="label-custom" htmlFor="checkInDate">
-      Check-in Date:
-    </label>
-    <input
-      type="datetime-local"
-      id="checkInDate"
-      value={checkInDate || ""}
-      onChange={(e) => setCheckInDate(e.target.value)}
-      required
-      className="hotel-date-input"
-    />
-  </div>
-  <div className="col-6">
-    <label className="label-custom" htmlFor="checkOutDate">
-      Check-out Date:
-    </label>
-    <input
-      type="datetime-local"
-      id="checkOutDate"
-      value={checkOutDate || ""}
-      onChange={(e) => setCheckOutDate(e.target.value)}
-      required
-      className="hotel-date-input"
-    />
-  </div>
-</div>
+            <div className="col-6">
+              <label className="label-custom" htmlFor="checkInDate">
+                Check-in Date:
+              </label>
+              <input
+                type="datetime-local"
+                id="checkInDate"
+                value={checkInDate || ""}
+                onChange={(e) => setCheckInDate(e.target.value)}
+                required
+                className="hotel-date-input"
+              />
+            </div>
+            <div className="col-6">
+              <label className="label-custom" htmlFor="checkOutDate">
+                Check-out Date:
+              </label>
+              <input
+                type="datetime-local"
+                id="checkOutDate"
+                value={checkOutDate || ""}
+                onChange={(e) => setCheckOutDate(e.target.value)}
+                required
+                className="hotel-date-input"
+              />
+            </div>
+          </div>
 
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
@@ -710,7 +710,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                   {(
                                     item.roomPrice -
                                     (item.roomPrice * item.discountPercent) /
-                                      100
+                                    100
                                   ).toFixed(2)}
                                   $
                                 </span>
@@ -724,11 +724,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                 <div className="pb-1">
                                   <Link
                                     href=""
-                                    className={`px-2 py-1 text-white no-underline font-medium text-xs ${
-                                      availableRooms[item.roomId] == null
+                                    className={`px-2 py-1 text-white no-underline font-medium text-xs ${availableRooms[item.roomId] == null
                                         ? "opacity-50 cursor-not-allowed"
                                         : ""
-                                    }`}
+                                      }`}
                                     style={{
                                       backgroundColor:
                                         availableRooms[item.roomId] == null
@@ -785,9 +784,98 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           )}
         </div>
 
-        <p className="font-semibold text-3xl my-8">Reviews</p>
+        <div className="row pt-12">
+          <div className="col-lg-8">
+            <div className="tfvt-listing-header flex max-[530px]:block">
+              <h3 className="mb-0 max-[530px]:mb-2">Clients Review</h3>
+              <div className="rating-review flex items-center">
+                <div className="count-review">
+                  3 Reviews </div>
+                <div className="comment-total-rating-stars stars flex">
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                </div>
+                <div className="comment-text">(5 out of 5)</div>
+              </div>
+            </div>
+            <div className="comment mt-8">
+              <div className="comment-list-wrap">
+                <h4 className="comment-title font-semibold pb-6">
+                  (3) Comments</h4>
+                <div className="comment-list">
+                  <li className="list-none pb-6">
+                    <div className="article">
+                      <div className="gravatar w-1/2">
+                        <img src="https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&amp;d=mm&amp;r=g" className="avatar avatar-70 photo" height="70" width="70" />
+                      </div>
+                      <div className="comment-content">
+                        <div className="comment_meta clearfix pb-2">
+                          <div className="comment-top">
+                            <h4 className="comment_author">Maverick</h4>																	
+                          </div>
+                          <div className="comment_time">May 31, 2024</div>
+                        </div>
+                        <div className="comment_text">
+                          <div className="flex items-center pb-1">
+                          <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <span className="comment-total-rating-value px-1">5</span>
+                          </div>
+                          <div  className="comment_text">
+                          It was a very peaceful and calm sailing with Sofia, my skipper for the day. The wind was a bit weak initially but it really picked up when we were sailing back. Sofia is very active and an excellent skipper and a very good guide and pointed lot of different types of boats to me, the meaning of the horns. The island we went to was hilly and a very small beach and we had a good lunch there.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="list-none pb-6">
+                    <div className="article">
+                      <div className="gravatar w-1/2">
+                        <img src="https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&amp;d=mm&amp;r=g" className="avatar avatar-70 photo" height="70" width="70" />
+                      </div>
+                      <div className="comment-content">
+                        <div className="comment_meta clearfix pb-2">
+                          <div className="comment-top">
+                            <h4 className="comment_author">Maverick</h4>																	
+                          </div>
+                          <div className="comment_time">May 31, 2024</div>
+                        </div>
+                        <div className="comment_text">
+                          <div className="flex items-center pb-1">
+                          <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  <span className="comment-total-rating-value px-1">5</span>
+                          </div>
+                          <div  className="comment_text">
+                          It was a very peaceful and calm sailing with Sofia, my skipper for the day. The wind was a bit weak initially but it really picked up when we were sailing back. Sofia is very active and an excellent skipper and a very good guide and pointed lot of different types of boats to me, the meaning of the horns. The island we went to was hilly and a very small beach and we had a good lunch there.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-4">
+              <div className="tfvt_single_sidebar">
+                <ul className="tfvt-single-tour-sidebar">
+                      
+                </ul>
+              </div>
+          </div>
+        </div>
 
-        <div className="row mb-5">
+        {/* <div className="row mb-5">
           <Slider {...settingsComment}>
             {combinedList.length > 0 ? (
               combinedList.map((item, index) => {
@@ -857,7 +945,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
               </div>
             )}
           </Slider>
-        </div>
+        </div> */}
       </div>
       <DetailRoomClient
         showRoomDetail={showRoomDetail}

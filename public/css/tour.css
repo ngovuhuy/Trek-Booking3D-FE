@@ -44,7 +44,7 @@
 }
 .filter-listing:hover{
   color: #fff;
-  background: #4da528;
+  background-color: rgb(48, 90, 97);
   text-decoration: none;
 }
 .active-tour::after {
@@ -56,13 +56,13 @@
   margin: 0 auto;
   width: 0;
   height: 0;
-  border-top: 10px solid #4da528;
+  border-top: 10px solid rgb(48, 90, 97);
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
 }
 .active-tour{
   color: #fff;
-  background-color: #4da528;
+  background-color: rgb(48, 90, 97);
 }
 
 .meta-lable {
@@ -74,7 +74,7 @@
   gap: 5px;
 }
 .featured-text {
-  background-color: #4da528;
+  background-color: rgb(48, 90, 97);
   height: auto;
     padding: 5px 10px;
     color: #ffffff;
@@ -187,15 +187,7 @@
   padding: 8px 40px;
   background: #ebe8e826;
 }
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.animate-on-scroll.active1 {
-  opacity: 1;
-  transform: translateY(0);
-}
+
 .mleft-8{
 margin-left: -8px;
 }
@@ -218,19 +210,7 @@ margin-left: -8px;
     margin-top: -11px;
     box-shadow: 0px 4px 21px 0px #00000012;
 }
-.viewall{
-  font-family: "Plus Jakarta Sans", Sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    background-color: #4DA528;
-    border-radius: 5px 5px 5px 5px;
-    padding: 22px 28px 22px 28px;
-    color: #fff;
-}
-.viewall:hover{
-  background-color: #081E2A;
-}
+
 .heading-activiti{
   background-image: url(https://vitourwp.themesflat.co/wp-content/uploads/2024/05/img2_01.webp);
     font-size: 110px;
@@ -268,7 +248,7 @@ margin-left: -8px;
 
 }
 .taxonomy-post:hover {
-  background:#4da528;
+  background:rgb(48, 90, 97);
   cursor: pointer;
 }
 .taxonomy-post:hover .box-card .box-card-inner .content h3{

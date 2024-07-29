@@ -14,6 +14,7 @@ const ListHotels = () => {
   const [roomList, setRoomList] = useState<IRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [viewAll, setViewAll] = useState(false); // State để quản lý việc xem tất cả
   const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>(
     {}
   );
@@ -22,7 +23,7 @@ const ListHotels = () => {
   }>({});
   
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -47,7 +48,24 @@ const ListHotels = () => {
       fetchRates();
     }
   }, [hotelList]);
+  useEffect(() => {
+    const onScroll = () => {
+      const animatedElement = document.querySelector('.animate-on-scroll') as HTMLElement;
+      if (!animatedElement) return;
 
+      const rect = animatedElement.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        animatedElement.classList.add('active1');
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Gọi hàm này để kiểm tra vị trí phần tử ngay khi tải trang
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
   useEffect(() => {
     const fetchHotelsAndRooms = async () => {
       setLoading(true);
@@ -112,23 +130,10 @@ const ListHotels = () => {
 
   const totalPages = Math.ceil(hotelList.length / itemsPerPage);
 
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const currentHotels = hotelList.slice(
+ 
+  const currentHotels =  viewAll
+  ?  hotelList
+  : hotelList.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -407,7 +412,7 @@ const ListHotels = () => {
         </div>
 
         <div className="mt-16">
-          <div className="row">
+          <div className="row pb-6">
             {currentHotels.length > 0 ? (
               currentHotels
                 .filter((item: IHotel) => item.isVerify === true)
@@ -475,24 +480,18 @@ const ListHotels = () => {
               </div>
             )}
           </div>
-          <div className="pagination mt-4 flex justify-center items-center font-semibold">
-            <div className="flex items-center mr-8">
-              <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
-              {Array.from({ length: totalPages }, (_, index) => (
-                <p
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
-                >
-                  {index + 1}
-                </p>
-              ))}
-              <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
-            </div>
+          <div className="button-view-all flex justify-center pb-12">
+            <button
+              className="flex items-center viewall"
+              onClick={() => setViewAll(!viewAll)}
+            >
+              {viewAll ? "VIEW LESS" : "VIEW MORE"}
+              <img className="w-4 ml-2" src="/image/tourright.png" alt="" />
+            </button>
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container animate-on-scroll">
         <p className="font-bold text-4xl">Multiple convenient features</p>
         <div className="row py-10">
           {[
