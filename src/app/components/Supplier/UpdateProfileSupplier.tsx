@@ -132,8 +132,13 @@ function UpdateProfileSupplier(props: IProps) {
       newErrors.phone = "Please enter phone number";
     } else if (isNaN(parseInt(phone))) {
       newErrors.phone = "Phone must be a number";
+    } else if (!/0[0-9]{9}$/.test(phone))
+      newErrors.phone = "Phone number must be 10 digits";
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/^([A-Za-z][\w\.\-]+)@([a-z]+)((\.(\w){2,3})+)$/.test(email)) {
+      newErrors.email = "Staff Email must be a valid format email address";
     }
-    if (!email) newErrors.email = "Email is required";
     if (!selectedCountry) newErrors.country = "Please select a country";
     if (!address || address.trim() === "") {
       newErrors.address = "Address is required";
@@ -263,6 +268,7 @@ function UpdateProfileSupplier(props: IProps) {
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  isInvalid={!!errors.phone}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.phone}

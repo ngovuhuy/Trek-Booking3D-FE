@@ -233,6 +233,10 @@ await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
 
     const drawChart = () => {
       if (chartRef.current) {
+        // Xóa nội dung hiện tại của chartRef để tránh lỗi DOMException
+        while (chartRef.current.firstChild) {
+          chartRef.current.removeChild(chartRef.current.firstChild);
+        }
         if (dateError) {
           chartRef.current.innerHTML = `<div style='text-align: center; font-size: 20px; padding-top: 150px; color: red'>${dateError}</div>`;
         } else if (hasData && chartData.length > 0) {
@@ -263,14 +267,14 @@ await orderTourHeaderService.getRevenueTourMonthToYearBySupplierId(
 
   const exportToExcel = () => {
     const ws = XLSX.utils.aoa_to_sheet(chartData);
-    const wb = XLSX.utils.book_new();
+const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
     XLSX.writeFile(wb, "RevenueData.xlsx");
   };
 
   const handleDateChange = (e, setter) => {
     const date = e.target.value;
-setter(date);
+    setter(date);
   };
 
   const handleYearChange = (e, type) => {
@@ -360,7 +364,7 @@ setter(date);
           }}
         >
           <i
-            className="fa fa-file-excel-o"
+className="fa fa-file-excel-o"
             style={{ marginRight: "5px", marginLeft: "3px" }}
           ></i>
           Excel
@@ -370,7 +374,7 @@ setter(date);
       {loading ? (
         <p>Loading...</p>
       ) : (
-<div>
+        <div>
           <div
             ref={chartRef}
             id="columnchart_material"

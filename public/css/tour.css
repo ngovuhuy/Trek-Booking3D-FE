@@ -187,6 +187,15 @@
   padding: 8px 40px;
   background: #ebe8e826;
 }
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.active1 {
+  opacity: 1;
+  transform: translateY(0);
+}
 .mleft-8{
 margin-left: -8px;
 }
@@ -208,6 +217,92 @@ margin-left: -8px;
     border-bottom-right-radius: 15px;
     margin-top: -11px;
     box-shadow: 0px 4px 21px 0px #00000012;
+}
+.viewall{
+  font-family: "Plus Jakarta Sans", Sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #4DA528;
+    border-radius: 5px 5px 5px 5px;
+    padding: 22px 28px 22px 28px;
+    color: #fff;
+}
+.viewall:hover{
+  background-color: #081E2A;
+}
+.heading-activiti{
+  background-image: url(https://vitourwp.themesflat.co/wp-content/uploads/2024/05/img2_01.webp);
+    font-size: 110px;
+    font-weight: 800;
+    line-height: 1;
+    background-size: cover;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.item {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 13.5px;
+
+}
+.taxonomy-post {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  box-shadow: 0px 4px 17px 0px rgba(0, 0, 0, 0.06);
+  border: 1px solid #EDEEEE;
+  border-radius: 8px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.taxonomy-post-active{
+  background:#4da528;
+
+}
+.taxonomy-post:hover {
+  background:#4da528;
+  cursor: pointer;
+}
+.taxonomy-post:hover .box-card .box-card-inner .content h3{
+  color: #fff;
+}
+.taxonomy-post:hover .box-card .box-card-inner .feature-image{
+  background-color: #fff;
+  border-radius: 22px;
+}
+.border-22{
+  border-radius: 22px;
+}
+.box-card-inner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 54px 16px 31px 16px;
+}
+.content .name{
+  color: #0D1637;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 27px;
+  text-transform: capitalize;
+  margin-bottom: 0;
+
+}
+.feature-image {
+  text-align: center;
+  margin-bottom: 7px;
 }
 .text-gach{
     text-decoration: line-through;
