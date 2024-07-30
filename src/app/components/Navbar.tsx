@@ -65,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
   }
 
   return (
-    <header className="bg-background fixed w-100 z-10 top-0 ">
+    <header className="bg-background fixed w-100 z-50 top-0 ">
       <div className="container pt-4 ">
         <div className="nav row ">
           <div className="col-5 text-center h-0 ">

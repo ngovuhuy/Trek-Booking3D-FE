@@ -5,6 +5,7 @@ import userService from "@/app/services/userService";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Link from "../../../../node_modules/next/link";
+import { Oval } from "react-loader-spinner"; // Import spinner
 
 const Profile = () => {
   const [userName, setUserName] = useState<string>("");
@@ -34,12 +35,25 @@ const Profile = () => {
   }, [user, error]);
 
   if (!user) {
-    return <div>User ID not found in localStorage</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="container mt-10">
+      <div className="container pt-44">
         <p className="text-center font-bold text-4xl">Manage Profile</p>
         <div
           className="flex w-3/4 m-auto pt-10"

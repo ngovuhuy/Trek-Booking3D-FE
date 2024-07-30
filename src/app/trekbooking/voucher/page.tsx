@@ -42,8 +42,8 @@ const VoucherWallet = () => {
       </div>
   }
   return (
-    <div>
-      <div className="payment-wallet">
+    <div className="pt-40">
+      <div className="payment-wallet ">
         <h3>Voucher wallet</h3>
       </div>
       <div className="backgr-home ">

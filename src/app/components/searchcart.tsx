@@ -60,20 +60,18 @@ const Searchcart = () => {
 
   return (
     <div className="background-img ">
-  <video  className="backgroundVideo" id="background-video relative" src="/image/introduce.mp4" loop autoPlay muted>
-  </video>
-  <div className="flex  search-home-fill ">
+  <div className="flex  search-home-fill py-24 pb-28 max-[500px]:py-12">
   <div className="text-bg text-center">
-        <h1 className="lg:text-4xl md:text-xl text-xs lg:pb-3 max-[768px]:pb-1  font-bold color-home-fd max-[575px]:hidden">
+        <h1 className="lg:text-4xl md:text-xl text-normal lg:pb-3 max-[768px]:pb-1  font-bold color-home-fd">
           WELCOME TO TREK BOOKING
         </h1>
-        <p className="color-home-fd font-bold lg:text-2xl md:text-xl text-xs lg:pb-3 max-[768px]:pb-1 max-[768px]:mb-0 max-[575px]:hidden">
+        <p className="color-home-fd font-bold lg:text-2xl md:text-xl text-normal lg:pb-3 max-[768px]:pb-1 max-[768px]:mb-0 ">
         Explore More, Stress Less: Book Your Dream Tour and Hotel Effortlessly  with Us Today <br></br> for Unforgettable Memories.
         </p>
-        <div className="intro flex justify-center lg:pb-3 max-[768px]:pb-1 max-[575px]:hidden">
+        <div className="intro flex justify-center lg:pb-3 max-[768px]:pb-1">
           <div className="seure flex">
             <img  className=" max-[400px]:w-8"   style={{ width: "30px" }} src="/image/check.png" alt=""  />
-            <p className="color-home-fd lg:text-2xl md:text-xl text-xs font-bold ml-2 mb-1 max-[768px]:mt-2">
+            <p className="color-home-fd lg:text-2xl md:text-xl text-normal font-bold ml-2 mb-1 max-[768px]:mt-2">
               Secure payment
             </p>
           </div>
@@ -82,7 +80,7 @@ const Searchcart = () => {
           </div>
           <div className=" flex">
             <img className="max-[400px]:w-8"   style={{ width: "30px" }} src="/image/clock.png" alt="" />
-            <p className="max-[768px]:mt-2 color-home-fd lg:text-2xl md:text-xl text-xs font-bold ml-2 mb-1">
+            <p className="max-[768px]:mt-2 color-home-fd lg:text-2xl md:text-xl text-normal font-bold ml-2 mb-1">
               Quick support
             </p>
           </div>

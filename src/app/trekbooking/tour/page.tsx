@@ -284,7 +284,7 @@ const TourList = () => {
           </div>
         </div>
         <div className="container">
-          <div className=" activities flex justify-center pt-24 pb-12">
+          <div className=" activities flex justify-center pt-8 pb-12">
             <h3 className="heading-activiti">ACTIVITIES</h3>
           </div>
           <div className="row column-5 pb-12 animate-on-scroll">

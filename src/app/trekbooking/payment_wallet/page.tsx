@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "../../../../public/css/voucher.css";
-
+import { Oval } from "react-loader-spinner"; // Import spinner
 import useSWR from "swr";
 import voucherWalletService from "@/app/services/voucherWalletService";
 import paymentWalletService from "@/app/services/paymentWalletService";
@@ -11,14 +11,27 @@ const PaymentWallet = () => {
   );
 
   if (!paymentWalletList) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval
+          height={80}
+          width={80}
+          color="#305A61"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#4f9a94"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
   }
 
   if (error) {
     return <div>Error loading voucher wallet</div>;
   }
   return (
-    <div>
+    <div className="pt-40">
       <div className="payment-wallet">
         <h3>Payment wallet</h3>
       </div>

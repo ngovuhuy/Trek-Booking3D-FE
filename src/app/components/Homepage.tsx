@@ -9,7 +9,7 @@ import Searchcart from "./searchcart";
 const Homepage = () => {
   return (
     <>
-      <div>
+      <div className="pt-44">
         <Searchcart />
         <div className="slider p-12 backgr-home">
           <h1 className="pb-4 pl-6 font-bold">Plenty of hotel selections</h1>

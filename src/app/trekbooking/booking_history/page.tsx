@@ -271,7 +271,7 @@ const Booking_History = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      <div>
+      <div className="pt-10">
         <div className="payment-wallet">
           <h3>History</h3>
         </div>

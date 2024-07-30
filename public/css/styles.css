@@ -135,7 +135,7 @@
     text-transform: uppercase;
     background-color: rgb(48, 90, 97);
     border-radius: 5px 5px 5px 5px;
-    padding: 22px 28px 22px 28px;
+    padding: 14px 28px 14px 28px;
     color: #fff;
 }
 .viewall:hover{
@@ -380,18 +380,17 @@ a {
    color:rgb(247 223 223);
 }
 .search-home-fill{
-  position: absolute;
-  top: 0;
-  display: flex;
   justify-content: center;
-  width: 100%;
-  padding-top: 22%;
+
 }
 .background-img {
-  /* background-image: url("/image/home3.gif"); */
-  background-size: contain; /* Hình ảnh sẽ được co lại để vừa với phần tử mà không bị cắt */
-  background-position: center; /* Hình ảnh sẽ được căn giữa */
+  background-image: url("/image/hotelbeau1.jpg");
+  background-position: center; /* Hình ảnh sẽ được căn giữa */  
   background-repeat: no-repeat; /* Hình ảnh sẽ không lặp lại */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -21px;
 }
 .input-first {
   padding: 9px 0px;
@@ -765,6 +764,10 @@ background-color: #305A61;
   }
 }
 @media all and (max-width: 1024px) {
+  .background-img {
+
+    margin-top: -52px;
+  }
   .image-fix-link{
 
     margin-top: -48px;
@@ -875,10 +878,7 @@ background-color: #305A61;
   .w-100-768 {
     width: 100%;
   }
-  .search-home-fill{
-   
-    padding-top: 28%;
-  }
+ 
 }
 
 @media all and (max-width: 640px) {
@@ -920,16 +920,10 @@ background-color: #305A61;
   .pright-repon {
     padding-right: 5rem;
   }
-  .search-home-fill{
-   
-    padding-top: 32%;
-  }
+  
 }
 @media all and (max-width: 575px) {
-  .search-home-fill{
-   
-    padding-top: 42%;
-  }
+
 }
 @media all and (max-width: 440px) {
   .input-search {
@@ -976,10 +970,7 @@ background-color: #305A61;
     padding: 0px 3px;
 
 }
-.search-home-fill{
-   
-  padding-top: 48%;
-}
+
 }
 @media all and (max-width: 320px) {
   .font1rem {
