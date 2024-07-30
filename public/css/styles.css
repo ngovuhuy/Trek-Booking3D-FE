@@ -1,6 +1,9 @@
 .article {
   display: flex;
 }
+.gravatar{
+  width: 12%;
+}
  .gravatar img{
  border-radius: 50%;
 }
@@ -23,6 +26,81 @@
   font-weight: 700;
   line-height: 30px;
   color: #000000;
+}
+.viewall-comment{
+  font-family: "Plus Jakarta Sans", Sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgb(48, 90, 97);
+  border-radius: 5px 5px 5px 5px;
+  padding: 12px 12px 12px 12px;
+  color: #fff;
+}
+.comment-content {
+  width: 88%;
+}
+.widget {
+  background: #fff;
+  box-shadow: 0px 9px 46px 0px #0000000F;
+  padding: 45px 30px;
+}
+.widget-title{
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #131111;
+  padding-left: 19px;
+  letter-spacing: 0;
+  margin-bottom: 27px;
+  border-left: 2px solid  rgb(48, 90, 97);
+}
+.thumb{
+  margin-right: 24px;
+}
+
+.h6-title{
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 25.8px;
+  color: #081E2A;
+  margin-bottom: 4px;
+}
+.input-date{
+  border-radius: 12px;
+  margin: 0;
+  display: flex;
+  padding: 0;
+    border: 3px solid rgb(48, 90, 97);
+}
+.border-right-date{
+  border-right: 4px solid #d6e408;
+}
+.search-date {
+  border-radius: 15px;
+  background: rgb(48, 90, 97);
+  padding: 5px 31px;
+  color: #fff;
+}
+.search-date:hover{
+  background:rgb(41 69 73);
+}
+.price-from{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25.8px;
+  color: #000;
+}
+.currency_amount {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 25.8px;
+  color:  rgb(48, 90, 97);
+}
+.thumb img{
+  max-width: 103px;
+  border-radius: 4px;
+  height: 90px;
 }
 /* .comment-content{
 
@@ -76,7 +154,7 @@
   width: 100%;
   padding: 8px;
   font-size: 16px;
-  border: 1px solid #ddd;
+
   border-radius: 4px;
   transition: border-color 0.3s;
 }
@@ -179,10 +257,9 @@ width: 100%;
   padding-top: 2px;
 }
 .hotel-date-input{
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding-left: 8px;
-  padding-right: 8px;
+
+
+
   
 }
 .slick-next {

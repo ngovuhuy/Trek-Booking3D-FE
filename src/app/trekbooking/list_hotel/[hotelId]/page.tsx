@@ -24,6 +24,13 @@ import serviceOfRoom from "@/app/services/serviceOfRoom";
 import DetailRoomClient from "@/app/components/RoomClient/DetailRoomClient";
 import { useCart } from "@/app/components/CartContext";
 
+
+const calculateAverageRating = (comments: any) => {
+  if (comments.length === 0) return 0;
+  const totalRating = comments.reduce((sum: any, comment: any) => sum + (comment.rateValue || 0), 0);
+  return parseFloat((totalRating / comments.length).toFixed(1));
+};
+
 const formatRoomDescription = (description: string) => {
   return description.split(".").map((sentence, index) => {
     if (sentence.trim() === "") return null; // Skip empty strings resulting from splitting
@@ -44,18 +51,26 @@ const fetchHotelImages = async (
   setHotelImages(imageUrls);
 };
 const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
+
+  const [averageRatings, setAverageRatings] = useState<{
+    [key: number]: number;
+  }>({});
   const { fetchTotalItems } = useCart();
   const token = Cookies.get("tokenUser");
   const [hotelImages, setHotelImages] = useState<string[]>([]);
   const [commentList, setCommentList] = useState<IComment[]>([]);
   const [rateList, setRateList] = useState<IRate[]>([]);
+  const [showAll, setShowAll] = useState(false);
   const [combinedList, setCombinedList] = useState<
     (IComment & { rateValue?: number })[]
   >([]);
+  const displayedComments = showAll ? combinedList : combinedList.slice(0, 3);
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [userData, setUserData] = useState<any>(null);
   const [roomList, setRoomList] = useState<IRoom[]>([]);
+  const [hotels, setHotels] = useState<IHotel[]>([]);
   const [availableRooms, setAvailableRooms] = useState<{
     [key: number]: number;
   }>({});
@@ -79,7 +94,52 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
+  useEffect(() => {
+    if (!checkInDate || !checkOutDate) {
+      setErrorMessage('Please click both check-in and check-out dates.');
+    } else {
+      setErrorMessage('');
+    }
+  }, [checkInDate, checkOutDate]);
+  useEffect(() => {
+    const fetchRates = async () => {
+      const averages: { [key: number]: number } = {};
+      for (const hotel of hotels) {
+        try {
+          const rates = await rateService.getRatesByHotelId(hotel.hotelId);
+          const averageRate =
+            rates.reduce((sum, rate) => sum + rate.rateValue, 0) / rates.length;
+          averages[hotel.hotelId] = Math.round(averageRate); // Round to the nearest whole number
+        } catch (error) {
+          console.error(
+            `Error fetching rates for hotel ${hotel.hotelId}:`,
+            error
+          );
+          averages[hotel.hotelId] = 0;
+        }
+      }
+      setAverageRatings(averages);
+    };
+    if (hotels.length > 0) {
+      fetchRates();
+    }
+  }, [hotels]);
   //
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const data = await hotelService.getHotels();
+        setHotels(data);
+      } catch (error: any) {
+
+      } finally {
+
+      }
+    };
+
+    fetchHotels();
+  }, []);
+  const displayedHotels = showAll ? hotels : hotels.slice(0, 3);
   // check chechkin checkout khi nó thay đổi
   useEffect(() => {
     if (Number(params.hotelId) && checkInDate && checkOutDate) {
@@ -113,6 +173,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     );
     return totalRates / combinedList.length;
   };
+  const averageRating1 = calculateAverageRating(combinedList);
   const { data: hotel, error } = useSWR("detailHotel", () =>
     hotelService.getHotelById(Number(params.hotelId))
   );
@@ -528,35 +589,42 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span className="font-semibold text-3xl ">
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
-          <div className="row pt-4">
+
+          <div>
+      <div className="row py-3">
+        <label className="col-6 label-custom" htmlFor="checkInDate">
+          Check-in Date:
+        </label>
+        <label className="col-6 label-custom" htmlFor="checkOutDate">
+          Check-out Date:
+        </label>
+        <div className="row mx-0 items-center">
+          <div className="input-date">
             <div className="col-6">
-              <label className="label-custom" htmlFor="checkInDate">
-                Check-in Date:
-              </label>
               <input
                 type="datetime-local"
                 id="checkInDate"
-                value={checkInDate || ""}
+                value={checkInDate}
                 onChange={(e) => setCheckInDate(e.target.value)}
                 required
-                className="hotel-date-input"
+                className="hotel-date-input outline-none border-none"
               />
             </div>
             <div className="col-6">
-              <label className="label-custom" htmlFor="checkOutDate">
-                Check-out Date:
-              </label>
               <input
                 type="datetime-local"
                 id="checkOutDate"
-                value={checkOutDate || ""}
+                value={checkOutDate}
                 onChange={(e) => setCheckOutDate(e.target.value)}
                 required
-                className="hotel-date-input"
+                className="hotel-date-input outline-none border-none"
               />
             </div>
           </div>
-
+        </div>
+      </div>
+      {errorMessage && <p className="text-danger ml-2 font-semibold">{errorMessage}</p>}
+    </div> 
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
               <div
@@ -725,8 +793,8 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                   <Link
                                     href=""
                                     className={`px-2 py-1 text-white no-underline font-medium text-xs ${availableRooms[item.roomId] == null
-                                        ? "opacity-50 cursor-not-allowed"
-                                        : ""
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
                                       }`}
                                     style={{
                                       backgroundColor:
@@ -735,7 +803,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                                           : "#305A61",
                                       borderRadius: "10px",
                                     }}
-                                    onClick={(e) => {
+                                    onClick={(e: any) => {
                                       if (availableRooms[item.roomId] == null) {
                                         e.preventDefault();
                                       } else {
@@ -784,168 +852,124 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           )}
         </div>
 
-        <div className="row pt-12">
-          <div className="col-lg-8">
+        <div className="row pt-16">
+          <div className="col-lg-8 col-12 ">
             <div className="tfvt-listing-header flex max-[530px]:block">
-              <h3 className="mb-0 max-[530px]:mb-2">Clients Review</h3>
+              <h3 className="mb-0 max-[530px]:mb-2">Reviews</h3>
               <div className="rating-review flex items-center">
                 <div className="count-review">
-                  3 Reviews </div>
-                <div className="comment-total-rating-stars stars flex">
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
+                  {`(${combinedList.length}) Reviews`}
                 </div>
-                <div className="comment-text">(5 out of 5)</div>
+                <div className="comment-total-rating-stars stars flex">
+                  {[...Array(5)].map((star, index) => (
+                    <img
+                      key={index}
+                      className="w-4 h-4 mx-1"
+                      src="/image/start.png"
+                      alt=""
+                      style={{ opacity: index < Math.round(averageRating1) ? 1 : 0.2 }}
+                    />
+                  ))}
+                </div>
+                <div className="comment-text">({averageRating1} out of {`${combinedList.length} `})</div>
               </div>
             </div>
             <div className="comment mt-8">
               <div className="comment-list-wrap">
                 <h4 className="comment-title font-semibold pb-6">
-                  (3) Comments</h4>
+                  {`(${combinedList.length}) Comments`}
+                </h4>
                 <div className="comment-list">
-                  <li className="list-none pb-6">
-                    <div className="article">
-                      <div className="gravatar w-1/2">
-                        <img src="https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&amp;d=mm&amp;r=g" className="avatar avatar-70 photo" height="70" width="70" />
-                      </div>
-                      <div className="comment-content">
-                        <div className="comment_meta clearfix pb-2">
-                          <div className="comment-top">
-                            <h4 className="comment_author">Maverick</h4>																	
+                  <>
+                    {displayedComments.length > 0 ? (
+                      displayedComments.map((item, index) => (
+                        <li key={index} className="list-none pb-8">
+                          <div className="article">
+                            <div className="gravatar">
+                              <img src={item.user?.avatar || "https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&d=mm&r=g"} className="avatar avatar-70 photo" height="70" width="70" />
+                            </div>
+                            <div className="comment-content max-[768px]:ml-4">
+                              <div className="comment_meta clearfix pb-2">
+                                <div className="comment-top">
+                                  <h4 className="comment_author">{item.user?.userName || 'Anonymous'}</h4>
+                                </div>
+                                <div className="comment_time">{new Date(item.dateSubmitted).toLocaleDateString()}</div>
+                              </div>
+                              <div className="flex items-center pb-1">
+                                {renderStars(item.rateValue || 0)}
+                                <span className="comment-total-rating-value px-1">{item.rateValue || 0}</span>
+                              </div>
+                              <div className="comment_text">
+                                <span className="font-medium break-words">
+                                  {item.message}
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="comment_time">May 31, 2024</div>
-                        </div>
-                        <div className="comment_text">
-                          <div className="flex items-center pb-1">
-                          <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <span className="comment-total-rating-value px-1">5</span>
-                          </div>
-                          <div  className="comment_text">
-                          It was a very peaceful and calm sailing with Sofia, my skipper for the day. The wind was a bit weak initially but it really picked up when we were sailing back. Sofia is very active and an excellent skipper and a very good guide and pointed lot of different types of boats to me, the meaning of the horns. The island we went to was hilly and a very small beach and we had a good lunch there.
-                          </div>
-                        </div>
-                      </div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="list-none pb-6">
+                        <p className="text-center py-4 text-red-600 font-bold">No comment found</p>
+                      </li>
+                    )}
+
+                    <div className="button-view-all flex justify-center pb-12">
+                      <button onClick={() => setShowAll(!showAll)} className="flex items-center viewall-comment">
+                        {showAll ? "VIEW LESS" : "VIEW MORE"}
+                        <img className="w-4 ml-2" src="/image/tourright.png" alt="" />
+                      </button>
                     </div>
-                  </li>
-                  <li className="list-none pb-6">
-                    <div className="article">
-                      <div className="gravatar w-1/2">
-                        <img src="https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&amp;d=mm&amp;r=g" className="avatar avatar-70 photo" height="70" width="70" />
-                      </div>
-                      <div className="comment-content">
-                        <div className="comment_meta clearfix pb-2">
-                          <div className="comment-top">
-                            <h4 className="comment_author">Maverick</h4>																	
-                          </div>
-                          <div className="comment_time">May 31, 2024</div>
-                        </div>
-                        <div className="comment_text">
-                          <div className="flex items-center pb-1">
-                          <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <img className="w-4 h-4 mx-1" src="/image/start.png" alt="" />
-                  <span className="comment-total-rating-value px-1">5</span>
-                          </div>
-                          <div  className="comment_text">
-                          It was a very peaceful and calm sailing with Sofia, my skipper for the day. The wind was a bit weak initially but it really picked up when we were sailing back. Sofia is very active and an excellent skipper and a very good guide and pointed lot of different types of boats to me, the meaning of the horns. The island we went to was hilly and a very small beach and we had a good lunch there.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+
+                  </>
+
+
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-lg-4">
-              <div className="tfvt_single_sidebar">
-                <ul className="tfvt-single-tour-sidebar">
-                      
-                </ul>
-              </div>
+          <div className="col-lg-4 col-12">
+            <div className="tfvt_single_sidebar">
+              <ul className="tfvt-single-tour-sidebar  pl-0">
+                <li className="widget">
+                  <h3 className="widget-title">Recent Hotels</h3>
+                  <ul className="recent-tour pl-0">
+                    {displayedHotels.map((hotel, index) => (
+                      <li key={index} className="item-recent-tour flex pb-12 cursor-pointer">
+                        <div className="thumb">
+                          <img src={hotel.hotelAvatar || "https://vitourwp.themesflat.co/wp-content/uploads/2024/05/tour-feature-12-206x166.webp"} alt="featured-image" />
+                        </div>
+                        <div className="content">
+                          <div className="flex items-center pb-2">
+                            {averageRatings[hotel.hotelId] > 0 ? (
+                              [...Array(averageRatings[hotel.hotelId])].map(
+                                (_, index) => (
+                                  <img
+                                    key={index}
+                                    className="inline w-3 h-3 ml-1"
+                                    src="/image/star.png"
+                                    alt=""
+                                  />
+                                )
+                              )
+                            ) : (
+                              <span className="">No rating</span>
+                            )}
+                          </div>
+                          <h6 className="h6-title">{hotel.hotelName}</h6>
+                          <div className="price-from">From <span className="currency_amount">$259.00</span></div>
+                        </div>
+                      </li>
+                    ))}
+
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        {/* <div className="row mb-5">
-          <Slider {...settingsComment}>
-            {combinedList.length > 0 ? (
-              combinedList.map((item, index) => {
-                const isExpanded = expandedIndex === index;
-                const message = item.message;
-                const maxChars = 25; // Giới hạn số ký tự
 
-                return (
-                  <div key={index} className="py-5 px-3">
-                    <div
-                      className="border"
-                      style={{
-                        boxShadow: "0 4px 4px 0 #7F7F7F",
-                        borderRadius: "20px",
-                      }}
-                    >
-                      <div className=" w-4/5 mx-auto mt-4 mb-10">
-                        <div className="flex justify-items-center">
-                          <img
-                            src={item.user?.avatar || "/image/user.png"}
-                            alt="user"
-                            className="rounded-full border w-16 h-16"
-                          />
-                          <div className="pl-4">
-                            <span className="font-semibold text-lg">
-                              {item.user?.userName}
-                            </span>
-                            <p className="font-normal text-base">
-                              {new Date(
-                                item.dateSubmitted
-                              ).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex max-[1024px]:justify-center h-3 my-3">
-                          {renderStars(item.rateValue || 0)}
-                        </div>
-                        <div
-                          className="comment-transition max-[1024px]:text-center  "
-                          style={{ maxHeight: isExpanded ? "500px" : "50px" }}
-                        >
-                          <span className=" font-medium break-words">
-                            {isExpanded || message.length <= maxChars
-                              ? message
-                              : `${message.substring(0, maxChars)}...`}
-                            {message.length > maxChars && (
-                              <span
-                                onClick={() => toggleExpand(index)}
-                                className="font-bold cursor-pointer"
-                                style={{ color: "rgb(48, 90, 97)" }}
-                              >
-                                {isExpanded ? "  See Less" : "  See More"}
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="col-12">
-                <p className="text-center py-4 text-red-600 font-bold">
-                  No comment found
-                </p>
-              </div>
-            )}
-          </Slider>
-        </div> */}
       </div>
       <DetailRoomClient
         showRoomDetail={showRoomDetail}
