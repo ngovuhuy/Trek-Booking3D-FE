@@ -406,15 +406,15 @@ onClick={handlePayment}
                                     </div>
                                 </div>
                             </div>
-                            {vouchers.filter(voucher => voucher.voucherStatus).length >= 2 ? (
+                            {vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).length >= 2 ? (
     <Slider {...settings}>
-        {vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
-const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
+        {vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).map(voucher => {
+            const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
             });
-const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
+            const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -424,7 +424,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
                 <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
                     <div className='w-11/12 m-auto'>
                         <div className='pt-5'>
-                            <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
+                            <span className='text-xl font-semibold' style={{ color: '#305A61' }}>
                                 Discount vouchers:
                             </span>
                         </div>
@@ -455,7 +455,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
         })}
     </Slider>
 ) : (
-    vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
+    vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).map(voucher => {
         const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
             day: '2-digit',
             month: '2-digit',
@@ -469,11 +469,11 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
 
         return (
             <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
-<div className='w-11/12 m-auto'>
+                <div className='w-11/12 m-auto'>
                     <div className='pt-5'>
                         <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
                             Discount vouchers:
-</span>
+                        </span>
                     </div>
                     <div className='pt-4'>
                         <div className='pt-2'>
@@ -501,6 +501,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
         );
     })
 )}
+
 
                         </div>
                     </div>

@@ -53,7 +53,7 @@ const TourList = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false); // State để quản lý việc xem tất cả
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const [selectedCity, setSelectedCity] = useState('All');
   const { data: tourList, error } = useSWR<ITour[]>("tourList", tourService.getTours);
   useEffect(() => {
@@ -89,11 +89,11 @@ const TourList = () => {
       setPriceRange(value as [number, number]);
     }
   };
-  const removeVietnameseTones = (str:any) => {
+  const removeVietnameseTones = (str: any) => {
     // Hàm loại bỏ dấu tiếng Việt
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
   };
-  const handleCityChange = (city:any) => {
+  const handleCityChange = (city: any) => {
     setSelectedCity(city);
     setCurrentPage(1); // Reset to the first page when changing the city filter
   };
@@ -101,11 +101,11 @@ const TourList = () => {
     const normalizedAddress = removeVietnameseTones(tour.tourAddress.toLowerCase());
     const normalizedTourName = removeVietnameseTones(tour.tourName.toLowerCase());
     const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
-    
+
     const matchesSearch = normalizedAddress.includes(normalizedSearchTerm) || normalizedTourName.includes(normalizedSearchTerm);
     const matchesPrice = tour.tourPrice >= priceRange[0] && tour.tourPrice <= priceRange[1];
     const matchesCity = selectedCity === 'All' || normalizedAddress.includes(removeVietnameseTones(selectedCity.toLowerCase()));
-    
+
     return matchesSearch && matchesPrice && matchesCity;
   }) : [];
 
@@ -182,16 +182,16 @@ const TourList = () => {
               </div>
             </div>
             <div className="fiter-bar pb-8 pt-2">
-        {['All', 'Ho Chi Minh', 'Da Lat', 'Can Tho', 'Vung Tau'].map((city) => (
-          <button
-            key={city}
-            className={`filter-listing ${selectedCity === city ? 'active-tour' : ''}`}
-            onClick={() => handleCityChange(city)}
-          >
-            {city}
-          </button>
-        ))}
-      </div>
+              {['All', 'Ho Chi Minh', 'Da Lat', 'Can Tho', 'Vung Tau'].map((city) => (
+                <button
+                  key={city}
+                  className={`filter-listing ${selectedCity === city ? 'active-tour' : ''}`}
+                  onClick={() => handleCityChange(city)}
+                >
+                  {city}
+                </button>
+              ))}
+            </div>
             <div className="row ">
               <div className="fix-768-tour">
                 <div className="row">
@@ -208,7 +208,7 @@ const TourList = () => {
                       );
                       const newPrice = item.tourPrice - (item.tourPrice * item.tourDiscount) / 100;
                       return (
-                        <div key={index} className="col-lg-4 pb-9 col-md-6 col-12 hover-tour cursor-pointer">
+                        <div key={index} className="col-lg-3 pb-9 col-md-6 col-12 hover-tour cursor-pointer">
                           <Link href={`/trekbooking/tour/tour_detail/${item.tourId}`} className="fix-link">
                             <div className="block-tour content-tour fix-image-tour-client">
                               <div className="img-tour relative">
@@ -226,18 +226,31 @@ const TourList = () => {
                               <div className="py-1 px-6">
                                 <div className="address flex justify-start">
                                   <img className="w-7" src="/image/addresstour.gif" alt="" />
-                                  <span className="address-text">{item.tourAddress}</span>
+                                  <span className="address-text">
+                                    <span className="max-[992px]:hidden">
+                                      {item.tourAddress.length > 3 ? `${item.tourAddress.slice(0, 18)}...` : item.tourAddress}
+                                    </span>
+                                    <span className="min-[992px]:hidden">
+                                      {item.tourAddress}
+                                    </span>
+                                  </span>
+
                                 </div>
                                 <p className="color-black font-bold pt-2 text-left">
-                                {item.tourName.length > 3 ? `${item.tourName.slice(0, 25)}...` : item.tourName}
+                                  <span className="max-[992px]:hidden">
+                                      {item.tourName.length > 3 ? `${item.tourName.slice(0, 32)}...` : item.tourName}
+                                    </span>
+                                    <span className="min-[992px]:hidden">
+                                      {item.tourName}
+                                    </span>
                                 </p>
                                 <div className="rating-review flex mb-3">
                                   <div className="rating flex">
-                                    <img className="w-4 mx-1" src="/image/start.png" alt="" />
-                                    <img className="w-4 mx-1" src="/image/start.png" alt="" />
-                                    <img className="w-4 mx-1" src="/image/start.png" alt="" />
-                                    <img className="w-4 mx-1" src="/image/start.png" alt="" />
-                                    <img className="w-4 mx-1" src="/image/start.png" alt="" />
+                                    <img className="star " src="/image/start.png" alt="" />
+                                    <img className="star " src="/image/start.png" alt="" />
+                                    <img className="star " src="/image/start.png" alt="" />
+                                    <img className="star " src="/image/start.png" alt="" />
+                                    <img className="star " src="/image/start.png" alt="" />
                                   </div>
                                   <div className="review">
                                     (3 Reviews)
@@ -245,11 +258,11 @@ const TourList = () => {
                                 </div>
                                 <div className="flex justify-start">
                                   <div className="flex day">
-                                    <img className="w-7" src="/image/locktour.png" alt="" />
+                                    <img className="icon-view" src="/image/locktour.png" alt="" />
                                     <div className="number-day">7 Days</div>
                                   </div>
-                                  <div className="flex items-start person ml-3">
-                                    <img className="w-7" src="/image/usertour.png" alt="" />
+                                  <div className="flex items-start person min-[1200px]:ml-3">
+                                    <img className="icon-view1" src="/image/usertour.png" alt="" />
                                     <div className="number-day">{item.tourCapacity} Persons</div>
                                   </div>
                                 </div>

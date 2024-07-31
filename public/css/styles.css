@@ -435,7 +435,20 @@ a {
   padding: 1em;
 
 }
-
+.star{
+  width: 13px;
+  height: 13px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.icon-view{
+  width: 28px;
+    height: 30px;
+}
+.icon-view1{
+  width: 28px;
+    height: 26px;
+}
 .background-img {
   background-image: url("/image/hotelbeau1.jpg");
   background-position: center; /* Hình ảnh sẽ được căn giữa */  
