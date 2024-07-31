@@ -215,7 +215,7 @@ isConfirmed: true,
                 type='text/css'
                 href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
             />
-            <div className='container py-8'>
+            <div className='container py-8 pt-44'>
                 <div>
               
                     {roomDetails && hotelDetails ? (

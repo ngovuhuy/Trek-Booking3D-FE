@@ -334,7 +334,7 @@ const SearchPage = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      <div className="">
+      <div className="pt-44">
         <div className="img-bk-search">
           <Searchcart />
         </div>

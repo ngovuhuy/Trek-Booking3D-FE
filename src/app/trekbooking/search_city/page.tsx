@@ -22,7 +22,9 @@ const SearchPage = () => {
     [key: number]: number;
   }>({});
   const [roomList, setRoomList] = useState<IRoom[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [viewAll, setViewAll] = useState(false); // State để quản lý việc xem tất cả
   const [error, setError] = useState<Error | null>(null);
   const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>(
     {}
@@ -38,7 +40,21 @@ const SearchPage = () => {
     "listService",
     () => serviceOfRoom.getServices()
   );
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+    const removeVietnameseTones = (str:any) => {
+    // Hàm loại bỏ dấu tiếng Việt
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+  };
+  const filteredHotels = hotelList ? hotelList.filter(hotel => {
+    const normalizedAddress = removeVietnameseTones(hotel.hotelCity.toLowerCase());
+    const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
+    const matchesSearch = normalizedAddress.includes(normalizedSearchTerm);
   
+  
+    return matchesSearch;
+  }) : [];
   // Pagination for hotels
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
@@ -305,7 +321,7 @@ const SearchPage = () => {
     }
   };
 
-  const currentHotels = filterHotels().slice(
+  const currentHotels =  filterHotels().slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -322,7 +338,7 @@ const SearchPage = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      <div className="">
+      <div className="pt-44">
         <div className="img-bk-search">
           <Searchcart />
         </div>

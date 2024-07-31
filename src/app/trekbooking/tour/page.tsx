@@ -53,7 +53,7 @@ const TourList = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewAll, setViewAll] = useState(false); // State để quản lý việc xem tất cả
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
   const [selectedCity, setSelectedCity] = useState('All');
   const { data: tourList, error } = useSWR<ITour[]>("tourList", tourService.getTours);
   useEffect(() => {
@@ -97,12 +97,15 @@ const TourList = () => {
     setSelectedCity(city);
     setCurrentPage(1); // Reset to the first page when changing the city filter
   };
-  const filteredTours = tourList ? tourList.filter(tour => {
+  const filteredTours = tourList ? tourList.filter((tour: any) => {
     const normalizedAddress = removeVietnameseTones(tour.tourAddress.toLowerCase());
+    const normalizedTourName = removeVietnameseTones(tour.tourName.toLowerCase());
     const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
-    const matchesSearch = normalizedAddress.includes(normalizedSearchTerm);
+    
+    const matchesSearch = normalizedAddress.includes(normalizedSearchTerm) || normalizedTourName.includes(normalizedSearchTerm);
     const matchesPrice = tour.tourPrice >= priceRange[0] && tour.tourPrice <= priceRange[1];
     const matchesCity = selectedCity === 'All' || normalizedAddress.includes(removeVietnameseTones(selectedCity.toLowerCase()));
+    
     return matchesSearch && matchesPrice && matchesCity;
   }) : [];
 
@@ -166,7 +169,7 @@ const TourList = () => {
                   <span className="ml-2">Max: <span className="font-semibold" style={{ color: "#495057" }}> {priceRange[1]}$</span></span>
                 </div>
               </div>
-              <div className="input__container input__container--variant">
+              <div className="input__container input__container--variant pb-4">
                 <div className="shadow__input shadow__input--variant"></div>
                 <input
                   type="text"
@@ -205,7 +208,7 @@ const TourList = () => {
                       );
                       const newPrice = item.tourPrice - (item.tourPrice * item.tourDiscount) / 100;
                       return (
-                        <div key={index} className="col-lg-3 pb-9 col-md-6 hover-tour cursor-pointer">
+                        <div key={index} className="col-lg-4 pb-9 col-md-6 col-12 hover-tour cursor-pointer">
                           <Link href={`/trekbooking/tour/tour_detail/${item.tourId}`} className="fix-link">
                             <div className="block-tour content-tour fix-image-tour-client">
                               <div className="img-tour relative">
@@ -225,7 +228,9 @@ const TourList = () => {
                                   <img className="w-7" src="/image/addresstour.gif" alt="" />
                                   <span className="address-text">{item.tourAddress}</span>
                                 </div>
-                                <p className="color-black font-bold pt-2 text-left">{item.tourName}</p>
+                                <p className="color-black font-bold pt-2 text-left">
+                                {item.tourName.length > 3 ? `${item.tourName.slice(0, 25)}...` : item.tourName}
+                                </p>
                                 <div className="rating-review flex mb-3">
                                   <div className="rating flex">
                                     <img className="w-4 mx-1" src="/image/start.png" alt="" />

@@ -8,9 +8,11 @@ import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Oval } from "react-loader-spinner"; // Import spinner
 import rateService from "@/app/services/rateService";
+import "../../../../public/css/tour.css";
 
 const ListHotels = () => {
   const [hotelList, setHotelList] = useState<IHotel[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [roomList, setRoomList] = useState<IRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -24,7 +26,24 @@ const ListHotels = () => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+  const removeVietnameseTones = (str:any) => {
+    // Hàm loại bỏ dấu tiếng Việt
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+  };
+  const filteredHotels = hotelList ? hotelList.filter(hotel => {
+    const normalizedCity = removeVietnameseTones(hotel.hotelCity.toLowerCase());
+    const normalizedHotelName = removeVietnameseTones(hotel.hotelName.toLowerCase());
+    const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
+  
+    const matchesSearch = normalizedCity.includes(normalizedSearchTerm) || normalizedHotelName.includes(normalizedSearchTerm);
+  
+    return matchesSearch;
+  }) : [];
+  
+  
   useEffect(() => {
     const fetchRates = async () => {
       const averages: { [key: number]: number } = {};
@@ -132,8 +151,8 @@ const ListHotels = () => {
 
  
   const currentHotels =  viewAll
-  ?  hotelList
-  : hotelList.slice(
+  ?  filteredHotels
+  : filteredHotels.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -412,73 +431,102 @@ const ListHotels = () => {
         </div>
 
         <div className="mt-16">
+          <div className="flex justify-end pb-4">
+          <div className="input__container input__container--variant">
+                <div className="shadow__input shadow__input--variant"></div>
+                <input
+                  type="text"
+                  name="text"
+                  className="input__search input__search--variant"
+                  placeholder="Search by address..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </div>
+          </div>
           <div className="row pb-6">
-            {currentHotels.length > 0 ? (
-              currentHotels
-                .filter((item: IHotel) => item.isVerify === true)
-                .map((item: IHotel) => (
-                  <div key={item.hotelId} className="col-md-4 col-lg-3 mb-2">
-                    <div
-                      className="border grid justify-items-center pb-3 card1 "
-                      style={{
-                        borderRadius: "20px",
-                        boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
-                        height: "460px",
-                      }}
-                    >
-                      <img
-                        src={item.hotelAvatar}
-                        alt="hotel"
-                        className="p-3 w-100 h-64"
-                        style={{ border: "1px", borderRadius: "36px" }}
-                      />
-                      <span className="text-lg font-semibold text-center">
-                        {item.hotelName}
-                      </span>
-                      <div className="flex justify-between items-center text-sm font-medium">
-                        <div className="flex mr-2">
-                          {averageRatings[item.hotelId] > 0 ? (
-                            [...Array(averageRatings[item.hotelId])].map(
-                              (_, index) => (
-                                <img
-                                  key={index}
-                                  className="inline w-3 h-3 ml-1"
-                                  src="/image/star.png"
-                                  alt=""
-                                />
-                              )
-                            )
-                          ) : (
-                            <span className="">No rating</span>
-                          )}
-                        </div>
-                        <span className="" style={{ color: "#2cc92c" }}>
-                          {commentsCount[item.hotelId] || 0} reviews
+          {currentHotels.length > 0 ? (
+  currentHotels
+    .filter((item: IHotel) => item.isVerify === true)
+    .map((item: IHotel, index: number) => {
+      const newPrice = getLowestPrice(item.hotelId);
+      return (
+        <div key={index} className="col-lg-4 col-md-6 col-12 pb-9 col-md-6 hover-tour cursor-pointer">
+          <Link href={`/trekbooking/list_hotel/${item.hotelId}`} className="fix-link text-decoration-none ">
+            <div className="block-tour content-tour fix-image-tour-client">
+              <div className="img-tour relative">
+                <img
+                  src={item.hotelAvatar || "/image/hotel-placeholder.png"}
+                  className="w-100 fix-image-tour-client h-56"
+                  alt="Hotel"
+                />
+                <div className="meta-lable">
+                  <div className="featured-text">Featured</div>
+                </div>
+              </div>
+
+              <div className="py-1 px-6">
+                <div className="address flex justify-start">
+                  <img className="w-7" src="/image/addresstour.gif" alt="" />
+                  <span className="address-text">{item.hotelCity}</span>
+                </div>
+                <p className="color-black font-bold pt-2 text-left"> {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 25)}...` : item.hotelName}</p>
+                <div className="rating-review flex mb-3">
+                  <div className="rating flex">
+                    {averageRatings[item.hotelId] > 0 ? (
+                      [...Array(averageRatings[item.hotelId])].map((_, index) => (
+                        <img
+                          key={index}
+                          className="w-4 mx-1"
+                          src="/image/star.png"
+                          alt=""
+                        />
+                      ))
+                    ) : (
+                      <span>No rating</span>
+                    )}
+                  </div>
+                  <div className="review">
+                    ({commentsCount[item.hotelId] || 0} Reviews)
+                  </div>
+                </div>
+                <div className="flex justify-start">
+                <div className="flex day">
+                                    <img className="w-7" src="/image/locktour.png" alt="" />
+                                    <div className="number-day">1 Days</div>
+                                  </div>
+                  <div className="flex items-start person ml-3">
+                    <img className="w-7" src="/image/usertour.png" alt="" />
+                    <div className="number-day">2 Persons</div>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between tour-info-bottom">
+                  <div className="d-flex price">
+                    <span className="from-color">From</span>
+                    <div className="price-content pb-2">
+                      <span className="price-text item_info_price_new">
+                        <span className="currency_amount">
+                          <span className="currency_symbol">${newPrice || "N/A"}</span>
                         </span>
-                      </div>
-                      <p className="text-base font-semibold">
-                        From ${getLowestPrice(item.hotelId) || "N/A"}
-                      </p>
-                      <Link
-                        href={`/trekbooking/list_hotel/${item.hotelId}`}
-                        className="text-white font-medium flex items-center  px-6 text-lg no-underline"
-                        style={{
-                          backgroundColor: "#305A61",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        View Hotel
-                      </Link>
+                      </span>
                     </div>
                   </div>
-                ))
-            ) : (
-              <div className="col-12">
-                <p className="text-center py-4 text-red-600 font-bold">
-                  No hotels found
-                </p>
+                  <img
+                    decoding="async"
+                    src="https://vitourwp.themesflat.co/wp-content/plugins/tf-vitour-core-plugin/includes/elementor-widget/assets/images/icons/not-wish-list.svg"
+                    alt="Add to Wishlist"
+                  />
+                </div>
               </div>
-            )}
+            </div>
+          </Link>
+        </div>
+      );
+    })
+) : (
+  <div className="col-12 text-center text-gray-500 text-2xl pb-12">No hotels found</div>
+)}
+
           </div>
           <div className="button-view-all flex justify-center pb-12">
             <button

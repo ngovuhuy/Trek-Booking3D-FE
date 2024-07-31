@@ -383,6 +383,59 @@ a {
   justify-content: center;
 
 }
+.input__container--variant {
+  border-radius: 30px;
+  max-width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 1em 1em;
+}
+
+.shadow__input--variant {
+  filter: blur(25px);
+  border-radius: 30px;
+  background-color: #F3FFF9;
+  opacity: 0.5;
+}
+
+.input__button__shadow--variant {
+  border-radius: 15px;
+  background-color: #305A61;
+  padding: 10px;
+  border: none;
+}
+
+.input__button__shadow--variant:hover {
+  background-color: #3C6659;
+}
+
+.input__search--variant {
+  width: 13em;
+  align-items: center;
+  border-radius: 13em;
+  outline: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1.2em;
+  color: #002019;
+  background-color: #ebebeb47;  
+}
+
+.input__search--variant::placeholder {
+  color: #002019;
+  opacity: 0.7;
+}
+
+.input__container--variant {
+
+  border-radius: 1.5em;
+  max-width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 1em;
+
+}
+
 .background-img {
   background-image: url("/image/hotelbeau1.jpg");
   background-position: center; /* Hình ảnh sẽ được căn giữa */  
