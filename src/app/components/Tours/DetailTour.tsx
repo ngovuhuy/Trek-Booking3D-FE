@@ -26,6 +26,7 @@ const [tourCapacity,setTourCapacity] =useState<number>(0);
 const [tourDiscount,setTourDiscount] =useState<number>(0);
 const [status, SetStatus] = useState<boolean>(true);
 const [supplierId,setSupplierId] =useState<number>(0);
+const [tourDay, SetTourDay] = useState<number>(0);
 
 
 const formattedDescription = tourDescription.split('.').map((sentence, index) => (
@@ -54,6 +55,7 @@ useEffect(() => {
         handleSetTourTime(tour.tourTime);
         setTourCapacity(tour.tourCapacity);
         setTourDiscount(tour.tourDiscount);
+        SetTourDay(tour.tourDay);
         setTourTransportation(tour.tourTransportation);
         setSupplierId(tour.supplierId);
     }
@@ -77,9 +79,13 @@ useEffect(() => {
       <Form.Label className="font-bold text-xl">Tour Name</Form.Label>
       <p>{tourName}</p>
     </Form.Group>
-    <Form.Group className="mb-3 col-6" controlId="tourTime">
+    <Form.Group className="mb-3 col-3" controlId="tourTime">
       <Form.Label className="font-bold text-xl">Tour Time</Form.Label>
       <p>{tourTime}</p>
+    </Form.Group>
+    <Form.Group className="mb-3 col-3" controlId="tourDay">
+      <Form.Label className="font-bold text-xl">Tour Day</Form.Label>
+      <p>{tourDay}</p>
     </Form.Group>
     <Form.Group className="mb-3 col-6" controlId="tourTransportation">
       <Form.Label className="font-bold text-xl">Tour Transportation</Form.Label>

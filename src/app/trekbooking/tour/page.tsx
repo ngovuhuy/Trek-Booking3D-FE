@@ -259,7 +259,7 @@ const TourList = () => {
                                 <div className="flex justify-start">
                                   <div className="flex day">
                                     <img className="icon-view" src="/image/locktour.png" alt="" />
-                                    <div className="number-day">7 Days</div>
+                                    <div className="number-day">{item.tourDay} Days</div>
                                   </div>
                                   <div className="flex items-start person min-[1200px]:ml-3">
                                     <img className="icon-view1" src="/image/usertour.png" alt="" />

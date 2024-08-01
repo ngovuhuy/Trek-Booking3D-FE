@@ -133,6 +133,7 @@ export const createTour = async (
   tourTransportation: string,
   tourCapacity: number,
   tourDiscount: number,
+  tourDay: number,
   status: boolean,
   supplierId: number
 ) => {
@@ -142,7 +143,7 @@ export const createTour = async (
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, status, supplierId, tourDiscount })
+    body: JSON.stringify({ tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity,tourDay, status, supplierId, tourDiscount })
   });
 
   if (!response.ok) {
@@ -167,6 +168,7 @@ export const updateTour = async (
   tourTransportation: string,
   tourCapacity: number,
   tourDiscount: number,
+  tourDay:number,
   status: boolean,
   supplierId: number
 ) => {
@@ -176,7 +178,7 @@ export const updateTour = async (
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ tourId, tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, tourDiscount, status, supplierId })
+    body: JSON.stringify({ tourId, tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, tourDiscount, tourDay,status, supplierId })
   });
 
   if (!response.ok) {

@@ -8,6 +8,7 @@ export interface ITour{
     tourTransportation: string;
     tourCapacity: number;
     tourDiscount: number;
+    tourDay: number;
     status: boolean;
     supplierId: number;
 
