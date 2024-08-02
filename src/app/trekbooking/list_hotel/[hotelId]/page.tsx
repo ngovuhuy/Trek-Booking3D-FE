@@ -412,6 +412,8 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     ],
   };
 
+
+  
   return (
     <>
       <link

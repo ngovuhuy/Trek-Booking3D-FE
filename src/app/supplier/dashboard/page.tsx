@@ -320,9 +320,9 @@ console.error("Failed to fetch total tour count", error);
           <div>
             <PieChartGG setPieChartData={setPieChartData} />
           </div>
-          <div>
+          {/* <div>
             <LineChartGG setLineChartData={setLineChartData} />
-          </div>
+          </div> */}
 
           {/* <div>
             <LineChartGGTour />

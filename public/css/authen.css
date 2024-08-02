@@ -19,7 +19,12 @@
         padding: 24px;
     }
     .inout-hide{
-        top: 218px;
+          top: 47px;
+        position: absolute;
+        left: 326px;
+    }
+    .input-hide{
+        top: 47px;
         position: absolute;
         left: 326px;
     }
@@ -33,11 +38,7 @@
         position: absolute;
         left: 326px;
     }
-    .input-hide{
-        top: 308px;
-        position: absolute;
-        left: 326px;
-    }
+   
         .input-text {
             border: 1px solid #ccc;
             border-radius: 12px;

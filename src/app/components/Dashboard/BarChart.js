@@ -253,17 +253,28 @@ formattedData = [
         chartRef.current.innerHTML = `<div style='text-align: center; font-size: 20px; padding-top: 150px; color: red'>${dateError}</div>`;
       } else if (hasData && chartData.length > 1) {
         const dataTable = google.visualization.arrayToDataTable(chartData);
+        const title =
+          timeRange === "custom"
+            ? "Revenue Hotel and Tour from " + `${startDate} to ${endDate}`
+            : "Revenue Hotel and Tour by " + `${timeRange}`;
         const options = {
-          title: "Revenue of Hotel and Tour",
-          // hAxis: { title: "Time" },
-          vAxis: { title: "Revenue" },
-          bars: "vertical",
-          legend: { position: "top" },
+          title: title,
+          hAxis: {
+            title: "",
+          },
+          series: {
+            0: { targetAxisIndex: 0 },
+            1: { targetAxisIndex: 1 },
+          },
+          vAxes: {
+            0: { title: "Revenue Hotel" },
+            1: { title: "Revenue Tour" },
+          },
         };
         const chart = new google.visualization.ColumnChart(chartRef.current);
         chart.draw(dataTable, options);
       } else {
-        chartRef.current.innerHTML =
+chartRef.current.innerHTML =
           "<div style='text-align: center; font-size: 20px; padding-top: 150px;'>No data</div>";
       }
     }
@@ -272,7 +283,7 @@ formattedData = [
   const exportToExcel = () => {
     const ws = XLSX.utils.aoa_to_sheet(chartData);
     const wb = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
+    XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
     XLSX.writeFile(wb, "RevenueData.xlsx");
   };
 
@@ -360,7 +371,7 @@ XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
               <option value="">Select Year</option>
               {Array.from({ length: 100 }, (_, i) => 2000 + i).map((year) => (
                 <option key={year} value={year}>
-                  {year}
+{year}
                 </option>
               ))}
             </select>
@@ -371,7 +382,7 @@ XLSX.utils.book_append_sheet(wb, ws, "Revenue Data");
           style={{
             marginLeft: "20px",
             marginBottom: "5px",
-paddingRight: "3px",
+            paddingRight: "3px",
             color: "white",
             fontWeight: "bold",
             background: "green",

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import authenticateService from "../services/authenticateService";
 import { toast } from "react-toastify";
 
-const signUpClient = () => {
+const SignUpClient = () => {
   const [isPassword, setIsPassword] = useState(true);
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -17,15 +17,62 @@ const signUpClient = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Error state variables
+  const [emailError, setEmailError] = useState("");
+  const [supplierNameError, setSupplierNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
   const togglePasswordVisibility = () => {
     setIsPassword((prevState) => !prevState);
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z][a-zA-Z0-9._%+-]{1,28}@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validateSupplierName = (supplierName: string) => {
+    return supplierName.length >= 2 && supplierName.length <= 20;
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Reset error messages
+    setEmailError("");
+    setSupplierNameError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
+    let isValid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Email must be 10-30 characters, start with a letter, and follow a valid format!");
+      isValid = false;
+    }
+
+    if (!validateSupplierName(supplierName)) {
+      setSupplierNameError("Supplier name must be between 2 and 20 characters!");
+      isValid = false;
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError("Password must be 6-20 characters long, include uppercase, lowercase letters, and a number!");
+      isValid = false;
+    }
+
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match!");
+      setConfirmPasswordError("Passwords do not match!");
+      isValid = false;
+    }
+
+    if (!isValid) {
       return;
     }
 
@@ -63,16 +110,21 @@ const signUpClient = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              {emailError && <p className="error-text py-2 ml-2" style={{ color: "red" }}>{emailError}</p>}
+
               <p className="color-black m-0 pt-2 pb-1">Enter your supplier name</p>
               <input
                 className="input-text"
                 type="text"
-                placeholder="UserName"
+                placeholder="Supplier Name"
                 value={supplierName}
                 onChange={(e) => setSupplierName(e.target.value)}
                 required
               />
-              <p className="m-0 pt-4 pb-1">Enter your password</p>
+              {supplierNameError && <p className="error-text py-2 ml-2" style={{ color: "red" }}>{supplierNameError}</p>}
+
+             <div className="relative">
+             <p className="m-0 pt-2 pb-1">Enter your password</p>
               <input
                 className="input-text"
                 type={isPassword ? "password" : "text"}
@@ -81,14 +133,17 @@ const signUpClient = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-             <img
+              {passwordError && <p className="error-text py-2 ml-2" style={{ color: "red" }}>{passwordError}</p>}
+              <img
                 src="/image/hide.png"
                 className="inout-hide cursor-pointer"
                 onClick={togglePasswordVisibility}
                 alt=""
               />
 
-              <p className="m-0 pt-4 pb-1">Enter your confirm password</p>
+             </div>
+             <div className="relative">
+             <p className="m-0 pt-2 pb-1">Enter your confirm password</p>
               <input
                 className="input-text"
                 type={isPassword ? "password" : "text"}
@@ -97,12 +152,14 @@ const signUpClient = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+              {confirmPasswordError && <p className="error-text py-2 ml-2" style={{ color: "red" }}>{confirmPasswordError}</p>}
               <img
                 src="/image/hide.png"
                 className="input-hide cursor-pointer"
                 onClick={togglePasswordVisibility}
                 alt=""
               />
+             </div>
               <div className="flex justify-center">
                 <button
                   className="w-4/5 text-xl text-white button-text mt-4"
@@ -127,4 +184,4 @@ const signUpClient = () => {
   );
 };
 
-export default signUpClient;
+export default SignUpClient;

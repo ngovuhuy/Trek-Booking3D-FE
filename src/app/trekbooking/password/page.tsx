@@ -40,7 +40,7 @@ const ChangePassword = () => {
 
   return (
     <>
-      <div className="container mt-10">
+      <div className="container pt-44">
         <p className="text-center font-bold text-4xl">Manage Profile</p>
         <div
           className="flex w-3/4 m-auto pt-10"

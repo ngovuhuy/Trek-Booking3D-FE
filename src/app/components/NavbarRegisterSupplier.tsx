@@ -45,7 +45,7 @@ const NavbarRegisterSupplier = () => {
                     className="pr-2"
                   />
                 <Link
-                  href="cart"
+                  href="/trekbooking/booking_cart"
                   className="no-underline text-accent font-bold"
                 >
                   Cart(1)
@@ -58,8 +58,8 @@ const NavbarRegisterSupplier = () => {
                   alt=""
                   className="pr-2"
                 />
-                <Link className="no-underline text-accent font-bold" href="confirmregister">
-                  Post your hotel
+                <Link className="no-underline text-accent font-bold" href="/login_supplier_staff">
+                  Login With Staff
                 </Link>
               </li>
               <li className="flex items-center hover-bold">
@@ -95,7 +95,7 @@ const NavbarRegisterSupplier = () => {
                     className="pr-2"
                   />
                   <a
-                    href=""
+                    href="/trekbooking/booking_cart"
                     className="font-bold text-decoration-none text-accent"
                   >
                     Cart
@@ -109,10 +109,10 @@ const NavbarRegisterSupplier = () => {
                   className="pr-2"
                 />
                   <a
-                    href=""
+                    href="/login_supplier_staff"
                     className="font-bold text-decoration-none text-accent"
                   >
-                    Post your hotel
+                     Login With Staff
                   </a>
                 </li>
                 <li className="flex items-center pb-4 hover-bold">

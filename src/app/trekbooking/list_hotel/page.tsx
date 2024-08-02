@@ -110,6 +110,14 @@ const ListHotels = () => {
 
     fetchHotelsAndRooms();
   }, []);
+// Function to get hotel count for a specific city
+const getHotelCountByCity = (city: string) => {
+  return hotelList.filter((hotel) =>
+    removeVietnameseTones(hotel.hotelCity.toLowerCase()).includes(
+      removeVietnameseTones(city.toLowerCase())
+    )
+  ).length;
+};
 
   const fetchCommentsCount = useCallback(async () => {
     const counts: { [key: number]: number } = {};
@@ -182,24 +190,22 @@ const ListHotels = () => {
           <p className="font-bold text-4xl">The Best Place For Vacation </p>
         </div>
         <div
-          className="border mb-10 pt-6"
-          style={{ borderRadius: "20px", boxShadow: "0 6px 6px #0000004d" }}
-        >
+          className=" mb-10 pt-6">
           <div className="row mx-3">
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4 ">
               <Link
                 href={`/trekbooking/search_city?city=Cần Thơ`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
-                    src="/image/cantho.png"
+                    src="/image/cantho1.png"
                     alt="can tho"
                   />
                   <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -207,40 +213,30 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
+                    <p className="text-white font-semibold text-base mb-1">
                       Can Tho
-                    </span>
+                    </p>
+                    
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Can Tho")} Places</p>
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  //filter city can tho
-                  href={`/trekbooking/search_city?city=Cần Thơ`}
-                >
-                  Find hotel
-                </Link>
-              </div>
+              
             </div>
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
               <Link
                 href={`/trekbooking/search_city?city=Vũng Tàu`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
-                    src="/image/vungtau.jpg"
+                    src="/image/vungtau1.jpg"
                     alt="Vung Tau"
                   />
-                  <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                 <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -248,39 +244,29 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
+                    <p className="text-white font-semibold text-base mb-1">
                       Vung Tau
-                    </span>
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Vung Tau")} Places</p>
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  href={`/trekbooking/search_city?city=Vũng Tàu`}
-                >
-                  Find hotel
-                </Link>
-              </div>
+              
             </div>
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
               <Link
                 href={`/trekbooking/search_city?city=Ninh Bình`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
-                    src="/image/ninhbinh.jpg"
+                    src="/image/ninhbinh1.jpg"
                     alt="ninh binh"
                   />
                   <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -288,39 +274,30 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
+                    <p className="text-white font-semibold text-base mb-1">
                       Ninh Binh
-                    </span>
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ninh Binh")} Places</p>
+
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  href={`/trekbooking/search_city?city=Ninh Bình`}
-                >
-                  Find hotel
-                </Link>
-              </div>
+            
             </div>
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
               <Link
                 href={`/trekbooking/search_city?city=Ho Chi Minh`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
                     src="/image/hcm.png"
                     alt="da lat"
                   />
                   <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -328,39 +305,30 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
-                      Ho Chi Minh
-                    </span>
+                    <p className="text-white font-semibold text-base mb-1">
+                     Ho Chi Minh
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ho Chi Minh")} Places</p>
+
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  href={`/trekbooking/search_city?city=Ho Chi Minh`}
-                >
-                  Find hotel
-                </Link>
-              </div>
+              
             </div>
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
               <Link
                 href={`/trekbooking/search_city?city=Hanoi`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
                     src="/image/hanoi.png"
                     alt="da lat"
                   />
                   <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -368,39 +336,29 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
-                      Ha Noi
-                    </span>
+                    <p className="text-white font-semibold text-base mb-1">
+                     Ha Noi
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ha Noi")} Places</p>
+
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  href={`/trekbooking/search_city?city=Hanoi`}
-                >
-                  Find hotel
-                </Link>
-              </div>
             </div>
-            <div className="col-lg-2 col-4">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
               <Link
                 href={`/trekbooking/search_city?city=Phan Thiết`}
                 className="text-white no-underline zoom-effect-container"
               >
-                <div className="relative image-card">
+                <div className="relative image-card hover-effect">
                   <img
-                    className="border w-full"
+                    className="border w-full hover-image"
                     style={{ borderRadius: "20px", height: "231px" }}
                     src="/image/phanthiet.jpg"
                     alt="phan thiet"
                   />
                   <div
-                    className="absolute z-10 w-full bottom-0 flex justify-center"
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
                     style={{
                       backgroundColor: "rgb(31,28,23,0.3)",
                       border: "0 0 1px 1px",
@@ -408,29 +366,23 @@ const ListHotels = () => {
                       borderBottomRightRadius: "20px",
                     }}
                   >
-                    <span className="text-white font-semibold text-base">
-                      Phan Thiết
-                    </span>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Phan Thiet
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Phan Thiet")} Places</p>
+
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-center my-3">
-                <Link
-                  className="no-underline text-white border px-3 font-medium text-sm"
-                  style={{
-                    backgroundColor: "#305A61",
-                    borderRadius: "10px",
-                  }}
-                  href={`/trekbooking/search_city?city=Phan Thiết`}
-                >
-                  Find hotel
-                </Link>
-              </div>
+            
             </div>
           </div>
+
+
+        
         </div>
 
-        <div className="mt-16">
+        <div className="">
           <div className="flex justify-end pb-4">
             <div className="input__container input__container--variant">
               <div className="shadow__input shadow__input--variant"></div>
