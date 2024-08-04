@@ -10,6 +10,7 @@ export interface ITour{
     tourDiscount: number;
     tourDay: number;
     status: boolean;
+    lock: boolean;
     supplierId: number;
 
 }

@@ -752,7 +752,7 @@ const SearchPage = () => {
                           </div>
                           <div className="row mt-4">
                             {getRoomsByHotelId(item.hotelId).map((room) => (
-                              <div className="col-12" key={room.roomId}>
+                              <div className="col-6" key={room.roomId}>
                                 <div>
                                   <p className="font-bold text-sm">
                                     {room.roomName} 
@@ -812,7 +812,7 @@ const SearchPage = () => {
                             Exclude taxes & fees
                           </p>
                           <Link
-                            href={`/trekbooking/list_hotel/${item.hotelId}`}
+                                href={`/trekbooking/hotel_by_shedule?hotelId=${item.hotelId}&checkin=${checkInDate}&checkout=${checkOutDate}`}
                             className="text-white font-medium btn btn-success text-lg border no-underline"
                             style={{
                               backgroundColor: "#305A61",

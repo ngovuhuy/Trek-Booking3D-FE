@@ -382,6 +382,17 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     autoplay: false,
     autoplaySpeed: 4000,
   };
+  const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = (today.getMonth() + 1).toString(); // thang di tu 0
+    let dd = today.getDate().toString();
+
+    if (parseInt(dd) < 10) dd = "0" + dd;
+    if (parseInt(mm) < 10) mm = "0" + mm;
+
+    return `${dd}-${mm}-${yyyy}`;
+  };
   return (
     <>
       <link
@@ -394,7 +405,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      <div className="container">
+      <div className="container pt-40">
         <div
           className="font-semibold text-xl mt-8"
           style={{ color: "#305A61" }}
@@ -530,7 +541,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span className="font-semibold text-3xl ">
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
-          <div className="row pt-4 ">
+          {/* <div className="row pt-4 ">
             <div className="col-lg-2">
               <label
                 className="font-bold pb-2 "
@@ -567,7 +578,41 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 className="hotel-date-input outline-none"
               />
             </div>
-          </div>
+          </div> */}
+          <div className="row py-3">
+              <label className="col-6 label-custom" htmlFor="checkInDate">
+                Check-in Date:
+              </label>
+              <label className="col-6 label-custom" htmlFor="checkOutDate">
+                Check-out Date:
+              </label>
+              <div className="row mx-0 items-center">
+                <div className="input-date">
+                  <div className="col-6">
+                    <input
+                      type="datetime-local"
+                      id="checkInDate"
+                      value={checkInDate || ""}
+                      onChange={(e) => setCheckOutDate(e.target.value)}
+                      min={getTodayDate().split("-").reverse().join("-")}
+                      required
+                      className="hotel-date-input outline-none border-none"
+                    />
+                  </div>
+                  <div className="col-6">
+                    <input
+                      type="datetime-local"
+                      id="checkOutDate"
+                      value={checkOutDate || ""}
+                      min={getTodayDate().split("-").reverse().join("-")}
+                      onChange={(e) => setCheckOutDate(e.target.value)}
+                      required
+                      className="hotel-date-input outline-none border-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
               <div

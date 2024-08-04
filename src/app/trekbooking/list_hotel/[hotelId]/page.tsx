@@ -86,7 +86,17 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
+  const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = (today.getMonth() + 1).toString(); // thang di tu 0
+    let dd = today.getDate().toString();
 
+    if (parseInt(dd) < 10) dd = "0" + dd;
+    if (parseInt(mm) < 10) mm = "0" + mm;
+
+    return `${dd}-${mm}-${yyyy}`;
+  };
   useEffect(() => {
     if (!checkInDate || !checkOutDate) {
       setErrorMessage('Please click both check-in and check-out dates.');
@@ -562,9 +572,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 <div className="input-date">
                   <div className="col-6">
                     <input
-                      type="datetime-local"
+                      type="date"
                       id="checkInDate"
                       value={checkInDate}
+                      min={getTodayDate().split("-").reverse().join("-")}
                       onChange={(e) => setCheckInDate(e.target.value)}
                       required
                       className="hotel-date-input outline-none border-none"
@@ -572,9 +583,10 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   </div>
                   <div className="col-6">
                     <input
-                      type="datetime-local"
+                      type="date"
                       id="checkOutDate"
                       value={checkOutDate}
+                      min={getTodayDate().split("-").reverse().join("-")}
                       onChange={(e) => setCheckOutDate(e.target.value)}
                       required
                       className="hotel-date-input outline-none border-none"
@@ -846,7 +858,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                         <li key={index} className="list-none pb-8">
                           <div className="article">
                             <div className="gravatar">
-                              <img src={item.user?.avatar || "https://secure.gravatar.com/avatar/d23b0030bdaa87f586fae8d95dc925ea?s=70&d=mm&r=g"} className="avatar avatar-70 photo" height="70" width="70" />
+                              <img src={item.user?.avatar || "/image/usersupplier.png"} className="avatar avatar-70 photo" height="70" width="70" />
                             </div>
                             <div className="comment-content max-[768px]:ml-4">
                               <div className="comment_meta clearfix pb-2">

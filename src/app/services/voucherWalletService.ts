@@ -23,7 +23,6 @@ const voucherWalletService: IVoucherWalletService = {
         throw new Error("Failed to fetch voucher usage history");
       }
       const data = await response.json();
-      console.log("API RESPONSE DATA", data); // Trigger refetch after fetching
       return data;
     } catch (error) {
       console.error("Error fetching voucher usage history:", error);

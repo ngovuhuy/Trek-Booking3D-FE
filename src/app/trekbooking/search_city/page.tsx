@@ -753,7 +753,7 @@ const SearchPage = () => {
                           </div>
                           <div className="row mt-4">
                             {getRoomsByHotelId(item.hotelId).map((room) => (
-                              <div className="col-12" key={room.roomId}>
+                              <div className="col-6" key={room.roomId}>
                                 <div>
                                   <p className="font-bold text-sm">
                                     {room.roomName} 

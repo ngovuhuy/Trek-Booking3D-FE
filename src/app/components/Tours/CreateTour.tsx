@@ -29,7 +29,8 @@ function CreateTour(props: Iprops) {
   const [tourCapacity, SetTourCapacity] = useState<number>(0);
   const [tourDiscount, setTourDiscount] = useState<number>(0);
   const [tourDay, SetTourDay] = useState<number>(0);
-  const [status, SetStatus] = useState<boolean>(true);
+  const [status, SetStatus] = useState<boolean>(false);
+  const [lock, SetLock] = useState<boolean>(false);
   const [supplierId, setSupplierId] = useState<number>(0);
 
   const handleSubmit = async () => {
@@ -61,6 +62,7 @@ function CreateTour(props: Iprops) {
         tourDiscount,
         tourDay,
         status,
+        lock,
        Number(supplierId)
       );
       if (typeof response === "string") {
@@ -104,6 +106,7 @@ function CreateTour(props: Iprops) {
     setTourDiscount(0);
     SetTourPrice(0);
     SetTourAddress("");
+    SetTourDescription("");
     SetTourTime(getTodayDate());
     SetTourTransportation("");
     SetTourCapacity(0);
@@ -136,6 +139,7 @@ function CreateTour(props: Iprops) {
 
   const validateTourName = (name: string) => {
     if (!name) return "Tour Name is required";
+    if (name.length < 20 || name.length > 60) return "Tour Name must be between 6 and 30 words";
     return "";
   };
 
@@ -269,7 +273,7 @@ function CreateTour(props: Iprops) {
   return (
     <>
       <Modal
-        className="pt-36"
+        className="pt-12"
         show={showTourCreate}
         onHide={() => handleCloseModal()}
         size="lg"

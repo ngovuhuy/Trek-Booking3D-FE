@@ -152,6 +152,7 @@ function UpdateTour(props: IProps) {
 
   const validateTourName = (name: string) => {
     if (!name) return "Tour Name is required";
+    if (name.length < 20 || name.length > 60) return "Tour Name must be between 6 and 30 words";
     return "";
   };
 
@@ -287,7 +288,7 @@ function UpdateTour(props: IProps) {
   return (
     <>
       <Modal
-        className="pt-20"
+        className="pt-12"
         show={showTourUpdate}
         onHide={() => handleCloseModal()}
         size="lg"

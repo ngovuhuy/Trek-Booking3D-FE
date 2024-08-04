@@ -8,7 +8,7 @@ const VoucherWallet = () => {
   const { data: voucherWalletList, error } = useSWR("voucherWalletList", () =>
     voucherWalletService.getVoucherUsageHistoryByUserId()
   );
-  console.log("gfgfg: ", voucherWalletList)
+
 
   if (!voucherWalletList) {
     return (
@@ -51,9 +51,11 @@ const VoucherWallet = () => {
           {voucherWalletList.length > 0 ? (
             voucherWalletList.map((item, index) => (
               <div className="flex justify-center pb-4" key={index}>
+                   {item.voucher && (
                 <div className="border-wallet flex justify-between font-semibold">
+             
                   <div>
-                    <p className="text-red-400">Voucher Code: {item.orderHotelHeader.voucherCode}</p>
+                <p className="text-red-500">Voucher Code: {item.orderHotelHeader.voucherCode ? item.orderHotelHeader.voucherCode : "Do not use vouchers"}</p>
                     <p className="mb-0">
                       Discount: {item.voucher?.discountPercent} %
                     </p>
@@ -61,14 +63,16 @@ const VoucherWallet = () => {
                   <div>
                     <p className="">
                       Used Date:{" "}
-                      {new Date(item.voucher.availableDate).toLocaleDateString()}{" "}
+                      {new Date(item?.voucher?.availableDate).toLocaleDateString()}{" "}
                     
                     </p>
                     <p className="mb-0">
                       Process: {item.orderHotelHeader.process}
                     </p>
                   </div>
+                  
                 </div>
+                 )}
               </div>
             ))
           ) : (

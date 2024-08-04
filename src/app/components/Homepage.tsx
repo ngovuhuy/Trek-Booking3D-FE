@@ -273,10 +273,10 @@ const Homepage = () => {
       </div>
       {/* ------------------------------------------------------------------------------------------ */}
       <div className=" p-12 backgr-home">
-        <h1 className="pb-4 pl-6 font-bold text-small">
+        <h3 className="pb-4  font-bold ">
           Rediscover yourself in Asia and beyond
-        </h1>
-        <div className=" row">
+        </h3>
+        <div className="row">
           <div className="col-lg-3 col-md-3 col-3 relative">
             <img src="/image/jappan.png" alt="" />
           </div>

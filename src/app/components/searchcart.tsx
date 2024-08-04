@@ -57,7 +57,17 @@ const Searchcart = () => {
   const handleCheckOutDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckOutDate(event.target.value);
   };
+  const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = (today.getMonth() + 1).toString(); // thang di tu 0
+    let dd = today.getDate().toString();
 
+    if (parseInt(dd) < 10) dd = "0" + dd;
+    if (parseInt(mm) < 10) mm = "0" + mm;
+
+    return `${dd}-${mm}-${yyyy}`;
+  };
   return (
     <div className="background-img ">
   <div className="flex  search-home-fill py-24 pb-28 max-[500px]:py-12">
@@ -115,11 +125,11 @@ const Searchcart = () => {
              <div className="row">
              <Form.Group controlId="checkInDate" className="col-6 text-left">
                 <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1  pt-2 ' >Check-in Date</Form.Label>
-                <Form.Control className='py-1 px-1' type="date" value={checkInDate} onChange={handleCheckInDateChange} />
+                <Form.Control className='py-1 px-1' type="date" value={checkInDate} min={getTodayDate().split("-").reverse().join("-")} onChange={handleCheckInDateChange} />
               </Form.Group>
               <Form.Group controlId="checkOutDate" className="col-6 text-left">
                 <Form.Label className='font-semibold lg:text-lg text-sm cam ml-1  pt-2 '>Check-out Date</Form.Label>
-                <Form.Control className='py-1 px-1'  type="date" value={checkOutDate} onChange={handleCheckOutDateChange} />
+                <Form.Control className='py-1 px-1'  type="date" value={checkOutDate}  min={getTodayDate().split("-").reverse().join("-")} onChange={handleCheckOutDateChange} />
               </Form.Group>
              </div>
              <div className="flex justify-end  max-[768px]:mt-0">

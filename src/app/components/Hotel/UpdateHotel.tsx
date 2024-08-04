@@ -105,6 +105,7 @@ function UpdateHotel(props: Iprops) {
   //Validate Input
   const validateHotelName = (name: string) => {
     if (!name) return "Hotel Name is required";
+    if (name.length < 20 || name.length > 60) return "Hotel Name must be between 6 and 30 words";
     return "";
   };
 

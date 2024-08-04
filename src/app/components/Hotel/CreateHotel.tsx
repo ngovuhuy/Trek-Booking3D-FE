@@ -95,9 +95,9 @@ function CreateHotel(props: Iprops) {
   //Validate Input
   const validateHotelName = (name: string) => {
     if (!name) return "Hotel Name is required";
+    if (name.length < 20 || name.length > 60) return "Hotel Name must be between 6 and 30 words";
     return "";
   };
-
   const validateHotelPhone = (phoneNumber: string) => {
     if (!phoneNumber) return "Hotel Phone Number is required";
     if (!/0[0-9]{9}$/.test(phoneNumber))
