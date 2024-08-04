@@ -45,7 +45,13 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     currentTitle = "TOUR BOOKING";
   } else if (pathname === "/supplier/roomservice" || pathname.startsWith("/supplier/hotel/room/") && pathname.includes("/serviceOfRoom/")) {
     currentTitle = "ROOM SERVICE";
-  } else if (pathname.match(/^\/supplier\/hotel\/room\/\d+$/)) {
+  } 
+  else if (pathname === "/supplier/hotel" || pathname.startsWith("/supplier/hotel/rate/") && pathname.includes("/rate/")) {
+    currentTitle = "RATE";
+  }
+  else if (pathname === "/supplier/hotel" || pathname.startsWith("/supplier/hotel/comment/") && pathname.includes("/comment/")) {
+    currentTitle = "COMMENT";
+  }else if (pathname.match(/^\/supplier\/hotel\/room\/\d+$/)) {
     currentTitle = "ROOM";
   } else if (pathname.match(/^\/supplier\/tour\/tourImage\/\d+$/)) {
     currentTitle = "TOUR IMAGE";

@@ -9,6 +9,8 @@ import "../../../../../../public/css/comment.css";
 
 const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
   const [hotel, setHotel] = useState<IHotel | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomsPerPage] = useState(5);
   const { data: listComment, error } = useSWR("listComment", () =>
     commentService.getCommentsByHotelId(Number(params.hotelId))
   );
@@ -27,7 +29,23 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
 
     fetchHotel();
   }, [params.hotelId]);
+  const totalPages = listComment ? Math.ceil(listComment.length / roomsPerPage) : 0;
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentComments = listComment ? listComment.slice(indexOfFirstRoom, indexOfLastRoom) : [];
+  
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   if (!listComment) {
     return <div>Loading...</div>;
   }
@@ -96,8 +114,8 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listComment.length > 0 ? (
-                      listComment.map((item: IComment, index) => {
+                    {currentComments.length > 0 ? (
+                      currentComments.map((item: IComment, index) => {
                         // Parse the tourTime to a Date object if it's a string
                         const commentTimeDate = new Date(item.dateSubmitted);
                         const formattedCommentTime =
@@ -151,6 +169,38 @@ const ListCommentOfHotel = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

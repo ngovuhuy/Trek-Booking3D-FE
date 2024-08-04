@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import hotelService from "@/app/services/hotelService";
 const ListRateOfHotel = ({ params }: { params: { hotelId: string } }) => {
   const [hotel, setHotel] = useState<IHotel | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [RatesPerPage] = useState(5);
   const { data: listRate, error } = useSWR("listRate", () =>
     rateService.getRatesByHotelId(Number(params.hotelId))
   );
@@ -39,6 +41,23 @@ const ListRateOfHotel = ({ params }: { params: { hotelId: string } }) => {
       stars.push(<img key={i} className="pr-1 inline-block" src="/image/star.png" alt="star" />);
     }
     return stars;
+  };
+  const totalPages = listRate ? Math.ceil(listRate.length / RatesPerPage) : 0;
+  const indexOfLastRoom = currentPage * RatesPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - RatesPerPage;
+  const currentRates = listRate ? listRate.slice(indexOfFirstRoom, indexOfLastRoom) : [];
+  
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
   return (
     <div className="relative">
@@ -97,8 +116,8 @@ const ListRateOfHotel = ({ params }: { params: { hotelId: string } }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listRate.length > 0 ? (
-                      listRate.map((item: IRate, index) => {
+                    {currentRates.length > 0 ? (
+                      currentRates.map((item: IRate, index) => {
                         // Parse the tourTime to a Date object if it's a string
                         // const commentTimeDate = new Date(item.dateSubmitted);
                         // const formattedCommentTime =
@@ -146,6 +165,38 @@ const ListRateOfHotel = ({ params }: { params: { hotelId: string } }) => {
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
