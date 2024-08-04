@@ -255,6 +255,7 @@ const Booking_History = () => {
       setCurrentHotelName(hotelDetail.hotelName); // Assuming hotelName is a property of hotelDetail
       setCurrentRoomName(hotelDetail.roomName);
       setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null);
+      window.location.reload();
     } else {
       console.error("Hotel detail not found for headerId:", headerId);
     }
