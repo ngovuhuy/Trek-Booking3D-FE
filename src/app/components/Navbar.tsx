@@ -140,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
               </li>
               <li className="flex hover-bold cursor-pointer dropdown relative z-10">
                 <div className="flex relative z-2 color-mess">
-                  {userName ? (
+                  {user ? (
                     <div className="flex">
                       <div className="flex relative z-2 color-mess hleft-12">
                         <img
@@ -156,7 +156,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                           className="no-underline text-accent font-bold"
                           href="#"
                         >
-                          {userName}
+                          {user.userName}
                         </Link>
                       </div>
                       <div className="backgourd-li text-center">
@@ -248,7 +248,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                   </a>
                 </li>
                 <li className="flex pb-4 hover-bold">
-                  {userName ? (
+                  {user ? (
                     <div className="flex dropdown">
                       <div className="flex relative z-2 color-mess">
                         <img
@@ -264,7 +264,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                           className="no-underline text-accent font-bold"
                           href="#"
                         >
-                          {userName}
+                          {user.userName}
                         </Link>
                       </div>
                       <div className="backgourd-li1 text-center">
