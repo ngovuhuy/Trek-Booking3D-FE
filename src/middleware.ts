@@ -22,7 +22,8 @@ export async function middleware(request: NextRequest) {
       "/supplier/hotel",
     ];
     const dynamicPaths = [
-      /^\/supplier\/hotel\/(comment|voucher|rate)\/\d+$/,
+      /^\/supplier\/hotel\/(comment|voucher|rate|room)\/\d+$/,
+      /^\/supplier\/hotel\/room\/\d+\/(room3DImage|roomImage)\/\d+$/
     ];
 
     if (allowedPaths.includes(pathname) || dynamicPaths.some((regex) => regex.test(pathname))) {
