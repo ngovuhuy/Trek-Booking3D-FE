@@ -431,10 +431,11 @@ const getHotelCountByCity = (city: string) => {
                             </div>
                             <p className="color-black font-bold pt-2 text-left"> 
                             <span className="max-[992px]:hidden">
-                                      {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 32)}...` : item.hotelName}
+                                      {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 28)}...` : item.hotelName}
                                     </span>
                                     <span className="min-[992px]:hidden">
-                                      {item.hotelName}
+                                      {/* {item.hotelName} */}
+                                      {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 28)}...` : item.hotelName}
                                     </span>
                             </p>
                             <div className="rating-review flex mb-3">

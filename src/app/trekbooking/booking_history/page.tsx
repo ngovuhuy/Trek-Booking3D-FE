@@ -609,7 +609,7 @@ const Booking_History = () => {
                               {header.process}
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2 flex items-center content-center justify-evenly max-[400px]:ml-4 ">
-                              <a href="#" className="flex items-center">
+                              <p className="flex items-center">
                                 {!feedbackStatus[header.id] && (
                                   <img
                                     className="w-6 mr-3"
@@ -634,7 +634,7 @@ const Booking_History = () => {
                                     setShowRoomBookingDetail(true);
                                   }}
                                 />
-                              </a>
+                              </p>
                             </div>
                           </div>
                         </div>

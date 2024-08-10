@@ -8,6 +8,7 @@ import Searchcart from "./searchcart";
 import roomImageService from "../services/roomImageService";
 import Slider from "react-slick";
 import { Oval } from "react-loader-spinner"; // Import spinner
+import  "../../../public/css/slider.css";
 import React, { useEffect, useState } from "react";
 const Homepage = () => {
   const [roomImages, setRoomImages] = useState<IRoomImage[]>([]);
@@ -70,7 +71,7 @@ const Homepage = () => {
       />
       <div className="pt-44">
         <Searchcart />
-        <div className="slider p-12 backgr-home">
+        <div className="slider h-96 p-12 backgr-home">
           <h1 className="pb-4 pl-6 font-bold">Plenty of hotel selections</h1>
           <Slider {...settings}>
       {roomImages.length > 0 ? (
