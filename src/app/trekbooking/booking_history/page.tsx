@@ -255,7 +255,7 @@ const Booking_History = () => {
       setCurrentHotelName(hotelDetail.hotelName); // Assuming hotelName is a property of hotelDetail
       setCurrentRoomName(hotelDetail.roomName);
       setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null);
-      window.location.reload();
+   
     } else {
       console.error("Hotel detail not found for headerId:", headerId);
     }
@@ -609,7 +609,7 @@ const Booking_History = () => {
                               {header.process}
                             </div>
                             <div className="col-lg-2 col-md-2 col-3  max-[400px]:col-2 flex items-center content-center justify-evenly max-[400px]:ml-4 ">
-                              <p className="flex items-center">
+                              <a href="#" className="flex items-center">
                                 {!feedbackStatus[header.id] && (
                                   <img
                                     className="w-6 mr-3"
@@ -634,7 +634,7 @@ const Booking_History = () => {
                                     setShowRoomBookingDetail(true);
                                   }}
                                 />
-                              </p>
+                              </a>
                             </div>
                           </div>
                         </div>

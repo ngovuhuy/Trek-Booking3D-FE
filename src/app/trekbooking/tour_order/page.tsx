@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import tourService from "@/app/services/tourService"; // Đảm bảo import đúng
 import { ITour } from '@/app/entities/tour';
 import { useRouter, useSearchParams } from "next/navigation";
-import { Oval } from 'react-loader-spinner'; 
+import { Oval } from 'react-loader-spinner';
 import userService from '@/app/services/userService';
 import { toast } from "react-toastify";
 import { BookingCartTour } from '@/app/entities/BookingCartTour';
@@ -14,12 +14,12 @@ import paymentService from '@/app/services/paymentService';
 const TourOrder = () => {
   const [bookingCart, setBookingCart] = useState<BookingCartTour[]>([]);
   const [tourDetails, setTourDetails] = useState<ITour | null>(null);
-  
+
   const searchParams = useSearchParams();
   const tourId = Number(searchParams.get('tourId'));
   const quantity = Number(searchParams.get('quantity'));
 
-  const [tour, setTour]  = useState<ITour | null>(null);
+  const [tour, setTour] = useState<ITour | null>(null);
   const [loading, setLoading] = useState(true);
 
 
@@ -28,6 +28,7 @@ const TourOrder = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const isFormValid = fullName && email && phone;
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -35,7 +36,7 @@ const TourOrder = () => {
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-};
+  };
 
   useEffect(() => {
     if (!tourId || !quantity) {
@@ -69,20 +70,23 @@ const TourOrder = () => {
 
 
 
-  
+
   const handlePayment = async () => {
     if (!item) {
       toast.error('No booking item found!');
       return;
     }
-  
+    if (!fullName || !email || !phone) {
+      toast.error('Please fill out all required fields.');
+      return;
+    }
     const paymentData = {
       Order: {
         orderHeader: {
           userId: user?.userId,
           fullName: fullName, // Sử dụng giá trị từ trạng thái
           email: email,       // Sử dụng giá trị từ trạng thái
-          phone: phone,   
+          phone: phone,
           totalPrice: finalPrice,
           tourOrderDate: getCurrentDate(),
           process: "Pending",
@@ -92,7 +96,7 @@ const TourOrder = () => {
         orderDetails: bookingCart.map(cartItem => ({
           tourId: cartItem.tourId,
           tourName: tourDetails?.tourName,
-tourOrderQuantity: quantity,
+          tourOrderQuantity: quantity,
           tourTotalPrice: finalPrice,
         })),
       },
@@ -111,7 +115,7 @@ tourOrderQuantity: quantity,
       isConfirmed: true,
     };
     await paymentService.createTourOrder(bookingData);
-      await paymentService.handleTourPayment(paymentData);
+    await paymentService.handleTourPayment(paymentData);
 
   };
   if (loading) {
@@ -131,9 +135,9 @@ tourOrderQuantity: quantity,
     );
   }
 
-  const item = bookingCart.find(item => item.tourId === tourId );
+  const item = bookingCart.find(item => item.tourId === tourId);
   if (!item) {
-      return <div className='container py-8'>No booking Tour information found.</div>;
+    return <div className='container py-8'>No booking Tour information found.</div>;
   }
 
   if (!tour) {
@@ -178,40 +182,43 @@ tourOrderQuantity: quantity,
                 <div className="pt-3">
                   <p className="font-semibold">Full name</p>
                   <input
-                   value={fullName} // Cập nhật giá trị từ trạng thái
-                   onChange={(e) => setFullName(e.target.value)} // Theo dõi sự thay đổi
-                 type='text'
-              className='border w-full py-2 px-2'
-             style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
-                                        />
+                    value={fullName} // Cập nhật giá trị từ trạng thái
+                    onChange={(e) => setFullName(e.target.value)} // Theo dõi sự thay đổi
+                    type='text'
+                    required
+                    className='border w-full py-2 px-2'
+                    style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
+                  />
                 </div>
                 <div className="pt-3">
                   <p className="font-semibold">Email</p>
                   <input
-                                            value={email} // Cập nhật giá trị từ trạng thái
-                                            onChange={(e) => setEmail(e.target.value)} // Theo dõi sự thay đổi
-                                            type='text'
-className='border w-full py-2 px-1'
-                                            style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
-                                        />
+                    value={email} // Cập nhật giá trị từ trạng thái
+                    onChange={(e) => setEmail(e.target.value)} // Theo dõi sự thay đổi
+                    type='text'
+                    required
+                    className='border w-full py-2 px-1'
+                    style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
+                  />
                 </div>
                 <div className="pt-3">
                   <p className="font-semibold">Phone number</p>
                   <input
-                                            value={phone} // Cập nhật giá trị từ trạng thái
-                                            onChange={(e) => setPhone(e.target.value)} // Theo dõi sự thay đổi
-                                            type='text'
-                                            className='border w-full py-2 px-1'
-                                            style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
-                                        />
+                    value={phone} // Cập nhật giá trị từ trạng thái
+                    onChange={(e) => setPhone(e.target.value)} // Theo dõi sự thay đổi
+                    type='text'
+                    required
+                    className='border w-full py-2 px-1'
+                    style={{ borderRadius: '10px', borderColor: '#D2D2D2' }}
+                  />
                 </div>
-                
+
                 <div className="flex justify-end pt-3 pb-4">
-                  <button
-                    className=" text-white font-medium py-2 px-6 text-lg border"
-                    style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
-                    onClick={handlePayment}
-                  >
+                <button
+              className="text-white font-medium py-2 px-6 text-lg border"
+             style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
+              onClick={handlePayment}
+              >
                     Continue
                   </button>
                 </div>
@@ -254,9 +261,9 @@ className='border w-full py-2 px-1'
                     <p className="text-2xl font-semibold">{finalPrice} US$</p>
                   </div>
                 </div>
-</div>
+              </div>
             </div>
-           
+
           </div>
         </div>
       </div>
@@ -269,6 +276,6 @@ export default function WrappedLoginSupplier() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <TourOrder />
-      </Suspense>
+    </Suspense>
   );
 }

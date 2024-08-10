@@ -45,13 +45,13 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     currentTitle = "TOUR BOOKING";
   } else if (pathname === "/supplier/roomservice" || pathname.startsWith("/supplier/hotel/room/") && pathname.includes("/serviceOfRoom/")) {
     currentTitle = "ROOM SERVICE";
-  } 
+  }
   else if (pathname === "/supplier/hotel" || pathname.startsWith("/supplier/hotel/rate/") && pathname.includes("/rate/")) {
     currentTitle = "RATE";
   }
   else if (pathname === "/supplier/hotel" || pathname.startsWith("/supplier/hotel/comment/") && pathname.includes("/comment/")) {
     currentTitle = "COMMENT";
-  }else if (pathname.match(/^\/supplier\/hotel\/room\/\d+$/)) {
+  } else if (pathname.match(/^\/supplier\/hotel\/room\/\d+$/)) {
     currentTitle = "ROOM";
   } else if (pathname.match(/^\/supplier\/tour\/tourImage\/\d+$/)) {
     currentTitle = "TOUR IMAGE";
@@ -74,7 +74,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
     const roleName = Cookies.get("roleName") || ""; // Thêm giá trị mặc định là chuỗi rỗng nếu roleName là undefined
     setRole(roleName);
   }, []);
- const router = useRouter();
+  const router = useRouter();
   const handleLogoutSupplier = async () => {
     await authenticateService.logOutSupplier();
     toast.success("Logout Success..");
@@ -117,7 +117,9 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                     className="h-7 w-7 rounded-full cursor-pointer m-2 object-cover"
                   />
                   <Link className="no-underline text-accent font-bold" href="#">
-                    {supplier.supplierName}
+                    {supplier.supplierName.length > 8
+                      ? `${supplier.supplierName.slice(0, 8)}`
+                      : supplier.supplierName}
                   </Link>
                 </div>
                 <div className="backgourd-li2 text-center space-y-1">
@@ -166,15 +168,15 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
               <ul className="pl-0">
                 <div className="py-2">
                   <li className="flex items-center pb-3">
-                  <Link className={`flex no-underline  nav-i-hover py-2 pl-3 pr-32 ${pathname === "/supplier/dashboard" ? "active-link" : ""} `} href="/supplier/dashboard">
-                    <img
-                      className="w-7 h-7"
-                      src="/image/darhboard.png"
-                      alt="Dashboard"
-                    />
-                    <span className="text-white ml-2 text-xl font-semibold">
-                      Dashboard
-                    </span>
+                    <Link className={`flex no-underline  nav-i-hover py-2 pl-3 pr-32 ${pathname === "/supplier/dashboard" ? "active-link" : ""} `} href="/supplier/dashboard">
+                      <img
+                        className="w-7 h-7"
+                        src="/image/darhboard.png"
+                        alt="Dashboard"
+                      />
+                      <span className="text-white ml-2 text-xl font-semibold">
+                        Dashboard
+                      </span>
                     </Link>
                   </li>
                 </div>
@@ -256,7 +258,7 @@ const HeaderSupplier: React.FC<HeaderSupplierProps> = ({ title }) => {
                   </Link>
                 </li>
               </ul>
-            </div>            
+            </div>
           </header>
         </div>
       )}

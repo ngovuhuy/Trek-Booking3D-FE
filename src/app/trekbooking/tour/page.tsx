@@ -238,7 +238,7 @@ const TourList = () => {
                                 </div>
                                 <p className="color-black font-bold pt-2 text-left">
                                   <span className="max-[992px]:hidden">
-                                      {item.tourName.length > 3 ? `${item.tourName.slice(0, 32)}...` : item.tourName}
+                                      {item.tourName.length > 3 ? `${item.tourName.slice(0, 28)}...` : item.tourName}
                                     </span>
                                     <span className="min-[992px]:hidden">
                                       {item.tourName}

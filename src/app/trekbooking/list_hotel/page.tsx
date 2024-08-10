@@ -438,8 +438,8 @@ const getHotelCountByCity = (city: string) => {
                                       {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 28)}...` : item.hotelName}
                                     </span>
                             </p>
-                            <div className="rating-review flex mb-3">
-                              <div className="rating flex">
+                            <div className="rating-review flex items-center pb-3">
+                              <div className="rating flex ">
                                 {averageRatings[item.hotelId] > 0 ? (
                                   [...Array(averageRatings[item.hotelId])].map((_, index) => (
                                     <img

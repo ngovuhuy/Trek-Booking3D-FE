@@ -97,7 +97,10 @@ const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
           toast.error('No booking item found!');
           return;
         }
-      
+        if (!fullName || !email || !phone) {
+            toast.error('Please fill out all required fields.');
+            return;
+          }
         const paymentData = {
           Order: {
             orderHeader: {
