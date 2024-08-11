@@ -69,15 +69,12 @@ const HotelListOfSupplier = () => {
           setFilteredHotelList(data);
           setLoading(false);
         });
-toast.success(`Hotel ${lock ? "locked" : "unlocked"} successfully`);
+        toast.success(`Hotel ${lock ? "unlocked" : "locked"} successfully`);
       } else {
         throw new Error(`Failed to ${lock ? "lock" : "unlock"} hotel`);
       }
     } catch (error) {
-      console.error(
-        `Error ${lock ? "locking" : "unlocking"} hotel:`,
-        error
-      );
+      console.error(`Error ${lock ? "locking" : "unlocking"} hotel:`, error);
       toast.error(`Failed to ${lock ? "lock" : "unlock"} hotel`);
     } finally {
       setLoading(false);
@@ -155,7 +152,6 @@ toast.success(`Hotel ${lock ? "locked" : "unlocked"} successfully`);
     try {
       const storageRef = ref(analytics, imageUrl);
       await deleteObject(storageRef);
-
     } catch (error) {
       console.error("Error deleting image from Firebase Storage:", error);
     }
@@ -163,9 +159,7 @@ toast.success(`Hotel ${lock ? "locked" : "unlocked"} successfully`);
   //Delete Hotel avatar in cloud storage after update new avatar
   const handleDeleteHotelAvatar = async (imageUrl: string) => {
     try {
-    
       await deleteImageFromStorage(imageUrl);
- 
     } catch (error) {
       console.error("Error deleting room image:", error);
       alert("Failed to delete room image");
@@ -182,7 +176,7 @@ toast.success(`Hotel ${lock ? "locked" : "unlocked"} successfully`);
         .getHotelsBySuppierId()
         .then((data: any) => {
           setHotelList(data);
-setLoading(false);
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching hotel list:", error);
@@ -233,12 +227,12 @@ setLoading(false);
       setCurrentPage(currentPage + 1);
     }
   };
-  
+
   return (
     <div className="relative">
       <div className="search-add ">
         <div className="search-hotel flex">
-        <input
+          <input
             type="text"
             placeholder="Search........."
             className="input-hotel pl-3"
@@ -272,7 +266,7 @@ setLoading(false);
                       <th scope="col" className="px-6 py-4 text-center">
                         Name
                       </th>
-<th scope="col" className="px-6 py-4">
+                      <th scope="col" className="px-6 py-4">
                         Avatar
                       </th>
                       {/* <th scope="col" className="px-6 py-4">
@@ -339,12 +333,11 @@ setLoading(false);
                                   src={item.hotelAvatar}
                                   alt="Avatar"
                                   className="cursor-pointer rounded-full"
-style={{ width: "60px", height: "50px" }}
+                                  style={{ width: "60px", height: "50px" }}
                                   onClick={() => {
                                     setOldAvatarUrl(item.hotelAvatar);
                                     setHotelId(item.hotelId);
                                     setShowHotelAvatar(true);
-                                   
                                   }}
                                   onError={() => handleImageError(item.hotelId)}
                                 />
@@ -394,13 +387,13 @@ style={{ width: "60px", height: "50px" }}
                           <td className="whitespace-nowrap px-6 py-4">
                             <Link className="flex justify-center" href="#">
                               <img
-                              className="w-7 h-7 cursor-pointer"
+                                className="w-7 h-7 cursor-pointer"
                                 src="/image/viewdetail.png"
                                 alt="View Detail"
                                 onClick={() => {
                                   setHotel(item);
                                   setShowHotelDetail(true);
-}}
+                                }}
                               />
                             </Link>
                           </td>
@@ -427,9 +420,10 @@ style={{ width: "60px", height: "50px" }}
                             </Link>
                           </td>
                           <td
-                          className={`whitespace-nowrap px-6 py-4 ${
+                            className={`whitespace-nowrap px-6 py-4 ${
                               item.lock ? "color-stop" : "color-active"
-                            }`}>
+                            }`}
+                          >
                             {item.lock ? "Stopped" : "Active"}
                           </td>
                           {role === "supplier" ? (
@@ -443,7 +437,6 @@ style={{ width: "60px", height: "50px" }}
                                     setHotelId(item.hotelId);
                                     setHotel(item);
                                     setShowHotelUpdate(true);
-                                  
                                   }}
                                 />
 
@@ -465,7 +458,7 @@ style={{ width: "60px", height: "50px" }}
                                       className="fixed inset-0 bg-black opacity-50"
                                       onClick={handleClosePopup}
                                     ></div>
-<div className="relative bg-white p-8 rounded-lg">
+                                    <div className="relative bg-white p-8 rounded-lg">
                                       <p className="color-black font-bold text-2xl">
                                         Do you want to{" "}
                                         {item.lock ? "unlock" : "lock"} this{" "}
@@ -527,7 +520,7 @@ style={{ width: "60px", height: "50px" }}
                     </span>
                   </div>
                   <div className="flex items-center mr-8">
-<img
+                    <img
                       className="w-3 h-3 cursor-pointer"
                       src="/image/left.png"
                       alt="Previous"
