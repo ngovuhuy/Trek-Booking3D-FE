@@ -17,6 +17,7 @@ export default function LoginSupplierStaff() {
   const [staffPassword, setStaffPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); // Success message state
 
   const togglePasswordVisibility = () => {
     setIsPassword((prevState) => !prevState);
@@ -32,14 +33,14 @@ export default function LoginSupplierStaff() {
       );
 
       if (result.success) {
-        toast.success("Login Successful!");
-        setTimeout(() => {
-          router.push("/supplier");
-        }, 2000);
+        setSuccessMessage("Login successful! Redirecting...");
+        setErrorMessage(""); // Clear any previous error message
+        router.push("/supplier");
       } else {
-        setErrorMessage(result.errorMessage || "An unknown error occurred.");
+        setErrorMessage(result.errorMessage || "Account or password is incorrect.");
       }
     } catch (error) {
+      setSuccessMessage(""); // Clear any previous success message
       setErrorMessage("An error occurred while logging in. Please try again.");
     }
   };
@@ -78,7 +79,8 @@ export default function LoginSupplierStaff() {
               onClick={togglePasswordVisibility}
               alt="Toggle Password Visibility"
             /> */}
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+           {errorMessage && <p className="my-2 ml-2" style={{ color: "red" }}>{errorMessage}</p>}
+           {successMessage && <p className="my-2 ml-2" style={{ color: "green" }}>{successMessage}</p>} {/* Display success message */}
             <div className="flex justify-center">
               <button
                 className="w-4/5 text-xl text-white button-text mt-4"

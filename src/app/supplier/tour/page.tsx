@@ -3,6 +3,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import tourService, {
+  lockTour,
   revalidateTours,
   toggleTourStatus,
 } from "@/app/services/tourService";
@@ -58,7 +59,7 @@ import DetailTour from "@/app/components/Tours/DetailTour";
     setLoading(true);
     try {   
       var response = await tourService.getTourById(tourId);
-      await toggleTourStatus(tourId);
+      await lockTour(tourId);
       setShowPopup(false);
       mutate(revalidateTours);
       toast.success("Success");
@@ -177,13 +178,6 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                 />
                               </Link>
                             </td>
-                            {/* <td
-                              className={`whitespace-nowrap px-6 py-4 ${
-                                item.status ? "color-active" : "color-stop"
-                              }`}
-                            >
-                              {item.status ? "Active" : "Stopped"}
-                            </td> */}
                             <td className="whitespace-nowrap px-6 py-4 flex justify-center">
                             
                                 <img
@@ -197,19 +191,19 @@ import DetailTour from "@/app/components/Tours/DetailTour";
                                 className="w-5 h-5 cursor-pointer ml-3"
                                 onClick={() => handleImageClick(item)}
                                 src={
-                                  item.status
-                                    ? "/image/unlock.png"
-                                    : "/image/lock.png"
+                                  item.lock
+                                    ? "/image/lock.png"
+                                    : "/image/unlock.png"
                                 }
-                                alt={item.status ? "Ban" : "Unban"}
-                                // onClick={() => handleDeleteTour(item.tourId)}
+                                alt={item.lock ? "Ban" : "Unban"}
+                          
                               />
                               {showPopup &&
                                 selectedTour?.tourId === item.tourId && (
                                   <div className="fixed inset-0 z-10 flex items-center justify-center ">
                                     {/* Nền mờ */}
                                     <div
-                                      className="fixed inset-0 bg-black opacity-5"
+                                      className="fixed inset-0 bg-black opacity-50"
                                       onClick={handleClosePopup}
                                     ></div>
 

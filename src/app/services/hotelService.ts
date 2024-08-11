@@ -10,12 +10,9 @@ interface IHotelService {
   getHotels(): Promise<any[]>;
   deleteHotel(hotelId: number): Promise<IHotel>;
   recoverHotelDeleted(hotelId: number): Promise<IHotel>;
-
   searchHotelByCity(city: string): Promise<IHotel[]>;
   searchHotelSchedule(checkInDate: string, checkOutDate: string, city: string): Promise<IHotel[]>;
-
  // convertDateFormat(dateStr: string): string;
-
 }
 
 const hotelService: IHotelService = {

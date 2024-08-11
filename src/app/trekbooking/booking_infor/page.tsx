@@ -97,7 +97,10 @@ const fetchedVouchers = await voucherService.getVouchersByHotelId(hotelId);
           toast.error('No booking item found!');
           return;
         }
-      
+        if (!fullName || !email || !phone) {
+            toast.error('Please fill out all required fields.');
+            return;
+          }
         const paymentData = {
           Order: {
             orderHeader: {
@@ -215,7 +218,7 @@ isConfirmed: true,
                 type='text/css'
                 href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
             />
-            <div className='container py-8'>
+            <div className='container py-8 pt-44'>
                 <div>
               
                     {roomDetails && hotelDetails ? (
@@ -275,20 +278,20 @@ isConfirmed: true,
                                                         </div>
                                                     </div>
                                                     <div
-                                                        className='col-lg-6 col-md-6'
+                                                        className='col-lg-6 col-md-6 flex max-[768px]:items-center'
                                                         style={{
-                                                            height: '356px',
+                                                            height: '20rem',
                                                             border: '1px solid #D9D9D9',
                                                             borderRadius: '10px',
 backgroundColor: '#F5F5F5',
 }}
                                                     >
-                                                        <div className='grid justify-items-center'>
+                                                        <div className='grid justify-items-center r '>
                                                             <span className='text-center text-sm font-semibold pb-3 pt-3 ' style={{ color: '#305A61' }}>
                                                                 Price
                                                             </span>
-                                                            <span className='text-center text-xl font-bold pb-3 '>
-                                                                {roomDetails.roomPrice}
+                                                            <span className='text-center  text-xl font-bold pb-3 '   style={{ color: "rgb(255, 94, 31)" }}>
+                                                                {roomDetails.roomPrice} $
                                                             </span>
                                                             <span className='text-center text-xs font-light pb-3 md:mr-3' style={{ color: '#8E8D8A' }}>
                                                                 Exclude taxes & fees
@@ -406,15 +409,15 @@ onClick={handlePayment}
                                     </div>
                                 </div>
                             </div>
-                            {vouchers.filter(voucher => voucher.voucherStatus).length >= 2 ? (
+                            {vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).length >= 2 ? (
     <Slider {...settings}>
-        {vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
-const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
+        {vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).map(voucher => {
+            const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
             });
-const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
+            const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -424,7 +427,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
                 <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
                     <div className='w-11/12 m-auto'>
                         <div className='pt-5'>
-                            <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
+                            <span className='text-xl font-semibold' style={{ color: '#305A61' }}>
                                 Discount vouchers:
                             </span>
                         </div>
@@ -455,7 +458,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
         })}
     </Slider>
 ) : (
-    vouchers.filter(voucher => voucher.voucherStatus).map(voucher => {
+    vouchers.filter(voucher => voucher.voucherStatus && voucher.voucherQuantity >= 1).map(voucher => {
         const availableDate = new Date(voucher.availableDate).toLocaleDateString('vi-VN', {
             day: '2-digit',
             month: '2-digit',
@@ -469,11 +472,11 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
 
         return (
             <div key={voucher.voucherId} className='border mt-6' style={{ borderRadius: '10px', boxShadow: '0 6px 4px 0 #7F7F7F' }}>
-<div className='w-11/12 m-auto'>
+                <div className='w-11/12 m-auto'>
                     <div className='pt-5'>
                         <span className=' text-xl font-semibold' style={{ color: '#305A61' }}>
                             Discount vouchers:
-</span>
+                        </span>
                     </div>
                     <div className='pt-4'>
                         <div className='pt-2'>
@@ -501,6 +504,7 @@ const expireDate = new Date(voucher.expireDate).toLocaleDateString('vi-VN', {
         );
     })
 )}
+
 
                         </div>
                     </div>

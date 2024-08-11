@@ -23,7 +23,6 @@ const paymentWalletService: IPaymentWalletService = {
         throw new Error("Failed to fetch booking list");
       }
       const data = await response.json();
-      console.log("API RESPONSE DATA", data); // Trigger refetch after fetching
       return data;
     } catch (error) {
       console.error("Error fetching booking list:", error);

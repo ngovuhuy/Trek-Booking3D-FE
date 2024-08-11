@@ -269,7 +269,7 @@ const BookingCart = () => {
   };
 
   return (
-    <div className="container py-8">
+    <div className="container py-8 pt-44">
       <div>
         <a
           className="no-underline flex items-center font-medium text-xl"
@@ -582,9 +582,9 @@ const BookingCart = () => {
                                     </div>
 
                                     <div
-                                      className="col-lg-6"
+                                      className="col-lg-6 h-80 max-[505px]:h-96 max-[768px]:flex max-[768px]:items-center"
                                       style={{
-                                        height: "356px",
+                                      
                                         border: "1px solid #D9D9D9",
                                         borderRadius: "10px",
                                         backgroundColor: "#F5F5F5",
@@ -597,7 +597,7 @@ const BookingCart = () => {
                                         >
                                           Price
                                         </span>
-                                        <span className="text-center text-xl font-bold pb-3 ">
+                                        <span className="text-center text-xl font-bold pb-3 " style={{ color: "rgb(255, 94, 31)" }}>
                                           {totalPrice}$
                                         </span>
                                         <span

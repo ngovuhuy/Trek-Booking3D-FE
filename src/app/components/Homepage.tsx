@@ -1,81 +1,108 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Carousel } from "react-bootstrap";
 import Searchcart from "./searchcart";
-
+import roomImageService from "../services/roomImageService";
+import Slider from "react-slick";
+import { Oval } from "react-loader-spinner"; // Import spinner
+import  "../../../public/css/slider.css";
+import React, { useEffect, useState } from "react";
 const Homepage = () => {
+  const [roomImages, setRoomImages] = useState<IRoomImage[]>([]);
+  useEffect(() => {
+    const fetchRoomImages = async () => {
+      try {
+        const images = await roomImageService.getRoomImage();
+        setRoomImages(images);
+      } catch (error) {
+        console.error('Error fetching room images:', error);
+      }
+    };
+
+    fetchRoomImages();
+  }, []);
+   // Hàm để chia dữ liệu hình ảnh thành các nhóm 4 hình
+   const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4, // Hiển thị 4 hình ảnh mỗi lần
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
-      <div>
+     <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+      />
+      <div className="pt-44">
         <Searchcart />
-        <div className="slider p-12 backgr-home">
+        <div className="slider h-96 p-12 backgr-home">
           <h1 className="pb-4 pl-6 font-bold">Plenty of hotel selections</h1>
-          <Carousel>
-            <Carousel.Item>
-              <div className="flex slider-home">
-                <img
-                  className="col-3"
-                  src="/image/slider1.png"
-                  alt="First slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider2.png"
-                  alt="Second slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider3.png"
-                  alt="Third slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider4.png"
-                  alt="Fourth slide"
-                />
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div className="flex slider-home">
-                <img
-                  className="col-3"
-                  src="/image/slider4.png"
-                  alt="First slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider3.png"
-                  alt="Second slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider2.png"
-                  alt="Third slide"
-                />
-                <img
-                  className="col-3"
-                  src="/image/slider1.png"
-                  alt="Fourth slide"
-                />
-              </div>
-            </Carousel.Item>
-            {/* Define more Carousel.Items for additional slides */}
-          </Carousel>
+          <Slider {...settings}>
+      {roomImages.length > 0 ? (
+        roomImages.map((image) => (
+          <Link key={image.roomImageId} className='text-decoration-none' href="/trekbooking/list_hotel">
+            <img
+              className="rounded-2xl px-2"
+              src={image.roomImageURL}
+              alt={`Room image ${image.roomImageId}`}
+            />
+          </Link>
+        ))
+      ) : (
+        <div className="flex justify-center items-center">
+          
+      </div>
+      )}
+    </Slider>
         </div>
         <div className="villas p-12 backgr-home">
           <h1 className="pb-4 pl-6 font-bold text-small">
             Explore various villas and apartments at Trek Booking
           </h1>
           <div className=" row">
-            <div className="col col-6">
-              <img className="w-100" src="/image/Villa.png" alt="" />
-            </div>
-            <div className="col col-6">
-              <img className="w-100" src="/image/Apartments.png" alt="" />
-            </div>
+            <Link href="/trekbooking/list_hotel" className="col col-6">
+              <img className="w-100 cursor-pointer" src="/image/Villa.png" alt="" />
+            </Link>
+            <Link href="/trekbooking/list_hotel" className="col col-6">
+              <img className="w-100 cursor-pointer" src="/image/Apartments.png" alt="" />
+            </Link>
           </div>
         </div>
         <div className="content-page p-12 backgr-home relative">
@@ -273,10 +300,10 @@ const Homepage = () => {
       </div>
       {/* ------------------------------------------------------------------------------------------ */}
       <div className=" p-12 backgr-home">
-        <h1 className="pb-4 pl-6 font-bold text-small">
+        <h3 className="pb-4  font-bold text-2xl">
           Rediscover yourself in Asia and beyond
-        </h1>
-        <div className=" row">
+        </h3>
+        <div className="row">
           <div className="col-lg-3 col-md-3 col-3 relative">
             <img src="/image/jappan.png" alt="" />
           </div>

@@ -57,6 +57,7 @@ function Rates(props: Iprops) {
 
         toast.success("Successfully rated and commented!");
         handleCloseModal();
+        window.location.reload();
       } else {
         toast.error("Missing information to submit feedback.");
       }

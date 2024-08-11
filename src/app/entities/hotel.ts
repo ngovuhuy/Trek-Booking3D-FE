@@ -10,5 +10,6 @@ interface IHotel{
     hotelInformation: string;
     supplierId: number;
     isVerify: boolean;
+    lock: boolean;
     services: string[];
 }

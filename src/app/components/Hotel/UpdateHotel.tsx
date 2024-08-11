@@ -105,6 +105,7 @@ function UpdateHotel(props: Iprops) {
   //Validate Input
   const validateHotelName = (name: string) => {
     if (!name) return "Hotel Name is required";
+    if (name.length < 20 || name.length > 60) return "Hotel Name must be between 6 and 30 words";
     return "";
   };
 
@@ -238,6 +239,7 @@ function UpdateHotel(props: Iprops) {
         hotelCity: `${selectedCity},${selectedCountry}`,
         hotelInformation,
         isVerify: true, // Default value is true
+        lock: false, // Default value is true
         supplierId: Number(supplierId),
         services: []
       };

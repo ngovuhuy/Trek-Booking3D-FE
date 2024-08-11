@@ -178,22 +178,6 @@ const ListRoomImage = ({ params }: { params: {hotelId:string, roomId: string } }
               >
                 {" > "}
               </span>
-              <Link
-                href={`/supplier/hotel/room/${params.hotelId}`}
-                style={{ color: "black", fontSize: "18px" }}
-              >
-                {hotel.hotelName}
-              </Link>
-              <span
-                style={{
-                  color: "black",
-                  fontSize: "18px",
-                  marginLeft: "5px",
-                  marginRight: "5px",
-                }}
-              >
-                {" > "}
-              </span>
               <span style={{ color: "#4c7cab", fontSize: "18px" }}>
                 {room.roomName}
               </span>

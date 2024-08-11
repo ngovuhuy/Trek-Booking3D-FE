@@ -51,7 +51,7 @@ const NavSupplier = () => {
             <div className="menu-container">
               {role === "supplier" && (
                 <>
-                  <li className="flex items-center pb-10 hotel-room">
+                  {/* <li className="flex items-center pb-10 hotel-room">
                     <Link
                       className={`flex no-underline  nav-i-hover py-2 pl-3 pr-32 ${
                         pathname === "/supplier/hotel" ? "active-link" : ""
@@ -63,7 +63,7 @@ const NavSupplier = () => {
                         Hotel
                       </span>
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="flex items-center pb-10 ">
                     <Link
                       className={`flex no-underline  nav-i-hover py-2 pl-3 pr-32 ${
@@ -80,6 +80,19 @@ const NavSupplier = () => {
                 </>
               )}
             </div>
+            <li className="flex items-center pb-10 hotel-room">
+                    <Link
+                      className={`flex no-underline  nav-i-hover py-2 pl-3 pr-32 ${
+                        pathname === "/supplier/hotel" ? "active-link" : ""
+                      } `}
+                      href="/supplier/hotel"
+                    >
+                      <img className="w-7 h-7 " src="/image/home.png" alt="" />
+                      <span className="text-white ml-2 text-xl font-semibold">
+                        Hotel
+                      </span>
+                    </Link>
+                  </li>
             <li className="flex items-center pb-10">
               <Link
                 className={`flex no-underline nav-i-hover py-2 pl-3 pr-32 ${

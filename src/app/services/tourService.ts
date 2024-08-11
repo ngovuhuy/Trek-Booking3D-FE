@@ -133,7 +133,9 @@ export const createTour = async (
   tourTransportation: string,
   tourCapacity: number,
   tourDiscount: number,
+  tourDay: number,
   status: boolean,
+  lock: boolean,
   supplierId: number
 ) => {
   const response = await fetch(`${BASE_URL}/createTour`, {
@@ -142,7 +144,7 @@ export const createTour = async (
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, status, supplierId, tourDiscount })
+    body: JSON.stringify({ tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity,tourDay, status,lock, supplierId, tourDiscount })
   });
 
   if (!response.ok) {
@@ -167,6 +169,7 @@ export const updateTour = async (
   tourTransportation: string,
   tourCapacity: number,
   tourDiscount: number,
+  tourDay:number,
   status: boolean,
   supplierId: number
 ) => {
@@ -176,7 +179,7 @@ export const updateTour = async (
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ tourId, tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, tourDiscount, status, supplierId })
+    body: JSON.stringify({ tourId, tourName, tourDescription, tourPrice, tourAddress, tourTime, tourTransportation, tourCapacity, tourDiscount, tourDay,status, supplierId })
   });
 
   if (!response.ok) {
@@ -209,5 +212,22 @@ export const toggleTourStatus = async (tourId: number): Promise<void> => {
     throw new Error('Failed to toggle tour status: ' + error.message);
   }
 };
+export const lockTour = async (tourId: number): Promise<void> => {
+  try {
+    const response = await fetch(`${BASE_URL}/LockTour`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ tourId })
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to toggle tour status');
+    }
+  } catch (error: any) {
+    throw new Error('Failed to toggle tour status: ' + error.message);
+  }
+};
 export default tourService;

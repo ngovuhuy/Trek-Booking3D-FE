@@ -1,3 +1,206 @@
+.hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 20px;
+  overflow: hidden; /* Đảm bảo lớp phủ hover nằm gọn trong hình ảnh */
+}
+
+.hover-effect:hover {
+  transform: scale(1.05); /* Phóng to nhẹ khi hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Thêm bóng */
+}
+
+.hover-image {
+  transition: transform 0.3s ease; /* Thêm hiệu ứng mượt cho hình ảnh */
+  border-radius: 20px;
+}
+
+.hover-image:hover {
+  transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+.hover-overlay {
+  transition: background-color 0.3s ease; /* Thêm hiệu ứng mượt cho lớp phủ */
+}
+
+.hover-effect:hover .hover-overlay {
+  background-color: rgba(31, 28, 23, 0.5); /* Tăng độ đậm của lớp phủ khi hover */
+}
+
+.hover-effect:hover .hover-image {
+  transform: scale(1.05); /* Phóng to hình ảnh */
+}
+.article {
+  display: flex;
+}
+.gravatar{
+  width: 12%;
+}
+ .gravatar img{
+ border-radius: 50%;
+}
+.tfvt-listing-header {
+
+  align-items: center;
+  justify-content: space-between;
+}
+.tfvt-listing-header h3{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 26px;
+
+  border-left: 2px solid rgb(48, 90, 97);
+  padding-left: 8px;
+}
+.rating-review {
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #000000;
+}
+.viewall-comment{
+  font-family: "Plus Jakarta Sans", Sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: rgb(48, 90, 97);
+  border-radius: 5px 5px 5px 5px;
+  padding: 12px 12px 12px 12px;
+  color: #fff;
+}
+.comment-content {
+  width: 88%;
+}
+.widget {
+  background: #fff;
+  box-shadow: 0px 9px 46px 0px #0000000F;
+  padding: 45px 30px;
+}
+.widget-title{
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: #131111;
+  padding-left: 19px;
+  letter-spacing: 0;
+  margin-bottom: 27px;
+  border-left: 2px solid  rgb(48, 90, 97);
+}
+.thumb{
+  margin-right: 24px;
+}
+
+.h6-title{
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 25.8px;
+  color: #081E2A;
+  margin-bottom: 4px;
+}
+.input-date{
+  border-radius: 12px;
+  margin: 0;
+  display: flex;
+  padding: 0;
+    border: 3px solid rgb(48, 90, 97);
+}
+.border-right-date{
+  border-right: 4px solid #d6e408;
+}
+.search-date {
+  border-radius: 15px;
+  background: rgb(48, 90, 97);
+  padding: 5px 31px;
+  color: #fff;
+}
+.search-date:hover{
+  background:rgb(41 69 73);
+}
+.price-from{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 25.8px;
+  color: #000;
+}
+.currency_amount {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 25.8px;
+  color:  rgb(48, 90, 97);
+}
+.thumb img{
+  max-width: 103px;
+  border-radius: 4px;
+  height: 90px;
+}
+/* .comment-content{
+
+
+} */
+.comment_author {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 25px;
+  color: #121416;
+}
+.comment_time {
+  position: relative;
+  display: inline-block;
+  color: #949392;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+}
+.comment_text {
+  color: #4F545A;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28.8px;
+}
+.viewall{
+  font-family: "Plus Jakarta Sans", Sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: rgb(48, 90, 97);
+    border-radius: 5px 5px 5px 5px;
+    padding: 14px 28px 14px 28px;
+    color: #fff;
+}
+.viewall:hover{
+  background-color: #081E2A;
+}
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.active1 {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hotel-date-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.hotel-date-input:focus {
+  border-color: #ac7171;
+  outline: none;
+}
+
+.label-custom {
+  font-weight: bold;
+  padding-bottom: 8px;
+  color: #ac7171;
+}
+
 .backgroundVideo {
   width: 100%;
   height: auto;
@@ -85,10 +288,9 @@ width: 100%;
   padding-top: 2px;
 }
 .hotel-date-input{
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding-left: 8px;
-  padding-right: 8px;
+
+
+
   
 }
 .slick-next {
@@ -112,8 +314,9 @@ width: 100%;
   bottom: -24px !important;
 }
 .fix-logo{
-  width: 200px;
-  height: 130px;
+  /* width: 200px;
+  height: 130px; */
+  width: 160px;
 }
 .image-fix-link{
   margin-left: -8px;
@@ -208,18 +411,83 @@ a {
    color:rgb(247 223 223);
 }
 .search-home-fill{
-  position: absolute;
-  top: 0;
-  display: flex;
   justify-content: center;
-  width: 100%;
-  padding-top: 22%;
+
+}
+.input__container--variant {
+  border-radius: 30px;
+  max-width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 1em 1em;
+}
+
+.shadow__input--variant {
+  filter: blur(25px);
+  border-radius: 30px;
+  background-color: #F3FFF9;
+  opacity: 0.5;
+}
+
+.input__button__shadow--variant {
+  border-radius: 15px;
+  background-color: #305A61;
+  padding: 10px;
+  border: none;
+}
+
+.input__button__shadow--variant:hover {
+  background-color: #3C6659;
+}
+
+.input__search--variant {
+  width: 13em;
+  align-items: center;
+  border-radius: 13em;
+  outline: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1.2em;
+  color: #002019;
+  background-color: #ebebeb47;  
+}
+
+.input__search--variant::placeholder {
+  color: #002019;
+  opacity: 0.7;
+}
+
+.input__container--variant {
+
+  border-radius: 1.5em;
+  max-width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 1em;
+
+}
+.star{
+  width: 13px;
+  height: 13px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.icon-view{
+  width: 28px;
+    height: 30px;
+}
+.icon-view1{
+  width: 28px;
+    height: 26px;
 }
 .background-img {
-  /* background-image: url("/image/home3.gif"); */
-  background-size: contain; /* Hình ảnh sẽ được co lại để vừa với phần tử mà không bị cắt */
-  background-position: center; /* Hình ảnh sẽ được căn giữa */
+  background-image: url("/image/hotelbeau1.jpg");
+  background-position: center; /* Hình ảnh sẽ được căn giữa */  
   background-repeat: no-repeat; /* Hình ảnh sẽ không lặp lại */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -21px;
 }
 .input-first {
   padding: 9px 0px;
@@ -593,6 +861,10 @@ background-color: #305A61;
   }
 }
 @media all and (max-width: 1024px) {
+  .background-img {
+
+    margin-top: -52px;
+  }
   .image-fix-link{
 
     margin-top: -48px;
@@ -703,10 +975,7 @@ background-color: #305A61;
   .w-100-768 {
     width: 100%;
   }
-  .search-home-fill{
-   
-    padding-top: 28%;
-  }
+ 
 }
 
 @media all and (max-width: 640px) {
@@ -748,16 +1017,10 @@ background-color: #305A61;
   .pright-repon {
     padding-right: 5rem;
   }
-  .search-home-fill{
-   
-    padding-top: 32%;
-  }
+  
 }
 @media all and (max-width: 575px) {
-  .search-home-fill{
-   
-    padding-top: 42%;
-  }
+
 }
 @media all and (max-width: 440px) {
   .input-search {
@@ -804,10 +1067,7 @@ background-color: #305A61;
     padding: 0px 3px;
 
 }
-.search-home-fill{
-   
-  padding-top: 48%;
-}
+
 }
 @media all and (max-width: 320px) {
   .font1rem {

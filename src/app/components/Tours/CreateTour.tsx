@@ -28,7 +28,9 @@ function CreateTour(props: Iprops) {
   const [tourTransportation, SetTourTransportation] = useState<string>("");
   const [tourCapacity, SetTourCapacity] = useState<number>(0);
   const [tourDiscount, setTourDiscount] = useState<number>(0);
-  const [status, SetStatus] = useState<boolean>(true);
+  const [tourDay, SetTourDay] = useState<number>(0);
+  const [status, SetStatus] = useState<boolean>(false);
+  const [lock, SetLock] = useState<boolean>(false);
   const [supplierId, setSupplierId] = useState<number>(0);
 
   const handleSubmit = async () => {
@@ -40,6 +42,7 @@ function CreateTour(props: Iprops) {
       tourTime: validateTourTime(tourTime),
       tourTransportation: validateTourTransportation(tourTransportation),
       tourCapacity: validateTourCapacity(tourCapacity),
+      tourDay: validateTourDay(tourDay),
       // tourDiscount: validateTourDiscount(tourDiscount),
     };
 
@@ -57,7 +60,9 @@ function CreateTour(props: Iprops) {
         tourTransportation,
         tourCapacity,
         tourDiscount,
+        tourDay,
         status,
+        lock,
        Number(supplierId)
       );
       if (typeof response === "string") {
@@ -101,6 +106,7 @@ function CreateTour(props: Iprops) {
     setTourDiscount(0);
     SetTourPrice(0);
     SetTourAddress("");
+    SetTourDescription("");
     SetTourTime(getTodayDate());
     SetTourTransportation("");
     SetTourCapacity(0);
@@ -133,6 +139,7 @@ function CreateTour(props: Iprops) {
 
   const validateTourName = (name: string) => {
     if (!name) return "Tour Name is required";
+    if (name.length < 20 || name.length > 60) return "Tour Name must be between 6 and 30 words";
     return "";
   };
 
@@ -145,6 +152,12 @@ function CreateTour(props: Iprops) {
     if (!tourPrice) return "Tour Price is required";
     if (isNaN(tourPrice) || tourPrice <= 0)
       return "Tour Price must be a positive number";
+    return "";
+  };
+  const validateTourDay = (tourDay: number) => {
+    if (!tourDay) return "Tour Day is required";
+    if (isNaN(tourDay) || tourDay <= 0)
+      return "Tour Day must be a positive number";
     return "";
   };
 
@@ -260,7 +273,7 @@ function CreateTour(props: Iprops) {
   return (
     <>
       <Modal
-        className="pt-36"
+        className="pt-12"
         show={showTourCreate}
         onHide={() => handleCloseModal()}
         size="lg"
@@ -360,7 +373,7 @@ function CreateTour(props: Iprops) {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className=" mb-3 col-6" controlId="tourCapacity">
+              <Form.Group className=" mb-3 col-3" controlId="tourCapacity">
                 <Form.Label>Tour Capacity</Form.Label>
                 <Form.Control
                   type="number"
@@ -372,6 +385,20 @@ function CreateTour(props: Iprops) {
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.tourCapacity}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3 col-3" controlId="tourDay">
+                <Form.Label>Tour Day</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Please enter day !!!"
+                  value={tourDay}
+                  onChange={(e) => SetTourDay(parseInt(e.target.value))}
+                  onBlur={() => handleBlur("tourDay")}
+                  isInvalid={!!errors.tourDay}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.tourDay}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3 col-9" controlId="tourDescription">

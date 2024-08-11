@@ -17,7 +17,8 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
   const [hotel, setHotel] = useState<IHotel | null>(null);
   //const [RoomService, setRoomService] = useState<IRoomService | null>(null);
   const [selectedRoomService, setSelectedRoomService] = useState<IRoomService | null>(null);
-  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomsPerPage] = useState(5);
   const [showServiceOfRoomCreate, setShowServiceOfRoomCreate] =
     useState<boolean>(false);
 
@@ -38,14 +39,13 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
   
       fetchHotelandRoom();
     }, [params.hotelId, params.roomId]);
-  const {
-    data: listServiceOfRoom,
-    error,
-    mutate: mutateServiceOfRoom,
-  } = useSWR("listServiceOfRoom", () =>
-    serviceOfRoom.getServiceByRoomId(Number(params.roomId))
-  );
-
+    const {
+      data: listServiceOfRoom,
+      error,
+      mutate: mutateServiceOfRoom,
+    } = useSWR("listServiceOfRoom", () =>
+      serviceOfRoom.getServiceByRoomId(Number(params.roomId))
+    );
   const handleCreateServiceOfRoom = async () => {
     setShowServiceOfRoomCreate(false);
     mutateServiceOfRoom(); // Revalidate lại danh sách nhân viên sau khi tạo mới
@@ -78,7 +78,23 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
       alert("Failed to remove service");
     }
   };
+  const totalPages = listServiceOfRoom ? Math.ceil(listServiceOfRoom.length / roomsPerPage) : 0;
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = listServiceOfRoom ? listServiceOfRoom.slice(indexOfFirstRoom, indexOfLastRoom) : [];
+  
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   if (!listServiceOfRoom) {
     return <div>Loading...</div>;
   }
@@ -159,8 +175,8 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
                     </tr>
                   </thead>
                   <tbody>
-                    {listServiceOfRoom.length > 0 ? (
-                      listServiceOfRoom.map((item: IService, index) => {
+                    {currentRooms .length > 0 ? (
+                      currentRooms .map((item: IService, index) => {
                         return (
                           <tr
                             key={index}
@@ -233,6 +249,38 @@ const ListServiceOfRoom = ({ params }: { params: {hotelId:string, roomId: string
                     )}
                   </tbody>
                 </table>
+                <div className="pagination mt-4 flex justify-between items-center font-semibold">
+                  <div>
+                    <span className="ml-8">
+                      {currentPage} of {totalPages}
+                    </span>
+                  </div>
+                  <div className="flex items-center mr-8">
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/left.png"
+                      alt="Previous"
+                      onClick={handlePrevPage}
+                    />
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <p
+                        key={index}
+                        onClick={() => paginate(index + 1)}
+                        className={`mb-0 mx-2 cursor-pointer ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        {index + 1}
+                      </p>
+                    ))}
+                    <img
+                      className="w-3 h-3 cursor-pointer"
+                      src="/image/right2.png"
+                      alt="Next"
+                      onClick={handleNextPage}
+                    />
+                  </div>
+                </div>
                 <CreateServiceOfRoom
                   showServiceOfRoomCreate={showServiceOfRoomCreate}
                   setShowServiceOfRoomCreate={setShowServiceOfRoomCreate}

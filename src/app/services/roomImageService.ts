@@ -5,9 +5,28 @@ interface IRoomImageService {
   getRoomImageByRoomId(roomId: number): Promise<IRoomImage[]>;
   createRoomImage(roomImage: IRoomImage): Promise<IRoomImage>;
   deleteRoomImage(roomImageId: number): Promise<void>;
+  getRoomImage(): Promise<any[]>;
 }
 
 const roomImageService: IRoomImageService = {
+  async getRoomImage() {
+    try {
+      const response = await fetch(`${BASE_URL}/getRoomImages`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("tokenSupplier")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch room list");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching room list:", error);
+      throw error;
+    }
+  },
   async getRoomImageByRoomId(roomId) {
     try {
       const response = await fetch(

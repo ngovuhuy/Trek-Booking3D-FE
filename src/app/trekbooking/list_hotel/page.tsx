@@ -8,21 +8,41 @@ import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Oval } from "react-loader-spinner"; // Import spinner
 import rateService from "@/app/services/rateService";
+import "../../../../public/css/tour.css";
 
 const ListHotels = () => {
   const [hotelList, setHotelList] = useState<IHotel[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [roomList, setRoomList] = useState<IRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [viewAll, setViewAll] = useState(false); // State để quản lý việc xem tất cả
   const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>(
     {}
   );
   const [averageRatings, setAverageRatings] = useState<{
     [key: number]: number;
   }>({});
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+  const removeVietnameseTones = (str: any) => {
+    // Hàm loại bỏ dấu tiếng Việt
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+  };
+  const filteredHotels = hotelList ? hotelList.filter(hotel => {
+    const normalizedCity = removeVietnameseTones(hotel.hotelCity.toLowerCase());
+    const normalizedHotelName = removeVietnameseTones(hotel.hotelName.toLowerCase());
+    const normalizedSearchTerm = removeVietnameseTones(searchTerm.toLowerCase());
+
+    const matchesSearch = normalizedCity.includes(normalizedSearchTerm) || normalizedHotelName.includes(normalizedSearchTerm);
+
+    return matchesSearch;
+  }) : [];
+
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -47,7 +67,24 @@ const ListHotels = () => {
       fetchRates();
     }
   }, [hotelList]);
+  useEffect(() => {
+    const onScroll = () => {
+      const animatedElement = document.querySelector('.animate-on-scroll') as HTMLElement;
+      if (!animatedElement) return;
 
+      const rect = animatedElement.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        animatedElement.classList.add('active1');
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Gọi hàm này để kiểm tra vị trí phần tử ngay khi tải trang
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
   useEffect(() => {
     const fetchHotelsAndRooms = async () => {
       setLoading(true);
@@ -73,6 +110,14 @@ const ListHotels = () => {
 
     fetchHotelsAndRooms();
   }, []);
+// Function to get hotel count for a specific city
+const getHotelCountByCity = (city: string) => {
+  return hotelList.filter((hotel) =>
+    removeVietnameseTones(hotel.hotelCity.toLowerCase()).includes(
+      removeVietnameseTones(city.toLowerCase())
+    )
+  ).length;
+};
 
   const fetchCommentsCount = useCallback(async () => {
     const counts: { [key: number]: number } = {};
@@ -112,26 +157,13 @@ const ListHotels = () => {
 
   const totalPages = Math.ceil(hotelList.length / itemsPerPage);
 
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const currentHotels = hotelList.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const currentHotels = viewAll
+    ? filteredHotels
+    : filteredHotels.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
 
   if (loading) {
     return (
@@ -154,345 +186,327 @@ const ListHotels = () => {
   return (
     <>
       <div className="container mb-20">
-        <div className="text-center pt-3">
+        <div className="text-center pt-44">
           <p className="font-bold text-4xl">The Best Place For Vacation </p>
         </div>
         <div
-          className="border mb-10 pt-6"
-          style={{ borderRadius: "20px", boxShadow: "0 6px 6px #0000004d" }}
-        >
-         <div className="row mx-3">
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Cần Thơ`}
-                    className="text-white no-underline zoom-effect-container"
+          className=" mb-10 pt-6">
+          <div className="row mx-3">
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4 ">
+              <Link
+                href={`/trekbooking/search_city?city=Cần Thơ`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect hover-effect">
+                  <img
+                    className="border w-full hover-image hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/cantho1.png"
+                    alt="can tho"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/cantho.png"
-                        alt="can tho"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Can Tho
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      //filter city can tho
-                      href={`/trekbooking/search_city?city=Cần Thơ`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Can Tho
+                    </p>
+                    
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Can Tho")} Places</p>
                   </div>
                 </div>
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Vũng Tàu`}
-                    className="text-white no-underline zoom-effect-container"
+              </Link>
+              
+            </div>
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
+              <Link
+                href={`/trekbooking/search_city?city=Vũng Tàu`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect">
+                  <img
+                    className="border w-full hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/vungtau1.jpg"
+                    alt="Vung Tau"
+                  />
+                 <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/vungtau.jpg"
-                        alt="Vung Tau"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Vung Tau
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Vũng Tàu`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Vung Tau
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Vung Tau")} Places</p>
                   </div>
                 </div>
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Ninh Bình`}
-                    className="text-white no-underline zoom-effect-container"
+              </Link>
+              
+            </div>
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
+              <Link
+                href={`/trekbooking/search_city?city=Ninh Bình`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect">
+                  <img
+                    className="border w-full hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/ninhbinh1.jpg"
+                    alt="ninh binh"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/ninhbinh.jpg"
-                        alt="ninh binh"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Ninh Binh
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Ninh Bình`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Ninh Binh
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ninh Binh")} Places</p>
+
                   </div>
                 </div>
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Ho Chi Minh`}
-                    className="text-white no-underline zoom-effect-container"
+              </Link>
+            
+            </div>
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
+              <Link
+                href={`/trekbooking/search_city?city=Ho Chi Minh`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect">
+                  <img
+                    className="border w-full hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/hcm.png"
+                    alt="da lat"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/hcm.png"
-                        alt="da lat"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Ho Chi Minh
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Ho Chi Minh`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                     Ho Chi Minh
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ho Chi Minh")} Places</p>
+
                   </div>
                 </div>
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Hanoi`}
-                    className="text-white no-underline zoom-effect-container"
+              </Link>
+              
+            </div>
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
+              <Link
+                href={`/trekbooking/search_city?city=Hanoi`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect">
+                  <img
+                    className="border w-full hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/hanoi.png"
+                    alt="da lat"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/hanoi.png"
-                        alt="da lat"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Ha Noi
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Hanoi`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                     Ha Noi
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Ha Noi")} Places</p>
+
                   </div>
                 </div>
-                <div className="col-lg-2 col-4">
-                  <Link
-                    href={`/trekbooking/search_city?city=Phan Thiết`}
-                    className="text-white no-underline zoom-effect-container"
+              </Link>
+            </div>
+          <div className="col-lg-2 col-md-4 col-12 max-[992px]:pt-4">
+              <Link
+                href={`/trekbooking/search_city?city=Phan Thiết`}
+                className="text-white no-underline zoom-effect-container"
+              >
+                <div className="relative image-card hover-effect">
+                  <img
+                    className="border w-full hover-image"
+                    style={{ borderRadius: "20px", height: "231px" }}
+                    src="/image/phanthiet.jpg"
+                    alt="phan thiet"
+                  />
+                  <div
+                    className="absolute z-10 w-full bottom-0 pl-4 py-2 hover-overlay"
+                    style={{
+                      backgroundColor: "rgb(31,28,23,0.3)",
+                      border: "0 0 1px 1px",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
+                    }}
                   >
-                    <div className="relative image-card">
-                      <img
-                        className="border w-full"
-                        style={{ borderRadius: "20px", height: "231px" }}
-                        src="/image/phanthiet.jpg"
-                        alt="phan thiet"
-                      />
-                      <div
-                        className="absolute z-10 w-full bottom-0 flex justify-center"
-                        style={{
-                          backgroundColor: "rgb(31,28,23,0.3)",
-                          border: "0 0 1px 1px",
-                          borderBottomLeftRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
-                        <span className="text-white font-semibold text-base">
-                          Phan Thiết
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="flex justify-center my-3">
-                    <Link
-                      className="no-underline text-white border px-3 font-medium text-sm"
-                      style={{
-                        backgroundColor: "#305A61",
-                        borderRadius: "10px",
-                      }}
-                      href={`/trekbooking/search_city?city=Phan Thiết`}
-                    >
-                      Find hotel
-                    </Link>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Phan Thiet
+                    </p>
+                    <p className="opacity-80 mb-0">{getHotelCountByCity("Phan Thiet")} Places</p>
+
                   </div>
                 </div>
-              </div>
+              </Link>
+            
+            </div>
+          </div>
+
+
+        
         </div>
 
-        <div className="mt-16">
-          <div className="row">
+        <div className="">
+          <div className="flex justify-end pb-4">
+            <div className="input__container input__container--variant">
+              <div className="shadow__input shadow__input--variant"></div>
+              <input
+                type="text"
+                name="text"
+                className="input__search input__search--variant"
+                placeholder="Search by address..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+          </div>
+          <div className="row pb-6">
             {currentHotels.length > 0 ? (
               currentHotels
                 .filter((item: IHotel) => item.isVerify === true)
-                .map((item: IHotel) => (
-                  <div key={item.hotelId} className="col-md-4 col-lg-3 mb-2">
-                    <div
-                      className="border grid justify-items-center pb-3 card1 "
-                      style={{
-                        borderRadius: "20px",
-                        boxShadow: "0 4px 4px rgba(0, 0, 0, 0.25)",
-                        height: "460px",
-                      }}
-                    >
-                      <img
-                        src={item.hotelAvatar}
-                        alt="hotel"
-                        className="p-3 w-100 h-64"
-                        style={{ border: "1px", borderRadius: "36px" }}
-                      />
-                      <span className="text-lg font-semibold text-center">
-                        {item.hotelName}
-                      </span>
-                      <div className="flex justify-between items-center text-sm font-medium">
-                        <div className="flex mr-2">
-                          {averageRatings[item.hotelId] > 0 ? (
-                            [...Array(averageRatings[item.hotelId])].map(
-                              (_, index) => (
-                                <img
-                                  key={index}
-                                  className="inline w-3 h-3 ml-1"
-                                  src="/image/star.png"
-                                  alt=""
-                                />
-                              )
-                            )
-                          ) : (
-                            <span className="">No rating</span>
-                          )}
+                .map((item: IHotel, index: number) => {
+                  const newPrice = getLowestPrice(item.hotelId);
+                  return (
+                    <div key={index} className="col-lg-3 col-md-6 col-12 pb-9 col-md-6 hover-tour cursor-pointer">
+                      <Link href={`/trekbooking/list_hotel/${item.hotelId}`} className="fix-link text-decoration-none ">
+                        <div className="block-tour content-tour fix-image-tour-client">
+                          <div className="img-tour relative">
+                            <img
+                              src={item.hotelAvatar || "/image/hotel-placeholder.png"}
+                              className="w-100 fix-image-tour-client h-56"
+                              alt="Hotel"
+                            />
+                            <div className="meta-lable">
+                              <div className="featured-text">Featured</div>
+                            </div>
+                          </div>
+
+                          <div className="py-1 px-6">
+                            <div className="address flex justify-start">
+                              <img className="w-7" src="/image/addresstour.gif" alt="" />
+                             <span className="address-text">
+                             <span className="max-[992px]:hidden">
+                                {item.hotelCity.length > 3 ? `${item.hotelCity.slice(0, 18)}...` : item.hotelCity}
+                              </span>
+                              <span className="min-[992px]:hidden">
+                                {item.hotelCity}
+                              </span>
+                             </span>
+                            </div>
+                            <p className="color-black font-bold pt-2 text-left"> 
+                            <span className="max-[992px]:hidden">
+                                      {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 28)}...` : item.hotelName}
+                                    </span>
+                                    <span className="min-[992px]:hidden">
+                                      {/* {item.hotelName} */}
+                                      {item.hotelName.length > 3 ? `${item.hotelName.slice(0, 28)}...` : item.hotelName}
+                                    </span>
+                            </p>
+                            <div className="rating-review flex items-center pb-3">
+                              <div className="rating flex ">
+                                {averageRatings[item.hotelId] > 0 ? (
+                                  [...Array(averageRatings[item.hotelId])].map((_, index) => (
+                                    <img
+                                      key={index}
+                                      className="star"
+                                      src="/image/star.png"
+                                      alt=""
+                                    />
+                                  ))
+                                ) : (
+                                  <span>No rating</span>
+                                )}
+                              </div>
+                              <div className="review">
+                                ({commentsCount[item.hotelId] || 0} Reviews)
+                              </div>
+                            </div>
+                            <div className="flex justify-start">
+                              <div className="flex day">
+                                <img className="icon-view" src="/image/locktour.png" alt="" />
+                                <div className="number-day">1 Days</div>
+                              </div>
+                              <div className="flex items-start person min-[1200px]:ml-3">
+                                <img className="icon-view1" src="/image/usertour.png" alt="" />
+                                <div className="number-day">2 Persons</div>
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-between tour-info-bottom">
+                              <div className="d-flex price">
+                                <span className="from-color">From</span>
+                                <div className="price-content pb-2">
+                                  <span className="price-text item_info_price_new">
+                                    <span className="currency_amount">
+                                      <span className="currency_symbol">${newPrice || "N/A"}</span>
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                              <img
+                                decoding="async"
+                                src="https://vitourwp.themesflat.co/wp-content/plugins/tf-vitour-core-plugin/includes/elementor-widget/assets/images/icons/not-wish-list.svg"
+                                alt="Add to Wishlist"
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <span className="" style={{ color: "#2cc92c" }}>
-                          {commentsCount[item.hotelId] || 0} reviews
-                        </span>
-                      </div>
-                      <p className="text-base font-semibold">
-                        From ${getLowestPrice(item.hotelId) || "N/A"}
-                      </p>
-                      <Link
-                        href={`/trekbooking/list_hotel/${item.hotelId}`}
-                        className="text-white font-medium flex items-center  px-6 text-lg no-underline"
-                        style={{
-                          backgroundColor: "#305A61",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        View Hotel
                       </Link>
                     </div>
-                  </div>
-                ))
+                  );
+                })
             ) : (
-              <div className="col-12">
-                <p className="text-center py-4 text-red-600 font-bold">
-                  No hotels found
-                </p>
-              </div>
+              <div className="col-12 text-center text-gray-500 text-2xl pb-12">No hotels found</div>
             )}
+
           </div>
-          <div className="pagination mt-4 flex justify-center items-center font-semibold">
-            <div className="flex items-center mr-8">
-              <img className="w-3 h-3 cursor-pointer" src="/image/left.png" alt="Previous" onClick={handlePrevPage} />
-              {Array.from({ length: totalPages }, (_, index) => (
-                <p
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={`mb-0 mx-2 cursor-pointer ${currentPage === index + 1 ? 'active' : ''}`}
-                >
-                  {index + 1}
-                </p>
-              ))}
-              <img className="w-3 h-3 cursor-pointer" src="/image/right2.png" alt="Next" onClick={handleNextPage} />
-            </div>
+          <div className="button-view-all flex justify-center pb-12">
+            <button
+              className="flex items-center viewall"
+              onClick={() => setViewAll(!viewAll)}
+            >
+              {viewAll ? "VIEW LESS" : "VIEW MORE"}
+              <img className="w-4 ml-2" src="/image/tourright.png" alt="" />
+            </button>
           </div>
         </div>
       </div>
-      <div className="container">
+      <div className="container animate-on-scroll">
         <p className="font-bold text-4xl">Multiple convenient features</p>
         <div className="row py-10">
           {[

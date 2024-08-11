@@ -23,6 +23,7 @@ function UpdateTour(props: IProps) {
   const [tourTransportation, setTourTransportation] = useState<string>("");
   const [tourCapacity, setTourCapacity] = useState<number>(0);
   const [tourDiscount, setTourDiscount] = useState<number>(0);
+  const [tourDay, SetTourDay] = useState<number>(0);
   const [status, SetStatus] = useState<boolean>(true);
   const [supplierId, setSupplierId] = useState<number>(0);
 
@@ -48,6 +49,7 @@ function UpdateTour(props: IProps) {
       setTourDiscount(tour.tourDiscount);
       setTourTransportation(tour.tourTransportation);
       setSupplierId(tour.supplierId);
+      SetTourDay(tour.tourDay)
     }
   }, [tour]);
 
@@ -60,6 +62,7 @@ function UpdateTour(props: IProps) {
       tourTime: validateTourTime(tourTime),
       tourTransportation: validateTourTransportation(tourTransportation),
       tourCapacity: validateTourCapacity(tourCapacity),
+      tourDay: validateTourDay(tourDay),
       // tourDiscount: validateTourDiscount(tourDiscount),
     };
 
@@ -78,6 +81,7 @@ function UpdateTour(props: IProps) {
         tourTransportation,
         tourCapacity,
         tourDiscount,
+        tourDay,
         status,
         supplierId
       );
@@ -116,6 +120,7 @@ function UpdateTour(props: IProps) {
     setTourTransportation("");
     setTourCapacity(0);
     setTourDiscount(0);
+    SetTourDay(0);
     setTour(null);
     setShowTourUpdate(false);
     setErrors({});
@@ -127,6 +132,7 @@ function UpdateTour(props: IProps) {
       tourTime: false,
       tourTransportation: false,
       tourCapacity: false,
+      tourDay:false,
       tourDiscount: false,
     });
   };
@@ -140,11 +146,13 @@ function UpdateTour(props: IProps) {
     tourTime: false,
     tourTransportation: false,
     tourCapacity: false,
+    tourDay:false,
     tourDiscount: false,
   });
 
   const validateTourName = (name: string) => {
     if (!name) return "Tour Name is required";
+    if (name.length < 20 || name.length > 60) return "Tour Name must be between 6 and 30 words";
     return "";
   };
 
@@ -159,6 +167,14 @@ function UpdateTour(props: IProps) {
       return "Tour Price must be a positive number";
     return "";
   };
+
+  const validateTourDay = (tourDay: number) => {
+    if (!tourDay) return "Tour Day is required";
+    if (isNaN(tourDay) || tourDay <= 0)
+      return "Tour Day must be a positive number";
+    return "";
+  };
+
 
   const validateTourAddress = (address: string) => {
     if (!address) return "Tour Address is required";
@@ -272,7 +288,7 @@ function UpdateTour(props: IProps) {
   return (
     <>
       <Modal
-        className="pt-20"
+        className="pt-12"
         show={showTourUpdate}
         onHide={() => handleCloseModal()}
         size="lg"
@@ -380,7 +396,7 @@ function UpdateTour(props: IProps) {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group className="mb-3 col-6" controlId="tourCapacity">
+              <Form.Group className="mb-3 col-3" controlId="tourCapacity">
                 <Form.Label>Capacity</Form.Label>
                 <Form.Control
                   type="number"
@@ -392,6 +408,20 @@ function UpdateTour(props: IProps) {
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.tourCapacity}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="mb-3 col-3" controlId="tourDay">
+                <Form.Label>Tour Day</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Please enter day !!!"
+                  value={tourDay}
+                  onChange={(e) => SetTourDay(parseInt(e.target.value))}
+                  onBlur={() => handleBlur("tourDay")}
+                  isInvalid={!!errors.tourDay}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.tourDay}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3 col-9" controlId="tourDescription">

@@ -15,6 +15,7 @@ function LoginSupplier() {
   const [password, setPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); // Success message state
 
   useEffect(() => {
     const message = searchParams.get("message");
@@ -35,9 +36,12 @@ function LoginSupplier() {
     const result = await authenticateService.loginSupplier(email, password);
 
     if (result.success) {
+      setSuccessMessage("Login successful! Redirecting...");
+      setErrorMessage(""); // Clear any previous error message
         router.push("/supplier");
     } else {
-      setErrorMessage(result.errorMessage || "An unknown error occurred.");
+      setSuccessMessage(""); // Clear any previous success message
+      setErrorMessage(result.errorMessage || "Account or password is incorrect.");
     }
   };
 
@@ -76,7 +80,8 @@ function LoginSupplier() {
                   onClick={togglePasswordVisibility}
                   alt=""
                 /> */}
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {errorMessage && <p className="my-2 ml-2" style={{ color: "red" }}>{errorMessage}</p>}
+                {successMessage && <p className="my-2 ml-2" style={{ color: "green" }}>{successMessage}</p>} {/* Display success message */}
                 <div className="flex justify-center">
                   <button
                     className="w-4/5 text-xl text-white button-text mt-4"

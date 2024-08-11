@@ -92,6 +92,7 @@ const Booking_History = () => {
   const [tourImages, setTourImages] = useState<ITourImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -254,6 +255,7 @@ const Booking_History = () => {
       setCurrentHotelName(hotelDetail.hotelName); // Assuming hotelName is a property of hotelDetail
       setCurrentRoomName(hotelDetail.roomName);
       setCurrentRoomImageURL(roomImage ? roomImage.roomImageURL : null);
+   
     } else {
       console.error("Hotel detail not found for headerId:", headerId);
     }
@@ -271,7 +273,7 @@ const Booking_History = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
-      <div>
+      <div className="pt-10">
         <div className="payment-wallet">
           <h3>History</h3>
         </div>
@@ -366,19 +368,14 @@ const Booking_History = () => {
                         <div className="row pt-10" key={index}>
                           <div className="col-lg-6 col-md-4 col-0 flex items-center">
                             <div className="col-lg-2 col-md-6 col-12 max-[768px]:hidden">
-                              {tourImages.length >= 0 ? (
+                              {tourImages.filter(image => tourDetails[header.id]?.some(detail => detail.tourId === image.tourId)).length >= 2 ? (
                                 <Slider {...settings}>
                                   {tourImages
-                                    .filter((image) =>
-                                      tourDetails[header.id]?.some(
-                                        (detail) =>
-                                          detail.tourId === image.tourId
-                                      )
-                                    )
-                                    .map((image) => (
+                                    .filter(image => tourDetails[header.id]?.some(detail => detail.tourId === image.tourId))
+                                    .map(image => (
                                       <div key={image.tourImageId} className="">
                                         <img
-                                          style={{ borderRadius: "10px" }}
+                                          style={{ borderRadius: '10px' }}
                                           className="w-3/4 h-12 border rounded-lg mx-auto"
                                           src={image.tourImageURL}
                                           alt="tour thumbnail"
@@ -386,14 +383,28 @@ const Booking_History = () => {
                                       </div>
                                     ))}
                                 </Slider>
+                              ) : tourImages.filter(image => tourDetails[header.id]?.some(detail => detail.tourId === image.tourId)).length === 1 ? (
+                                tourImages
+                                  .filter(image => tourDetails[header.id]?.some(detail => detail.tourId === image.tourId))
+                                  .map(image => (
+                                    <div key={image.tourImageId} className="">
+                                      <img
+                                        style={{ borderRadius: '10px' }}
+                                        className="w-3/4 h-12 border rounded-lg mx-auto"
+                                        src={image.tourImageURL}
+                                        alt="tour thumbnail"
+                                      />
+                                    </div>
+                                  ))
                               ) : (
                                 <img
-                                  style={{ borderRadius: "10px" }}
+                                  style={{ borderRadius: '10px' }}
                                   className="w-full h-12 border rounded-lg"
                                   src="/path/to/default/image.jpg"
                                   alt="default thumbnail"
                                 />
                               )}
+
                             </div>
                             <div className="w-2/5 ml-4 max-[992px]:text-xs max-[768px]:hidden">
                               <span>
@@ -528,29 +539,33 @@ const Booking_History = () => {
                         <div className="row pt-10" key={index}>
                           <div className="col-lg-6 col-md-4 col-0 flex items-center">
                             <div className="col-lg-2 col-md-6 col-12 max-[768px]:hidden">
-                              {roomImages.length >= 0 ? (
+                              {roomImages.length >= 2 ? (
                                 <Slider {...settings}>
-                                  {roomImages
-                                    .filter((image) =>
-                                      hotelDetails[header.id]?.some(
-                                        (detail) =>
-                                          detail.roomId === image.roomId
-                                      )
-                                    )
-                                    .map((image) => (
-                                      <div key={image.roomImageId} className="">
-                                        <img
-                                          style={{ borderRadius: "10px" }}
-                                          className="w-3/4 h-12 border rounded-lg mx-auto"
-                                          src={image.roomImageURL}
-                                          alt="room thumbnail"
-                                        />
-                                      </div>
-                                    ))}
+                                  {roomImages.map(image => (
+                                    <div key={image.roomImageId} className="">
+                                      <img
+                                        style={{ borderRadius: '10px' }}
+                                        className="w-3/4 h-12 border rounded-lg mx-auto"
+                                        src={image.roomImageURL}
+                                        alt="room thumbnail"
+                                      />
+                                    </div>
+                                  ))}
                                 </Slider>
+                              ) : roomImages.length === 1 ? (
+                                roomImages.map(image => (
+                                  <div key={image.roomImageId} className="">
+                                    <img
+                                      style={{ borderRadius: '10px' }}
+                                      className="w-3/4 h-12 border rounded-lg mx-auto"
+                                      src={image.roomImageURL}
+                                      alt="room thumbnail"
+                                    />
+                                  </div>
+                                ))
                               ) : (
                                 <img
-                                  style={{ borderRadius: "10px" }}
+                                  style={{ borderRadius: '10px' }}
                                   className="w-full h-12 border rounded-lg"
                                   src="/path/to/default/image.jpg"
                                   alt="default thumbnail"

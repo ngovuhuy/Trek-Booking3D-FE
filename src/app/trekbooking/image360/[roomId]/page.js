@@ -163,12 +163,12 @@ const List3DRoom = ({ params }) => {
             {listImageUrl.length > 0 && (
               <div className="action-image flex justify-between">
                 <img onClick={handleBack} className='cursor-pointer wh-fix' src="/image/left360.png" alt="" />
-                <div className="img-control flex">
+                {/* <div className="img-control flex">
                   <img className='mx-1 cursor-pointer wh-fix' src="/image/plus.png" alt="" />
                   <img className='mx-1 cursor-pointer wh-fix' src="/image/minus.png" alt="" />
                   <img className='mx-1 cursor-pointer wh-fix' src="/image/up.png" alt="" />
                   <img className='mx-1 cursor-pointer wh-fix' src="/image/down1.png" alt="" />
-                </div>
+                </div> */}
                 <img onClick={handleNext} className='cursor-pointer wh-fix' src="/image/right360.png" alt="" />
               </div>
             )}

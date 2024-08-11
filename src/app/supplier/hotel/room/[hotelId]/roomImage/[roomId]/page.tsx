@@ -189,7 +189,7 @@ const ListRoomImage = ({ params }: { params: { hotelId: string, roomId: string }
               >
                 {hotel.hotelName}
               </Link>
-              <span
+              {/* <span
                 style={{
                   color: "black",
                   fontSize: "18px",
@@ -198,10 +198,10 @@ const ListRoomImage = ({ params }: { params: { hotelId: string, roomId: string }
                 }}
               >
                 {" > "}
-              </span>
-              <span style={{ color: "#4c7cab", fontSize: "18px" }}>
+              </span> */}
+              {/* <span style={{ color: "#4c7cab", fontSize: "18px" }}>
                 {room.roomName}
-              </span>
+              </span> */}
             </div>
           )}
         <div className="search-hotel flex">

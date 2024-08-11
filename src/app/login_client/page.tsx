@@ -13,7 +13,7 @@ function LoginClient() {
   const [password, setPassword] = useState("");
   const [isPassword, setIsPassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [successMessage, setSuccessMessage] = useState(""); // Success message state
   const togglePasswordVisibility = () => {
     setIsPassword((prevState) => !prevState);
   };
@@ -24,11 +24,13 @@ function LoginClient() {
     const result = await authenticateService.loginClient(email, password);
 
     if (result.success) {
-    
+      setSuccessMessage("Login successful! Redirecting...");
+      setErrorMessage(""); // Clear any previous error message
       const redirectUrl = searchParams.get("redirect") || "/trekbooking";
         router.push(decodeURIComponent(redirectUrl)); // Chuyển hướng đến URL đã lưu trữ hoặc trang chủ nếu không có URL
     } else {
-      setErrorMessage(result.errorMessage || "An unknown error occurred.");
+      setSuccessMessage(""); // Clear any previous success message
+      setErrorMessage(result.errorMessage || "Account or password is incorrect.");
     }
   };
 
@@ -67,10 +69,11 @@ function LoginClient() {
                   onClick={togglePasswordVisibility}
                   alt=""
                 /> */}
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                <div className="flex justify-center">
+                {errorMessage && <p className="my-2 ml-2" style={{ color: "red" }}>{errorMessage}</p>}
+                {successMessage && <p className="my-2 ml-2" style={{ color: "green" }}>{successMessage}</p>} {/* Display success message */}
+                <div className="flex justify-center mt-4">
                   <button
-                    className="w-4/5 text-xl text-white button-text mt-4"
+                    className="w-4/5 text-xl text-white button-text "
                     style={{ backgroundColor: "#305A61", borderRadius: "20px" }}
                   >
                     Continue
