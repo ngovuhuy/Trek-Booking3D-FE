@@ -325,7 +325,7 @@ function CreateHotel(props: Iprops) {
             <Form.Group className="mb-3" controlId="formHotelFullDescription">
               <Form.Label>Hotel Full Description</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
                 placeholder="Please enter hotel full description"
                 value={hotelFulDescription}
                 onChange={(e: any) => setHotelFullDescription(e.target.value)}
