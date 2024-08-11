@@ -541,7 +541,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
           <span className="font-semibold text-3xl ">
             Rooms available at <span>{hotel?.hotelName}</span>
           </span>
-          {/* <div className="row pt-4 ">
+          <div className="row pt-4 ">
             <div className="col-lg-2">
               <label
                 className="font-bold pb-2 "
@@ -578,8 +578,8 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                 className="hotel-date-input outline-none"
               />
             </div>
-          </div> */}
-          <div className="row py-3">
+          </div>
+          {/* <div className="row py-3">
               <label className="col-6 label-custom" htmlFor="checkInDate">
                 Check-in Date:
               </label>
@@ -594,7 +594,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                       id="checkInDate"
                       value={checkInDate || ""}
                       onChange={(e) => setCheckOutDate(e.target.value)}
-                      min={getTodayDate().split("-").reverse().join("-")}
+                     // min={getTodayDate().split("-").reverse().join("-")}
                       required
                       className="hotel-date-input outline-none border-none"
                     />
@@ -612,7 +612,7 @@ const DetailHotel = ({ params }: { params: { hotelId: string } }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           {listRoom.length > 0 ? (
             listRoom.map((item: IRoom) => (
               <div
