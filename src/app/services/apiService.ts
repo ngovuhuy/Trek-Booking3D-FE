@@ -1,7 +1,7 @@
 // apiService.js
 import Cookies from 'js-cookie';
 
-const BASE_URL = "https://trekbookingapi.azurewebsites.net";
+const BASE_URL = "https://localhost:7132";
 
 
 

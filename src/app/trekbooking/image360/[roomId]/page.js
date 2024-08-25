@@ -8,7 +8,7 @@ const roomImage3DService = {
     console.log("Fetching images for room ID:", roomId);
     try {
       const response = await fetch(
-        `https://trekbookingapi.azurewebsites.net/getRoom3DImagebyRoomId/${roomId}`,
+        `https://localhost:7132/getRoom3DImagebyRoomId/${roomId}`,
         {
           method: "GET",
           headers: {
